@@ -1,9 +1,16 @@
+//  reducers/composer.js
+//  ====================
+
+//  * * * * * * *  //
+
+//  Imports
+//  -------
+
 //  Package imports.
 import {
-  fromJS as ImmutableFromJS,
+  fromJS as immutableFromJS,
   List as ImmutableList,
   Map as ImmutableMap,
-  OrderedSet as ImmutableOrderedSet,
 } from 'immutable';
 
 //  Our imports.
@@ -21,6 +28,9 @@ import uuid from 'mastodon-go/util/uuid';
 
 //  * * * * * * *  //
 
+//  State handling
+//  --------------
+
 //  Initial state. As usual, we only store information related to the
 //  Mastodon server (and not the state of our current components).
 const initialState = ImmutableMap({
@@ -37,7 +47,7 @@ const initialState = ImmutableMap({
   }),
 });
 
-//  This resets our state, clearing all attachments.
+//  `reset()` resets our state, clearing all attachments.
 function reset (state) {
   return state.withMutations(map => {
     map.update('attachments', list => list.clear());
@@ -52,7 +62,9 @@ function reset (state) {
 function attach (state, media) {
   if (!map.getIn(['request', 'is_uploading'])) return state;
   return state.withMutations(map => {
-    map.update('attachments', list => list.push(media));
+    map.update('attachments',
+      list => list.push(immutableFromJS(media))
+    );
     map.setIn(['request', 'is_uploading'], false);
   });
 }
@@ -64,7 +76,11 @@ function unattach (state, id) {
   });
 }
 
-//  Our action reducer.
+//  * * * * * * *  //
+
+//  Action reducing
+//  ---------------
+
 export default function composer(state = initialState, action) {
   switch (action.type) {
   case COMPOSER_UPLOAD_REQUEST:

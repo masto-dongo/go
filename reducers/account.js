@@ -1,9 +1,19 @@
+//  reducers/account
+//  ================
+
+//  * * * * * * *  //
+
+//  Imports
+//  -------
+
+//  Package imports.
 import escapeTextContentForBrowser from 'escape-html';
 import {
-  fromJS,
+  fromJS as immutableFromJS,
   Map as ImmutableMap,
 } from 'immutable';
 
+//  Our imports.
 import {
   ACCOUNT_FETCH_SUCCESS,
   ACCOUNT_RELATE_SUCCESS,
@@ -27,24 +37,50 @@ import {
 import { STATUS_FETCH_SUCCESS } from 'mastodon-go/actions/status';
 import emojify from 'mastodon-go/util/emojify';
 
+//  * * * * * * *  //
+
+//  Helper functions
+//  ----------------
+
+//  This normalizes our account into an Immutable map. First we clone
+//  our object to ensure that our modifications don't impact anything
+//  anywhere else.
 const normalizeAccount = account => {
   account = { ...account }
 
+  //  `display_name_html` holds the HTML rendering of our account's
+  //  display name. `note_html` has the HTML'd note contents.
   account.display_name_html = emojify(escapeTextContentForBrowser(
     account.display_name || account.username
   ));
   account.note_html = emojify(account.note);
 
+  //  Now that we've set those properties, we can just use
+  //  `immutableFromJS()` to get the Immutable version of our account.
   return fromJS(account);
 };
 
+//  * * * * * * *  //
+
+//  State handling
+//  --------------
+
+//  Our initial state is an empty map. Our accounts will be added to
+//  this by `id`.
 const initialState = ImmutableMap();
 
+//  For each `account`, we just update (or set) the Immutable map at
+//  its `id` to be a newly normalized account.
 const updateAccounts = (state, accounts) => state.withMutations(
   map => ([].concat(accounts)).forEach(
     account => map.set(account.id, normalizeAccount(account))
   )
 );
+
+//  * * * * * * *  //
+
+//  Action reducing
+//  ---------------
 
 export default function account (state = initialState, action) {
   switch (action.type) {
