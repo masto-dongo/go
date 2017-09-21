@@ -1,0 +1,20 @@
+.glitch.composer__options__advanced {
+  position: relative;
+
+  .dropdown {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 27px;
+    border-radius: 0 4px 4px;
+    width: 210px;
+    background: $simple-background-color;
+    box-shadow: 2px 4px 6px rgba($base-shadow-color, 0.1);
+    overflow: hidden;
+    z-index: 2;
+
+    &.open {
+      display: block;
+    }
+  }
+}
