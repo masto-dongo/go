@@ -10,8 +10,8 @@ export const NOTIFICATION_CLEAR_SUCCESS = 'NOTIFICATION_CLEAR_SUCCESS';
 export const NOTIFICATION_CLEAR_FAILURE = 'NOTIFICATION_CLEAR_FAILURE';
 
 //  Action creators.
-const request = () => ({ type: NOTIFICATION_CLEAR_REQUEST });
-const success = () => ({ type: NOTIFICATION_CLEAR_SUCCESS });
+const request = { type: NOTIFICATION_CLEAR_REQUEST };
+const success = { type: NOTIFICATION_CLEAR_SUCCESS };
 const failure = error => ({
   error,
   type: NOTIFICATION_CLEAR_FAILURE,

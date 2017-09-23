@@ -36,7 +36,7 @@ export const fetchRelationship = (ids, go, state, api) => {
   }
 
   //  The request.
-  go(request, newIds));
+  go(request, newIds);
   api.get(
     '/api/v1/accounts/relationships', { params: { id: newIds } }
   ).then(

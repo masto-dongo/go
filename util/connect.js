@@ -18,35 +18,36 @@ const cachedStateFunction = getState => {
   return result;
 }
 
-const readyToGo = (fn, ...args) => (dispatch, getState) => {
-  if (typeof fn !== 'function') return fn;
-  const go = fn.length > args.length ?
-        (fn, ...args) => dispatch(readyToGo(fn, ...args))
-  : void 0;
-  const state = fn.length > args.length + 1 ? cachedStateFunction(getState) : void 0;
-  const api = fn.length > args.length + 2 ? axios.create({
-    headers: {
-      Authorization: `Bearer ${state.getIn(['meta', 'access_token'], '')}`,
-    },
-    transformResponse: [(data) => {
-      response = {
-        next: (link.match(
-          /<\s*([^,]*)\s*>\s*;(?:[^,]*[;\s])?rel="?next"?/
-        ) || [])[1],
-        prev: (link.match(
-          /<\s*([^,]*)\s*>\s*;(?:[^,]*[;\s])?rel="?prev(?:ious)?"?/
-        ) || [])[1],
-        value: null,
-      }
-      try {
-        response.value = JSON.parse(data);
-      } catch (e) {
-        response.value = data;
-      }
-    }],
-  }) : void 0;
-  fn(...args, go, state, api);
-}
+const readyToGo = (fn, ...args) => typeof fn !== 'function' ? { ...fn } : (
+  (dispatch, getState) => {
+    const go = fn.length > args.length ?
+          (fn, ...args) => dispatch(readyToGo(fn, ...args))
+    : void 0;
+    const state = fn.length > args.length + 1 ? cachedStateFunction(getState) : void 0;
+    const api = fn.length > args.length + 2 ? axios.create({
+      headers: {
+        Authorization: `Bearer ${state.getIn(['meta', 'access_token'], '')}`,
+      },
+      transformResponse: [(data) => {
+        response = {
+          next: (link.match(
+            /<\s*([^,]*)\s*>\s*;(?:[^,]*[;\s])?rel="?next"?/
+          ) || [])[1],
+          prev: (link.match(
+            /<\s*([^,]*)\s*>\s*;(?:[^,]*[;\s])?rel="?prev(?:ious)?"?/
+          ) || [])[1],
+          value: null,
+        }
+        try {
+          response.value = JSON.parse(data);
+        } catch (e) {
+          response.value = data;
+        }
+      }],
+    }) : void 0;
+    fn(...args, go, state, api);
+  }
+);
 
 const connect = (stater, dispatcher) => component => {
   wrappedDispatcher = dispatcher.length < 2 ? (

@@ -10,7 +10,7 @@ const some = ids => ({
   ids,
   type: COMPOSER_DISCARD_SOME,
 });
-const each = () => ({ type: COMPOSER_DISCARD_EACH });
+const each = { type: COMPOSER_DISCARD_EACH };
 
 //  Request.
 export const discardComposer = (ids, go) => {

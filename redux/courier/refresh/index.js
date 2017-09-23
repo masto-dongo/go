@@ -10,7 +10,7 @@ export const COURIER_REFRESH_SUCCESS = 'COURIER_REFRESH_SUCCESS';
 export const COURIER_REFRESH_FAILURE = 'COURIER_REFRESH_FAILURE';
 
 //  Action creators.
-const request = () => ({ type: COURIER_REFRESH_REQUEST });
+const request = { type: COURIER_REFRESH_REQUEST };
 const success = notifications => ({
   notifications,
   type: COURIER_REFRESH_SUCCESS,
@@ -21,10 +21,10 @@ const failure = error => ({
 })
 
 //  Request.
-export const fetchCourier = (go, state, api) => {
+export const refreshCourier = (go, state, api) => {
 
   //  If our courier is still loading, we can't refresh yet.
-  const courier = state.getIn(['courier', path]);
+  const courier = state.get('courier');
   if (courier && courier.get('isLoading')) {
     return;
   }

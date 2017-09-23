@@ -1,5 +1,5 @@
-//  COURIER:FETCH
-//  =============
+//  COURIER:UPDATE
+//  ==============
 
 //  Imported requests.
 import { fetchRelationship } from 'mastodon-go/redux';
@@ -8,13 +8,13 @@ import { fetchRelationship } from 'mastodon-go/redux';
 export const COURIER_UPDATE_RECEIVE = 'COURIER_UPDATE_RECEIVE';
 
 //  Action creators.
-const receive = () => ({
+const receive = notification => ({
   notification,
-  type: COURIER_FETCH_REQUEST
+  type: COURIER_UPDATE_RECEIVE
 });
 
 //  Request.
-export const updateCourier = (notification, go, state, api) => {
+export const updateCourier = (notification, go) => {
 
   //  If the `notification` is a follow, we fetch the
   //  relationships of its `account`.

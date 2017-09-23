@@ -10,7 +10,7 @@ export const COURIER_EXPAND_SUCCESS = 'COURIER_EXPAND_SUCCESS';
 export const COURIER_EXPAND_FAILURE = 'COURIER_EXPAND_FAILURE';
 
 //  Action creators.
-const request = () => ({ type: COURIER_EXPAND_REQUEST });
+const request = { type: COURIER_EXPAND_REQUEST };
 const success = notifications => ({
   notifications,
   type: COURIER_EXPAND_SUCCESS,
@@ -24,7 +24,7 @@ const failure = error => ({
 export const expandCourier = (go, state, api) => {
 
   //  If our courier is still loading, we can't expand yet.
-  const courier = state.getIn(['courier', path]);
+  const courier = state.get('courier');
   if (courier && courier.get('isLoading')) {
     return;
   }
