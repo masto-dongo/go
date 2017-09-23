@@ -3,6 +3,10 @@
 __*Mastodon GO!*__ is an alternative frontend for [Mastodon](https://joinmastodon.org) which supports the additional features provided by the [Glitch Social](https://glitch-soc.github.io/docs/) fork.
 It started out as just a modification of a few core components and then spread to become a rewrite of the entire frontend, because that's kinda how Mastodon development works 😓.
 
+##  Installing  ##
+
+For installation instructions, see [INSTALLING.md](INSTALLING.md).
+
 ##  Principles  ##
 
 ###  Design:
