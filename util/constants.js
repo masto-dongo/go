@@ -1,4 +1,13 @@
-//  These are the valid `MEDIA_TYPE`s
+//  These are the valid `CARD_TYPE`s.
+export const CARD_TYPE = {
+  UNKNOWN : 0b0000,
+  LINK    : 0b0001,
+  PHOTO   : 0b0010,
+  VIDEO   : 0b0100,
+  RICH    : 0b1000,
+}
+
+//  These are the valid `MEDIA_TYPE`s.
 export const MEDIA_TYPE = {
   UNKNOWN : 0b000,
   IMAGE   : 0b001,
