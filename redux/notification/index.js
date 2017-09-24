@@ -39,7 +39,10 @@ import { NOTIFICATION_TYPE } from 'mastodon-go/util/constants';
 //  of the notification's related `account` and `status`—not their
 //  contents.
 const normalize = notification => ImmutableMap({
+  account: notification.account.id,
+  datetime: new Date(notification.created_at),
   id: notification.id,
+  status: notification.status ? notification.status.id : null,
   type: (
     type => {
       switch (type) {
@@ -56,8 +59,6 @@ const normalize = notification => ImmutableMap({
       }
     }
   )(notification.type),
-  account: notification.account.id,
-  status: notification.status ? notification.status.id : null,
 });
 
 //  * * * * * * *  //
@@ -69,15 +70,19 @@ const normalize = notification => ImmutableMap({
 //  stored here by `id`.
 const initialState = ImmutableMap();
 
-//  `set()` sets the value of the given `notifications` to their
-//  normalized equivalents in the store.
+//  `set()` stores the normalized value of the given `notifications` in
+//  the store.
 const set = (state, notifications) => state.withMutations(
   map => ([].concat(notifications)).forEach(
-    notification => map.set(notification.id, normalize(notification))
+    notification => {
+      if (notification) {
+        map.set(notification.id, normalize(notification));
+      }
+    }
   )
 );
 
-//  `remove()` deletes the notifications at the given `ids` from the
+//  `remove()` deletes the notifications with the given `ids` from the
 //  store.
 const remove = (state, ids) => state.deleteAll([].concat(ids));
 
@@ -86,7 +91,7 @@ const remove = (state, ids) => state.deleteAll([].concat(ids));
 const filterByAccount = (state, accounts) => {
   accounts = [].concat(accounts);
   state.filter(
-    notification => accounts.indexOf(notification.account) === -1
+    notification => accounts.indexOf(notification.get('account')) === -1
   );
 }
 
@@ -95,7 +100,7 @@ const filterByAccount = (state, accounts) => {
 const filterByStatus = (state, statuses) => {
   statuses = [].concat(statuses);
   state.filter(
-    notification => status === null || statuses.indexOf(notification.status) === -1
+    notification => !notification.get('status') || statuses.indexOf(notification.get('status')) === -1
   );
 }
 
@@ -110,7 +115,7 @@ export default function notification (state = initialState, action) {
   case ACCOUNT_BLOCK_SUCCESS:
   case ACCOUNT_MUTE_SUCCESS:
     if (action.relationship.blocking || action.relationship.muting && action.relationship.muting.notifications) {
-      return filterByAccount(state, action.relationship.id)
+      return filterByAccount(state, action.relationship.id);
     }
     return state;
   case COURIER_EXPAND_SUCCESS:

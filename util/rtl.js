@@ -9,7 +9,6 @@
 // U+FB1D  to U+FB4F  - Hebrew presentation forms
 // U+FB50  to U+FDFF  - Arabic presentation forms A
 // U+FE70  to U+FEFF  - Arabic presentation forms B
-
 const rtlChars = /[\u0590-\u083F]|[\u08A0-\u08FF]|[\uFB1D-\uFDFF]|[\uFE70-\uFEFF]/mg;
 
 export function isRtl(text) {

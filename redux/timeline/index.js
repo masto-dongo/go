@@ -1,0 +1,241 @@
+//  TIMELINE
+//  ========
+
+//  * * * * * * *  //
+
+//  Imports
+//  -------
+
+//  Package imports.
+import {
+  List as ImmutableList,
+  Map as ImmutableMap,
+} from 'immutable';
+
+//  Action types.
+import { ACCOUNT_BLOCK_SUCCESS } from 'mastodon-go/redux/account/block';
+import { ACCOUNT_MUTE_SUCCESS } from 'mastodon-go/redux/account/mute';
+import { STATUS_REMOVE_COMPLETE } from 'mastodon-go/redux/status/remove';
+import {
+  TIMELINE_CONNECT_OPEN,
+  TIMELINE_CONNECT_HALT,
+} from 'mastodon-go/redux/timeline/connect';
+import {
+  TIMELINE_EXPAND_FAILURE,
+  TIMELINE_EXPAND_REQUEST,
+  TIMELINE_EXPAND_SUCCESS,
+} from 'mastodon-go/redux/timeline/expand';
+import {
+  TIMELINE_FETCH_FAILURE,
+  TIMELINE_FETCH_REQUEST,
+  TIMELINE_FETCH_SUCCESS,
+} from 'mastodon-go/redux/timeline/fetch';
+import {
+  TIMELINE_REFRESH_FAILURE,
+  TIMELINE_REFRESH_REQUEST,
+  TIMELINE_REFRESH_SUCCESS,
+} from 'mastodon-go/redux/timeline/refresh';
+import { TIMELINE_UPDATE_RECEIVE } from 'mastodon-go/redux/timeline/update';
+
+//  * * * * * * *  //
+
+//  Setup
+//  -----
+
+//  `normalize()` takes a list of `statuses` and turns it into a proper
+//  timeline. We keep track of the `id`s of each `status`, alongside
+//  its associated `account` and `reblog`.
+const normalize = statuses => ImmutableList(statuses ? [].concat(statuses).map(
+  status => ImmutableMap({
+    account: status.account.id,
+    id: status.id,
+    reblog: status.reblog ? ImmutableMap({
+      account: status.reblog.account.id,
+      id: status.reblog.id,
+    }) : null,
+  })
+) : []);
+
+//  `makeTimeline()` creates a normalized timeline from a list of
+//  statuses.
+const makeTimeline = (path, statuses) => ImmutableMap({
+  connected: false,
+  isLoading: false,
+  path: '' + path,
+  statuses: normalize(statuses),
+});
+
+//  * * * * * * *  //
+
+//  State
+//  -----
+
+//  Our `initialState` is just an empty Immutable map—we will add
+//  timelines to this by `path`.
+const initialState = ImmutableMap();
+
+//  `set()` replaces a timeline's `statuses` with a new `normalized()`
+//  list.
+const set = (state, path, statuses) => state.withMutations(
+  map => {
+
+    //  If no timeline exists at the given path, we make one.
+    if (!state.get(path)) {
+      map.set(path, makeTimeline(path, statuses));
+      return;
+    }
+
+    //  Otherwise, we update its `statuses`.
+    map.setIn([path, 'isLoading'], false);
+    map.setIn([path, 'statuses'], normalize(statuses));
+  }
+);
+
+//  `prepend()` perpends the given `statuses` to a timeline.
+const prepend = (state, path, statuses) => state.withMutations(
+  map => {
+
+    //  If no timeline exists at the given path, we make one.
+    if (!state.get(path)) {
+      map.set(path, makeTimeline(path, statuses));
+      return;
+    }
+
+    //  Otherwise, we prepend the `statuses`.
+    map.setIn([path, 'isLoading'], false);
+    map.updateIn(
+      [path, 'statuses'],
+      (list = ImmutableList()) => normalize(statuses).concat(list)
+    );
+  }
+);
+
+//  `append()` appends the given `statuses` to a timeline.
+const append = (state, path, statuses) => state.withMutations(
+  map => {
+
+    //  If no timeline exists at the given path, we make one.
+    if (!state.get(path)) {
+      map.set(path, makeTimeline(path, statuses));
+      return;
+    }
+
+    //  Otherwise, we prepend the `statuses`.
+    map.setIn([path, 'isLoading'], false);
+    map.updateIn(
+      [path, 'statuses'],
+      (list = ImmutableList()) => list.concat(normalize(statuses))
+    );
+  }
+);
+
+//  `filterByAccount()` removes the `statuses` associated with the
+//  provided `accounts` from the timeline.
+const filterByAccount = (state, accounts) => {
+  accounts = [].concat(accounts);
+  state.map(
+    map => map.update(
+      'statuses',
+      (list = ImmutableList()) => list.filter(
+        status => {
+          if (accounts.indexOf(status.get('account')) !== -1 ) {
+            return false;
+          }
+          if (status.get('reblog') && accounts.indexOf(status.getIn(['reblog', 'account'])) !== -1) {
+            return false;
+          }
+          return true;
+        }
+      )
+    )
+  );
+}
+
+// `filterByStatus()` removes the `status`es associated with the
+//   provided `statuses` from the timeline.
+const filterByStatus = (state, statuses) => {
+  statuses = [].concat(statuses);
+  state.map(
+    map => map.update(
+      'statuses',
+      (list = ImmutableList()) => list.filter(
+        status => statuses.indexOf(status.get('id')) === -1 && (!status.get('reblog') || statuses.indexOf(status.getIn(['reblog', 'id'])) === -1)
+      )
+    )
+  );
+}
+
+export default function timeline (state = initialState, action) {
+  switch(action.type) {
+  case ACCOUNT_BLOCK_SUCCESS:
+  case ACCOUNT_MUTE_SUCCESS:
+    if (action.relationship.blocking || action.relationship.muting) {
+      return filterByAccount(state, action.relationship.id)
+    }
+    return state;
+  case TIMELINE_CONNECT_OPEN:
+    return state.update(
+      action.path,
+      (map = makeTimeline()) => map.set('connected', true);
+    );
+  case TIMELINE_CONNECT_HALT:
+    return state.update(
+      action.path,
+      (map = makeTimeline()) => map.set('connected', false);
+    );
+  case TIMELINE_EXPAND_FAILURE:
+    return state.update(
+      action.path,
+      (map = makeTimeline()) => map.set('is_loading', false);
+    );
+  case TIMELINE_EXPAND_REQUEST:
+    return state.update(
+      action.path,
+      (map = makeTimeline()) => map.set('is_loading', true);
+    );
+  case TIMELINE_EXPAND_SUCCESS:
+    return append(state, path, action.statuses);
+  case TIMELINE_FETCH_FAILURE:
+    return state.update(
+      action.path,
+      (map = makeTimeline()) => map.set('is_loading', false);
+    );
+  case TIMELINE_FETCH_REQUEST:
+    return state.update(
+      action.path,
+      (map = makeTimeline()) => map.set('is_loading', true);
+    );
+  case TIMELINE_FETCH_SUCCESS:
+    return set(state, path, action.statuses);
+  case TIMELINE_REFRESH_FAILURE:
+    return state.update(
+      action.path,
+      (map = makeTimeline()) => map.set('is_loading', false);
+    );
+  case TIMELINE_REFRESH_REQUEST:
+    return state.update(
+      action.path,
+      (map = makeTimeline()) => map.set('is_loading', true);
+    );
+  case TIMELINE_REFRESH_SUCCESS:
+    return prepend(state, action.path, action.statuses);
+  case TIMELINE_UPDATE_RECEIVE:
+    return prepend(state, action.path, action.status);
+  case STATUS_REMOVE_COMPLETE:
+    return filterByStatus(state, action.ids);
+  default:
+    return state;
+  }
+};
+
+//  * * * * * * *  //
+
+//  Named exports
+//  -------------
+
+//  Our requests.
+export { connectTimeline } from './connect';
+export { expandTimeline } from './expand';
+export { fetchTimeline } from './fetch';
+export { refreshTimeline } from './refresh';
+export { updateTimeline } from './update';

@@ -12,11 +12,7 @@
 //  -------
 
 //  Package imports.
-import escapeTextContentForBrowser from 'escape-html';
-import {
-  Map as ImmutableMap,
-  fromJS as immutableFromJS,
-} from 'immutable';
+import { Map as ImmutableMap } from 'immutable';
 
 //  Action types.
 import { ACCOUNT_FETCH_SUCCESS } from 'mastodon-go/redux/account/fetch';
@@ -35,9 +31,6 @@ import { TIMELINE_REFRESH_SUCCESS } from 'mastodon-go/redux/timeline/refresh';
 import { TIMELINE_UPDATE_RECIEVE } from 'mastodon-go/redux/timeline/update';
 import { STATUS_FETCH_SUCCESS } from 'mastodon-go/actions/status/fetch';
 
-//  Our imports.
-import emojify from 'mastodon-go/util/emoji';
-
 //  * * * * * * *  //
 
 //  Setup
@@ -46,7 +39,32 @@ import emojify from 'mastodon-go/util/emoji';
 //  This normalizes our account into an Immutable map. First we clone
 //  our object to ensure that our modifications don't impact anything
 //  anywhere else.
-const normalize = account => {
+const normalize = account => ImmutableMap({
+  at: '' + account.acct,
+  avatar: ImmutableMap({
+    original: '' + account.avatar,
+    static: '' + account.avatar_static,
+  }),
+  bio: '' + account.bio,
+  counts: ImmutableMap({
+    followers: +account.followers_count,
+    following: +account.following_count,
+    statuses: +account.statuses_count,
+  }),
+  datetime: new Date(account.created_at),
+  displayName: '' + (account.display_name || account.username),
+  domain: '' + (account.acct.split('@')[1] || ''),
+  header: ImmutableMap({
+    original: '' + account.header,
+    static: '' + account.header_static,
+  }),
+  href: '' + account.url,
+  id: '' + account.id,
+  locked: !!account.locked,
+  username: '' + account.username,
+});
+
+{
   account = { ...account }
 
   //  `domain` holds the domain of our account. It is `null` for local

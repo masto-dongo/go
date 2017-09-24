@@ -21,7 +21,7 @@ const cachedStateFunction = getState => {
 const readyToGo = (fn, ...args) => typeof fn !== 'function' ? { ...fn } : (
   (dispatch, getState) => {
     const go = fn.length > args.length ?
-          (fn, ...args) => dispatch(readyToGo(fn, ...args))
+          (mfn, ...args) => dispatch(readyToGo(mfn, ...args))
     : void 0;
     const state = fn.length > args.length + 1 ? cachedStateFunction(getState) : void 0;
     const api = fn.length > args.length + 2 ? axios.create({
@@ -49,7 +49,7 @@ const readyToGo = (fn, ...args) => typeof fn !== 'function' ? { ...fn } : (
   }
 );
 
-const connect = (stater, dispatcher) => component => {
+export const connect = (stater, dispatcher) => component => {
   wrappedDispatcher = dispatcher.length < 2 ? (
     dispatch => dispatcher(
       (fn, ...args) => dispatch(readyToGo(fn, ...args))
@@ -57,8 +57,7 @@ const connect = (stater, dispatcher) => component => {
   ) : (
     (dispatch, ownProps) => dispatcher(
       (fn, ...args) => dispatch(readyToGo(fn, ...args)),
-      ownProps
-    )
+    ownProps)
   );
   return injectIntl(
     reduxConnect(stater, wrappedDispatcher)(
@@ -66,5 +65,3 @@ const connect = (stater, dispatcher) => component => {
     )
   );
 }
-
-export default connect;

@@ -38,7 +38,7 @@ import {
   COURIER_REFRESH_REQUEST,
   COURIER_REFRESH_SUCCESS,
 } from 'mastodon-go/redux/courier/refresh';
-import { COURIER_UPDATE_RECIEVE } from 'mastodon-go/redux/courier/update';
+import { COURIER_UPDATE_RECEIVE } from 'mastodon-go/redux/courier/update';
 import { NOTIFICATION_REMOVE_COMPLETE } from 'mastodon-go/redux/notification/remove';
 import { STATUS_REMOVE_COMPLETE } from 'mastodon-go/redux/status/remove';
 
@@ -109,7 +109,7 @@ const filterByAccount = (state, accounts) => {
   state.update(
     'notifications',
     list => list.filter(
-      notification => accounts.indexOf(notification.account) === -1
+      notification => accounts.indexOf(notification.get('account')) === -1
     )
   );
 }
@@ -121,7 +121,7 @@ const filterById = (state, ids) => {
   state.update(
     'notifications',
     list => list.filter(
-      notification => ids.indexOf(notification.id) === -1
+      notification => ids.indexOf(notification.get('id')) === -1
     )
   );
 }
@@ -133,7 +133,7 @@ const filterByStatus = (state, statuses) => {
   state.update(
     'notifications',
     list => list.filter(
-      notification => status === null || statuses.indexOf(notification.status) === -1
+      notification => !notification.get('status') || statuses.indexOf(notification.get('status')) === -1
     )
   );
 }
@@ -174,7 +174,7 @@ export default function courier (state = initialState, action) {
     return state.set('is_loading', true);
   case COURIER_REFRESH_SUCCESS:
     return prepend(state, action.notifications);
-  case COURIER_UPDATE_RECIEVE:
+  case COURIER_UPDATE_RECEIVE:
     return prepend(state, action.notification);
   case NOTIFICATION_REMOVE_COMPLETE:
     return filterById(state, action.ids);
@@ -191,6 +191,7 @@ export default function courier (state = initialState, action) {
 //  -------------
 
 //  Our requests.
+export { connectCourier } from './connect';
 export { expandCourier } from './expand';
 export { fetchCourier } from './fetch';
 export { refreshCourier } from './refresh';
