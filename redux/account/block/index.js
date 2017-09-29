@@ -22,12 +22,12 @@ const failure = (id, error) => ({
 });
 
 //  Request.
-export const blockAccount = (id, go, state, api) => {
+export const blockAccount = (id, go, current, api) => {
   go(request, id);
   api.post(
     `/api/v1/accounts/${id}/block`
   ).then(
-    response => go(success, response.data.value)
+    response => go(success, response.data)
   ).catch(
     error => go(failure, id, error)
   );

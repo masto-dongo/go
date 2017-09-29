@@ -24,7 +24,7 @@ import {
 } from 'immutable';
 
 //  Action types.
-import { CONVERSATION_FETCH_SUCCESS } from 'mastodon-go/redux/conversation/fetch';
+import { CONVERSATION_FETCH_SUCCESS } from 'themes/mastodon-go/redux/conversation/fetch';
 
 
 //  * * * * * * *  //
@@ -34,8 +34,8 @@ import { CONVERSATION_FETCH_SUCCESS } from 'mastodon-go/redux/conversation/fetch
 
 //  `normalize()` normalizes the given array of status `ids` into a
 //  proper conversation.
-const normalize = (id, ids) => ImmutableMap({
-  for_status: id,
+const normalize = (status, ids) => ImmutableMap({
+  for_status: status,
   statuses: ImmutableList(ids),
 });
 
@@ -52,9 +52,9 @@ const initialState = ImmutableMap();
 //  appropriate `id` in our state, populating it with ids from the
 //  provided `ancestors` and `descendants`. It overwrites any existing
 //  catalogue at that location.
-const set = (state, id, ancestors, descendants) => state.set(id, normalize(id, [].concat(ancestors.map(
+const set = (state, status, ancestors, descendants) => state.set(id, normalize(id, [].concat(ancestors.map(
   status => status.id
-), id, descendants.map(
+), status, descendants.map(
   status => status.id
 ))));
 
@@ -67,7 +67,7 @@ const set = (state, id, ancestors, descendants) => state.set(id, normalize(id, [
 export default function conversation (state = initialState, action) {
   switch (action.type) {
   case CONVERSATION_FETCH_SUCCESS:
-    return set(state, action.id, action.ancestors, action.descendants);
+    return set(state, action.status, action.ancestors, action.descendants);
   default:
     return state;
   }

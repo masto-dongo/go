@@ -2,7 +2,7 @@
 //  ===============
 
 //  Imported requests.
-import { fetchRelationship } from 'mastodon-go/redux';
+import { fetchRelationship } from 'themes/mastodon-go/redux';
 
 //  Action types.
 export const COURIER_REFRESH_REQUEST = 'COURIER_REFRESH_REQUEST';
@@ -21,10 +21,10 @@ const failure = error => ({
 })
 
 //  Request.
-export const refreshCourier = (go, state, api) => {
+export const refreshCourier = (go, current, api) => {
 
   //  If our courier is still loading, we can't refresh yet.
-  const courier = state.get('courier');
+  const courier = current().get('courier');
   if (courier && courier.get('isLoading')) {
     return;
   }
@@ -47,17 +47,17 @@ export const refreshCourier = (go, state, api) => {
 
       //  We fetch the relationships for any follow notifications.
       follows = [];
-      response.data.value.forEach(
+      response.data.forEach(
         notification => {
           if (notification.type === 'follow') follows.push(notification.account.id);
         }
       );
       if (follows.length) {
-        go(fetchRelationship, follows);
+        go(fetchRelationship, follows, false);
       }
 
       //  Regardless, we dispatch our success.
-      go(success, response.data.value)
+      go(success, response.data)
     }
   ).catch(
     error => go(failure, error)

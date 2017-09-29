@@ -22,7 +22,7 @@ const failure = (id, error) => ({
 });
 
 //  Request.
-export const rejectAccount = (id, go, state, api) => {
+export const rejectAccount = (id, go, current, api) => {
   go(request, id);
   api.post(
     `/api/v1/follow_requests/${id}/reject`

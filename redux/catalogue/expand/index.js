@@ -23,10 +23,10 @@ const failure = (path, error) => ({
 });
 
 //  Request.
-export const expandCatalogue = (path, go, state, api) => {
+export const expandCatalogue = (path, go, current, api) => {
 
   //  If our catalogue is still loading, we can't expand yet.
-  const catalogue = state.getIn(['catalogue', path]);
+  const catalogue = current().getIn(['catalogue', path]);
   if (catalogue && catalogue.get('isLoading')) {
     return;
   }
@@ -45,7 +45,7 @@ export const expandCatalogue = (path, go, state, api) => {
   api.get(
     path, { params }
   ).then(
-    response => go(success, path, response.data.value)
+    response => go(success, path, response.data)
   ).catch(
     error => go(failure, path, error)
   );

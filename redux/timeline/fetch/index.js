@@ -23,10 +23,10 @@ const failure = (path, error) => ({
 })
 
 //  Request.
-export const fetchTimeline = (go, state, api) => {
+export const fetchTimeline = (path, go, current, api) => {
 
   //  If our timeline is still loading, we can't fetch yet.
-  const timeline = state.getIn(['timeline', path]);
+  const timeline = current().getIn(['timeline', path]);
   if (timeline && timeline.get('isLoading')) {
     return;
   }
@@ -36,7 +36,7 @@ export const fetchTimeline = (go, state, api) => {
   api.get(
     path
   ).then(
-    response => go(success, path, response.data.value)
+    response => go(success, path, response.data)
   ).catch(
     error => go(failure, path, error)
   );

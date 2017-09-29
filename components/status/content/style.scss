@@ -1,9 +1,10 @@
-@import 'variables';
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
 
 .glitch.glitch__status__content {
   position: relative;
   padding: (.75em * 1.35) .75em;
-  color: $primary-text-color;
   direction: ltr;  //  but see `&.rtl` below
   word-wrap: break-word;
   overflow: visible;
@@ -41,7 +42,6 @@
     }
 
     .content\\link {
-      color: $ui-secondary-color;
       text-decoration: none;
 
       &:hover {
@@ -55,7 +55,6 @@
       */
       &.content\\mention {
         .content\\at {
-          color: $glitch-lighter-color;
         }
 
         &:hover {
@@ -74,7 +73,6 @@
       */
       &.content\\tag {
         .content\\hash {
-          color: $glitch-lighter-color;
         }
 
         &:hover {

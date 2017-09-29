@@ -2,7 +2,7 @@
 //  ===============
 
 //  Imported requests.
-import { fetchRelationship } from 'mastodon-go/redux';
+import { fetchRelationship } from 'themes/mastodon-go/redux';
 
 //  Action types.
 export const COURIER_CONNECT_OPEN = 'COURIER_CONNECT_OPEN';

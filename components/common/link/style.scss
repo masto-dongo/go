@@ -1,11 +1,13 @@
-@import 'variables';
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
 
 /*
 Most link styling happens elsewhere but we disable text-decoration
 here.
 */
-.glitch.glitch__common__link {
+.MASTODON_GO--COMMON--LINK {
   display: inline;
-  color: $ui-secondary-color;
+  color: inherit;
   text-decoration: none;
 }

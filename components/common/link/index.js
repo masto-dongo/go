@@ -49,7 +49,7 @@ export default class CommonLink extends React.PureComponent {
   render () {
     const { handleClick } = this;
     const { children, className, destination, history, href, ...others } = this.props;
-    const computedClass = classNames('glitch', 'glitch__common__link', className);
+    const computedClass = classNames('MASTODON_GO--COMMON--LINK', className);
     const conditionalProps = {};
     if (href) {
       conditionalProps.href = href;

@@ -1,9 +1,6 @@
 //  <CommonIcon>
 //  ========
 
-//  For code documentation, please see:
-//  https://glitch-soc.github.io/docs/javascript/glitch/common/icon
-
 //  For more information, please contact:
 //  @kibi@glitch.social
 
@@ -33,16 +30,16 @@ const CommonIcon = ({
   ...others
 }) => name ? (
   <span
-    className={classNames('glitch', 'glitch__common__icon', className)}
+    className={classNames('MASTODON_GO--COMMON--ICON', className)}
     {...others}
   >
     <span
       aria-hidden
-      className={`fa ${proportional ? '' : 'fa-fw'} fa-${name} icon\fa`}
+      className={`fa ${proportional ? '' : 'fa-fw'} fa-${name}`}
       {...(title ? { title } : {})}
     />
     {title ? (
-      <span className='_for-screenreader'>{title}</span>
+      <span className='for-screenreader'>{title}</span>
     ) : null}
   </span>
 ) : null;

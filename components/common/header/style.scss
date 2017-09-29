@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--COMMON--HEADER {
+  display: block;
+  margin: 0;
+  border-style: none none solid;
+  border-color: transparent;
+  border-width: 0 0 2px;
+  padding: 0;
+  background-attachment: scroll;
+  background-clip: border-box;
+  background-origin: border-box;
+  background-position: top left;
+  background-size: cover;
+  overflow: hidden;  //  Prevents margin collapsing
+
+  & > h1 {
+    display: block;
+    margin: 0;
+    border: none;
+    padding: .9375rem 1rem;
+    height: 1.25rem;
+    color: white;
+    background-color: black;
+    mix-blend-mode: multiply;
+    font-size: 1.25rem;
+    font-weight: normal;
+    line-height: 1;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font: inherit;
+  }
+}

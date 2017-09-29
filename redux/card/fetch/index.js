@@ -1,43 +1,43 @@
-//  STATUS:CARD
-//  ===========
+//  CARD:FETCH
+//  ==========
 
 //  Action types.
-export const STATUS_CARD_REQUEST = 'STATUS_CARD_REQUEST';
-export const STATUS_CARD_SUCCESS = 'STATUS_CARD_SUCCESS';
-export const STATUS_CARD_FAILURE = 'STATUS_CARD_FAILURE';
+export const CARD_FETCH_REQUEST = 'CARD_FETCH_REQUEST';
+export const CARD_FETCH_SUCCESS = 'CARD_FETCH_SUCCESS';
+export const CARD_FETCH_FAILURE = 'CARD_FETCH_FAILURE';
 
 //  Action creators.
-const request = id => ({
-  id,
-  type: STATUS_CARD_REQUEST,
+const request = status => ({
+  status,
+  type: CARD_FETCH_REQUEST,
 });
-const success = (id, card) => ({
+const success = (status, card) => ({
   card,
-  id,
-  type: STATUS_CARD_SUCCESS,
+  status,
+  type: CARD_FETCH_SUCCESS,
 });
-const failure = (id, error) => ({
+const failure = (status, error) => ({
   error,
-  id,
-  type: STATUS_CARD_FAILURE,
+  status,
+  type: CARD_FETCH_FAILURE,
 });
 
 //  Request.
-export const cardStatus = (id, go, state, api) => {
+export const cardStatus = (status, go, current, api) => {
 
   //  We only want to request cards that we don't already have. If we
-  //  already have a card associated with this `id`, we do nothing.
-  if (state.getIn(['status', id, 'card']) {
+  //  already have a card associated with this `status`, we do nothing.
+  if (current().getIn(['card', status])) {
     return;
   }
 
   //  The request.
-  go(request, id);
+  go(request, status);
   api.get(
-    `/api/v1/statuses/${id}/card`
+    `/api/v1/statuses/${status}/card`
   ).then(
-    response => go(success, id, response.data.value)
+    response => go(success, status, response.data)
   ).catch(
-    error => go(failure, id, error)
+    error => go(failure, status, error)
   );
 };

@@ -2,7 +2,7 @@
 //  ==================
 
 //  Imported requests.
-import { removeNotification } from 'mastodon-go/redux';
+import { removeNotification } from 'themes/mastodon-go/redux';
 
 //  Action types.
 export const NOTIFICATION_CLEAR_REQUEST = 'NOTIFICATION_CLEAR_REQUEST';
@@ -18,7 +18,7 @@ const failure = error => ({
 });
 
 //  Request.
-export const clearNotification = (go, state, api) => {
+export const clearNotification = (go, current, api) => {
   go(request);
   api.post(
     '/api/v1/notifications/clear'

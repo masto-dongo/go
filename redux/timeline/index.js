@@ -13,29 +13,32 @@ import {
 } from 'immutable';
 
 //  Action types.
-import { ACCOUNT_BLOCK_SUCCESS } from 'mastodon-go/redux/account/block';
-import { ACCOUNT_MUTE_SUCCESS } from 'mastodon-go/redux/account/mute';
-import { STATUS_REMOVE_COMPLETE } from 'mastodon-go/redux/status/remove';
+import { ACCOUNT_BLOCK_SUCCESS } from 'themes/mastodon-go/redux/account/block';
+import { ACCOUNT_MUTE_SUCCESS } from 'themes/mastodon-go/redux/account/mute';
+import { STATUS_REMOVE_COMPLETE } from 'themes/mastodon-go/redux/status/remove';
 import {
   TIMELINE_CONNECT_OPEN,
   TIMELINE_CONNECT_HALT,
-} from 'mastodon-go/redux/timeline/connect';
+} from 'themes/mastodon-go/redux/timeline/connect';
 import {
   TIMELINE_EXPAND_FAILURE,
   TIMELINE_EXPAND_REQUEST,
   TIMELINE_EXPAND_SUCCESS,
-} from 'mastodon-go/redux/timeline/expand';
+} from 'themes/mastodon-go/redux/timeline/expand';
 import {
   TIMELINE_FETCH_FAILURE,
   TIMELINE_FETCH_REQUEST,
   TIMELINE_FETCH_SUCCESS,
-} from 'mastodon-go/redux/timeline/fetch';
+} from 'themes/mastodon-go/redux/timeline/fetch';
 import {
   TIMELINE_REFRESH_FAILURE,
   TIMELINE_REFRESH_REQUEST,
   TIMELINE_REFRESH_SUCCESS,
-} from 'mastodon-go/redux/timeline/refresh';
-import { TIMELINE_UPDATE_RECEIVE } from 'mastodon-go/redux/timeline/update';
+} from 'themes/mastodon-go/redux/timeline/refresh';
+import { TIMELINE_UPDATE_RECEIVE } from 'themes/mastodon-go/redux/timeline/update';
+
+//  Other imports.
+import rainbow from 'themes/mastodon-go/util/rainbow';
 
 //  * * * * * * *  //
 
@@ -62,6 +65,12 @@ const makeTimeline = (path, statuses) => ImmutableMap({
   connected: false,
   isLoading: false,
   path: '' + path,
+  rainbow: ImmutableMap({
+    1: rainbow(path),
+    3: ImmutableList(rainbow(path, 3)),
+    7: ImmutableList(rainbow(path, 7)),
+    15: ImmutableList(rainbow(path, 15)),
+  }),
   statuses: normalize(statuses),
 });
 
@@ -91,7 +100,7 @@ const set = (state, path, statuses) => state.withMutations(
   }
 );
 
-//  `prepend()` perpends the given `statuses` to a timeline.
+//  `prepend()` prepends the given `statuses` to a timeline.
 const prepend = (state, path, statuses) => state.withMutations(
   map => {
 
@@ -176,46 +185,46 @@ export default function timeline (state = initialState, action) {
   case TIMELINE_CONNECT_OPEN:
     return state.update(
       action.path,
-      (map = makeTimeline()) => map.set('connected', true);
+      (map = makeTimeline(action.path)) => map.set('connected', true)
     );
   case TIMELINE_CONNECT_HALT:
     return state.update(
       action.path,
-      (map = makeTimeline()) => map.set('connected', false);
+      (map = makeTimeline(action.path)) => map.set('connected', false)
     );
   case TIMELINE_EXPAND_FAILURE:
     return state.update(
       action.path,
-      (map = makeTimeline()) => map.set('is_loading', false);
+      (map = makeTimeline(action.path)) => map.set('isLoading', false)
     );
   case TIMELINE_EXPAND_REQUEST:
     return state.update(
       action.path,
-      (map = makeTimeline()) => map.set('is_loading', true);
+      (map = makeTimeline(action.path)) => map.set('isLoading', true)
     );
   case TIMELINE_EXPAND_SUCCESS:
-    return append(state, path, action.statuses);
+    return append(state, action.path, action.statuses);
   case TIMELINE_FETCH_FAILURE:
     return state.update(
       action.path,
-      (map = makeTimeline()) => map.set('is_loading', false);
+      (map = makeTimeline(action.path)) => map.set('isLoading', false)
     );
   case TIMELINE_FETCH_REQUEST:
     return state.update(
       action.path,
-      (map = makeTimeline()) => map.set('is_loading', true);
+      (map = makeTimeline(action.path)) => map.set('isLoading', true)
     );
   case TIMELINE_FETCH_SUCCESS:
-    return set(state, path, action.statuses);
+    return set(state, action.path, action.statuses);
   case TIMELINE_REFRESH_FAILURE:
     return state.update(
       action.path,
-      (map = makeTimeline()) => map.set('is_loading', false);
+      (map = makeTimeline(action.path)) => map.set('isLoading', false)
     );
   case TIMELINE_REFRESH_REQUEST:
     return state.update(
       action.path,
-      (map = makeTimeline()) => map.set('is_loading', true);
+      (map = makeTimeline(action.path)) => map.set('isLoading', true)
     );
   case TIMELINE_REFRESH_SUCCESS:
     return prepend(state, action.path, action.statuses);

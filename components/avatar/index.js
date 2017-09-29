@@ -1,8 +1,5 @@
-//  <CommonAvatar>
+//  <Avatar>
 //  ========
-
-//  For code documentation, please see:
-//  https://glitch-soc.github.io/docs/javascript/glitch/common/avatar
 
 //  For more information, please contact:
 //  @kibi@glitch.social
@@ -17,7 +14,6 @@ import classNames from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import ImmutablePureComponent from 'react-immutable-pure-component';
 
 //  Stylesheet imports.
 import './style';
@@ -27,15 +23,18 @@ import './style';
 //  The component
 //  -------------
 
-export default class CommonAvatar extends ImmutablePureComponent {
+export default class Avatar extends React.PureComponent {
 
   //  Props and state.
   static propTypes = {
-    account: ImmutablePropTypes.map.isRequired,
     animate: PropTypes.bool,
+    account: PropTypes.string.isRequired,
+    accountAt: PropTypes.string.isRequired,
+    accountSrc: ImmutablePropTypes.map.isRequired,
     circular: PropTypes.bool,
-    className: PropTypes.string,
-    comrade: ImmutablePropTypes.map,
+    comrade: PropTypes.string.isRequired,
+    comradeAt: PropTypes.string.isRequired,
+    comradeSrc: ImmutablePropTypes.map.isRequired,
   }
   state = {
     hovering: false,
@@ -59,24 +58,18 @@ export default class CommonAvatar extends ImmutablePureComponent {
     } = this;
     const {
       account,
-      animate,
+      accountAt,
+      accountSrc,
       circular,
-      className,
       comrade,
-      ...others
+      comradeAt,
+      comradeSrc,
+      ...rest
     } = this.props;
     const { hovering } = this.state;
-    const computedClass = classNames('glitch', 'glitch__common__avatar', {
-      _circular: circular,
+    const computedClass = classNames('MASTODON_GO--AVATAR', {
+      circular: circular,
     }, className);
-
-    //  We store the image srcs here for later.
-    const acct = account.get('acct');
-    const src = account.get('avatar');
-    const staticSrc = account.get('avatar_static');
-    const comradeAcct = comrade ? comrade.get('acct') : '';
-    const comradeSrc = comrade ? comrade.get('avatar') : 'about:blank';
-    const comradeStaticSrc = comrade ? comrade.get('avatar_static') : 'about:blank';
 
     //  Avatars are a straightforward div with image(s) inside.
     return comrade ? (
@@ -84,17 +77,17 @@ export default class CommonAvatar extends ImmutablePureComponent {
         className={computedClass}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        {...others}
+        {...rest}
       >
         <img
-          className='avatar\main'
-          src={hovering || animate ? src : staticSrc}
-          alt={acct}
+          className='main'
+          src={animate || hovering && animate !== false ? accountSrc.get('original') : accountSrc.get('static')}
+          alt={accountAt}
         />
         <img
-          className='avatar\comrade'
-          src={hovering || animate ? comradeSrc : comradeStaticSrc}
-          alt={comradeAcct}
+          className='comrade'
+          src={animate || hovering && animate !== false ? comradeSrc.get('original') : comradeSrc.get('static')}
+          alt={comradeAt}
         />
       </div>
     ) : (
@@ -102,12 +95,12 @@ export default class CommonAvatar extends ImmutablePureComponent {
         className={computedClass}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        {...others}
+        {...rest}
       >
         <img
-          className='avatar\solo'
-          src={hovering || animate ? src : staticSrc}
-          alt={acct}
+          className='solo'
+          src={animate || hovering && animate !== false ? accountSrc.get('original') : accountSrc.get('static')}
+          alt={accountAt}
         />
       </div>
     );

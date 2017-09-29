@@ -1,16 +1,20 @@
 //  Polyfills HTML DOM Parsing for older browsers which only support
 //  XML.
-export class DOMParser () {
+export class DOMParser {
+
+  constructor () {
+      this._parser = new window.DOMParser;
+  }
 
   parseFromString (markup, type) {
-    const parser = new window.DOMParser;
+    const parser = this._parser;
     const nativeParse = parser.parseFromString.bind(parser);
     let result;
 
     //  If this produces an object, then DOM Parsing is natively
     //  supported and we don't have to do anything.
     try {
-      result = nativeParse("", "text/html");
+      result = nativeParse('', 'text/html');
       if (result) {
         return result;
       }
@@ -20,7 +24,7 @@ export class DOMParser () {
 
     //  If our markup is "text/html", we attempt a parse.
     if (/^\s*text\/html\s*(?:;|$)/i.test(type)) {
-      result = document.implementation.createHTMLDocument("");
+      result = document.implementation.createHTMLDocument('');
 
       //  If we are given a doctype, then we put our HTML in the
       //  <html> element.

@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+@import 'themes/mastodon-go//palettes';
+
+$mastodon_go_animation_speed: 1;
+$mastodon_go_avatar_border_radius: 0;
+
+$mastodon_go_root_color: $rainbow_grey_white !default;
+$mastodon_go_root_background: $rainbow_grey_dim !default;
+
+$mastodon_go_column_color: $rainbow_grey_bright !default;
+$mastodon_go_column_background: $rainbow_grey_black !default;
+$mastodon_go_column_content_color: $rainbow_grey_bright !default;
+$mastodon_go_column_content_background: $rainbow_grey_black !default;
+
+$mastodon_go_menu_color: $rainbow_grey_light !default;
+$mastodon_go_menu_background: $rainbow_grey_black !default;
+$mastodon_go_menu_color_active: $rainbow_grey_black !default;
+$mastodon_go_menu_background_active: $rainbow_grey_bright !default;

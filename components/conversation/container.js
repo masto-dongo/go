@@ -1,9 +1,6 @@
 //  <ConversationContainer>
 //  =======================
 
-//  For code documentation, please see:
-//  https://glitch-soc.github.io/docs/javascript/glitch/conversation/container
-
 //  For more information, please contact:
 //  @kibi@glitch.social
 
@@ -13,40 +10,43 @@
 //  -------
 
 //  Package imports.
-import { connect } from 'react-redux';
+import {
+  createSelector,
+  createStructuredSelector,
+} from 'reselect';
 
-//  Our imports.
+//  Component imports.
 import Conversation from '.';
-import { fetchContext } from 'glitch/actions/statuses';
 
-//  * * * * * * *  //
+//  Request imports.
+import { fetchConversation } from 'themes/mastodon-go/redux';
 
-//  State mapping
-//  -------------
-
-const mapStateToProps = (state, { id }) => {
-  return {
-    ancestors: state.getIn(['contexts', 'ancestors', id]),
-    descendants: state.getIn(['contexts', 'descendants', id]),
-  };
-};
-
-//  * * * * * * *  //
-
-//  Dispatch mapping
-//  ----------------
-
-const mapDispatchToProps = (dispatch) => ({
-  handler: {
-    fetch (id) {
-      dispatch(fetchContext(id));
-    },
-  },
-});
+//  Other imports
+import { connect } from 'themes/mastodon-go/util/connect';
 
 //  * * * * * * *  //
 
 //  Connecting
 //  ----------
 
-export default connect(mapStateToProps, mapDispatchToProps)(Conversation);
+//  Selector factory.
+export default connect(
+  go => createSelector(
+
+    //  Props.
+    createStructuredSelector({
+      statuses: (state, { id }) => state.getIn(['conversation', id, 'statuses']),
+    }),
+
+    //  Inputs.
+    (state, { id }) => id,
+
+    //  Result.
+    (props, id) => ({
+      handler: {
+        fetch: () => go(fetchConversation, id),
+      },
+      ...props,
+    })
+  )
+)(Conversation);

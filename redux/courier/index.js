@@ -17,30 +17,33 @@ import {
 } from 'immutable';
 
 //  Action types.
-import { ACCOUNT_BLOCK_SUCCESS } from 'mastodon-go/redux/account/block';
-import { ACCOUNT_MUTE_SUCCESS } from 'mastodon-go/redux/account/mute';
+import { ACCOUNT_BLOCK_SUCCESS } from 'themes/mastodon-go/redux/account/block';
+import { ACCOUNT_MUTE_SUCCESS } from 'themes/mastodon-go/redux/account/mute';
 import {
   COURIER_CONNECT_OPEN,
   COURIER_CONNECT_HALT,
-} from 'mastodon-go/redux/courier/connect';
+} from 'themes/mastodon-go/redux/courier/connect';
 import {
   COURIER_EXPAND_FAILURE,
   COURIER_EXPAND_REQUEST,
   COURIER_EXPAND_SUCCESS,
-} from 'mastodon-go/redux/courier/expand';
+} from 'themes/mastodon-go/redux/courier/expand';
 import {
   COURIER_FETCH_FAILURE,
   COURIER_FETCH_REQUEST,
   COURIER_FETCH_SUCCESS,
-} from 'mastodon-go/redux/courier/fetch';
+} from 'themes/mastodon-go/redux/courier/fetch';
 import {
   COURIER_REFRESH_FAILURE,
   COURIER_REFRESH_REQUEST,
   COURIER_REFRESH_SUCCESS,
-} from 'mastodon-go/redux/courier/refresh';
-import { COURIER_UPDATE_RECEIVE } from 'mastodon-go/redux/courier/update';
-import { NOTIFICATION_REMOVE_COMPLETE } from 'mastodon-go/redux/notification/remove';
-import { STATUS_REMOVE_COMPLETE } from 'mastodon-go/redux/status/remove';
+} from 'themes/mastodon-go/redux/courier/refresh';
+import { COURIER_UPDATE_RECEIVE } from 'themes/mastodon-go/redux/courier/update';
+import { NOTIFICATION_REMOVE_COMPLETE } from 'themes/mastodon-go/redux/notification/remove';
+import { STATUS_REMOVE_COMPLETE } from 'themes/mastodon-go/redux/status/remove';
+
+//  Other imports.
+import rainbow from 'themes/mastodon-go/util/rainbow';
 
 //  * * * * * * *  //
 
@@ -69,6 +72,12 @@ const initialState = ImmutableMap({
   connected: false,
   isLoading: false,
   notifications: ImmutableList(),
+  rainbow: ImmutableMap({
+    1: rainbow('/api/v1/notifications'),
+    3: ImmutableList(rainbow('/api/v1/notifications', 3)),
+    7: ImmutableList(rainbow('/api/v1/notifications', 7)),
+    15: ImmutableList(rainbow('/api/v1/notifications', 15)),
+  }),
 });
 
 //  `set()` just replaces our `notifications` with a new `normalized()`
@@ -157,21 +166,21 @@ export default function courier (state = initialState, action) {
   case COURIER_CONNECT_HALT:
     return state.set('connected', false);
   case COURIER_EXPAND_FAILURE:
-    return state.set('is_loading', false);
+    return state.set('isLoading', false);
   case COURIER_EXPAND_REQUEST:
-    return state.set('is_loading', true);
+    return state.set('isLoading', true);
   case COURIER_EXPAND_SUCCESS:
     return append(state, action.notifications);
   case COURIER_FETCH_FAILURE:
-    return state.set('is_loading', false);
+    return state.set('isLoading', false);
   case COURIER_FETCH_REQUEST:
-    return state.set('is_loading', true);
+    return state.set('isLoading', true);
   case COURIER_FETCH_SUCCESS:
     return set(state, action.notifications);
   case COURIER_REFRESH_FAILURE:
-    return state.set('is_loading', false);
+    return state.set('isLoading', false);
   case COURIER_REFRESH_REQUEST:
-    return state.set('is_loading', true);
+    return state.set('isLoading', true);
   case COURIER_REFRESH_SUCCESS:
     return prepend(state, action.notifications);
   case COURIER_UPDATE_RECEIVE:

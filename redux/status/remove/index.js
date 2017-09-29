@@ -11,4 +11,4 @@ const complete = ids => ({
 });
 
 //  Request.
-export const removeStatus = (ids, go, state) => go(complete, ids);
+export const removeStatus = (ids, go) => go(complete, ids);

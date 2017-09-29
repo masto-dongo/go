@@ -16,18 +16,18 @@
 import { Map as ImmutableMap } from 'immutable';
 
 //  Action types.
-import { ACCOUNT_BLOCK_SUCCESS } from 'mastodon-go/redux/account/block';
-import { ACCOUNT_MUTE_SUCCESS } from 'mastodon-go/redux/account/mute';
-import { COURIER_EXPAND } from 'mastodon-go/redux/courier/expand';
-import { COURIER_FETCH } from 'mastodon-go/redux/courier/fetch';
-import { COURIER_REFRESH } from 'mastodon-go/redux/courier/refresh';
-import { COURIER_UPDATE } from 'mastodon-go/redux/courier/update';
-import { NOTIFICATION_FETCH_SUCCESS } from 'mastodon-go/redux/notification/fetch';
-import { NOTIFICATION_REMOVE_COMPLETE } from 'mastodon-go/redux/notification/remove';
-import { STATUS_REMOVE_COMPLETE } from 'mastodon-go/redux/status/remove';
+import { ACCOUNT_BLOCK_SUCCESS } from 'themes/mastodon-go/redux/account/block';
+import { ACCOUNT_MUTE_SUCCESS } from 'themes/mastodon-go/redux/account/mute';
+import { COURIER_EXPAND_SUCCESS } from 'themes/mastodon-go/redux/courier/expand';
+import { COURIER_FETCH_SUCCESS } from 'themes/mastodon-go/redux/courier/fetch';
+import { COURIER_REFRESH_SUCCESS } from 'themes/mastodon-go/redux/courier/refresh';
+import { COURIER_UPDATE_RECEIVE } from 'themes/mastodon-go/redux/courier/update';
+import { NOTIFICATION_FETCH_SUCCESS } from 'themes/mastodon-go/redux/notification/fetch';
+import { NOTIFICATION_REMOVE_COMPLETE } from 'themes/mastodon-go/redux/notification/remove';
+import { STATUS_REMOVE_COMPLETE } from 'themes/mastodon-go/redux/status/remove';
 
 //  Our imports.
-import { NOTIFICATION_TYPE } from 'mastodon-go/util/constants';
+import { NOTIFICATION_TYPE } from 'themes/mastodon-go/util/constants';
 
 //  * * * * * * *  //
 
@@ -122,7 +122,7 @@ export default function notification (state = initialState, action) {
   case COURIER_FETCH_SUCCESS:
   case COURIER_REFRESH_SUCCESS:
     return set(state, action.notifications)
-  case COURIER_UPDATE:
+  case COURIER_UPDATE_RECEIVE:
     return set(state, action.notification);
   case NOTIFICATION_FETCH_SUCCESS:
     return set(state, action.notification);

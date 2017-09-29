@@ -1,5 +1,5 @@
 //  DOMAIN:UNBLOCK
-//  ============
+//  ==============
 
 //  Action types.
 export const DOMAIN_UNBLOCK_REQUEST = 'DOMAIN_UNBLOCK_REQUEST';
@@ -15,14 +15,14 @@ const success = domain => ({
   domain,
   type: DOMAIN_UNBLOCK_SUCCESS,
 });
-const failure => (id, error) => ({
+const failure = (domain, error) => ({
+  domain,
   error,
-  id,
   type: DOMAIN_UNBLOCK_FAILURE,
 });
 
 //  Request.
-export const unblockDomain = (domain, go, state, api) => {
+export const unblockDomain = (domain, go, current, api) => {
   go(request, domain);
   api.post(
     '/api/v1/domain_blocks', { domain }

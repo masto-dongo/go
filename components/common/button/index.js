@@ -18,8 +18,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 //  Our imports.
-import CommonLink from 'glitch/components/common/link';
-import CommonIcon from 'glitch/components/common/icon';
+import CommonLink from 'themes/mastodon-go/components/common/link';
+import CommonIcon from 'themes/mastodon-go/components/common/icon';
 
 //  Stylesheet imports.
 import './style';
@@ -36,10 +36,13 @@ export default class CommonButton extends React.PureComponent {
     animate: PropTypes.bool,
     children: PropTypes.node,
     className: PropTypes.string,
+    destination: PropTypes.string,
     disabled: PropTypes.bool,
+    history: PropTypes.object,
     href: PropTypes.string,
     icon: PropTypes.string,
     onClick: PropTypes.func,
+    proportional: PropTypes.bool,
     showTitle: PropTypes.bool,
     title: PropTypes.string,
   }
@@ -72,28 +75,34 @@ export default class CommonButton extends React.PureComponent {
       animate,
       children,
       className,
+      destination,
       disabled,
+      history,
       href,
       icon,
       onClick,
+      proportional,
       showTitle,
       title,
-      ...others
+      ...rest
     } = this.props;
     const { loaded } = this.state;
-    const computedClass = classNames('glitch', 'glitch__common__button', className, {
-      _active: active && !href,  //  Links can't be active
-      _animated: animate && loaded,
-      _disabled: disabled,
-      _link: href,
-      _star: icon === 'star',
-      '_with-text': children || title && showTitle,
+    const computedClass = classNames('MASTODON_GO--COMMON--BUTTON', className, {
+      active: active,
+      animated: animate && loaded,
+      disabled,
+      link: href,
+      with_text: children || title && showTitle,
     });
     let conditionalProps = {};
 
-    //  If href is provided, we render a link.
-    if (href) {
+    //  If href or destination is provided, we render a link.
+    if (href || destination) {
       if (!disabled && href) conditionalProps.href = href;
+      if (!disabled && destination) {
+        conditionalProps.history = history;
+        conditionalProps.destination = destination;
+      }
       if (title) {
         if (!showTitle && !children) conditionalProps.title = title;
         else conditionalProps['aria-label'] = title;
@@ -108,11 +117,15 @@ export default class CommonButton extends React.PureComponent {
         <CommonLink
           className={computedClass}
           {...conditionalProps}
-          {...others}
+          {...rest}
         >
+          <CommonIcon
+            className='icon'
+            name={icon}
+            proportional={proportional}
+          />
+          {title && showTitle ? <span className='title'>{title}</span> : null}
           {children}
-          {title && showTitle ? <span className='button\title'>{title}</span> : null}
-          <CommonIcon name={icon} className='button\icon' />
         </CommonLink>
       );
 
@@ -131,13 +144,16 @@ export default class CommonButton extends React.PureComponent {
           className={computedClass}
           {...conditionalProps}
           disabled={disabled}
-          {...others}
+          {...rest}
           tabIndex='0'
           type='button'
         >
+          <CommonIcon
+            className='icon'
+            name={icon}
+          />
+          {title && showTitle ? <span className='title'>{title}</span> : null}
           {children}
-          {title && showTitle ? <span className='button\title'>{title}</span> : null}
-          <CommonIcon name={icon} className='button\icon' />
         </button>
       );
     }

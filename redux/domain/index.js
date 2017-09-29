@@ -14,12 +14,18 @@
 //  -------
 
 //  Package imports.
-import { Map as ImmutableMap } from 'immutable';
+import {
+  List as ImmutableList,
+  Map as ImmutableMap,
+} from 'immutable';
 
 //  Action types.
-import { DOMAIN_BLOCK_SUCCESS } from 'mastodon-go/redux/domain/block';
-import { DOMAIN_UNBLOCK_SUCCESS } from 'mastodon-go/redux/domain/unblock';
-import { RELATIONSHIP_FETCH_SUCCESS } from 'mastodon-go/redux/notification/fetch';
+import { DOMAIN_BLOCK_SUCCESS } from 'themes/mastodon-go/redux/domain/block';
+import { DOMAIN_UNBLOCK_SUCCESS } from 'themes/mastodon-go/redux/domain/unblock';
+import { RELATIONSHIP_FETCH_SUCCESS } from 'themes/mastodon-go/redux/relationship/fetch';
+
+//  Other imports.
+import rainbow from 'themes/mastodon-go/util/rainbow';
 
 //  * * * * * * *  //
 
@@ -30,7 +36,19 @@ import { RELATIONSHIP_FETCH_SUCCESS } from 'mastodon-go/redux/notification/fetch
 //  there's no point, and this way, we can perform typecasting as well.
 const normalize = (domain) => ImmutableMap({
   blocking: !!domain.blocking,
-  domain: domain.domain || "",
+  domain: domain.domain || '',
+  rainbow: ImmutableMap({
+    1: '#' + (rainbow(domain.domain)[0] || 0xffffff).toString(16),
+    3: ImmutableList(rainbow(domain.domain, 3).map(
+      colour => '#' + colour.toString(16)
+    )),
+    7: ImmutableList(rainbow(domain.domain, 7).map(
+      colour => '#' + colour.toString(16)
+    )),
+    15: ImmutableList(rainbow(domain.domain, 15).map(
+      colour => '#' + colour.toString(16)
+    )),
+  }),
 });
 
 //  * * * * * * *  //
@@ -64,9 +82,13 @@ const set = (state, domains) => state.withMutations(
 export default function domain (state = initialState, action) {
   switch (action.type) {
   case DOMAIN_BLOCK_SUCCESS:
+    return set(state, {
+      blocking: true,
+      domain: action.domain,
+    });
   case DOMAIN_UNBLOCK_SUCCESS:
     return set(state, {
-      blocking: action.relationship.domain_blocking,
+      blocking: false,
       domain: action.domain,
     });
   case RELATIONSHIP_FETCH_SUCCESS:
@@ -75,7 +97,7 @@ export default function domain (state = initialState, action) {
         blocking: relationship.domain_blocking,
         domain: relationship.domain,
       })
-    );
+    ));
   default:
     return state;
   }

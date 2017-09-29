@@ -1,3 +1,5 @@
+//  Package imports.
+import { Map as ImmutableMap } from 'immutable';
 
 
 const normalize = instance => ImmutableMap({
@@ -8,3 +10,8 @@ const normalize = instance => ImmutableMap({
   title: '' + instance.title,
   version: '' + instance.version,
 });
+
+
+export default function instance (state = ImmutableMap(), action) {
+  return state;
+}

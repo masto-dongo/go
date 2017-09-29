@@ -16,36 +16,30 @@ import {
 import escapeTextContentForBrowser from 'escape-html';
 
 //  Action types.
-import { ACCOUNT_BLOCK_SUCCESS } from 'mastodon-go/redux/account/block';
-import { ACCOUNT_MUTE_SUCCESS } from 'mastodon-go/redux/account/mute';
-import { COURIER_EXPAND_SUCCESS } from 'mastodon-go/redux/courier/expand';
-import { COURIER_FETCH_SUCCESS } from 'mastodon-go/redux/courier/fetch';
-import { COURIER_REFRESH_SUCCESS } from 'mastodon-go/redux/courier/refresh';
-import { COURIER_UPDATE_SUCCESS } from 'mastodon-go/redux/courier/update';
-import { NOTIFICATION_FETCH_SUCCESS } from 'mastodon-go/redux/notification/fetch';
-import { STATUS_FAVOURITE_SUCCESS } from 'mastodon-go/redux/status/favourite';
-import { STATUS_FETCH_SUCCESS } from 'mastodon-go/redux/status/fetch';
-import { STATUS_MUTE_SUCCESS } from 'mastodon-go/redux/status/mute';
-import { STATUS_PIN_SUCCESS } from 'mastodon-go/redux/status/pin';
-import { STATUS_REBLOG_SUCCESS } from 'mastodon-go/redux/status/reblog';
-import { STATUS_REMOVE_COMPLETE } from 'mastodon-go/redux/status/fetch';
-import { STATUS_UNFAVOURITE_SUCCESS } from 'mastodon-go/redux/status/unfavourite';
-import { STATUS_UNMUTE_SUCCESS } from 'mastodon-go/redux/status/unmute';
-import { STATUS_UNPIN_SUCCESS } from 'mastodon-go/redux/status/unpin';
-import { STATUS_UNREBLOG_SUCCESS } from 'mastodon-go/redux/status/unreblog';
-import { TIMELINE_EXPAND_SUCCESS } from 'mastodon-go/redux/timeline/expand';
-import { TIMELINE_FETCH_SUCCESS } from 'mastodon-go/redux/timeline/fetch';
-import { TIMELINE_REFRESH_SUCCESS } from 'mastodon-go/redux/timeline/refresh';
-import { TIMELINE_UPDATE_SUCCESS } from 'mastodon-go/redux/timeline/update';
+import { ACCOUNT_BLOCK_SUCCESS } from 'themes/mastodon-go/redux/account/block';
+import { ACCOUNT_MUTE_SUCCESS } from 'themes/mastodon-go/redux/account/mute';
+import { COURIER_EXPAND_SUCCESS } from 'themes/mastodon-go/redux/courier/expand';
+import { COURIER_FETCH_SUCCESS } from 'themes/mastodon-go/redux/courier/fetch';
+import { COURIER_REFRESH_SUCCESS } from 'themes/mastodon-go/redux/courier/refresh';
+import { COURIER_UPDATE_RECEIVE } from 'themes/mastodon-go/redux/courier/update';
+import { NOTIFICATION_FETCH_SUCCESS } from 'themes/mastodon-go/redux/notification/fetch';
+import { STATUS_FAVOURITE_SUCCESS } from 'themes/mastodon-go/redux/status/favourite';
+import { STATUS_FETCH_SUCCESS } from 'themes/mastodon-go/redux/status/fetch';
+import { STATUS_MUTE_SUCCESS } from 'themes/mastodon-go/redux/status/mute';
+import { STATUS_PIN_SUCCESS } from 'themes/mastodon-go/redux/status/pin';
+import { STATUS_REBLOG_SUCCESS } from 'themes/mastodon-go/redux/status/reblog';
+import { STATUS_REMOVE_COMPLETE } from 'themes/mastodon-go/redux/status/remove';
+import { STATUS_UNFAVOURITE_SUCCESS } from 'themes/mastodon-go/redux/status/unfavourite';
+import { STATUS_UNMUTE_SUCCESS } from 'themes/mastodon-go/redux/status/unmute';
+import { STATUS_UNPIN_SUCCESS } from 'themes/mastodon-go/redux/status/unpin';
+import { STATUS_UNREBLOG_SUCCESS } from 'themes/mastodon-go/redux/status/unreblog';
+import { TIMELINE_EXPAND_SUCCESS } from 'themes/mastodon-go/redux/timeline/expand';
+import { TIMELINE_FETCH_SUCCESS } from 'themes/mastodon-go/redux/timeline/fetch';
+import { TIMELINE_REFRESH_SUCCESS } from 'themes/mastodon-go/redux/timeline/refresh';
+import { TIMELINE_UPDATE_RECEIVE } from 'themes/mastodon-go/redux/timeline/update';
 
-//  Our imports.
-import { VISIBILITY } from 'mastodon-go/util/constants';
-import emojify from 'mastodon-go/util/emoji';
-import {
-  parseEmoji,
-  parseStatus,
-  parseTextContent,
-} from 'mastodon-go/util/parse';
+//  Other imports.
+import { VISIBILITY } from 'themes/mastodon-go/util/constants';
 
 //  * * * * * * *  //
 
@@ -58,10 +52,11 @@ import {
 //  their contents.
 const normalize = status => ImmutableMap({
   account: '' + status.account.id,
-  content: ImmutableMap({
-    plain: parseTextContent(status.content),
-    react: parseStatus(status.content),
+  application: ImmutableMap({
+    name: status.application.name,
+    website: status.application.website,
   }),
+  content: '' + status.content,
   counts: ImmutableMap({
     favourites: +status.favourites_count,
     reblogs: +status.reblogs_count,
@@ -69,33 +64,31 @@ const normalize = status => ImmutableMap({
   datetime: new Date(status.created_at),
   href: '' + status.url,
   id: '' + status.id,
-  inReplyTo: ImmutableMap({
+  inReplyTo: status.in_reply_to_id ? ImmutableMap({
     account: '' + status.in_reply_to_account_id,
     id: '' + status.in_reply_to_id,
-  }),
+  }) : null,
   is: ImmutableMap({
     favourited: !!status.favourited,
     muted: !!status.muted,
     reblogged: !!status.reblogged,
+    reply: !!status.in_reply_to_id,
   }),
   media: ImmutableList(status.media_attachments.map(
-    attachment => attachment.id,
+    attachment => '' + attachment.id,
   )),
   mentions: ImmutableList(status.mentions.map(
-    mention => mention.id,
-  )),
-  tags: ImmutableList(status.tags.map(
-    tag => ImmutableMap({
-      href: tag.url,
-      name: tag.name,
-    })
+    mention => '' + mention.id,
   )),
   reblog: '' + status.reblog.id,
   sensitive: !!status.sensitive,
-  spoiler: ImmutableMap({
-    plain: parseTextContent(status.spoiler_text),
-    react: parseEmoji(status.spoiler_text),
-  }),
+  spoiler: '' + status.spoiler_text,
+  tags: ImmutableList(status.tags.map(
+    tag => ImmutableMap({
+      href: '' + tag.url,
+      name: '' + tag.name,
+    })
+  )),
   visibility: (
     visibility => {
       let value = VISIBLITY.DIRECT;
@@ -191,7 +184,7 @@ export default function status (state = initialState, action) {
     return set(state, action.notifications.map(
       notification => notification.status
     ));
-  case COURIER_UPDATE:
+  case COURIER_UPDATE_RECEIVE:
     return set(state, action.notification.status);
   case NOTIFICATION_FETCH_SUCCESS:
     return set(state, action.notification.status);
@@ -211,8 +204,8 @@ export default function status (state = initialState, action) {
   case TIMELINE_EXPAND_SUCCESS:
   case TIMELINE_FETCH_SUCCESS:
   case TIMELINE_REFRESH_SUCCESS:
-    return set(state, action.statuses)
-  case TIMELINE_UPDATE:
+    return set(state, action.statuses);
+  case TIMELINE_UPDATE_RECEIVE:
     return set(state, action.status);
   default:
     return state;

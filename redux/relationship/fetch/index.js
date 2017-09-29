@@ -22,14 +22,14 @@ const failure = (ids, error) => ({
 });
 
 //  Request.
-export const fetchRelationship = (ids, go, state, api) => {
+export const fetchRelationship = (ids, force, go, current, api) => {
 
   //  We only want to request the relationships that we don't already
   //  have. If we already have relationships for all of the provided
   //  `ids`, we do nothing.
-  const loadedRelationships = state.get('relationship');
+  const loadedRelationships = current().get('relationship');
   const newIds = [].concat(ids).filter(
-    id => loadedRelationships.get(id) === void 0
+    id => !!force || loadedRelationships.get(id) === void 0
   );
   if (!ids.length) {
     return;
@@ -40,7 +40,7 @@ export const fetchRelationship = (ids, go, state, api) => {
   api.get(
     '/api/v1/accounts/relationships', { params: { id: newIds } }
   ).then(
-    response => go(success, response.data.value)
+    response => go(success, response.data)
   ).catch(
     error => go(failure, newIds, error)
   );

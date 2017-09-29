@@ -1,9 +1,6 @@
 //  <StatusNav>
 //  ========
 
-//  For code documentation, please see:
-//  https://glitch-soc.github.io/docs/javascript/glitch/status/nav
-
 //  For more information, please contact:
 //  @kibi@glitch.social
 
@@ -13,14 +10,15 @@
 //  -------
 
 //  Package imports.
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePureComponent from 'react-immutable-pure-component';
 import { defineMessages } from 'react-intl';
 
 //  Our imports.
-import CommonIcon from 'glitch/components/common/icon';
-import CommonLink from 'glitch/components/common/link';
+import CommonIcon from 'themes/mastodon-go/components';
+import CommonLink from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style';
@@ -45,46 +43,42 @@ const messages = defineMessages({
 //  The component
 //  -------------
 
-export default class StatusNav extends ImmutablePureComponent {
+export default class StatusNav extends React.PureComponent {
 
   //  Props.
   static propTypes = {
+    className: PropTypes.string,
     id: PropTypes.number.isRequired,
     intl: PropTypes.object.isRequired,
   }
 
   //  Rendering.
   render () {
-    const { id, intl } = this.props;
+    const {
+      className,
+      id,
+      intl,
+    } = this.props;
+    const computedClass = classNames('MASTODON_GO--STATUS--NAV', className);
+
     return (
-      <nav className='glitch glitch__status__nav'>
+      <nav className={computedClass}>
         <CommonLink
-          className='nav\conversation'
-          destination={`/statuses/${id}`}
           title={intl.formatMessage(messages.conversation)}
         >
-          <CommonIcon
-            className='nav\icon'
-            name='comments-o'
-          />
+          <CommonIcon name='comments-o'/>
         </CommonLink>
         <CommonLink
-          className='nav\reblogs'
-          destination={`/statuses/${id}/reblogs`}
           title={intl.formatMessage(messages.reblogs)}
         >
           <CommonIcon
-            className='nav\icon'
             name='retweet'
           />
         </CommonLink>
         <CommonLink
-          className='nav\favourites'
-          destination={`/statuses/${id}/favourites`}
           title={intl.formatMessage(messages.favourites)}
         >
           <CommonIcon
-            className='nav\icon'
             name='star'
           />
         </CommonLink>

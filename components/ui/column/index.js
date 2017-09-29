@@ -1,198 +1,239 @@
 import classNames from 'classnames';
-import detectPassiveEvents from 'detect-passive-events';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
+import Redirect from 'react-router-dom/Redirect';
+import Switch from 'react-router-dom/Switch';
+import Route from 'react-router-dom/Route';
 
-import { scrollTop } from 'mastodon/scroll';
+import {
+  TimelineContainer,
+} from 'themes/mastodon-go/components';
 
-import ColumnHeader from './header';
-import ColumnSettings from './settings';
-import CommonScrollable from 'glitch/components/common/scrollable';
+import UIColumnStart from './start';
 
+import { RAINBOW } from 'themes/mastodon-go/util/constants';
+import rainbow from 'themes/mastodon-go/util/rainbow';
+
+//  Stylesheet imports.
 import './style';
 
-//  * * * * * * *  //
-
-//  Initial setup
-//  -------------
-
-const messages = defaultMessages({
-  moveLeft:
-    { id: 'column_header.moveLeft_settings', defaultMessage: 'Move column to the left' },
-  moveRight:
-    { id: 'column_header.moveRight_settings', defaultMessage: 'Move column to the right' },
-  pin:
-    { id: 'column_header.pin', defaultMessage: 'Pin' },
-  show:
-    { id: 'column_header.show_settings', defaultMessage: 'Show settings' },
-  unpin:
-    { id: 'column_header.unpin', defaultMessage: 'Unpin' },
+const messages = defineMessages({
+  global: {
+    defaultMessage: 'Federated timeline',
+    id: 'column.global',
+  },
+  home: {
+    defaultMessage: 'Home',
+    id: 'column.home',
+  },
+  local: {
+    defaultMessage: 'Local timeline',
+    id: 'column.local',
+  },
+  localTag: {
+    defaultMessage: '{query} (local)',
+    id: 'column.local_tag',
+  },
 });
 
 export default class UIColumn extends React.PureComponent {
 
-  //  Props and state.
   static propTypes = {
+    activeRoute: PropTypes.bool,
     className: PropTypes.string,
-    handler: PropTypes.objectOf(PropTypes.func).isRequired,
     history: PropTypes.object,
+    index: PropTypes.number.isRequired,
     intl: PropTypes.object.isRequired,
-    meta: PropTypes.object,
-    pinned: PropTypes.bool,
-    type: PropTypes.string.isRequired,
-    uuid: PropTypes.string,
-  };
-  state = {
-    togglesVisible: false,
-  }
-  interruptScrollAnimation = null;
-
-  handleBackClick = () => {
-    const { history } = this.props;
-    if (history && history.length === 1) history.push('/');
-    else history.goBack();
-  }
-
-  handleToggleClick = () => {
-    this.setState({ togglesVisible: !this.state.togglesVisible});
-  }
-
-  //  These functions handle column pinning and unpinning.
-  handlePin = () => {
-    { handler } = this.props;
-    handler.pin(true);
-  }
-  handleUnpin = () => {
-    { handler } = this.props;
-    handler.pin(false);
-  }
-
-  //  These functions handle column moving for pinned columns.
-  handleMoveLeft = () => {
-    { handler } = this.props;
-    handler.move(-1);
-  }
-  handleMoveRight = () => {
-    { handler } = this.props;
-    handler.move(1);
-  }
-
-  handleWheel = () => {
-    if (typeof this.interruptScrollAnimation !== 'function') return;
-    this.interruptScrollAnimation();
-  }
-
-  setRef = c => {
-    this.node = c;
-  }
-
-  componentDidMount () {
-    this.node.addEventListener('wheel', this.handleWheel,  detectPassiveEvents ? { passive: true } : false);
-  }
-
-  componentWillUnmount () {
-    this.node.removeEventListener('wheel', this.handleWheel);
+    location: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+    singleColumn: PropTypes.bool.isRequired,
   }
 
   render () {
     const {
+      activeRoute,
       className,
-      handler,
       history,
-      intl: { formatMessage },
-      meta,
-      pinned,
-      type,
-      uuid,
-      ...others
+      index,
+      intl,
+      location,
+      singleColumn,
+      ...rest
     } = this.props;
-    const { togglesVisible } = this.state;
-    const computedClass = classNames('glitch', 'glitch__column', className);
 
-    //  `toggles` holds our various column toggles.
-    const toggles = [];
-
-    //  If our column is pinned, then we provide buttons to unpin it or
-    //  change its position. Otherwise, if it's pinnable, we provide
-    //  a button to let it be pinned.
-    if (pinned) toggles.push(
-      <div className='column\pinning' key='pinning'>
-        <CommonButton
-          active
-          className='column\unpin column\settings-button'
-          icon='times'
-          key='pin'
-          onClick={handleUnpin}
-          title={formatMessage(messages.pin)}
-        ><FormattedMessage {...messages.unpin} /></CommonButton>
-        <CommonButton
-          className='column\move-left column\settings-button'
-          icon='chevron-left'
-          onClick={handleMoveLeft}
-          title={formatMessage(messages.moveLeft)}
-        />
-        <CommonButton
-          className='column\move-right column\settings-button'
-          icon='chevron-right'
-          onClick={handleMoveRight}
-          title={formatMessage(messages.moveRight)}
-        />
-      </div>
-    );
-
-    //  We only allow non-user timelines to be pinned.
-    else if (type === 'timeline' && meta.name !== 'account') toggles.push(
-      <div className='column\pinning' key='pinning'>
-        <CommonButton
-          className='column\pin column\settings-button'
-          icon='times'
-          key='pin'
-          onClick={handlePin}
-          showTitle
-          title={formatMessage(messages.pin)}
-        />
-      </div>
-    );
+    const computedClass = classNames('MASTODON_GO--UI--COLUMN', className);
 
     return (
       <section
-        aria-labelledby={`glitch:col${uuid || '?'}_h`}
         className={computedClass}
-        id={`glitch:col${uuid || '?'}`}
-        ref={this.setRef}
-        role='region'
-        {...others}
+        {...rest}
       >
-        <ColumnHeader
-          className='column\header'
-          icon={icon}
-          id={`glitch:col${uuid || '?'}_h`}
-          title={title}
-        >
-          {buttons}
-          {settings.length ? (
-            <CommonButton
-              active={settingsVisible}
-              className='column\settings column\button'
-              icon='sliders'
-              onClick={handleToggle}
-              title={formatMessage(messages.show)}
-            />
-          ) : null}
-        </ColumnHeader>
-        {toggles.length ? (
-        <ColumnSettings
-          className='column\settings'
-          expanded={togglesVisible}
-        >{toggles}</ColumnSettings>
-        ) : null}
-        <CommonScrollable className='column\scroll'>
-          <ColumnContent
-            meta={meta}
-            type={type}
+        <Switch {...(location ? { location } : {})}>
+          <Redirect
+            exact
+            from='/'
+            to='/start'
           />
-        </CommonScrollable>
+
+          <Route
+            exact
+            path='/start'
+            render={({ location: { hash } }) => (
+              <UIColumnStart
+                activeRoute={activeRoute}
+                {...(activeRoute && hash ? { hash } : {})}
+                history={history}
+                intl={intl}
+              />
+            )}
+          />
+
+          <Route
+            exact
+            path='/notifications'
+            render={({ location: { hash } }) => (
+              <section
+                className={computedClass}
+                {...rest}
+              >
+                <UIColumnCourier
+                  activeRoute={activeRoute}
+                  {...(activeRoute && hash ? { hash } : {})}
+                  history={history}
+                  intl={intl}
+                />
+              </section>
+            )}
+          />
+
+          <Route
+            exact
+            path='/compose'
+            render={({ location: { hash } }) => (
+              <section
+                className={computedClass}
+                {...rest}
+              >
+                <UIColumnDrawer
+                  activeRoute={activeRoute}
+                  {...(activeRoute && hash ? { hash } : {})}
+                  history={history}
+                  intl={intl}
+                />
+              </section>
+            )}
+          />
+
+          <Route
+            exact
+            path='/home'
+            render={({ location: { hash } }) => (
+              <TimelineContainer
+                activeRoute={activeRoute}
+                {...(activeRoute && hash ? { hash } : {})}
+                icon='home'
+                path='/api/v1/timelines/home'
+                title={<FormattedMessage {...messages.home} />}
+              />
+            )}
+          />
+          <Route
+            exact
+            path='/global'
+            render={({ location: { hash } }) => (
+              <TimelineContainer
+                activeRoute={activeRoute}
+                {...(activeRoute && hash ? { hash } : {})}
+                icon='globe'
+                path='/api/v1/timelines/public'
+                title={<FormattedMessage {...messages.global} />}
+              />
+            )}
+          />
+          <Route
+            exact
+            path='/local'
+            render={({ location: { hash } }) => (
+              <TimelineContainer
+                activeRoute={activeRoute}
+                {...(activeRoute && hash ? { hash } : {})}
+                icon='users'
+                path='/api/v1/timelines/public?local=true'
+                title={<FormattedMessage {...messages.local} />}
+              />
+            )}
+          />
+          <Route
+            exact
+            path='/tagged/:query'
+            render={({
+              location: { hash },
+              match: { params: { query } },
+            }) => (
+              <TimelineContainer
+                activeRoute={activeRoute}
+                {...(activeRoute && hash ? { hash } : {})}
+                icon='hashtag'
+                path={`/api/v1/tag/${query}`}
+                title={query}
+              />
+            )}
+          />
+          <Route
+            exact
+            path='/tagged/:query/local'
+            render={({
+              location: { hash },
+              match: { params: { query } },
+            }) => (
+              <TimelineContainer
+                activeRoute={activeRoute}
+                {...(activeRoute && hash ? { hash } : {})}
+                icon='hashtag'
+                path={`/api/v1/tag/${query}?local=true`}
+                title={<FormattedMessage {...messages.localTag} values={{ query }} />}
+              />
+            )}
+          />
+
+          <Route
+            exact
+            path='/profile/:id'
+            render={({
+              location: { hash },
+              match: { params: { id } },
+            }) => (
+              <section
+                className={computedClass}
+                {...rest}
+              >
+                <UIColumnProfile
+                  activeRoute={activeRoute}
+                  {...(activeRoute && hash ? { hash } : {})}
+                  history={history}
+                  id={id}
+                  intl={intl}
+                />
+              </section>
+            )}
+          />
+
+          <Route
+            render={({ location: { hash } }) => (
+              <section
+                className={computedClass}
+                {...rest}
+              >
+                <UIColumnUnknown
+                  activeRoute={activeRoute}
+                  {...(activeRoute && hash ? { hash } : {})}
+                  history={history}
+                  intl={intl}
+                />
+              </section>
+            )}
+          />
+        </Switch>
       </section>
     );
   }

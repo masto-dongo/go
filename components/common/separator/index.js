@@ -28,13 +28,11 @@ import './style';
 const CommonSeparator = ({
   className,
   visible,
-  ...others
+  ...rest
 }) => visible ? (
   <span
-    className={
-      classNames('glitch', 'glitch__common__separator', className)
-    }
-    {...others}
+    className={classNames('MASTODON_GO--COMMON--SEPARATOR', className)}
+    {...rest}
     role='separator'
   />  //  Contents provided via CSS.
 ) : null;

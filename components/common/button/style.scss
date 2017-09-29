@@ -1,23 +1,26 @@
-@import 'variables';
+@charset "UTF-8";
 
-.glitch.glitch__common__button {
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--COMMON--BUTTON {
   display: inline-block;
   border: none;
   padding: 0;
-  color: $ui-base-lighter-color;
+  //color: $ui-base-lighter-color;
   background: transparent;
-  outline: thin transparent dotted;
+  outline: 1px transparent dotted;
+  outline-offset: -1px;
   font-size: inherit;
   text-decoration: none;
   cursor: pointer;
-  transition: color ($glitch-animation-speed * .15s) ease-in, outline-color ($glitch-animation-speed * .3s) ease-in-out;
+  transition: color ($mastodon_go_animation_speed * .15s) ease-in, outline-color ($mastodon_go_animation_speed * .3s) ease-in-out;
 
-  &._animated .button\\icon {
-    animation-name: glitch__common__button__deactivate;
+  &.animated > *.icon {
+    animation-name: mastodon_go--common--button--deactivate;
     animation-duration: .9s;
     animation-timing-function: ease-in-out;
 
-    @keyframes glitch__common__button__deactivate {
+    @keyframes mastodon_go--common--button--deactivate {
       from {
         transform: rotate(360deg);
       }
@@ -33,15 +36,15 @@
     }
   }
 
-  &._active {
-    .button\\icon {
-      color: $ui-highlight-color;
+  &.active {
+    & > *.icon {
+      //color: $ui-highlight-color;
     }
 
-    &._animated .button\\icon {
-      animation-name: glitch__common__button__activate;
+    &.animated > *.icon {
+      animation-name: mastodon_go--common--button--activate;
 
-      @keyframes glitch__common__button__activate {
+      @keyframes mastodon_go--common--button--activate {
         from {
           transform: rotate(0deg);
         }
@@ -56,22 +59,14 @@
         }
       }
     }
-
-    /*
-    The special `._star` class is given to buttons which have a star
-    icon (see JS). When they are active, we give them a gold star ⭐️.
-    */
-    &._star .button\\icon {
-      color: $gold-star;
-    }
   }
 
   /*
   For links, we consider them disabled if they don't have an `href`
   attribute (see JS).
   */
-  &._disabled {
-    opacity: $glitch-disabled-opacity;
+  &.disabled {
+    //opacity: $glitch-disabled-opacity;
     cursor: default;
   }
 
@@ -84,8 +79,8 @@
   &:active,
   &:focus,
   &:hover {
-    color: $glitch-lighter-color;
-    transition: color ($glitch-animation-speed * .3s) ease-out, outline-color ($glitch-animation-speed * .15s) ease-in-out;
+    //color: $glitch-lighter-color;
+    transition: color ($mastodon_go_animation_speed * .3s) ease-out, outline-color ($mastodon_go_animation_speed * .15s) ease-in-out;
   }
 
   &:focus {
@@ -96,39 +91,35 @@
   Buttons with text have a number of different styling rules and an
   overall different appearance.
   */
-  &._with-text {
+  &.with_text {
     display: inline-block;
     border: none;
-    border-radius: .35em;
     padding: 0 .5em;
-    color: $glitch-texture-color;
-    background: $ui-base-lighter-color;
+    //color: $glitch-texture-color;
+    //background: $ui-base-lighter-color;
     font-size: .75em;
     font-weight: inherit;
-    text-transform: uppercase;
     line-height: 1.6;
     cursor: pointer;
     vertical-align: baseline;
-    transition: background-color ($glitch-animation-speed * .15s) ease-in, outline-color ($glitch-animation-speed * .3s) ease-in-out;
+    transition: background-color ($mastodon_go_animation_speed * .15s) ease-in, outline-color ($mastodon_go_animation_speed * .3s) ease-in-out;
 
-    .button\\icon {
+    & > *.icon {
       display: inline-block;
       font-size: 1.25em;
       vertical-align: -.1em;
     }
 
     & > *:not(:first-child) {
-      margin: 0 0 0 .4em;
-      border-left: 1px solid currentColor;
-      padding: 0 0 0 .3em;
+      margin: 0 0 0 1ex;
     }
 
     &:active,
     &:hover,
     &:focus {
-      color: $glitch-texture-color;
-      background: $glitch-lighter-color;
-      transition: background-color ($glitch-animation-speed * .3s) ease-out, outline-color ($glitch-animation-speed * .15s) ease-in-out;
+      //color: $glitch-texture-color;
+      //background: $glitch-lighter-color;
+      transition: background-color ($mastodon_go_animation_speed * .3s) ease-out, outline-color ($mastodon_go_animation_speed * .15s) ease-in-out;
     }
   }
 }

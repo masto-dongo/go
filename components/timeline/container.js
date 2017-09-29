@@ -1,78 +1,79 @@
-import { debounce } from 'lodash';
-import { injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
-import { createSelector } from 'reselect';
+//  <TimelineContainer>
+//  ===================
 
-import Timeline from '.';
+//  For more information, please contact:
+//  @kibi@glitch.social
+
+//  * * * * * * *  //
+
+//  Imports
+//  -------
+
+//  Package imports.
 import {
-  updateTimeline,
-  refreshTimeline,
+  List as ImmutableList,
+  Map as ImmutableMap,
+} from 'immutable';
+import {
+  createSelector,
+  createStructuredSelector,
+} from 'reselect';
+
+//  Component imports.
+import Timeline from '.';
+
+//  Request imports.
+import {
+  connectTimeline,
   expandTimeline,
-  setTopTimeline,
-  connectingTimeline,
-  disconnectTimeline,
-} from 'glitch/actions/timeline';
-import { removeStatus } from 'glitch/actions/status';
-import makeTimelineSelector from 'glitch/selectors/timeline';
+  fetchTimeline,
+  refreshTimeline,
+} from 'themes/mastodon-go/redux';
 
-const makeMapStateToProps = () => {
-  const timelineSelector = makeTimelineSelector();
+//  Other imports
+import connect from 'themes/mastodon-go/util/connect';
+import rainbow from 'themes/mastodon-go/util/rainbow';
 
-  return (state, { path }) => {
-    let timeline = state.getIn(['timeline', path]);
+//  * * * * * * *  //
 
-    return {
-      accessToken: state.getIn(['meta', 'access_token']),
-      hasMore: !!timeline.get('next'),
-      hasUnread: timeline.get('unread') > 0,
-      ids: timelineSelector(state, path),
-      isLoading: state.get('isLoading'),
-      settings: state.getIn(['settings', id]),
-      streamingAPIBaseURL: state.getIn(['meta', 'streaming_api_base_url']),
-    };
-  };
-}
+//  Connecting
+//  ----------
 
-const makeMapDispatchToProps = (dispatch) => createSelector(
-  [
-    (_, { path }) => path,
-  ],
+//  Selector factory.
+export default connect(
+  go => createSelector(
 
-  path => ({
-    handler: {
-      connect () {
-        dispatch(connectingTimeline(path));
-      },
-      delete (payload) {
-        dispatch(removeStatus(payload))
-      },
-      disconnect () {
-        dispatch(disconnectTimeline(path));
-      },
-      expand () {
-        dispatch(expandTimeline(path));
-      },
-      refresh () {
-        dispatch(refreshTimeline(path));
-      },
-      scroll: debounce(() => {
-        dispatch(setTopTimeline(path, false));
-      }, 100),
-      scrollToBottom: debounce(() => {
-        dispatch(setTopTimeline(path, false));
-        dispatch(expandTimeline(path));
-      }, 300, { leading: true }),
-      scrollToTop: debounce(() => {
-        dispatch(setTopTimeline(path, true));
-      }, 100),
-      update (payload) {
-        dispatch(updateTimeline(path, JSON.parse(payload)));
-      },
-    },
-  };
-}
+    //  Props.
+    createStructuredSelector({
+      isLoading: (state, { path }) => state.getIn(['timeline', path, 'isLoading']),
+      rainbow: (state, { path }) => state.getIn(['timeline', path, 'rainbow']) || ImmutableMap({
+        1: '#' + (rainbow(path)[0] || 0xffffff).toString(16),
+        3: ImmutableList(rainbow(path, 3).map(
+          colour => '#' + colour.toString(16)
+        )),
+        7: ImmutableList(rainbow(path, 7).map(
+          colour => '#' + colour.toString(16)
+        )),
+        15: ImmutableList(rainbow(path, 15).map(
+          colour => '#' + colour.toString(16)
+        )),
+      }),
+      statuses: (state, { path }) => state.getIn(['timeline', path, 'statuses']),
+    }),
 
-export default injectIntl(
-  connect(makeMapStateToProps, makeMapDispatchToProps)(Timeline)
-);
+    //  Own props.
+    (state, ownProps) => ownProps,
+
+    //  Result.
+    (props, ownProps) => ({
+      handler: {
+        connect: () => go(connectTimeline, ownProps.path),
+        expand: () => go(expandTimeline, ownProps.path),
+        fetch: () => go(fetchTimeline, ownProps.path),
+        refresh: () => go(refreshTimeline, ownProps.path),
+      },
+      ...ownProps,
+      ...props,
+    })
+  )
+)(Timeline);

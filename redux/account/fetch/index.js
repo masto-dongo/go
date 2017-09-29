@@ -2,7 +2,7 @@
 //  =============
 
 //  Imported requests.
-import { fetchRelationship } from 'mastodon-go/redux';
+import { fetchRelationship } from 'themes/mastodon-go/redux';
 
 //  Action types.
 export const ACCOUNT_FETCH_REQUEST = 'ACCOUNT_FETCH_REQUEST';
@@ -25,14 +25,14 @@ const failure = (id, error) => ({
 });
 
 //  Request.
-export const fetchAccount = (id, go, state, api) => {
+export const fetchAccount = (id, force, go, current, api) => {
 
   //  Whether we have the account or not, we fetch updated relationship
   //  information.
-  go(fetchRelationship, id);
+  go(fetchRelationship, id, force);
 
   //  If we already have the account data, we don't bother fetching it.
-  if (state.getIn(['accounts', id])) {
+  if (!force && current().getIn(['accounts', id])) {
     return;
   }
 
@@ -41,7 +41,7 @@ export const fetchAccount = (id, go, state, api) => {
   api.get(
     `/api/v1/accounts/${id}`
   ).then(
-    response => go(success, response.data.value)
+    response => go(success, response.data)
   ).catch(
     error => go(failure, id, error)
   );

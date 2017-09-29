@@ -2,7 +2,7 @@
 //  ==============
 
 //  Imported requests.
-import { fetchRelationship } from 'mastodon-go/redux';
+import { fetchRelationship } from 'themes/mastodon-go/redux';
 
 //  Action types.
 export const COURIER_UPDATE_RECEIVE = 'COURIER_UPDATE_RECEIVE';
@@ -19,7 +19,7 @@ export const updateCourier = (notification, go) => {
   //  If the `notification` is a follow, we fetch the
   //  relationships of its `account`.
   if (notification.type === 'follow') {
-    go(fetchRelationship, notification.account.id);
+    go(fetchRelationship, notification.account.id, false);
   }
 
   //  Regardless, we dispatch the notification.

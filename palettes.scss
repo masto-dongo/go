@@ -1,0 +1,169 @@
+@charset "UTF-8";
+
+/*
+  This stylesheet contains a few default colour palettes you can use
+  when customizing your server for a consistent appearance.
+*/
+
+///////////////////////////////////////////////////////////////////////
+
+/*  PRINT + PASTELS  */
+/*  by: Kibigo!      */
+
+/*
+  This theme combines offwhite greys with bright pastels for a faded
+  yet distinctive look.
+*/
+
+//  PRINT  //
+
+$print_white: #faf8f7;
+$print_bright: #dedbd9;
+$print_light: #b8b3b0;
+$print: #948d87;
+$print_medium: #75706a;
+$print_dark: #57534c;
+$print_dim: #302f2b;
+$print_black: #1f1a14;
+
+//  PASTELS  //
+
+$pastel_red: #b01c1c;
+$pastel_orange: #d15919;
+$pastel_gold: #eb9100;
+$pastel_yellow: #fae13e;
+$pastel_green: #50d952;
+$pastel_cyan: #1aaceb;
+$pastel_blue: #4b2df7;
+$pastel_pink: #f56e97;
+
+///////////////////////////////////////////////////////////////////////
+
+/*  rainbow.txt  */
+/*  by: Kibigo!  */
+
+/*
+  This theme contains eight colours and eight greys. Each colour comes
+  in standard, light, and dark variants.
+*/
+
+//  CYAN  //
+
+$rainbow_cyan: #31b9db;
+$rainbow_cyan_light: #bfe7f2;
+$rainbow_cyan_dark: #00495c;
+
+//  BLUE  //
+
+$rainbow_blue: #7476fc;
+$rainbow_blue_light: #d0d1f6;
+$rainbow_blue_dark: #383966;
+
+//  PURPLE  //
+
+$rainbow_purple: #c258f2;
+$rainbow_purple_light: #eabdff;
+$rainbow_purple_dark: #4c3159;
+
+//  MAGENTA  //
+
+$rainbow_magenta: #e63ca4;
+$rainbow_magenta_light: #f0b2d8;
+$rainbow_magenta_dark: #592846;
+
+//  RED  //
+
+$rainbow_red: #e83f2c;
+$rainbow_red_light: #f9a59b;
+$rainbow_red_dark: #5d2721;
+
+//  YELLOW  //
+
+$rainbow_yellow: #f6d037;
+$rainbow_yellow_light: #fcf0be;
+$rainbow_yellow_dark: #4f420d;
+
+//  GREEN  //
+
+$rainbow_green: #6ad622;
+$rainbow_green_light: #d5fcbb;
+$rainbow_green_dark: #1f4505;
+
+//  TEAL  //
+
+$rainbow_teal: #49cfa2;
+$rainbow_teal_light: #bdf0df;
+$rainbow_teal_dark: #1c4b3b;
+
+//  GREY  //
+
+$rainbow_grey_white: #f5f5f5;
+$rainbow_grey_bright: #cccccc;
+$rainbow_grey_light: #a3a3a3;
+$rainbow_grey: #828282;
+$rainbow_grey_medium: #636363;
+$rainbow_grey_dark: #3b3b3b;
+$rainbow_grey_dim: #1c1c1c;
+$rainbow_grey_black: #0c0c0c;
+
+///////////////////////////////////////////////////////////////////////
+
+/*  MOTHER MINT                  */
+/*  from the Mother video games  */
+
+/*
+  This palette contains a mint theme inspired by the Mother series of
+  video games.
+*/
+
+$mint00: #000000; // black
+$mint01: #50f0b0; // light
+$mint02: #30c088; // medium
+$mint03: #209868; // dark
+$mint04: #106078; // blue
+$mint05: #78f8d0; // bright
+$mint06: #f8f0e8; // white
+
+///////////////////////////////////////////////////////////////////////
+
+/*  CLASSIC MASTODON     */
+/*  by: Gargron          */
+
+/*
+  This theme contains the original eight-colour palette used by
+  https://mastodon.social. Use it to obtain that old-school Mastodon
+  vibe.
+*/
+
+$classic-color1: #282c37; // darkest
+$classic-color2: #d9e1e8; // lightest
+$classic-color3: #9baec8; // lighter
+$classic-color4: #2b90d9; // vibrant
+$classic-color5: #ffffff; // white
+$classic-color6: #df405a; // error red
+$classic-color7: #79bd9a; // succ green
+$classic-color8: #000000; // black
+
+///////////////////////////////////////////////////////////////////////
+
+/*  MODERN MASTODON      */
+/*  by: Gargron          */
+
+/*
+  This is an expanded (and better-named!) version of the above classic
+  palette.
+*/
+
+// Commonly used web colors
+$mastodon-black: #000000;            // Black
+$mastodon-white: #ffffff;            // White
+$mastodon-success-green: #79bd9a;    // Padua
+$mastodon-error-red: #df405a;        // Cerise
+$mastodon-warning-red: #ff5050;      // Sunset Orange
+$mastodon-gold-star: #ca8f04;        // Dark Goldenrod
+
+// Values from the classic Mastodon UI
+$mastodon-classic-base-color: #282c37;         // Midnight Express
+$mastodon-classic-primary-color: #9baec8;      // Echo Blue
+$mastodon-classic-secondary-color: #d9e1e8;    // Pattens Blue
+$mastodon-classic-highlight-color: #2b90d9;    // Summer Sky

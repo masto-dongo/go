@@ -1,5 +1,14 @@
-import './util/initializers';
-import './util/polyfills';
-import run from './util/run';
+import 'intl';
+import 'intl/locale-data/jsonp/en.js';
+import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 
-run();
+import 'font-awesome/css/font-awesome';
+
+if (process.env.NODE_ENV === 'production') {
+  // avoid offline in dev mode because it's harder to debug
+  OfflinePluginRuntime.install();
+}
+
+import launch from './util/launch';
+
+launch();

@@ -1,18 +1,24 @@
-@import 'variables';
+@charset "UTF-8";
 
-.glitch.glitch__status__footer {
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--STATUS--FOOTER {
   display: block;
-  height: 1.25em;
-  font-size: (1.25em / 1.35);
+  height: 1.25rem;
+  font-size: 1rem;
+  line-height: 1.25rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  .footer\\link {
-    color: inherit;
-
+  & > .MASTODON_GO--COMMON--LINK {
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  &:not(.detailed) {
+    float: right;
+    vertical-align: bottom;
   }
 }

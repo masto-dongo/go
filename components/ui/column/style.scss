@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--UI--COLUMN {
+  display: block;
+  margin: 0 auto;
+  border: none;
+  width: 23rem;
+  height: 100%;
+  color: $mastodon_go_column_color;
+  background-color: $mastodon_go_column_background;
+
+  & > * {
+    display: block;
+    position: relative;
+    margin: 0;
+    border: none;
+    //  Padding is left to individual components to handle
+    height: 100%;
+    color: $mastodon_go_column_content_color;
+    background-color: $mastodon_go_column_content_background;
+    overflow: auto;
+  }
+}

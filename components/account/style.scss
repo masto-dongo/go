@@ -1,0 +1,72 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--ACCOUNT {
+  display: block;
+  height: 3.125rem;
+  margin: 0;
+  border-style: none none solid;
+  border-color: transparent;
+  border-width: 0 0 2px;
+  padding: 1.25rem 1.5em;
+  background-attachment: scroll;
+  background-clip: border-box;
+  background-origin: border-box;
+  background-position: bottom left;
+  background-repeat: repeat-x;
+  background-size: 100% 2px;
+
+  & > .MASTODON_GO--AVATAR {
+    float: left;
+    margin-right: .75rem;
+    width: 3.125rem;
+    height: 3.125rem;
+  }
+
+  & > *.info {
+    display: block;
+    margin: 0;
+    border: none;
+    padding: 0;
+    overflow: hidden;
+
+    & > b, & > code {
+      display: block;
+      border: none;
+      padding: 0;
+      height: 1.875rem;
+      overflow: hidden;
+      font-size: 1.25rem;
+      font-family: inherit;
+      font-weight: inherit;
+      line-height: 1.875rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &.small {
+    margin: 0 .75rem;
+    border-width: 0 0 1px;
+    padding: .625rem .75rem;
+    background-size: 100% 1px;
+
+    & > .MASTODON_GO--AVATAR { margin-right: .6rem }
+
+    & > *.info {
+      margin-top: .875rem;
+
+      & > b {
+        height: 1.25rem;
+        font-size: 1rem;
+        line-height: 1.25rem;
+      }
+      & > code {
+        height: 1rem;
+        font-size: .8rem;
+        line-height: 1rem;
+      }
+    }
+  }
+}

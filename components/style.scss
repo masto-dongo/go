@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  border: none;
+  padding: 1em;
+  color: $mastodon_go_root_color;
+  background: $mastodon_go_root_background;
+  font: 1rem/1.25 sans-serif;
+}

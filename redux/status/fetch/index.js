@@ -3,9 +3,9 @@
 
 //  Imported reducers.
 import {
-  cardStatus,
+  fetchCard,
   fetchConversation,
-} from 'mastodon-go/redux';
+} from 'themes/mastodon-go/redux';
 
 //  Action types.
 export const STATUS_FETCH_REQUEST = 'STATUS_FETCH_REQUEST';
@@ -28,17 +28,17 @@ const failure = (id, error) => ({
 });
 
 //  Request.
-export const fetchStatus = (id, go, state, api) => {
+export const fetchStatus = (id, force, go, current, api) => {
 
   //  Before we fetch our status (and regardless of whether or not we
   //  already have data on it), we first fetch its card and
   //  conversation, if possible.
   go(fetchConversation, id);
-  go(cardStatus, id);
+  go(fetchCard, id);
 
   //  We only want to fetch statuses that we don't already have. If we
   //  already have a status associated with this `id`, we do nothing.
-  if (state.getIn(['status', id]) {
+  if (!force && current().getIn(['status', id])) {
     return;
   }
 
@@ -47,7 +47,7 @@ export const fetchStatus = (id, go, state, api) => {
   api.get(
     `/api/v1/statuses/${id}`
   ).then(
-    response => go(success, response.data.value)
+    response => go(success, response.data)
   ).catch(
     error => go(failure, id, error)
   );

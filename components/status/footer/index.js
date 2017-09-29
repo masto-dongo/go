@@ -1,8 +1,5 @@
 //  <StatusFooter>
-//  ========
-
-//  For code documentation, please see:
-//  https://glitch-soc.github.io/docs/javascript/glitch/status/footer
+//  ==============
 
 //  For more information, please contact:
 //  @kibi@glitch.social
@@ -17,16 +14,14 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import ImmutablePureComponent from 'react-immutable-pure-component';
 import { defineMessages, FormattedDate } from 'react-intl';
 
-//  Mastodon imports.
-import RelativeTimestamp from 'mastodon/components/relative_timestamp';
-
 //  Our imports.
-import CommonIcon from 'glitch/components/common/icon';
-import CommonLink from 'glitch/components/common/link';
-import CommonSeparator from 'glitch/components/common/separator';
+import CommonIcon from 'themes/mastodon-go/components';
+import CommonLink from 'themes/mastodon-go/components';
+import CommonSeparator from 'themes/mastodon-go/components';
+
+import { VISIBILITY } from 'themes/mastodon-go/util/constants';
 
 //  Stylesheet imports.
 import './style';
@@ -38,16 +33,30 @@ import './style';
 
 //  Localization messages.
 const messages = defineMessages({
-  public     :
-    { id: 'privacy.public.short', defaultMessage: 'Public' },
-  unlisted   :
-    { id: 'privacy.unlisted.short', defaultMessage: 'Unlisted' },
-  private    :
-    { id: 'privacy.private.short', defaultMessage: 'Followers-only' },
-  direct     :
-    { id: 'privacy.direct.short', defaultMessage: 'Direct' },
-  permalink:
-    { id: 'status.permalink', defaultMessage: 'Permalink' },
+  direct: {
+    defaultMessage: 'Direct',
+    id: 'status.direct',
+  },
+  private: {
+    defaultMessage: 'Followers-only',
+    id: 'status.private',
+  },
+  public: {
+    defaultMessage: 'Public',
+    id: 'status.public',
+  },
+  permalink: {
+    defaultMessage: 'Permalink',
+    id: 'status.permalink',
+  },
+  unknown: {
+    defaultMessage: 'Unknown',
+    id: 'status.unknown_visibility',
+  },
+  unlisted: {
+    defaultMessage: 'Unlisted',
+    id: 'status.unlisted',
+  },
 });
 
 //  * * * * * * *  //
@@ -55,12 +64,13 @@ const messages = defineMessages({
 //  The component
 //  -------------
 
-export default class StatusFooter extends ImmutablePureComponent {
+export default class StatusFooter extends React.PureComponent {
 
   //  Props.
   static propTypes = {
-    application: ImmutablePropTypes.map.isRequired,
-    datetime: PropTypes.string,
+    application: ImmutablePropTypes.map,
+    className: PropTypes.string,
+    datetime: PropTypes.instanceOf(Date),
     detailed: PropTypes.bool,
     href: PropTypes.string,
     intl: PropTypes.object.isRequired,
@@ -69,33 +79,54 @@ export default class StatusFooter extends ImmutablePureComponent {
 
   //  Rendering.
   render () {
-    const { application, datetime, detailed, href, intl, visibility } = this.props;
-    const visibilityIcon = {
-      public: 'globe',
-      unlisted: 'unlock-alt',
-      private: 'lock',
-      direct: 'envelope',
-    }[visibility];
-    const computedClass = classNames('glitch', 'glitch__status__footer', {
-      _detailed: detailed,
-    });
+    const {
+      application,
+      className,
+      datetime,
+      detailed,
+      href,
+      intl,
+      visibility
+    } = this.props;
+
+    const computedClass = classNames('MASTODON_GO--STATUS--FOOTER', { detailed }, className);
+
+    let visibilityIcon;
+    let visibilityText;
+    switch (true) {
+      case (visibility & VISIBILITY.PUBLIC) === VISIBILITY.PUBLIC:
+        visibilityIcon = 'globe';
+        visibilityText = intl.formatMessage(messages.public);
+      case (visibility & VISIBILITY.UNLISTED) === VISIBILITY.UNLISTED:
+        visibilityIcon = 'unlock-alt';
+        visibilityText = intl.formatMessage(messages.unlisted);
+      case (visibility & VISIBILITY.PRIVATE) === VISIBILITY.PRIVATE:
+        visibilityIcon = 'lock';
+        visibilityText = intl.formatMessage(messages.private);
+      case (visibility & VISIBILITY.DIRECT) === VISIBILITY.DIRECT:
+        visibilityIcon = 'envelope';
+        visibilityText = intl.formatMessage(messages.direct);
+      default:
+        visibilityIcon = 'question-circle';
+        visibilityText = intl.formatMessage(messages.unknown);
+    }
 
     //  If our status isn't detailed, our footer only contains the
     //  relative timestamp and visibility information.
     if (!detailed) return (
       <footer className={computedClass}>
-        <CommonLink
-          className='footer\timestamp footer\link'
-          href={href}
-          title={intl.formatMessage(messages.permalink)}
-        ><RelativeTimestamp timestamp={datetime} /></CommonLink>
-        <CommonSeparator className='footer\separator' visible />
         <CommonIcon
-          className='footer\icon'
           name={visibilityIcon}
           proportional
-          title={intl.formatMessage(messages[visibility])}
+          title={visibilityText}
         />
+        <CommonLink
+          className='timestamp'
+          href={href}
+          title={intl.formatMessage(messages.permalink)}
+        >
+          {datetime.toISOString()}
+        </CommonLink>
       </footer>
     );
 
@@ -104,12 +135,12 @@ export default class StatusFooter extends ImmutablePureComponent {
     return (
       <footer className={computedClass}>
         <CommonLink
-          className='footer\timestamp'
+          className='timestamp'
           href={href}
           title={intl.formatMessage(messages.permalink)}
         >
           <FormattedDate
-            value={new Date(datetime)}
+            value={datetime}
             hour12={false}
             year='numeric'
             month='short'
@@ -118,21 +149,19 @@ export default class StatusFooter extends ImmutablePureComponent {
             minute='2-digit'
           />
         </CommonLink>
-        <CommonSeparator className='footer\separator' visible={!!application} />
+        <CommonSeparator visible={!!application} />
         {
           application ? (
-            <CommonLink
-              className='footer\application footer\link'
-              href={application.get('website')}
-            >{application.get('name')}</CommonLink>
+            <CommonLink href={application.get('website')}>
+              {application.get('name')}
+            </CommonLink>
           ) : null
         }
-        <CommonSeparator className='footer\separator' visible />
+        <CommonSeparator visible />
         <CommonIcon
           name={visibilityIcon}
-          className='footer\icon'
           proportional
-          title={intl.formatMessage(messages[visibility])}
+          title={visibilityText}
         />
       </footer>
     );

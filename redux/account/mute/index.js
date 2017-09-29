@@ -22,12 +22,12 @@ const failure = (id, error) => ({
 });
 
 //  Request.
-export const muteAccount = (id, go, state, api) => {
+export const muteAccount = (id, go, current, api) => {
   go(request, id);
   api.post(
     `/api/v1/accounts/${id}/mute`
   ).then(
-    response => go(success, response.data.value)
+    response => go(success, response.data)
   ).catch(
     error => go(failure, id, error)
   );

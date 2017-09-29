@@ -14,16 +14,16 @@
 import { Map as ImmutableMap } from 'immutable';
 
 //  Action types.
-import { ACCOUNT_BLOCK_SUCCESS } from 'mastodon-go/redux/account/block';
-import { ACCOUNT_FOLLOW_SUCCESS } from 'mastodon-go/redux/account/follow';
-import { ACCOUNT_MUTE_SUCCESS } from 'mastodon-go/redux/account/mute';
-import { ACCOUNT_UNBLOCK_SUCCESS } from 'mastodon-go/redux/account/unblock';
-import { ACCOUNT_UNFOLLOW_SUCCESS } from 'mastodon-go/redux/account/unfollow';
-import { ACCOUNT_UNMUTE_SUCCESS } from 'mastodon-go/redux/account/unmute';
-import { RELATIONSHIP_FETCH_SUCCESS } from 'mastodon-go/redux/relationship/fetch';
+import { ACCOUNT_BLOCK_SUCCESS } from 'themes/mastodon-go/redux/account/block';
+import { ACCOUNT_FOLLOW_SUCCESS } from 'themes/mastodon-go/redux/account/follow';
+import { ACCOUNT_MUTE_SUCCESS } from 'themes/mastodon-go/redux/account/mute';
+import { ACCOUNT_UNBLOCK_SUCCESS } from 'themes/mastodon-go/redux/account/unblock';
+import { ACCOUNT_UNFOLLOW_SUCCESS } from 'themes/mastodon-go/redux/account/unfollow';
+import { ACCOUNT_UNMUTE_SUCCESS } from 'themes/mastodon-go/redux/account/unmute';
+import { RELATIONSHIP_FETCH_SUCCESS } from 'themes/mastodon-go/redux/relationship/fetch';
 
 //  Our imports.
-import { RELATIONSHIP } from 'mastodon-go/util/constants';
+import { RELATIONSHIP } from 'themes/mastodon-go/util/constants';
 
 //  * * * * * * *  //
 
@@ -39,7 +39,7 @@ const initialState = ImmutableMap();
 const set = (state, relationships) => state.withMutations(
   map => [].concat(relationships).forEach(
     relationship => {
-      let value = 0;
+      let value = RELATIONSHIP.NONE;
       if (relationship.followed_by) {
         value |= RELATIONSHIP.FOLLOWER;
       }

@@ -2,7 +2,7 @@
 //  ===============
 
 //  Imported requests.
-import { updateTimeline } from 'mastodon-go/redux/timeline'
+import { updateTimeline } from 'themes/mastodon-go/redux/timeline'
 
 //  Action types.
 export const COMPOSER_SUBMIT_REQUEST = 'COMPOSER_SUBMIT_REQUEST';
@@ -27,7 +27,7 @@ const failure = (text, options, error) => ({
 });
 
 //  Request.
-export const submitComposer = (text, options, go, state, api) => {
+export const submitComposer = (text, options, go, current, api) => {
 
   //  If we have no text, we can't submit our composer.
   if (!text || !text.length) return;
@@ -49,20 +49,16 @@ export const submitComposer = (text, options, go, state, api) => {
     '/api/v1/statuses', data, { headers }
   ).then(
     response => {
-      go(success, response.data.value);
+      go(success, response.data);
 
       //  After posting our status, we add it to our home timeline.
-      go(updateTimeline, '/api/v1/home', response.data.value);
+      go(updateTimeline, '/api/v1/home', response.data);
 
       //  We also add it to the public and local timelines if it is a
       //  public status.
-      if (!response.data.value.in_reply_to_id && response.data.value.visibility === 'public') {
-        if (state.getIn(['timeline', '/api/v1/public', 'loaded'])) {
-          go(updateTimeline, '/api/v1/public', response.data.value);
-        }
-        if (state.getIn(['timeline', '/api/v1/public?local=true', 'loaded'])) {
-          go(updateTimeline, '/api/v1/public?local=true', response.data.value);
-        }
+      if (!response.data.in_reply_to_id && response.data.visibility === 'public') {
+        go(updateTimeline, '/api/v1/public', response.data);
+        go(updateTimeline, '/api/v1/public?local=true', response.data);
       }
     }
   ).catch(

@@ -22,10 +22,10 @@ const failure = (path, error) => ({
 })
 
 //  Request.
-export const expandTimeline = (path, go, state, api) => {
+export const expandTimeline = (path, go, current, api) => {
 
   //  If our timeline is still loading, we can't expand yet.
-  const timeline = state.getIn(['courier', path]);
+  const timeline = current().getIn(['timeline', path]);
   if (timeline && timeline.get('isLoading')) {
     return;
   }
@@ -44,7 +44,7 @@ export const expandTimeline = (path, go, state, api) => {
   api.get(
     path, { params }
   ).then(
-    response => go(success, path, response.data.value)
+    response => go(success, path, response.data)
   ).catch(
     error => go(failure, path, error)
   );

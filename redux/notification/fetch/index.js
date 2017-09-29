@@ -22,12 +22,21 @@ const failure = (id, error) => ({
 });
 
 //  Request.
-export const fetchNotification = (id, go, state, api) => {
+export const fetchNotification = (id, force, go, current, api) => {
+
+  //  We only want to fetch notifications that we don't already have.
+  //  If we already have a notification associated with this `id`, we
+  //  do nothing.
+  if (!force && current().getIn(['notification', id])) {
+    return;
+  }
+
+  //  The request.
   go(request, id);
   api.get(
     `/api/v1/notifications/${id}`
   ).then(
-    response => go(success, response.data.value)
+    response => go(success, response.data)
   ).catch(
     error => go(failure, id, error)
   );

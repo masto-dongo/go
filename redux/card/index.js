@@ -1,8 +1,31 @@
+//  CARD
+//  ====
 
+//  Cards aren't kept with statuses for ease of organization and
+//  rendering, mostly—although it also helps take care of the case
+//  where a server doesn't generate a status's card until *after* it
+//  has given us the status data.
+
+//  * * * * * * *  //
+
+//  Imports
+//  -------
+
+//  Package imports.
 import { Map as ImmutableMap } from 'immutable';
 
-import { CARD_TYPE } from 'mastodon-go/util/constants';
+//  Action types.
+import { CARD_FETCH_SUCCESS } from 'themes/mastodon-go/redux/card/fetch';
 
+//  Other imports.
+import { CARD_TYPE } from 'themes/mastodon-go/util/constants';
+
+//  * * * * * * *  //
+
+//  Setup
+//  -----
+
+//  `normalize()` normalizes our card into an Immutable map.
 const normalize = card => ImmutableMap({
   author: card.author ? ImmutableMap({
     href: card.author.url,
@@ -36,3 +59,39 @@ const normalize = card => ImmutableMap({
   )(card.type),
   width: card.width,
 });
+
+//  * * * * * * *  //
+
+//  State
+//  -----
+
+//  Our `initialState` is an empty map. Our accounts will be added to
+//  this by `status`.
+const initialState = ImmutableMap();
+
+//  `set()` just sets the Immutable map for the given `status` to be a
+//  newly normalized card.
+const set = (state, status, card) => state.set(status, normalize(card));
+
+//  * * * * * * *  //
+
+//  Reducer
+//  -------
+
+//  Action reducing.
+export default function account (state = initialState, action) {
+  switch (action.type) {
+  case CARD_FETCH_SUCCESS:
+    return set(state, action.status, action.card);
+  default:
+    return state;
+  }
+}
+
+//  * * * * * * *  //
+
+//  Named exports
+//  -------------
+
+//  Our requests.
+export { fetchCard } from './fetch';

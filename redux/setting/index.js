@@ -14,7 +14,7 @@
 import { Map as ImmutableMap } from 'immutable';
 
 //  Action types.
-import { SETTING_CHANGE_COMPLETE } from 'mastodon-go/redux/setting/change';
+import { SETTING_CHANGE_COMPLETE } from 'themes/mastodon-go/redux/setting/change';
 
 //  * * * * * * *  //
 

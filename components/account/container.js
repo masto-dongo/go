@@ -10,10 +10,15 @@
 //  -------
 
 //  Package imports.
-import { createSelector } from 'reselect';
+import {
+  createSelector,
+  createStructuredSelector,
+} from 'reselect';
 
-//  Our imports.
+//  Component imports.
 import Account from '.';
+
+//  Request imports.
 import {
   authorizeAccount,
   blockAccount,
@@ -23,69 +28,45 @@ import {
   unblockAccount,
   unfollowAccount,
   unmuteAccount,
-} from 'mastodon-go/redux';
-import { connect } from 'mastodon-go/util/connect';
+} from 'themes/mastodon-go/redux';
 
-//  * * * * * * *  //
-
-//  Selectors
-//  ---------
-
-//  State selector.
-const stater = () => createSelector(
-  [
-    (state, { id }) => state.getIn(['account', id, 'at']),
-    (state, { id }) => state.getIn(['account', id, 'displayName']),
-    (state, { id }) => state.getIn(['account', id, 'href']),
-    (state, { id }) => state.getIn(['relationship', id]),
-  ],
-  (at, displayName, href, relationship) => ({
-    at,
-    displayName,
-    href,
-    relationship,
-  });
-);
-
-//  Dispatch selector.
-const dispatcher = go => createSelector(
-  [
-    (_, { id }) => id,
-  ],
-  id => ({
-    handler: {
-      authorize () {
-        go(authorizeAccount, id);
-      },
-      block () {
-        go(blockAccount, id);
-      },
-      follow () {
-        go(followAccount, id);
-      },
-      mute () {
-        go(muteAccount, id);
-      },
-      reject () {
-        go(rejectAccount, id);
-      },
-      unblock () {
-        go(unblockAccount, id);
-      },
-      unfollow () {
-        go(unfollowAccount, id);
-      },
-      unmute () {
-        go(unmuteAccount, id);
-      },
-    },
-  }),
-);
+//  Other imports
+import connect from 'themes/mastodon-go/util/connect';
 
 //  * * * * * * *  //
 
 //  Connecting
 //  ----------
 
-//  Making the connection.
-export default connect(Account);
+//  Selector factory.
+export default connect(
+  go => createSelector(
+
+    //  Props.
+    createStructuredSelector({
+      at: (state, { id }) => state.getIn(['account', id, 'at']),
+      displayName: (state, { id }) => state.getIn(['account', id, 'displayName']),
+      href: (state, { id }) => state.getIn(['account', id, 'href']),
+      rainbow: (state, { id }) => state.getIn(['account', id, 'rainbow']),
+      relationship: (state, { id }) => state.getIn(['relationship', id]),
+    }),
+
+    //  Inputs.
+    (state, ownProps) => ownProps,
+
+    //  Result.
+    (props, ownProps) => ({
+      handler: {
+        authorize: () => go(authorizeAccount, ownProps.id),
+        block: () => go(blockAccount, ownProps.id),
+        follow: () => go(followAccount, ownProps.id),
+        mute: () => go(muteAccount, ownProps.id),
+        reject: () => go(rejectAccount, ownProps.id),
+        unblock: () => go(unblockAccount, ownProps.id),
+        unfollow: () => go(unfollowAccount, ownProps.id),
+        unmute: () => go(unmuteAccount, ownProps.id),
+      },
+      ...props,
+    })
+  )
+)(Account);

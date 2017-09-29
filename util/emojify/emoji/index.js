@@ -1,6 +1,3 @@
-import classNames from 'class-names';
-import React from 'react';
-
 export class Emoji {
 
   constructor ({
@@ -13,15 +10,15 @@ export class Emoji {
     title,
     variants,
   }) {
-    this.aliases = aliases ? [].concat(aliases).map(n -> '' + n) : null;
+    this.aliases = aliases ? [].concat(aliases).map(n => '' + n) : null;
     this.category = category ? '' + category : null;
-    this.codepoints = codepoints ? [].concat(codepoints).map(n -> +n) : null;
+    this.codepoints = codepoints ? [].concat(codepoints).map(n => +n) : null;
     this.extension = extension ? '' + extension : null;
     this.location = location ? '' + location : null;
     this.name = name ? '' + name : null;
     this.selectors = selectors ? selectors : null;
     this.title = title ? '' + title : null;
-    this.variants = variants ? [].concat(variants).map(n -> '' + n) : null;
+    this.variants = variants ? [].concat(variants).map(n => '' + n) : null;
   }
 
   toImage (selector) {
@@ -48,7 +45,7 @@ export class Emoji {
     if (typeof String.fromCodePoint === 'function') return String.fromCodePoint.apply(String, codepoints);
     const codeunits = [];
     for (let i = 0; i < codepoints.length; i++) {
-      const codepoint = codepoints[i]
+      let codepoint = codepoints[i]
       if (codepoint < 0xFFFF) codeunits.push(codepoint);
       else {
         codepoint -= 0x10000;
@@ -56,26 +53,6 @@ export class Emoji {
       }
     }
     return String.fromCharCode.apply(String, codeunits);
-  }
-
-  static Component ({
-    className,
-    emoji,
-    selector,
-  }) {
-    const { location, selectors } = emoji;
-    const variant = selectors ? selectors[selector] : null;
-    if (!selectors || !variant) selector = '';
-    const computedClass = classNames('EMOJI', className);
-    return (
-      <img
-        alt={emoji + selector}
-        className={computedClass}
-        draggable='false'
-        src={(location[location.length - 1] === '/' ? location : location + '/') + emoji.toFilename(variant)}
-        title={emoji.title || emoji.name}
-      />
-    );
   }
 
 }

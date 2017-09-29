@@ -1,6 +1,8 @@
-@import 'variables';
+@charset "UTF-8";
 
-.glitch.glitch__common__avatar {
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--AVATAR {
   display: inline-block;
   position: relative;
 
@@ -8,11 +10,11 @@
     display: block;
     position: static;
     margin: 0;
-    border-radius: $ui-avatar-border-size;
+    border-radius: $mastodon_go_avatar_border_radius;
     width: 100%;
     height: 100%;
 
-    &.avatar\\comrade {
+    &.comrade {
       position: absolute;
       right: 0;
       bottom: 0;
@@ -20,16 +22,16 @@
       height: 50%;
     }
 
-    &.avatar\\main {
+    &.main {
       margin: 0 30% 30% 0;
       width: 70%;
       height: 70%;
     }
   }
 
-  &._circular {
+  &.circular {
     & > img {
-      transition: border-radius ($glitch-animation-speed * .3s);
+      transition: border-radius ($mastodon_go_animation_speed * .3s);
     }
 
     &:not(:hover) {

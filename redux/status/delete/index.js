@@ -2,7 +2,7 @@
 //  =============
 
 //  Imported requests.
-import { removeStatus } from 'mastodon-go/redux';
+import { removeStatus } from 'themes/mastodon-go/redux';
 
 //  Action types.
 export const STATUS_DELETE_REQUEST = 'STATUS_DELETE_REQUEST';
@@ -25,7 +25,7 @@ const failure = (id, error) => ({
 });
 
 //  Request.
-export const deleteStatus = (id, go, state, api) => {
+export const deleteStatus = (id, go, current, api) => {
   go(request, id);
   api.delete(
     `/api/v1/statuses/${id}`

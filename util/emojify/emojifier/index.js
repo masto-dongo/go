@@ -1,7 +1,4 @@
-import classNames from 'classnames';
-import React from 'react';
-
-import { Emoji } from 'mastodon-go/util/emojify';
+import { Emoji } from 'themes/mastodon-go/util/emojify';
 
 export class Emojifier {
 
@@ -152,7 +149,7 @@ export class Emojifier {
           'Objects',
           'Symbols',
           'Flags',
-        ].indexOf(category) === -1;
+        ].indexOf(category) === -1,
         get: (
           () => {
             let subgroups;
@@ -309,47 +306,6 @@ export class Emojifier {
       result.appendChild(document.createTextNode(string));
     }
     return result;
-  }
-
-  static Component ({
-    className,
-    emojifier,
-    string,
-  }) {
-    string = '' + string;
-    const { emoji } = emojifier;
-    const result = [];
-    const computedClass = classNames('EMOJIFIED', className);
-    for (let i = 0; i < string.length; i++) {
-      const matches = emoji.filter(
-        emojo => {
-          const emojiString = '' + emojo;
-          return string.substr(i, emojiString.length) === emojiString;
-        }
-      );
-      if (matches.length) {
-        const emojo = matches.reduce(
-          (longest, current) => ('' + longest).length > ('' + current).length ? longest : current,
-        0);
-        result.push(string.substr(0, i));
-        result.push(
-          <Emoji.Component
-            emoji={emojo}
-            key={result.length}
-          />
-        );
-        string = string.substr(i + ('' + emoji).length);
-        i = 0;
-      }
-    }
-    if (string) {
-      result.push(string);
-    }
-    return (
-      <span className={computedClass}>
-        {...result}
-      </span>
-    );
   }
 
 }

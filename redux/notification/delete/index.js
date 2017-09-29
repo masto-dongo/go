@@ -2,7 +2,7 @@
 //  ===================
 
 //  Imported requests.
-import { removeNotification } from 'mastodon-go/redux';
+import { removeNotification } from 'themes/mastodon-go/redux';
 
 //  Action types.
 export const NOTIFICATION_DELETE_REQUEST = 'NOTIFICATION_DELETE_REQUEST';
@@ -25,7 +25,7 @@ const failure = (ids, error) => ({
 });
 
 //  Request.
-export const deleteNotification = (ids, go, state, api) => {
+export const deleteNotification = (ids, go, current, api) => {
   go(request, ids);
 
   //  If our `ids` are an array, then we use the `destroy_multiple`

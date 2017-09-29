@@ -1,56 +1,34 @@
-/*
+//  <NotificationContainer>
+//  =======================
 
-`<NotificationContainer>`
-=========================
+//  For more information, please contact:
+//  @kibi@glitch.social
 
-This container connects `<Notification>`s to the Redux store.
+//  * * * * * * *  //
 
-*/
+//  Imports
+//  -------
 
-//  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+//  Package imports.
+import { createStructuredSelector } from 'reselect';
 
-/*
-
-Imports:
---------
-
-*/
-
-//  Package imports  //
-import { connect } from 'react-redux';
-
-//  Mastodon imports  //
-import { makeGetNotification } from '../../../mastodon/selectors';
-
-//  Our imports  //
+//  Component imports.
 import Notification from '.';
 
-//  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+//  Other imports
+import { connect } from 'themes/mastodon-go/util/connect';
 
-/*
+//  * * * * * * *  //
 
-State mapping:
---------------
+//  Connecting
+//  ----------
 
-The `mapStateToProps()` function maps various state properties to the
-props of our component. We wrap this in `makeMapStateToProps()` so that
-we only have to call `makeGetNotification()` once instead of every
-time.
-
-*/
-
-const makeMapStateToProps = () => {
-  const getNotification = makeGetNotification();
-
-  const mapStateToProps = (state, props) => ({
-    notification: getNotification(state, props.notification, props.accountId),
-    settings: state.get('local_settings'),
-    notifCleaning: state.getIn(['notifications', 'cleaningMode']),
-  });
-
-  return mapStateToProps;
-};
-
-//  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-
-export default connect(makeMapStateToProps)(Notification);
+//  Selector factory (props-only).
+export default connect(
+  go => createStructuredSelector({
+    account: (state, { id }) => state.getIn(['notification', id, 'account']),
+    datetime: (state, { id }) => state.getIn(['notification', id, 'datetime']),
+    status: (state, { id }) => state.getIn(['notification', id, 'status']),
+    type: (state, { id }) => state.getIn(['notification', id, 'type']),
+  }),
+)(Notification);

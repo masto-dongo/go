@@ -1,9 +1,6 @@
 //  <StatusContent>
 //  ===============
 
-//  For code documentation, please see:
-//  https://glitch-soc.github.io/docs/javascript/glitch/status/content
-
 //  For more information, please contact:
 //  @kibi@glitch.social
 
@@ -17,18 +14,15 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import ImmutablePureComponent from 'react-immutable-pure-component';
 import { defineMessages, FormattedMessage } from 'react-intl';
 
-//  Mastodon imports.
-import { isRtl } from 'mastodon/rtl';
+import CommonButton from 'themes/mastodon-go/components';
+import CommonLink from 'themes/mastodon-go/components';
 
 //  Our imports.
-import StatusContentCard from './card';
-import StatusContentGallery from './gallery';
-import StatusContentUnknown from './unknown';
-import CommonButton from 'glitch/components/common/button';
-import CommonLink from 'glitch/components/common/link';
+// import StatusContentCard from './card';
+// import StatusContentGallery from './gallery';
+// import StatusContentUnknown from './unknown';
 
 //  Stylesheet imports.
 import './style';
@@ -61,7 +55,10 @@ const messages = defineMessages({
 //  The component
 //  -------------
 
-export default class StatusContent extends ImmutablePureComponent {
+const Temp = ({ content }) => <span>content</span>;
+export default Temp;
+
+class StatusContent extends React.PureComponent {
 
   //  Props and state.
   static propTypes = {

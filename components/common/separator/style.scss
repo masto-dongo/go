@@ -1,10 +1,12 @@
-@import 'variables';
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
 
 /*
 The default contents for a separator is an interpunct, surrounded by
 spaces. However, this can be changed using CSS selectors.
 */
-.glitch.glitch__common__separator {
+.MASTODON_GO--COMMON--SEPARATOR {
   display: inline-block;
 
   &::after {

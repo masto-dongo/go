@@ -15,12 +15,27 @@
 import {
   List as ImmutableList,
   Map as ImmutableMap,
-}
+} from 'immutable';
 
 //  Action types.
-import { CATALOGUE_EXPAND_SUCCESS } from 'mastodon-go/redux/catalogue/expand';
-import { CATALOGUE_FETCH_SUCCESS } from 'mastodon-go/redux/catalogue/fetch';
-import { CATALOGUE_REFRESH_SUCCESS } from 'mastodon-go/redux/catalogue/refresh';
+import {
+  CATALOGUE_EXPAND_FAILURE,
+  CATALOGUE_EXPAND_REQUEST,
+  CATALOGUE_EXPAND_SUCCESS,
+} from 'themes/mastodon-go/redux/catalogue/expand';
+import {
+  CATALOGUE_FETCH_FAILURE,
+  CATALOGUE_FETCH_REQUEST,
+  CATALOGUE_FETCH_SUCCESS,
+} from 'themes/mastodon-go/redux/catalogue/fetch';
+import {
+  CATALOGUE_REFRESH_FAILURE,
+  CATALOGUE_REFRESH_REQUEST,
+  CATALOGUE_REFRESH_SUCCESS,
+} from 'themes/mastodon-go/redux/catalogue/refresh';
+
+//  Other imports.
+import rainbow from 'themes/mastodon-go/util/rainbow';
 
 //  * * * * * * *  //
 
@@ -29,11 +44,22 @@ import { CATALOGUE_REFRESH_SUCCESS } from 'mastodon-go/redux/catalogue/refresh';
 
 //  `normalize()` normalizes the given array of `accounts` into a
 //  proper catalogue. We only store the `ids` of the `accounts`.
-const normalize = (accounts, path) => ImmutableMap({
-  accounts: ImmutableList(accounts ? accounts.map(
-    account => account.id
-  ) : []),
-  path,
+const normalize = (accounts, path) => ImmutableList(accounts ? accounts.map(
+  account => account.id
+) : []);
+
+//  `makeCatalogue()` creates a normalized catalogue from a list of
+//  accounts.
+const makeCatalogue = (path, accounts) => ImmutableMap({
+  accounts: normalize(accounts),
+  isLoading: false,
+  path: '' + path,
+  rainbow: ImmutableMap({
+    1: rainbow(path),
+    3: ImmutableList(rainbow(path, 3)),
+    7: ImmutableList(rainbow(path, 7)),
+    15: ImmutableList(rainbow(path, 15)),
+  }),
 });
 
 //  * * * * * * *  //
@@ -45,30 +71,60 @@ const normalize = (accounts, path) => ImmutableMap({
 //  be added to this by `path`.
 const initialState = ImmutableMap();
 
-//  `set()` creates an entirely new catalogue and assigns it to the
-//  appropriate `path` in our state, populating it with the provided
-//  `accounts`. It overwrites any existing catalogue at that location.
-const set = (state, path, accounts) => state.set(path, normalize(accounts, path));
+//  `set()` replaces a catalogues's `accounts` with a new `normalized()`
+//  list.
+const set = (state, path, accounts) => state.withMutations(
+  map => {
 
-//  `prepend()` prepends the `id`s of the provided `accounts` to the
-//  catalogue at the given `path`. If no catalogue is at that location,
-//  it functions exactly like `set()`.
-const prepend = (state, path, accounts) => state.get(path) ? state.updateIn(
-  [path, 'accounts'],
-  list => accounts.map(
-    account => account.id
-  ).concat(list)
-) : set(state, path, accounts);
+    //  If no catalogue exists at the given path, we make one.
+    if (!state.get(path)) {
+      map.set(path, makeCatalogue(path, accounts));
+      return;
+    }
 
-//  `append()` appends the `id`s of the provided `accounts` to the
-//  catalogue at the given `path`. If no catalogue is at that location,
-//  it functions exactly like `set()`.
-const append = (state, path, accounts) => state.get(path) ? state.updateIn(
-  [path, 'accounts'],
-  list => list.concat(accounts.map(
-    account => account.id
-  ))
-) : set(state, path, accounts);
+    //  Otherwise, we update its `accounts`.
+    map.setIn([path, 'isLoading'], false);
+    map.setIn([path, 'accounts'], normalize(accounts));
+  }
+);
+
+//  `prepend()` prepends the given `accounts` to a catalogue.
+const prepend = (state, path, accounts) => state.withMutations(
+  map => {
+
+    //  If no catalogue exists at the given path, we make one.
+    if (!state.get(path)) {
+      map.set(path, makeCatalogue(path, accounts));
+      return;
+    }
+
+    //  Otherwise, we prepend the `accounts`.
+    map.setIn([path, 'isLoading'], false);
+    map.updateIn(
+      [path, 'accounts'],
+      (list = ImmutableList()) => normalize(accounts).concat(list)
+    );
+  }
+);
+
+//  `append()` appends the given `accounts` to a catalogue.
+const append = (state, path, accounts) => state.withMutations(
+  map => {
+
+    //  If no catalogue exists at the given path, we make one.
+    if (!state.get(path)) {
+      map.set(path, makeCatalogue(path, accounts));
+      return;
+    }
+
+    //  Otherwise, we prepend the `accounts`.
+    map.setIn([path, 'isLoading'], false);
+    map.updateIn(
+      [path, 'accounts'],
+      (list = ImmutableList()) => list.concat(normalize(accounts))
+    );
+  }
+);
 
 //  * * * * * * *  //
 
@@ -78,10 +134,40 @@ const append = (state, path, accounts) => state.get(path) ? state.updateIn(
 //  Action reducing.
 export default function catalogue (state = initialState, action) {
   switch (action.type) {
+  case CATALOGUE_EXPAND_FAILURE:
+    return state.update(
+      action.path,
+      (map = makeCatalogue(action.path)) => map.set('isLoading', false)
+    );
+  case CATALOGUE_EXPAND_REQUEST:
+    return state.update(
+      action.path,
+      (map = makeCatalogue(action.path)) => map.set('isLoading', true)
+    );
   case CATALOGUE_EXPAND_SUCCESS:
     return append(state, action.path, action.accounts);
+  case CATALOGUE_FETCH_FAILURE:
+    return state.update(
+      action.path,
+      (map = makeCatalogue(action.path)) => map.set('isLoading', false)
+    );
+  case CATALOGUE_FETCH_REQUEST:
+    return state.update(
+      action.path,
+      (map = makeCatalogue(action.path)) => map.set('isLoading', true)
+    );
   case CATALOGUE_FETCH_SUCCESS:
     return set(state, action.path, action.accounts);
+  case CATALOGUE_REFRESH_FAILURE:
+    return state.update(
+      action.path,
+      (map = makeCatalogue(action.path)) => map.set('isLoading', false)
+    );
+  case CATALOGUE_REFRESH_REQUEST:
+    return state.update(
+      action.path,
+      (map = makeCatalogue(action.path)) => map.set('isLoading', true)
+    );
   case CATALOGUE_REFRESH_SUCCESS:
     return prepend(state, action.path, action.accounts);
   default:

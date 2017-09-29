@@ -1,9 +1,11 @@
-@import 'variables';
+@charset "UTF-8";
 
-.glitch.glitch__common__icon {
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--COMMON--ICON {
   display: inline-block;
 
-  ._for-screenreader {
+  & > *.for-screenreader {
     position: absolute;
     margin: -1px -1px;
     width: 1px;

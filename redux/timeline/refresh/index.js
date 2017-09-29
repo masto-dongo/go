@@ -22,10 +22,10 @@ const failure = (path, error) => ({
 })
 
 //  Request.
-export const refreshTimeline = (path, go, state, api) => {
+export const refreshTimeline = (path, go, current, api) => {
 
   //  If our timeline is still loading, we can't refresh yet.
-  const timeline = state.getIn(['timeline', path]);
+  const timeline = current.getIn(['timeline', path]);
   if (timeline && timeline.get('isLoading')) {
     return;
   }
@@ -44,7 +44,7 @@ export const refreshTimeline = (path, go, state, api) => {
   api.get(
     path, { params }
   ).then(
-    response => go(success, path, response.data.value)
+    response => go(success, path, response.data)
   ).catch(
     error => go(failure, path, error)
   );
