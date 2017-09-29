@@ -7,10 +7,9 @@ import Switch from 'react-router-dom/Switch';
 import Route from 'react-router-dom/Route';
 
 import {
+  StartContainer,
   TimelineContainer,
 } from 'themes/mastodon-go/components';
-
-import UIColumnStart from './start';
 
 import { RAINBOW } from 'themes/mastodon-go/util/constants';
 import rainbow from 'themes/mastodon-go/util/rainbow';
@@ -79,7 +78,7 @@ export default class UIColumn extends React.PureComponent {
             exact
             path='/start'
             render={({ location: { hash } }) => (
-              <UIColumnStart
+              <StartContainer
                 activeRoute={activeRoute}
                 {...(activeRoute && hash ? { hash } : {})}
                 history={history}

@@ -86,7 +86,7 @@ function readyToGo (fn, ...args) {
     const current = fn.length > args.length + 1 ? getState : void 0;
     const api = fn.length > args.length + 2 ? axios.create({
       headers: {
-        Authorization: `Bearer ${getState().getIn(['meta', 'access_token'], '')}`,
+        Authorization: `Bearer ${getState().getIn(['meta', 'accessToken'], '')}`,
       },
       transformResponse: [data => {
         try {

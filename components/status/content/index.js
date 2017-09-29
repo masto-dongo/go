@@ -62,25 +62,24 @@ class StatusContent extends React.PureComponent {
 
   //  Props and state.
   static propTypes = {
-    autoPlayGif: PropTypes.bool,
+    card: ImmutablePropTypes.map,
+    className: PropTypes.string,
+    content: PropTypes.string,
+    contentVisible: PropTypes.bool,
     detailed: PropTypes.bool,
-    expanded: PropTypes.oneOf([true, false, null]),
-    handler: PropTypes.object.isRequired,
-    hideMedia: PropTypes.bool,
+    handler: PropTypes.objectOf(PropTypes.func).isRequired,
     history: PropTypes.object,
     intl: PropTypes.object.isRequired,
-    letterbox: PropTypes.bool,
+    media: ImmutablePropTypes.list,
+    mentions: ImmutablePropTypes.list,
     onClick: PropTypes.func,
-    onHeightUpdate: PropTypes.func,
+    sensitive: PropTypes.bool,
     setExpansion: PropTypes.func,
-    status: ImmutablePropTypes.map.isRequired,
-  }
-  state = {
-    hidden: true,
+    tags: ImmutablePropTypes.list,
   }
 
   //  Variables.
-  text = null
+  startXY = null
 
   //  Our constructor preprocesses our status content and turns it into
   //  an array of React elements, stored in `this.text`.
@@ -288,14 +287,6 @@ class StatusContent extends React.PureComponent {
     );
   }
 
-  //  When our content changes, we need to update the height of the
-  //  status.
-  componentDidUpdate () {
-    if (this.props.onHeightUpdate) {
-      this.props.onHeightUpdate();
-    }
-  }
-
   //  When the mouse is pressed down, we grab its position.
   handleMouseDown = (e) => {
     this.startXY = [e.clientX, e.clientY];
@@ -340,11 +331,10 @@ class StatusContent extends React.PureComponent {
 
   //  This expands and collapses our spoiler.
   handleSpoilerClick = (e) => {
+    const { setExpansion } = this.props;
     e.preventDefault();
     if (this.props.setExpansion) {
-      this.props.setExpansion(this.props.expanded ? null : true);
-    } else {
-      this.setState({ hidden: !this.state.hidden });
+      this.props.setExpansion();  //  Calling with no argument toggles
     }
   }
 
@@ -354,99 +344,63 @@ class StatusContent extends React.PureComponent {
       handleMouseDown,
       handleMouseUp,
       handleSpoilerClick,
-      text,
     } = this;
     const {
-      autoPlayGif,
+      card,
+      className,
+      content,
+      contentVisible,
       detailed,
-      expanded,
       handler,
-      hideMedia,
+      history,
       intl,
-      letterbox,
+      media,
+      mentions,
       onClick,
+      sensitive,
       setExpansion,
-      status,
+      tags,
+      ...rest
     } = this.props;
-    const attachments = status.get('attachments');
-    const card = status.get('card');
-    const hidden = setExpansion ? !expanded : this.state.hidden;
     const computedClass = classNames('glitch', 'glitch__status__content', {
-      _actionable: !detailed && onClick,
-      _rtl: isRtl(status.get('search_index')),
+      actionable: !detailed && onClick,
+      spoilered: !contentVisible,
     });
-    let media = null;
-    let mediaIcon = '';
+    let mediaElement;
 
-    //  This defines our media.
-    if (!hideMedia) {
+    //  If there aren't any media attachments, we try showing a card.
+    if ((!media || !media.size) && card) {
+      mediaElement = <CardContainer card={card} />;
 
-      //  If there aren't any attachments, we try showing a card.
-      if ((!attachments || !attachments.size) && card) {
-        media = (
-          <StatusContentCard
-            card={card}
-            className='content\attachments content\card'
-            fullwidth={detailed}
-            letterbox={letterbox}
-          />
-        );
-        mediaIcon = 'id-card-o';
-
-      //  If any of the attachments are of unknown type, we render an
-      //  unknown attachments list.
-      } else if (attachments && attachments.some(
-        (item) => item.get('type') === 'unknown'
-      )) {
-        media = (
-          <StatusContentUnknown
-            attachments={attachments}
-            className='content\attachments content\unknown'
-            fullwidth={detailed}
-          />
-        );
-        mediaIcon = 'question';
-
-      //  Otherwise, we display the gallery.
-      } else if (attachments) {
-        media = (
-          <StatusContentGallery
-            attachments={attachments}
-            autoPlayGif={autoPlayGif}
-            className='content\attachments content\gallery'
-            fullwidth={detailed}
-            intl={intl}
-            letterbox={letterbox}
-            onOpenMedia={handler.openMedia}
-            onOpenVideo={handler.openVideo}
-            sensitive={status.get('sensitive')}
-            standalone={!history}
-          />
-        );
-        mediaIcon = attachments.getIn([0, 'type']) === 'video' ? 'film' : 'picture-o';
-      }
+    //  Otherwise, we render the attachments.
+    } else {
+      mediaElement = (
+        <AttachmentContainer
+          ids={media}
+          sensitive={sensitive}
+        />
+      );
     }
-
+    
     //  Spoiler stuff.
-    if (status.get('spoiler_text').length > 0) {
+    if (spoiler.length > 0) {
 
       //  This gets our list of mentions.
       const mentionLinks = status.get('mentions').map(mention => {
         const text = mention.get('acct').split('@');
         if (text[1]) text[1].replace(/[@.][^.]*/g, (m) => m.substr(0, 2));
         return (
-          <CommonLink
-            className='content\mention content\link'
+          <CommonLink  //  TK: Make a <CommonAt> component
             destination={`/accounts/${mention.get('id')}`}
             history={history}
             href={mention.get('url')}
             key={mention.get('id')}
             title={'@' + mention.get('acct')}
           >
-            <span className='content\at'>@</span>
-            <span className='content\username'>{text[0]}</span>
-            {text[1] ? <span className='content\at'>@</span> : null}
-            {text[1] ? <span className='content\instance'>{text[1]}</span> : null}
+            <span className='at'>@</span>
+            <span className='username'>{text[0]}</span>
+            {text[1] ? <span className='at'>@</span> : null}
+            {text[1] ? <span className='instance'>{text[1]}</span> : null}
           </CommonLink>
         );
       }).reduce((aggregate, item) => [...aggregate, ' ', item], []);
@@ -455,42 +409,46 @@ class StatusContent extends React.PureComponent {
       return (
         <div className={computedClass}>
           <div
-            className='content\spoiler'
+            className='spoiler'
             {...(onClick ? {
               onMouseDown: handleMouseDown,
               onMouseUp: handleMouseUp,
             } : {})}
           >
             <p>
-              <span
-                className='content\warning'
-                dangerouslySetInnerHTML={status.get('spoilerHtml')}
+              <ParseContainer
+                text={spoiler}
+                type={ParseContainer.Type.EMOJI}
               />
               {' '}
               <CommonButton
-                active={!hidden}
-                className='content\showmore'
-                icon={hidden && mediaIcon}
+                active={!!contentVisible}
+                className='showmore'
                 onClick={handleSpoilerClick}
-                showTitle={hidden}
+                showTitle={!contentVisible}
                 title={intl.formatMessage(messages.show_more)}
               >
-                {hidden ? null : (
+                {contentVisible ? null : (
                   <FormattedMessage {...messages.show_less} />
                 )}
               </CommonButton>
             </p>
           </div>
-          {hidden ? mentionLinks : null}
-          <div className='content\contents' hidden={hidden}>
+          {!contentVisible ? mentionLinks : null}
+          <div className='contents' hidden={!contentVisible}>
             <div
-              className='content\text'
+              className='text'
               {...(onClick ? {
                 onMouseDown: handleMouseDown,
                 onMouseUp: handleMouseUp,
               } : {})}
-            >{text}</div>
-            {media}
+            >
+              <ParseContainer
+                text={content}
+                type={ParseContainer.Type.STATUS}
+              />
+            </div>
+            {mediaElement}
           </div>
         </div>
       );
@@ -499,15 +457,20 @@ class StatusContent extends React.PureComponent {
     } else {
       return (
         <div className={computedClass}>
-          <div className='content\contents'>
+          <div className='contents'>
             <div
-              className='content\text'
+              className='text'
               {...(onClick ? {
                 onMouseDown: handleMouseDown,
                 onMouseUp: handleMouseUp,
               } : {})}
-            >{text}</div>
-            {media}
+            >
+              <ParseContainer
+                text={content}
+                type={ParseContainer.Type.STATUS}
+              />
+            </div>
+            {mediaElement}
           </div>
         </div>
       );

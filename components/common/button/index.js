@@ -41,6 +41,7 @@ export default class CommonButton extends React.PureComponent {
     history: PropTypes.object,
     href: PropTypes.string,
     icon: PropTypes.string,
+    iconColour: PropTypes.string,
     onClick: PropTypes.func,
     proportional: PropTypes.bool,
     showTitle: PropTypes.bool,
@@ -80,6 +81,7 @@ export default class CommonButton extends React.PureComponent {
       history,
       href,
       icon,
+      iconColour,
       onClick,
       proportional,
       showTitle,
@@ -121,6 +123,7 @@ export default class CommonButton extends React.PureComponent {
         >
           <CommonIcon
             className='icon'
+            colour={iconColour}
             name={icon}
             proportional={proportional}
           />
@@ -150,6 +153,7 @@ export default class CommonButton extends React.PureComponent {
         >
           <CommonIcon
             className='icon'
+            colour={iconColour}
             name={icon}
           />
           {title && showTitle ? <span className='title'>{title}</span> : null}

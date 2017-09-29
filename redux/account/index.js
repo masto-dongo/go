@@ -27,6 +27,7 @@ import { COURIER_EXPAND_SUCCESS } from 'themes/mastodon-go/redux/courier/expand'
 import { COURIER_FETCH_SUCCESS } from 'themes/mastodon-go/redux/courier/fetch';
 import { COURIER_REFRESH_SUCCESS } from 'themes/mastodon-go/redux/courier/refresh';
 import { COURIER_UPDATE_RECEIVE } from 'themes/mastodon-go/redux/courier/update';
+import { META_LOAD_COMPLETE } from 'themes/mastodon-go/redux/meta/load';
 import { NOTIFICATION_FETCH_SUCCESS } from 'themes/mastodon-go/redux/notification/fetch';
 import { TIMELINE_EXPAND_SUCCESS } from 'themes/mastodon-go/redux/timeline/expand';
 import { TIMELINE_FETCH_SUCCESS } from 'themes/mastodon-go/redux/timeline/fetch';
@@ -131,6 +132,19 @@ export default function account (state = initialState, action) {
       action.notification.account,
       action.notification.status.account,
     ]);
+  case META_LOAD_COMPLETE:
+    if (action.meta.hasOwnProperty('accounts')) {
+      return set(state, (
+        accounts => {
+          const list = [];
+          for (account in accounts) {
+            list.push(accounts[account]);
+          }
+          return list;
+        }
+      )(action.meta.accounts));
+    }
+    return state;
   case NOTIFICATION_FETCH_SUCCESS:
     return set(state, [
       action.notification.account,

@@ -24,6 +24,7 @@ import './style';
 
 const CommonIcon = ({
   className,
+  colour,
   name,
   proportional,
   title,
@@ -36,6 +37,7 @@ const CommonIcon = ({
     <span
       aria-hidden
       className={`fa ${proportional ? '' : 'fa-fw'} fa-${name}`}
+      style={colour ? { color: colour } : {}}
       {...(title ? { title } : {})}
     />
     {title ? (
@@ -47,6 +49,7 @@ const CommonIcon = ({
 //  Props.
 CommonIcon.propTypes = {
   className: PropTypes.string,
+  colour: PropTypes.string,
   name: PropTypes.string,
   proportional: PropTypes.bool,
   title: PropTypes.string,
