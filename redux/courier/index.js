@@ -16,9 +16,13 @@ import {
   Map as ImmutableMap,
 } from 'immutable';
 
+import connectCourier from './connect';
+import expandCourier from './expand';
+import fetchCourier from './fetch';
+import refreshCourier from './refresh';
+import updateCourier from './update';
+
 //  Action types.
-import { ACCOUNT_BLOCK_SUCCESS } from 'themes/mastodon-go/redux/account/block';
-import { ACCOUNT_MUTE_SUCCESS } from 'themes/mastodon-go/redux/account/mute';
 import {
   COURIER_CONNECT_OPEN,
   COURIER_CONNECT_HALT,
@@ -40,6 +44,8 @@ import {
 } from 'themes/mastodon-go/redux/courier/refresh';
 import { COURIER_UPDATE_RECEIVE } from 'themes/mastodon-go/redux/courier/update';
 import { NOTIFICATION_REMOVE_COMPLETE } from 'themes/mastodon-go/redux/notification/remove';
+import { RELATIONSHIP_BLOCK_SUCCESS } from 'themes/mastodon-go/redux/relationship/block';
+import { RELATIONSHIP_MUTE_SUCCESS } from 'themes/mastodon-go/redux/relationship/mute';
 import { STATUS_REMOVE_COMPLETE } from 'themes/mastodon-go/redux/status/remove';
 
 //  Other imports.
@@ -155,12 +161,6 @@ const filterByStatus = (state, statuses) => {
 //  Action reducing.
 export default function courier (state = initialState, action) {
   switch (action.type) {
-  case ACCOUNT_BLOCK_SUCCESS:
-  case ACCOUNT_MUTE_SUCCESS:
-    if (action.relationship.blocking || action.relationship.muting && action.relationship.muting.notifications) {
-      return filterByAccount(state, action.relationship.id)
-    }
-    return state;
   case COURIER_CONNECT_OPEN:
     return state.set('connected', true);
   case COURIER_CONNECT_HALT:
@@ -187,6 +187,12 @@ export default function courier (state = initialState, action) {
     return prepend(state, action.notification);
   case NOTIFICATION_REMOVE_COMPLETE:
     return filterById(state, action.ids);
+  case RELATIONSHIP_BLOCK_SUCCESS:
+  case RELATIONSHIP_MUTE_SUCCESS:
+    if (action.relationship.blocking || action.relationship.muting && action.relationship.muting.notifications) {
+      return filterByAccount(state, action.relationship.id)
+    }
+    return state;
   case STATUS_REMOVE_COMPLETE:
     return filterByStatus(state, action.ids);
   default:
@@ -200,8 +206,10 @@ export default function courier (state = initialState, action) {
 //  -------------
 
 //  Our requests.
-export { connectCourier } from './connect';
-export { expandCourier } from './expand';
-export { fetchCourier } from './fetch';
-export { refreshCourier } from './refresh';
-export { updateCourier } from './update';
+export {
+  connectCourier,
+  expandCourier,
+  fetchCourier,
+  refreshCourier,
+  updateCourier,
+};

@@ -78,6 +78,7 @@ export default class Status extends React.PureComponent {
     sensitive: PropTypes.bool,
     setDetail: PropTypes.func,
     spoiler: PropTypes.string,
+    staticContext: PropTypes.object,  //  Don't use
     tags: ImmutablePropTypes.list,
     visibility: PropTypes.number.isRequired,
   }
@@ -172,6 +173,7 @@ export default class Status extends React.PureComponent {
       sensitive,
       setDetail,
       spoiler,
+      staticContext,
       tags,
       visibility,
     } = this.props;

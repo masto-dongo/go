@@ -20,14 +20,14 @@ import Account from '.';
 
 //  Request imports.
 import {
-  authorizeAccount,
-  blockAccount,
-  followAccount,
-  muteAccount,
-  rejectAccount,
-  unblockAccount,
-  unfollowAccount,
-  unmuteAccount,
+  authorizeRelationship,
+  blockRelationship,
+  followRelationship,
+  muteRelationship,
+  rejectRelationship,
+  unblockRelationship,
+  unfollowRelationship,
+  unmuteRelationship,
 } from 'themes/mastodon-go/redux';
 
 //  Other imports
@@ -57,15 +57,16 @@ export default connect(
     //  Result.
     (props, ownProps) => ({
       handler: {
-        authorize: () => go(authorizeAccount, ownProps.id),
-        block: () => go(blockAccount, ownProps.id),
-        follow: () => go(followAccount, ownProps.id),
-        mute: () => go(muteAccount, ownProps.id),
-        reject: () => go(rejectAccount, ownProps.id),
-        unblock: () => go(unblockAccount, ownProps.id),
-        unfollow: () => go(unfollowAccount, ownProps.id),
-        unmute: () => go(unmuteAccount, ownProps.id),
+        authorize: () => go(authorizeRelationship, ownProps.id),
+        block: () => go(blockRelationship, ownProps.id),
+        follow: () => go(followRelationship, ownProps.id),
+        mute: () => go(muteRelationship, ownProps.id),
+        reject: () => go(rejectRelationship, ownProps.id),
+        unblock: () => go(unblockRelationship, ownProps.id),
+        unfollow: () => go(unfollowRelationship, ownProps.id),
+        unmute: () => go(unmuteRelationship, ownProps.id),
       },
+      ...ownProps,
       ...props,
     })
   )

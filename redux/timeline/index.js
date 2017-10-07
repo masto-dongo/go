@@ -12,14 +12,23 @@ import {
   Map as ImmutableMap,
 } from 'immutable';
 
+//  Requests.
+import connectTimeline from './connect';
+import ensureTimeline from './ensure';
+import expandTimeline from './expand';
+import fetchTimeline from './fetch';
+import refreshTimeline from './refresh';
+import updateTimeline from './update';
+
 //  Action types.
-import { ACCOUNT_BLOCK_SUCCESS } from 'themes/mastodon-go/redux/account/block';
-import { ACCOUNT_MUTE_SUCCESS } from 'themes/mastodon-go/redux/account/mute';
+import { RELATIONSHIP_BLOCK_SUCCESS } from 'themes/mastodon-go/redux/relationship/block';
+import { RELATIONSHIP_MUTE_SUCCESS } from 'themes/mastodon-go/redux/relationship/mute';
 import { STATUS_REMOVE_COMPLETE } from 'themes/mastodon-go/redux/status/remove';
 import {
   TIMELINE_CONNECT_OPEN,
   TIMELINE_CONNECT_HALT,
 } from 'themes/mastodon-go/redux/timeline/connect';
+import { TIMELINE_ENSURE_MAKE } from 'themes/mastodon-go/redux/timeline/ensure';
 import {
   TIMELINE_EXPAND_FAILURE,
   TIMELINE_EXPAND_REQUEST,
@@ -83,10 +92,17 @@ const makeTimeline = (path, statuses) => ImmutableMap({
 //  timelines to this by `path`.
 const initialState = ImmutableMap();
 
+//  `ensure()` ensures that a timeline has been created for the given
+//  `path`.
+const ensure = (state, path) => state.get('' + path) ? state : state.set('' + path, makeTimeline(path));
+
 //  `set()` replaces a timeline's `statuses` with a new `normalized()`
 //  list.
 const set = (state, path, statuses) => state.withMutations(
   map => {
+
+    //  We want to ensure our `path` is a string like it should be.
+    path = '' + path;
 
     //  If no timeline exists at the given path, we make one.
     if (!state.get(path)) {
@@ -103,6 +119,9 @@ const set = (state, path, statuses) => state.withMutations(
 //  `prepend()` prepends the given `statuses` to a timeline.
 const prepend = (state, path, statuses) => state.withMutations(
   map => {
+
+    //  We want to ensure our `path` is a string like it should be.
+    path = '' + path;
 
     //  If no timeline exists at the given path, we make one.
     if (!state.get(path)) {
@@ -122,6 +141,9 @@ const prepend = (state, path, statuses) => state.withMutations(
 //  `append()` appends the given `statuses` to a timeline.
 const append = (state, path, statuses) => state.withMutations(
   map => {
+
+    //  We want to ensure our `path` is a string like it should be.
+    path = '' + path;
 
     //  If no timeline exists at the given path, we make one.
     if (!state.get(path)) {
@@ -174,58 +196,48 @@ const filterByStatus = (state, statuses) => {
   );
 }
 
+//  `setConnected()` sets the connected state for our timeline.
+const setConnected = (state, path, value) => state.update(
+  '' + path,
+  (map = makeTimeline(path)) => map.set('connected', !!value)
+);
+
+//  `setLoading()` sets the loading state for our timeline.
+const setLoading = (state, path, value) => state.update(
+  '' + path,
+  (map = makeTimeline(path)) => map.set('isLoading', !!value)
+);
+
 export default function timeline (state = initialState, action) {
   switch(action.type) {
-  case ACCOUNT_BLOCK_SUCCESS:
-  case ACCOUNT_MUTE_SUCCESS:
+  case RELATIONSHIP_BLOCK_SUCCESS:
+  case RELATIONSHIP_MUTE_SUCCESS:
     if (action.relationship.blocking || action.relationship.muting) {
       return filterByAccount(state, action.relationship.id)
     }
     return state;
   case TIMELINE_CONNECT_OPEN:
-    return state.update(
-      action.path,
-      (map = makeTimeline(action.path)) => map.set('connected', true)
-    );
+    return setConnected(state, action.path, true);
   case TIMELINE_CONNECT_HALT:
-    return state.update(
-      action.path,
-      (map = makeTimeline(action.path)) => map.set('connected', false)
-    );
+    return setConnected(state, action.path, false);
+  case TIMELINE_ENSURE_MAKE:
+    return ensure(state, action.path);
   case TIMELINE_EXPAND_FAILURE:
-    return state.update(
-      action.path,
-      (map = makeTimeline(action.path)) => map.set('isLoading', false)
-    );
+    return setLoading(state, action.path, false);
   case TIMELINE_EXPAND_REQUEST:
-    return state.update(
-      action.path,
-      (map = makeTimeline(action.path)) => map.set('isLoading', true)
-    );
+    return setLoading(state, action.path, true);
   case TIMELINE_EXPAND_SUCCESS:
     return append(state, action.path, action.statuses);
   case TIMELINE_FETCH_FAILURE:
-    return state.update(
-      action.path,
-      (map = makeTimeline(action.path)) => map.set('isLoading', false)
-    );
+    return setLoading(state, action.path, false);
   case TIMELINE_FETCH_REQUEST:
-    return state.update(
-      action.path,
-      (map = makeTimeline(action.path)) => map.set('isLoading', true)
-    );
+    return setLoading(state, action.path, true);
   case TIMELINE_FETCH_SUCCESS:
     return set(state, action.path, action.statuses);
   case TIMELINE_REFRESH_FAILURE:
-    return state.update(
-      action.path,
-      (map = makeTimeline(action.path)) => map.set('isLoading', false)
-    );
+    return setLoading(state, action.path, false);
   case TIMELINE_REFRESH_REQUEST:
-    return state.update(
-      action.path,
-      (map = makeTimeline(action.path)) => map.set('isLoading', true)
-    );
+    return setLoading(state, action.path, true);
   case TIMELINE_REFRESH_SUCCESS:
     return prepend(state, action.path, action.statuses);
   case TIMELINE_UPDATE_RECEIVE:
@@ -235,7 +247,7 @@ export default function timeline (state = initialState, action) {
   default:
     return state;
   }
-};
+}
 
 //  * * * * * * *  //
 
@@ -243,8 +255,11 @@ export default function timeline (state = initialState, action) {
 //  -------------
 
 //  Our requests.
-export { connectTimeline } from './connect';
-export { expandTimeline } from './expand';
-export { fetchTimeline } from './fetch';
-export { refreshTimeline } from './refresh';
-export { updateTimeline } from './update';
+export {
+  connectTimeline,
+  ensureTimeline,
+  expandTimeline,
+  fetchTimeline,
+  refreshTimeline,
+  updateTimeline,
+};

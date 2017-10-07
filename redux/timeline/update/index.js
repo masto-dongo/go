@@ -12,4 +12,6 @@ const receive = (path, status) => ({
 });
 
 //  Request.
-export const updateTimeline = (path, status, go) => go(receive, path, status);
+export default function updateTimeline (path, status, go) {
+  go(receive, path, status);
+}

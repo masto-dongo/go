@@ -45,4 +45,4 @@ export const fetchConversation = (status, go, current, api) => {
       go(failure, status, error);
     }
   );
-};
+}

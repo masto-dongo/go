@@ -22,7 +22,7 @@ const failure = (id, error) => ({
 });
 
 //  Request.
-export const unreblogStatus = (id, go, current, api) => {
+export default function unreblogStatus (id, go, current, api) {
   go(request, id);
   api.get(
     `/api/v1/statuses/${id}/unreblog`
@@ -31,4 +31,4 @@ export const unreblogStatus = (id, go, current, api) => {
   ).catch(
     error => go(failure, id, error)
   );
-};
+}

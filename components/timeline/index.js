@@ -38,6 +38,7 @@ export default class Timeline extends React.PureComponent {
     rainbow: ImmutablePropTypes.map.isRequired,
     path: PropTypes.string.isRequired,
     statuses: ImmutablePropTypes.list,
+    staticContext: PropTypes.object,  //  Unused
     title: PropTypes.node,
   };
   state = {
@@ -45,9 +46,10 @@ export default class Timeline extends React.PureComponent {
   }
   node = null;
 
-  componentDidMount () {
-    const { handler } = this.props;
-    handler.fetch();
+  constructor (props) {
+    super(props);
+    const { handler: { fetch } } = this.props;
+    fetch();
   }
 
   handleKeyDown = (e) => {
@@ -118,6 +120,7 @@ export default class Timeline extends React.PureComponent {
       match,
       rainbow,
       path,
+      staticContext,
       statuses,
       title,
       ...rest
@@ -139,28 +142,30 @@ export default class Timeline extends React.PureComponent {
             destination={activeRoute ? "#" : undefined}
             icon={icon}
             onClick={!activeRoute ? handleTimelineClick : undefined}
-            proportional
             style={true ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : { color: rainbow.get('1') }}
             title={intl.formatMessage(messages.timeline)}
           />
         </CommonMenu>
         <CommonHeader
           backgroundImage={`linear-gradient(160deg, ${rainbow.get('7').join(', ')})`}
+          colour={rainbow.get('1')}
         >{title}</CommonHeader>
-        {statuses ? statuses.map((id, index) => (
-          <StatusContainer
-            key={id}
-            id={id}
-            index={index}
-            listLength={statuses.size}
-            detailed={currentDetail === id}
-            setDetail={handleSetDetail}
-          />
-        )) : null}
-        {isLoading ? (
+        <div className='content'>
+          {statuses ? statuses.map((id, index) => (
+            <StatusContainer
+              key={id}
+              id={id}
+              index={index}
+              listLength={statuses.size}
+              detailed={currentDetail === id}
+              setDetail={handleSetDetail}
+            />
+          )) : null}
+        </div>
+        {isLoading || true ? (
           <div
             className='loading_bar'
-            style={{ backgroundImage: `linear-gradient(160deg, ${rainbow.get('15').join(', ')}, ${rainbow.getIn(['15', 0])})` }}
+            style={{ backgroundImage: `linear-gradient(90deg, ${rainbow.get('7').join(', ')}, ${rainbow.getIn(['7', 0])})` }}
           />
         ) : null}
       </div>

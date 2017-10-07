@@ -6,7 +6,6 @@ import { applyMiddleware, createStore } from 'redux';
 import { combineReducers } from 'redux-immutable';
 import thunk from 'redux-thunk';
 
-
 //  Imported reducers.
 import account from './account';
 import attachment from './attachment';
@@ -15,7 +14,7 @@ import catalogue from './catalogue';
 import conversation from './conversation';
 import courier from './courier';
 import domain from './domain';
-import instance from './instance';
+import emoji from './emoji';
 import meta from './meta';
 import notification from './notification';
 import relationship from './relationship';
@@ -30,11 +29,12 @@ export default function redux () {
   return createStore(combineReducers({
     account,
     attachment,
+    card,
     catalogue,
     conversation,
     courier,
     domain,
-    instance,
+    emoji,
     meta,
     notification,
     relationship,
@@ -54,7 +54,7 @@ export * from './catalogue';
 export * from './conversation';
 export * from './courier';
 export * from './domain';
-export * from './instance';
+export * from './emoji';
 export * from './meta';
 export * from './notification';
 export * from './relationship';

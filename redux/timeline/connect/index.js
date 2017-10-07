@@ -16,4 +16,6 @@ const halt = path => ({
 });
 
 //  Request.
-export const connectTimeline = (path, open, go) => go(open ? open : halt, path);
+export default function connectTimeline (path, open, go) {
+  go(open ? open : halt, path);
+}

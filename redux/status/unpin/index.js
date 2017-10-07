@@ -22,7 +22,7 @@ const failure = (id, error) => ({
 });
 
 //  Request.
-export const unpinStatus = (id, go, current, api) => {
+export default function unpinStatus (id, go, current, api) {
   go(request, id);
   api.get(
     `/api/v1/statuses/${id}/unpin`
@@ -31,4 +31,4 @@ export const unpinStatus = (id, go, current, api) => {
   ).catch(
     error => go(failure, id, error)
   );
-};
+}

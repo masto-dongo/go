@@ -14,6 +14,9 @@
 //  Package imports.
 import { Map as ImmutableMap } from 'immutable';
 
+//  Requests.
+import fetchCard from './fetch';
+
 //  Action types.
 import { CARD_FETCH_SUCCESS } from 'themes/mastodon-go/redux/card/fetch';
 
@@ -40,6 +43,12 @@ const normalize = card => ImmutableMap({
     href: card.provider.url,
     name: card.provider.name,
   }) : null,
+  rainbow: ImmutableMap({
+    1: rainbow(card.url),
+    3: ImmutableList(rainbow(card.url, 3)),
+    7: ImmutableList(rainbow(card.url, 7)),
+    15: ImmutableList(rainbow(card.url, 15)),
+  }),
   title: '' + card.title,
   type: (
     type => {
@@ -94,4 +103,4 @@ export default function account (state = initialState, action) {
 //  -------------
 
 //  Our requests.
-export { fetchCard } from './fetch';
+export { fetchCard };

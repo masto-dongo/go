@@ -17,8 +17,15 @@ import {
   Map as ImmutableMap,
 } from 'immutable';
 
+//  Requests.
+import fetchAccount from './fetch';
+import updateAccount from './update';
+import verifyAccount from './verify';
+
 //  Action types.
 import { ACCOUNT_FETCH_SUCCESS } from 'themes/mastodon-go/redux/account/fetch';
+import { ACCOUNT_UPDATE_SUCCESS } from 'themes/mastodon-go/redux/account/update';
+import { ACCOUNT_VERIFY_SUCCESS } from 'themes/mastodon-go/redux/account/verify';
 import { CATALOGUE_EXPAND_SUCCESS } from 'themes/mastodon-go/redux/catalogue/expand';
 import { CATALOGUE_FETCH_SUCCESS } from 'themes/mastodon-go/redux/catalogue/fetch';
 import { CATALOGUE_REFRESH_SUCCESS } from 'themes/mastodon-go/redux/catalogue/refresh';
@@ -67,16 +74,10 @@ const normalize = account => ImmutableMap({
   id: '' + account.id,
   locked: !!account.locked,
   rainbow: ImmutableMap({
-    1: '#' + (rainbow(account.acct)[0] || 0xffffff).toString(16),
-    3: ImmutableList(rainbow(account.acct, 3).map(
-      colour => '#' + colour.toString(16)
-    )),
-    7: ImmutableList(rainbow(account.acct, 7).map(
-      colour => '#' + colour.toString(16)
-    )),
-    15: ImmutableList(rainbow(account.acct, 15).map(
-      colour => '#' + colour.toString(16)
-    )),
+    1: rainbow(account.acct),
+    3: ImmutableList(rainbow(account.acct, 3)),
+    7: ImmutableList(rainbow(account.acct, 7)),
+    15: ImmutableList(rainbow(account.acct, 15)),
   }),
   username: '' + account.username,
 });
@@ -94,7 +95,7 @@ const initialState = ImmutableMap();
 //  a newly normalized account.
 const set = (state, accounts) => state.withMutations(
   map => [].concat(accounts).forEach(
-    account => map.set(account.id, normalize(account))
+    account => map.set('' + account.id, normalize(account))
   )
 );
 
@@ -107,6 +108,8 @@ const set = (state, accounts) => state.withMutations(
 export default function account (state = initialState, action) {
   switch (action.type) {
   case ACCOUNT_FETCH_SUCCESS:
+  case ACCOUNT_UPDATE_SUCCESS:
+  case ACCOUNT_VERIFY_SUCCESS:
     return set(state, action.account);
   case CATALOGUE_EXPAND_SUCCESS:
   case CATALOGUE_FETCH_SUCCESS:
@@ -171,12 +174,8 @@ export default function account (state = initialState, action) {
 //  -------------
 
 //  Our requests.
-export { authorizeAccount } from './authorize';
-export { blockAccount } from './block';
-export { fetchAccount } from './fetch';
-export { followAccount } from './follow';
-export { muteAccount } from './mute';
-export { rejectAccount } from './reject';
-export { unblockAccount } from './unblock';
-export { unfollowAccount } from './unfollow';
-export { unmuteAccount } from './unmute';
+export {
+  fetchAccount,
+  updateAccount,
+  verifyAccount,
+};

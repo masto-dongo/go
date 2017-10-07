@@ -21,7 +21,7 @@ const failure = error => ({
 })
 
 //  Request.
-export const fetchCourier = (go, current, api) => {
+export default function fetchCourier (go, current, api) {
 
   //  If our courier is still loading, we can't fetch yet.
   const courier = current().get('courier');

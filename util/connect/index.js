@@ -88,13 +88,6 @@ function readyToGo (fn, ...args) {
       headers: {
         Authorization: `Bearer ${getState().getIn(['meta', 'accessToken'], '')}`,
       },
-      transformResponse: [data => {
-        try {
-          return JSON.parse(data);
-        } catch (e) {
-          return data;
-        }
-      }],
     }) : void 0;
     const result = fn.call(void 0, ...args, go, current, api);
     if (result) {

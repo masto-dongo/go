@@ -22,7 +22,7 @@ const failure = (ids, error) => ({
 });
 
 //  Request.
-export const fetchRelationship = (ids, force, go, current, api) => {
+export default function fetchRelationship (ids, force, go, current, api) {
 
   //  We only want to request the relationships that we don't already
   //  have. If we already have relationships for all of the provided
@@ -44,4 +44,4 @@ export const fetchRelationship = (ids, force, go, current, api) => {
   ).catch(
     error => go(failure, newIds, error)
   );
-};
+}

@@ -21,7 +21,7 @@ const failure = error => ({
 })
 
 //  Request.
-export const expandCourier = (go, current, api) => {
+export default function expandCourier (go, current, api) {
 
   //  If our courier is still loading, we can't expand yet.
   const courier = current().get('courier');

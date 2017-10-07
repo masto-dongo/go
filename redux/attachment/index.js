@@ -16,6 +16,9 @@
 //  Package imports.
 import { Map as ImmutableMap } from 'immutable';
 
+//  Requests.
+import submitAttachment from './submit';
+
 //  Action types.
 import { ATTACHMENT_SUBMIT_SUCCESS } from 'themes/mastodon-go/redux/attachment/submit';
 import { COURIER_EXPAND_SUCCESS } from 'themes/mastodon-go/redux/courier/expand';
@@ -47,12 +50,20 @@ import { MEDIA_TYPE } from 'themes/mastodon-go/util/constants';
 
 //  `normalize()` normalizes our attachment into an Immutable map.
 const normalize = attachment => ImmutableMap({
+  description: '' + attachment.description,
   height: +((attachment.meta || {}).original || {}).height,
+  href: attachment.remote_url || attachment.url,
   id: '' + attachment.id,
   preview: ImmutableMap({
     height: +((attachment.meta || {}).small || {}).height,
     src: '' + attachment.preview_url,
     width: +((attachment.meta || {}).small || {}).width,
+  }),
+  rainbow: ImmutableMap({
+    1: rainbow(attachment.remote_url || attachment.url),
+    3: ImmutableList(rainbow(attachment.remote_url || attachment.url, 3)),
+    7: ImmutableList(rainbow(attachment.remote_url || attachment.url, 7)),
+    15: ImmutableList(rainbow(attachment.remote_url || attachment.url, 15)),
   }),
   src: ImmutableMap({
     local: '' + attachment.url,
@@ -92,8 +103,8 @@ const initialState = ImmutableMap();
 const set = (state, attachments) => state.withMutations(
   map => [].concat(attachments).forEach(
     attachment => {
-      if (!map.get(attachment.id)) {
-        map.set(attachment.id, normalize(attachment));
+      if (!map.get('' + attachment.id)) {
+        map.set('' + attachment.id, normalize(attachment));
       }
     }
   )
@@ -148,4 +159,4 @@ export default function attachment (state = initialState, action) {
 //  -------------
 
 //  Our requests.
-export { submitAttachment } from './submit';
+export { submitAttachment };

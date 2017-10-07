@@ -1,12 +1,10 @@
 import classNames from 'classnames';
+import escape from 'escape-html';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { DOMParser } from 'themes/mastodon-go/util/polyfills';
-import {
-  Emoji,
-  Emojifier,
-} from 'themes/mastodon-go/util/emojify';
+import { Emojifier } from 'themes/mastodon-go/util/emojify';
 
 const ParseEmoji = ({
   className,
@@ -17,7 +15,10 @@ const ParseEmoji = ({
   const computedClass = classNames('MASTODON_GO--PARSE--EMOJI', className);
   const emoji = emojifier.emoji;
   const result = [];
-  for (let i = 0; i < string.length; i++) {
+
+  text = escape(text);
+  
+  for (let i = 0; i < text.length; i++) {
     const matches = emoji.filter(
       emojo => {
         const emojiString = '' + emojo;

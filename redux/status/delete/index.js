@@ -25,7 +25,7 @@ const failure = (id, error) => ({
 });
 
 //  Request.
-export const deleteStatus = (id, go, current, api) => {
+export default function deleteStatus (id, go, current, api) {
   go(request, id);
   api.delete(
     `/api/v1/statuses/${id}`
@@ -37,4 +37,4 @@ export const deleteStatus = (id, go, current, api) => {
   ).catch(
     error => go(failure, id, error)
   );
-};
+}

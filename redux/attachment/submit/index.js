@@ -22,7 +22,7 @@ const failure = (file, error) => ({
 });
 
 //  Request.
-export const uploadComposer = (file, go, current, api) => {
+export default function uploadComposer (file, go, current, api) {
 
   //  We create `FormData` with our file
   let data = new FormData();

@@ -12,7 +12,12 @@ import {
   Map as ImmutableMap,
 } from 'immutable';
 
+//  Requests.
+import loadMeta from './load';
+
 //  Action types.
+import { ACCOUNT_UPDATE_SUCCESS } from 'themes/mastodon-go/redux/account/update';
+import { ACCOUNT_VERIFY_SUCCESS } from 'themes/mastodon-go/redux/account/verify';
 import { META_LOAD_COMPLETE } from 'themes/mastodon-go/redux/meta/load';
 
 //  Other imports.
@@ -32,8 +37,9 @@ const initialState = ImmutableMap({
   locale: 'en',
   me: '',
   mediaFormats: ImmutableList(),
+  rawBio: '',
   requireConfirmation: ImmutableMap({
-    delete: true,  //  Defaults to `true` because irreversible
+    delete: true,  //  Defaults to `true` because it's irreversible
     reblog: false,
     unfollow: false,
   }),
@@ -107,6 +113,33 @@ const set = (state, meta) => state.withMutations(
   }
 );
 
+const update = (state, source) => state.withMutations(
+  map => {
+    if (source.hasOwnProperty('note')) {
+      map.set('rawBio', '' + source.note);
+    }
+    if (source.hasOwnProperty('sensitive')) {
+      map.set('sensitive', !!source.sensitive);
+    }
+    if (source.hasOwnProperty('privacy')) {
+      map.set('visibility', (
+        visibility => {
+          switch (visibility) {
+          case 'direct':
+            return VISIBILITY.DIRECT;
+          case 'public':
+            return VISIBILITY.PUBLIC;
+          case 'unlisted':
+            return VISIBILITY.UNLISTED;
+          default:
+            return VISIBILITY.PRIVATE;
+          }
+        }
+      )(source.privacy));
+    }
+  }
+);
+
 //  * * * * * * *  //
 
 //  Reducer
@@ -115,6 +148,9 @@ const set = (state, meta) => state.withMutations(
 //  Action reducing.
 export default function meta (state = initialState, action) {
   switch(action.type) {
+  case ACCOUNT_UPDATE_SUCCESS:
+  case ACCOUNT_VERIFY_SUCCESS:
+    return action.account.source ? update(state, action.account.source) : state;
   case META_LOAD_COMPLETE:
     return set(state, action.meta);
   default:
@@ -128,4 +164,4 @@ export default function meta (state = initialState, action) {
 //  -------------
 
 //  Our requests.
-export { loadMeta } from './load';
+export { loadMeta };

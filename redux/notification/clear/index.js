@@ -18,7 +18,7 @@ const failure = error => ({
 });
 
 //  Request.
-export const clearNotification = (go, current, api) => {
+export default function clearNotification (go, current, api) {
   go(request);
   api.post(
     '/api/v1/notifications/clear'
@@ -30,4 +30,4 @@ export const clearNotification = (go, current, api) => {
   ).catch(
     error => go(failure, error)
   );
-};
+}

@@ -22,7 +22,7 @@ const failure = (path, error) => ({
 });
 
 //  Request.
-export const refreshCatalogue = (path, go, current, api) => {
+export default function refreshCatalogue (path, go, current, api) {
 
   //  If our catalogue is still loading, we can't refresh yet.
   const catalogue = current().getIn(['catalogue', path]);
@@ -48,4 +48,4 @@ export const refreshCatalogue = (path, go, current, api) => {
   ).catch(
     error => go(failure, path, error)
   );
-};
+}

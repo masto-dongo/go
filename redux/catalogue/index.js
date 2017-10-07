@@ -17,7 +17,14 @@ import {
   Map as ImmutableMap,
 } from 'immutable';
 
+//  Requests.
+import ensureCatalogue from './ensure';
+import expandCatalogue from './expand';
+import fetchCatalogue from './fetch';
+import refreshCatalogue from './refresh';
+
 //  Action types.
+import { CATALOGUE_ENSURE_MAKE } from 'themes/mastodon-go/redux/catalogue/ensure';
 import {
   CATALOGUE_EXPAND_FAILURE,
   CATALOGUE_EXPAND_REQUEST,
@@ -45,7 +52,7 @@ import rainbow from 'themes/mastodon-go/util/rainbow';
 //  `normalize()` normalizes the given array of `accounts` into a
 //  proper catalogue. We only store the `ids` of the `accounts`.
 const normalize = (accounts, path) => ImmutableList(accounts ? accounts.map(
-  account => account.id
+  account => '' + account.id
 ) : []);
 
 //  `makeCatalogue()` creates a normalized catalogue from a list of
@@ -71,10 +78,17 @@ const makeCatalogue = (path, accounts) => ImmutableMap({
 //  be added to this by `path`.
 const initialState = ImmutableMap();
 
+//  `ensure()` ensures that a catalogue has been created for the given
+//  `path`.
+const ensure = (state, path) => state.get('' + path) ? state : state.set('' + path, makeCatalogue(path));
+
 //  `set()` replaces a catalogues's `accounts` with a new `normalized()`
 //  list.
 const set = (state, path, accounts) => state.withMutations(
   map => {
+
+    //  We want to ensure our `path` is a string like it should be.
+    path = '' + path;
 
     //  If no catalogue exists at the given path, we make one.
     if (!state.get(path)) {
@@ -91,6 +105,9 @@ const set = (state, path, accounts) => state.withMutations(
 //  `prepend()` prepends the given `accounts` to a catalogue.
 const prepend = (state, path, accounts) => state.withMutations(
   map => {
+
+    //  We want to ensure our `path` is a string like it should be.
+    path = '' + path;
 
     //  If no catalogue exists at the given path, we make one.
     if (!state.get(path)) {
@@ -111,6 +128,9 @@ const prepend = (state, path, accounts) => state.withMutations(
 const append = (state, path, accounts) => state.withMutations(
   map => {
 
+    //  We want to ensure our `path` is a string like it should be.
+    path = '' + path;
+
     //  If no catalogue exists at the given path, we make one.
     if (!state.get(path)) {
       map.set(path, makeCatalogue(path, accounts));
@@ -126,6 +146,12 @@ const append = (state, path, accounts) => state.withMutations(
   }
 );
 
+//  `setLoading()` sets the loading state for our catalogue.
+const setLoading = (state, path, value) => state.update(
+  '' + path,
+  (map = makeCatalogue(path)) => map.set('isLoading', !!value)
+);
+
 //  * * * * * * *  //
 
 //  Reducer
@@ -135,39 +161,21 @@ const append = (state, path, accounts) => state.withMutations(
 export default function catalogue (state = initialState, action) {
   switch (action.type) {
   case CATALOGUE_EXPAND_FAILURE:
-    return state.update(
-      action.path,
-      (map = makeCatalogue(action.path)) => map.set('isLoading', false)
-    );
+    return setLoading(state, action.path, false);
   case CATALOGUE_EXPAND_REQUEST:
-    return state.update(
-      action.path,
-      (map = makeCatalogue(action.path)) => map.set('isLoading', true)
-    );
+    return setLoading(state, action.path, true);
   case CATALOGUE_EXPAND_SUCCESS:
     return append(state, action.path, action.accounts);
   case CATALOGUE_FETCH_FAILURE:
-    return state.update(
-      action.path,
-      (map = makeCatalogue(action.path)) => map.set('isLoading', false)
-    );
+    return setLoading(state, action.path, false);
   case CATALOGUE_FETCH_REQUEST:
-    return state.update(
-      action.path,
-      (map = makeCatalogue(action.path)) => map.set('isLoading', true)
-    );
+    return setLoading(state, action.path, true);
   case CATALOGUE_FETCH_SUCCESS:
     return set(state, action.path, action.accounts);
   case CATALOGUE_REFRESH_FAILURE:
-    return state.update(
-      action.path,
-      (map = makeCatalogue(action.path)) => map.set('isLoading', false)
-    );
+    return setLoading(state, action.path, false);
   case CATALOGUE_REFRESH_REQUEST:
-    return state.update(
-      action.path,
-      (map = makeCatalogue(action.path)) => map.set('isLoading', true)
-    );
+    return setLoading(state, action.path, true);
   case CATALOGUE_REFRESH_SUCCESS:
     return prepend(state, action.path, action.accounts);
   default:
@@ -181,6 +189,9 @@ export default function catalogue (state = initialState, action) {
 //  -------------
 
 //  Our requests.
-export { expandCatalogue } from './expand';
-export { fetchCatalogue } from './fetch';
-export { refreshCatalogue } from './refresh';
+export {
+  ensureCatalogue,
+  expandCatalogue,
+  fetchCatalogue,
+  refreshCatalogue,
+};

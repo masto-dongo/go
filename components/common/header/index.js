@@ -15,6 +15,7 @@ const CommonHeader = ({
   backgroundImage,
   children,
   className,
+  colour,
   onClick,
   ...rest
 }) => {
@@ -26,8 +27,14 @@ const CommonHeader = ({
     conditionalProps.role = 'button';
     conditionalProps.tabIndex = '0';
   }
-  if (backgroundImage) {
-    conditionalProps.style = { backgroundImage };
+  if (backgroundImage || colour) {
+    conditionalProps.style = {};
+    if (backgroundImage) {
+      conditionalProps.style.backgroundImage = backgroundImage;
+    }
+    if (colour) {
+      conditionalProps.style.color = colour;
+    }
   }
 
   return (

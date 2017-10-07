@@ -28,7 +28,7 @@ const failure = (id, error) => ({
 });
 
 //  Request.
-export const fetchStatus = (id, force, go, current, api) => {
+export default function fetchStatus (id, force, go, current, api) {
 
   //  Before we fetch our status (and regardless of whether or not we
   //  already have data on it), we first fetch its card and
@@ -51,4 +51,4 @@ export const fetchStatus = (id, force, go, current, api) => {
   ).catch(
     error => go(failure, id, error)
   );
-};
+}

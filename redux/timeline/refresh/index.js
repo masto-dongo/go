@@ -22,7 +22,7 @@ const failure = (path, error) => ({
 })
 
 //  Request.
-export const refreshTimeline = (path, go, current, api) => {
+export default function refreshTimeline (path, go, current, api) {
 
   //  If our timeline is still loading, we can't refresh yet.
   const timeline = current.getIn(['timeline', path]);

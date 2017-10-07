@@ -11,4 +11,6 @@ const complete = ids => ({
 });
 
 //  Request.
-export const removeNotification = (ids, go) => go(complete, ids);
+export default function removeNotification (ids, go) {
+  go(complete, ids);
+}

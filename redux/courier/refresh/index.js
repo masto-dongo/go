@@ -21,7 +21,7 @@ const failure = error => ({
 })
 
 //  Request.
-export const refreshCourier = (go, current, api) => {
+export default function refreshCourier (go, current, api) {
 
   //  If our courier is still loading, we can't refresh yet.
   const courier = current().get('courier');

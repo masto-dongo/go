@@ -1,9 +1,22 @@
 .MASTODON_GO--TIMELINE {
-  display: block;
-  position: relative;
-  margin: 0;
-  border: none;
-  padding: 0 0 0 4rem;
+  //  See also .MASTODON_GO--UI--COLUMN > *
+  padding: 3.125rem 0 0 3.5rem;
+
+  & > .MASTODON_GO--COMMON--HEADER {
+    position: absolute;
+    top: 0;
+    left: 3.5rem;
+    right: 0;
+  }
+
+  & > *.content {
+    display: block;
+    margin: 0;
+    border: none;
+    padding: 0;
+    height: 100%;
+    overflow: auto;
+  }
 
   & > *.loading_bar {
     display: block;
@@ -14,7 +27,7 @@
     margin: 0;
     border: none;
     padding: 0;
-    height: 2px;
+    height: 4px;
     background-attachment: scroll;
     background-size: 23rem auto;
     background-repeat: repeat-x;

@@ -15,14 +15,28 @@ import {
 } from 'immutable';
 import escapeTextContentForBrowser from 'escape-html';
 
+//  Requests.
+import deleteStatus from './delete';
+import favouriteStatus from './favourite';
+import fetchStatus from './fetch';
+import muteStatus from './mute';
+import pinStatus from './pin';
+import reblogStatus from './reblog';
+import removeStatus from './remove';
+import submitStatus from './submit';
+import unfavouriteStatus from './unfavourite';
+import unmuteStatus from './unmute';
+import unpinStatus from './unpin';
+import unreblogStatus from './unreblog';
+
 //  Action types.
-import { ACCOUNT_BLOCK_SUCCESS } from 'themes/mastodon-go/redux/account/block';
-import { ACCOUNT_MUTE_SUCCESS } from 'themes/mastodon-go/redux/account/mute';
 import { COURIER_EXPAND_SUCCESS } from 'themes/mastodon-go/redux/courier/expand';
 import { COURIER_FETCH_SUCCESS } from 'themes/mastodon-go/redux/courier/fetch';
 import { COURIER_REFRESH_SUCCESS } from 'themes/mastodon-go/redux/courier/refresh';
 import { COURIER_UPDATE_RECEIVE } from 'themes/mastodon-go/redux/courier/update';
 import { NOTIFICATION_FETCH_SUCCESS } from 'themes/mastodon-go/redux/notification/fetch';
+import { RELATIONSHIP_BLOCK_SUCCESS } from 'themes/mastodon-go/redux/relationship/block';
+import { RELATIONSHIP_MUTE_SUCCESS } from 'themes/mastodon-go/redux/relationship/mute';
 import { STATUS_FAVOURITE_SUCCESS } from 'themes/mastodon-go/redux/status/favourite';
 import { STATUS_FETCH_SUCCESS } from 'themes/mastodon-go/redux/status/fetch';
 import { STATUS_MUTE_SUCCESS } from 'themes/mastodon-go/redux/status/mute';
@@ -125,7 +139,7 @@ const set = (state, statuses) => state.withMutations(
   map => ([].concat(statuses)).forEach(
     status => {
       if (status) {
-        map.set(status.id, normalize(status))
+        map.set('' + status.id, normalize(status))
       }
     }
   )
@@ -168,16 +182,6 @@ const filterByStatus = (state, statuses) => {
 //  Action reducing.
 export default function status (state = initialState, action) {
   switch(action.type) {
-  case ACCOUNT_BLOCK_SUCCESS:
-  case ACCOUNT_MUTE_SUCCESS:
-
-    //  If we aren't muting notifications, then we don't get rid of
-    //  an account's statuses—although we will remove them from our
-    //  timelines.
-    if (action.relationship.blocking || action.relationship.muting && action.relationship.muting.notifications) {
-      return filterByAccount(state, action.relationship.id);
-    }
-    return state;
   case COURIER_EXPAND_SUCCESS:
   case COURIER_FETCH_SUCCESS:
   case COURIER_REFRESH_SUCCESS:
@@ -188,6 +192,16 @@ export default function status (state = initialState, action) {
     return set(state, action.notification.status);
   case NOTIFICATION_FETCH_SUCCESS:
     return set(state, action.notification.status);
+  case RELATIONSHIP_BLOCK_SUCCESS:
+  case RELATIONSHIP_MUTE_SUCCESS:
+
+    //  If we aren't muting notifications, then we don't get rid of
+    //  an account's statuses—although we will remove them from our
+    //  timelines.
+    if (action.relationship.blocking || action.relationship.muting && action.relationship.muting.notifications) {
+      return filterByAccount(state, action.relationship.id);
+    }
+    return state;
   case STATUS_FAVOURITE_SUCCESS:
   case STATUS_FETCH_SUCCESS:
   case STATUS_MUTE_SUCCESS:
@@ -210,7 +224,7 @@ export default function status (state = initialState, action) {
   default:
     return state;
   }
-};
+}
 
 //  * * * * * * *  //
 
@@ -218,14 +232,16 @@ export default function status (state = initialState, action) {
 //  -------------
 
 //  Our requests.
-export { deleteStatus } from './delete';
-export { favouriteStatus } from './favourite';
-export { fetchStatus } from './fetch';
-export { muteStatus } from './mute';
-export { pinStatus } from './pin';
-export { reblogStatus } from './reblog';
-export { removeStatus } from './remove';
-export { unfavouriteStatus } from './unfavourite';
-export { unmuteStatus } from './unmute';
-export { unpinStatus } from './unpin';
-export { unreblogStatus } from './unreblog';
+export {
+  deleteStatus,
+  favouriteStatus,
+  fetchStatus,
+  muteStatus,
+  pinStatus,
+  reblogStatus,
+  removeStatus,
+  unfavouriteStatus,
+  unmuteStatus,
+  unpinStatus,
+  unreblogStatus,
+};

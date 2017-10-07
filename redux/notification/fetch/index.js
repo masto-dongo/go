@@ -22,7 +22,7 @@ const failure = (id, error) => ({
 });
 
 //  Request.
-export const fetchNotification = (id, force, go, current, api) => {
+export default function fetchNotification (id, force, go, current, api) {
 
   //  We only want to fetch notifications that we don't already have.
   //  If we already have a notification associated with this `id`, we
@@ -40,4 +40,4 @@ export const fetchNotification = (id, force, go, current, api) => {
   ).catch(
     error => go(failure, id, error)
   );
-};
+}

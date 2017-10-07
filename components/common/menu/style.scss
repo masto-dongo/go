@@ -14,7 +14,7 @@ spaces. However, this can be changed using CSS selectors.
   left: 0;
   margin: 0;
   padding: 0;
-  width: 4rem;
+  width: 3.5rem;
   color: $mastodon_go_menu_color;
   background: $mastodon_go_menu_background;
   overflow: hidden;
@@ -31,7 +31,6 @@ spaces. However, this can be changed using CSS selectors.
     height: 1.25rem;
     background-attachment: scroll;
     background-clip: padding-box;
-    background-origin: padding-box;
     background-position: center;
     background-size: cover;
     font-size: 1.25rem;
@@ -40,7 +39,7 @@ spaces. However, this can be changed using CSS selectors.
 
     &.active {
       color: $mastodon_go_menu_color_active;
-      background: $mastodon_go_menu_background_active;
+      background-color: $mastodon_go_menu_background_active;  //  Don't use shorthand!
     }
   }
 }

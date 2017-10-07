@@ -36,7 +36,7 @@ const messages = defineMessages({
   },
 });
 
-export default class UIColumn extends React.PureComponent {
+export default class UIColumn extends React.Component {  //  Impure
 
   static propTypes = {
     activeRoute: PropTypes.bool,

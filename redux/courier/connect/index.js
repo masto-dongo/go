@@ -13,4 +13,6 @@ const open = { type: COURIER_CONNECT_OPEN };
 const halt = { type: COURIER_CONNECT_HALT };
 
 //  Request.
-export const connectCourier = (open, go) => go(open ? open : halt);
+export default function connectCourier (open, go) {
+  go(open ? open : halt);
+}

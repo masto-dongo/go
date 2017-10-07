@@ -55,7 +55,7 @@ export default function rainbow (text, numColours) {
 
   //  If our `bitsPerColour` is 0, we can't generate any colours.
   if (!bitsPerColour) {
-    return result;
+    return returnText ? '#636363' : ['#636363'];
   }
 
   //  As a special case, when `bitsPerColour` is `1`, our starting
@@ -80,15 +80,15 @@ export default function rainbow (text, numColours) {
     colourBits = (hash >>> 31 - bitsPerColour * ++i) % (1 << bitsPerColour);
 
     //  As a special case, if our `bitsPerColour` is `1`, our starting
-    //  colour is the next or previous one, counting by twos. We don't
-    //  need to worry about fractional components here, since `n` will
-    //  always be an (even!) integer.
+    //  colour is the next or previous one. We don't need to worry
+    //  about fractional components here, since `n` will always be an
+    //  integer.
     if (bitsPerColour === 1) {
       if (colourBits) {
-        n = (n + 2) % 8;
+        n = (n + 1) % 8;
       }
       else {
-        n = (n - 2) % 8;
+        n = (n - 1) % 8;
       }
       result.push(colours[n]);
     }

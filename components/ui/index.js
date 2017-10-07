@@ -11,15 +11,23 @@ import UIModal from './modal';
 //  Stylesheet imports.
 import './style';
 
-export default class UI extends React.PureComponent {
+export default class UI extends React.Component {  //  Impure
 
   static propTypes = {
     className: PropTypes.string,
+    handler: PropTypes.objectOf(PropTypes.func).isRequired,
     history: PropTypes.object,
     intl: PropTypes.object.isRequired,
     location: PropTypes.object,
     match: PropTypes.object,
+    staticContext: PropTypes.object,  //  Unused
   };
+
+  constructor (props) {
+    super(props);
+    const { handler: { fetch } } = props;
+    fetch();
+  }
 
   //  TK: Drag and Drop API
 
@@ -28,10 +36,12 @@ export default class UI extends React.PureComponent {
   render () {
     const {
       className,
+      handler,
       history,
       intl,
       location,
       match,
+      staticContext,
       ...rest
     } = this.props;
 

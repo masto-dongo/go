@@ -25,7 +25,7 @@ const failure = (ids, error) => ({
 });
 
 //  Request.
-export const deleteNotification = (ids, go, current, api) => {
+export default function deleteNotification (ids, go, current, api) {
   go(request, ids);
 
   //  If our `ids` are an array, then we use the `destroy_multiple`
@@ -40,4 +40,4 @@ export const deleteNotification = (ids, go, current, api) => {
   ).catch(
     error => go(failure, ids, error)
   );
-};
+}

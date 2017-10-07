@@ -15,6 +15,9 @@ import {
   createStructuredSelector,
 } from 'reselect';
 
+//  Request imports.
+import { loadMeta } from 'themes/mastodon-go/redux';
+
 //  Component imports.
 import UI from '.';
 
@@ -30,16 +33,21 @@ import connect from 'themes/mastodon-go/util/connect';
 export default connect(
   go => createSelector(
 
-    //  Props.
+    //  Connected props.
     createStructuredSelector({
       //  TK: TODO
     }),
 
-    //  Inputs.
+    //  Own props.
     (store, ownProps) => ownProps,
 
     //  Result.
     (props, ownProps) => ({
+      handler: {
+        fetch () {
+          go(loadMeta);
+        },
+      },
       ...ownProps,
       ...props,
     })

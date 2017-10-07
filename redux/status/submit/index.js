@@ -27,20 +27,34 @@ const failure = (text, options, error) => ({
 });
 
 //  Request.
-export const submitComposer = (text, options, go, current, api) => {
+export default function submitComposer (text, options, go, current, api) {
 
   //  If we have no text, we can't submit our composer.
   if (!text || !text.length) return;
 
   //  Here is the data we send.
-  const data = options ? {
-    status: options.local ? text + ' 👁️' : text,
-    in_reply_to_id: options.inReplyTo,
-    media_ids: options.media,
-    sensitive: options.sensitive,
-    spoiler_text: options.spoiler,
-    visibility: options.privacy,
-  } : { status: text };
+  const data = {};
+  let item;
+  if (options) {
+    if ((item = options.inReplyTo)) {
+      data.in_reply_to_id = item;
+    }
+    if ((item = options.media)) {
+      data.media_ids = item;
+    }
+    if ((item = options.sensitive)) {
+      data.sensitive = item;
+    }
+    if ((item = options.spoiler)) {
+      data.spoiler_text = item;
+    }
+    data.status = options.local ? text + ' 👁️' : text;
+    if ((item = options.visibility)) {
+      data.privacy = item;
+    }
+  } else {
+    data.status = text;
+  }
   const headers = options ? { 'Idempotency-Key': options.idempotency } : {};
 
   //  The request.

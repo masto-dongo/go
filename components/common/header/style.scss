@@ -5,26 +5,25 @@
 .MASTODON_GO--COMMON--HEADER {
   display: block;
   margin: 0;
-  border-style: none none solid;
-  border-color: transparent;
-  border-width: 0 0 2px;
+  border: none;
   padding: 0;
   background-attachment: scroll;
   background-clip: border-box;
   background-origin: border-box;
-  background-position: top left;
-  background-size: cover;
+  background-position: bottom left;
+  background-size: 100% 2px;
+  background-repeat: no-repeat;
   overflow: hidden;  //  Prevents margin collapsing
 
   & > h1 {
     display: block;
-    margin: 0;
-    border: none;
+    margin: 0 0 -2px;
+    border-style: none none solid;
+    border-color: transparent;
+    border-width: 0 0 2px;
     padding: .9375rem 1rem;
     height: 1.25rem;
-    color: white;
-    background-color: black;
-    mix-blend-mode: multiply;
+    background-clip: padding-box;
     font-size: 1.25rem;
     font-weight: normal;
     line-height: 1;

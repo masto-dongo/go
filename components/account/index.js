@@ -90,18 +90,18 @@ const Account = ({
 //  Component props.
 Account.propTypes = {
   at: PropTypes.string.isRequired,
-  className: PropTypes.string.isRequired,
-  comrade: PropTypes.string.isRequired,
-  displayName: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  comrade: PropTypes.string,
+  displayName: PropTypes.string,
   handler: PropTypes.objectOf(PropTypes.func).isRequired,
   history: PropTypes.object,
-  href: PropTypes.string.isRequired,
+  href: PropTypes.string,
   id: PropTypes.string.isRequired,
   intl: PropTypes.object,
   location: PropTypes.object,  //  Not updated; don't use
   match: PropTypes.object,  //  Not updated; don't use
   rainbow: ImmutablePropTypes.map,
-  relationship: PropTypes.number.isRequired,
+  relationship: PropTypes.number,
   small: PropTypes.bool,
 };
 

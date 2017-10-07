@@ -14,7 +14,7 @@ const receive = notification => ({
 });
 
 //  Request.
-export const updateCourier = (notification, go) => {
+export default function updateCourier (notification, go) {
 
   //  If the `notification` is a follow, we fetch the
   //  relationships of its `account`.

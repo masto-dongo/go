@@ -22,7 +22,7 @@ const failure = (domain, error) => ({
 });
 
 //  Request.
-export const unblockDomain = (domain, go, current, api) => {
+export default function unblockDomain (domain, go, current, api) {
   go(request, domain);
   api.post(
     '/api/v1/domain_blocks', { domain }
@@ -31,4 +31,4 @@ export const unblockDomain = (domain, go, current, api) => {
   ).catch(
     error => go(failure, domain, error)
   );
-};
+}

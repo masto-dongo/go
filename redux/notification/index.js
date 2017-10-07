@@ -15,15 +15,21 @@
 //  Package imports.
 import { Map as ImmutableMap } from 'immutable';
 
+//  Request.
+import clearNotification from './clear';
+import deleteNotification from './delete';
+import fetchNotification from './fetch';
+import removeNotification from './remove';
+
 //  Action types.
-import { ACCOUNT_BLOCK_SUCCESS } from 'themes/mastodon-go/redux/account/block';
-import { ACCOUNT_MUTE_SUCCESS } from 'themes/mastodon-go/redux/account/mute';
 import { COURIER_EXPAND_SUCCESS } from 'themes/mastodon-go/redux/courier/expand';
 import { COURIER_FETCH_SUCCESS } from 'themes/mastodon-go/redux/courier/fetch';
 import { COURIER_REFRESH_SUCCESS } from 'themes/mastodon-go/redux/courier/refresh';
 import { COURIER_UPDATE_RECEIVE } from 'themes/mastodon-go/redux/courier/update';
 import { NOTIFICATION_FETCH_SUCCESS } from 'themes/mastodon-go/redux/notification/fetch';
 import { NOTIFICATION_REMOVE_COMPLETE } from 'themes/mastodon-go/redux/notification/remove';
+import { RELATIONSHIP_BLOCK_SUCCESS } from 'themes/mastodon-go/redux/relationship/block';
+import { RELATIONSHIP_MUTE_SUCCESS } from 'themes/mastodon-go/redux/relationship/mute';
 import { STATUS_REMOVE_COMPLETE } from 'themes/mastodon-go/redux/status/remove';
 
 //  Our imports.
@@ -76,7 +82,7 @@ const set = (state, notifications) => state.withMutations(
   map => ([].concat(notifications)).forEach(
     notification => {
       if (notification) {
-        map.set(notification.id, normalize(notification));
+        map.set('' + notification.id, normalize(notification));
       }
     }
   )
@@ -112,12 +118,6 @@ const filterByStatus = (state, statuses) => {
 //  Action reducing.
 export default function notification (state = initialState, action) {
   switch(action.type) {
-  case ACCOUNT_BLOCK_SUCCESS:
-  case ACCOUNT_MUTE_SUCCESS:
-    if (action.relationship.blocking || action.relationship.muting && action.relationship.muting.notifications) {
-      return filterByAccount(state, action.relationship.id);
-    }
-    return state;
   case COURIER_EXPAND_SUCCESS:
   case COURIER_FETCH_SUCCESS:
   case COURIER_REFRESH_SUCCESS:
@@ -128,6 +128,12 @@ export default function notification (state = initialState, action) {
     return set(state, action.notification);
   case NOTIFICATION_REMOVE_COMPLETE:
     return remove(state, action.ids);
+  case RELATIONSHIP_BLOCK_SUCCESS:
+  case RELATIONSHIP_MUTE_SUCCESS:
+    if (action.relationship.blocking || action.relationship.muting && action.relationship.muting.notifications) {
+      return filterByAccount(state, action.relationship.id);
+    }
+    return state;
   case STATUS_REMOVE_COMPLETE:
     return filterByStatus(state, action.ids);
   default:
@@ -141,7 +147,9 @@ export default function notification (state = initialState, action) {
 //  -------------
 
 //  Our requests.
-export { clearNotification } from './clear';
-export { deleteNotification } from './delete';
-export { fetchNotification } from './fetch';
-export { removeNotification } from './remove';
+export {
+  clearNotification,
+  deleteNotification,
+  fetchNotification,
+  removeNotification,
+};

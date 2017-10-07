@@ -13,6 +13,9 @@
 //  Package imports.
 import { Map as ImmutableMap } from 'immutable';
 
+//  Requests.
+import changeSetting from './change';
+
 //  Action types.
 import { SETTING_CHANGE_COMPLETE } from 'themes/mastodon-go/redux/setting/change';
 
@@ -35,4 +38,12 @@ export default function setting (state = initialState, action) {
   default:
     return state;
   }
-};
+}
+
+//  * * * * * * *  //
+
+//  Named exports
+//  -------------
+
+//  Our requests.
+export { changeSetting };
