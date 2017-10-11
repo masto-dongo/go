@@ -10,10 +10,7 @@
 //  -------
 
 //  Package imports.
-import {
-  createSelector,
-  createStructuredSelector,
-} from 'reselect';
+import { createStructuredSelector } from 'reselect';
 
 //  Component imports.
 import Courier from '.';
@@ -36,26 +33,19 @@ import { connect } from 'themes/mastodon-go/util/connect';
 //  Connecting
 //  ----------
 
-//  Selector factory.
 export default connect(
-  go => createSelector(
-
-    //  Props.
-    createStructuredSelector({
-      notifications: state => state.getIn(['courier', 'notifications']),
-    }),
-
-    //  Result.
-    props => ({
-      handler: {
-        clear: () => go(clearNotification),
-        connect: () => go(connectCourier),
-        delete: ids => go(deleteNotification, ids),
-        expand: () => go(expandCourier),
-        fetch: () => go(fetchCourier),
-        refresh: () => go(refreshCourier),
-      },
-      ...props,
-    })
-  )
+  createStructuredSelector({
+    isLoading: state => state.getIn(['courier', 'isLoading']),
+    notifications: state => state.getIn(['courier', 'notifications']),
+    rainbow: state => state.getIn(['courier', 'rainbow']),
+    settings: state => state.getIn(['setting', 'global', 'courier']),
+  }),
+  go => ({
+    clear: () => go(clearNotification),
+    connect: () => go(connectCourier),
+    delete: ids => go(deleteNotification, ids),
+    expand: () => go(expandCourier),
+    fetch: () => go(fetchCourier),
+    refresh: () => go(refreshCourier),
+  })
 )(Courier);

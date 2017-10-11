@@ -44,6 +44,4 @@ const ParseContainer = connect(
   )
 )(Parse);
 
-ParseContainer.Type = Parse.Type;
-
 export default ParseContainer;

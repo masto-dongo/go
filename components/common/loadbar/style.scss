@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--COMMON--LOADBAR {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    border: none;
+    padding: 0;
+    height: 4px;
+    background-attachment: scroll;
+    background-size: 23rem auto;
+    background-repeat: repeat-x;
+    animation: 2s mastodon_go_loadbar linear infinite;
+
+    @keyframes mastodon_go_loadbar {
+      from {
+        background-position: 0 0;
+      }
+      to {
+        background-position: 23rem 0;
+      }
+    }
+  }
+}

@@ -1,6 +1,5 @@
 import classNames from 'classnames'
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages } from 'react-intl';
@@ -8,12 +7,17 @@ import { defineMessages } from 'react-intl';
 import { StatusContainer } from 'themes/mastodon-go/components';
 
 import {
-  CommonButton,
-  CommonMenu,
   CommonHeader,
+  CommonList,
+  CommonLoadbar,
 } from 'themes/mastodon-go/components';
 
+import TimelineMenu from './menu';
+import TimelinePane from './pane';
+
 import './style';
+
+import { POST_TYPE } from 'themes/mastodon-go/util/constants';
 
 const messages = defineMessages({
   timeline: {
@@ -27,146 +31,122 @@ export default class Timeline extends React.PureComponent {
   static propTypes = {
     activeRoute: PropTypes.bool,
     className: PropTypes.string,
-    handler: PropTypes.objectOf(PropTypes.func).isRequired,
     hash: PropTypes.string,
     history: PropTypes.object,
     icon: PropTypes.string,
-    intl: PropTypes.object.isRequired,
-    isLoading: PropTypes.bool,
-    location: PropTypes.object,  //  Not updated; don't use
-    match: PropTypes.object,  //  Not updated; don't use
-    rainbow: ImmutablePropTypes.map.isRequired,
     path: PropTypes.string.isRequired,
-    statuses: ImmutablePropTypes.list,
-    staticContext: PropTypes.object,  //  Unused
     title: PropTypes.node,
+    '🛄': PropTypes.shape({ intl: PropTypes.object.isRequired }).isRequired,
+    '💪': PropTypes.objectOf(PropTypes.func).isRequired,
+    '🏪': PropTypes.shape({
+      isLoading: PropTypes.bool,
+      rainbow: ImmutablePropTypes.map,
+      settings: ImmutablePropTypes.map,
+      statuses: ImmutablePropTypes.list,
+    }).isRequired,
   };
   state = {
     currentDetail: null,
-  }
+    storedHash: '#',
+  };
   node = null;
 
   constructor (props) {
     super(props);
-    const { handler: { fetch } } = this.props;
+    const { '💪': { fetch } } = this.props;
     fetch();
   }
 
-  handleKeyDown = (e) => {
-    const {
-      ctrlKey,
-      key,
-      target,
-    } = e;
-    const { node } = this;
-    if (['PageDown', 'PageUp'].includes(key) || (ctrlKey && ['End', 'Home'].includes(key))) {
-      const article = (() => {
-        switch (key) {
-        case 'PageDown':
-          return target.nodeName === 'ARTICLE' && target.nextElementSibling;
-        case 'PageUp':
-          return target.nodeName === 'ARTICLE' && target.previousElementSibling;
-        case 'End':
-          return node.querySelector('[role="feed"] > article:last-of-type');
-        case 'Home':
-          return node.querySelector('[role="feed"] > article:first-of-type');
-        default:
-          return null;
-        }
-      })();
-
-
-      if (article) {
-        e.preventDefault();
-        article.focus();
-        article.scrollIntoView();
-      }
-    }
-  }
-
   handleLoadMore = () => {
-    const { handler } = this.props;
-    handler.expand();
+    const { '💪': { expand } } = this.props;
+    expand();
   }
 
   handleSetDetail = (id) => {
-    this.setState({ currentDetail : id });
+    this.setState({ currentDetail: id });
   }
 
-  handleTimelineClick = () => {
-    //  TK
+  handleSetHash = (hash) => {
+    this.setState({ storedHash: hash });
   }
 
-  setRef = node => {
-    this.node = node;
-  }
+  setRef = node => this.node = node;
 
   render () {
     const {
-      handleKeyDown,
-      handleTimelineClick,
+      handleSetDetail,
+      handleSetHash,
       setRef,
     } = this;
     const {
       activeRoute,
       className,
-      handler,
       hash,
       history,
       icon,
       intl,
-      isLoading,
-      location,
-      match,
-      rainbow,
       path,
-      staticContext,
-      statuses,
       title,
+      '🛄': { intl },
+      '💪': handler,
+      '🏪': {
+        isLoading,
+        rainbow,
+        settings,
+        statuses,
+      },
       ...rest
     } = this.props;
+    const {
+      currentDetail,
+      storedHash,
+    } = this.state;
 
     const computedClass = classNames('MASTODON_GO--TIMELINE', className);
+    const computedHash = activeRoute ? hash : storedHash;
 
     return (
       <div
         className={computedClass}
-        onKeyDown={handleKeyDown}
         ref={setRef}
-        role='feed'
         {...rest}
       >
-        <CommonMenu>
-          <CommonButton
-            active
-            destination={activeRoute ? "#" : undefined}
-            icon={icon}
-            onClick={!activeRoute ? handleTimelineClick : undefined}
-            style={true ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : { color: rainbow.get('1') }}
-            title={intl.formatMessage(messages.timeline)}
-          />
-        </CommonMenu>
+        <TimelineMenu
+          activeRoute={activeRoute}
+          hash={computedHash}
+          history={history}
+          icon={icon}
+          intl={intl}
+          onSetHash={handleSetHash}
+          rainbow={rainbow}
+          title={intl.formatMessage(messages.timeline)}
+        />
         <CommonHeader
           backgroundImage={`linear-gradient(160deg, ${rainbow.get('7').join(', ')})`}
           colour={rainbow.get('1')}
         >{title}</CommonHeader>
-        <div className='content'>
-          {statuses ? statuses.map((id, index) => (
-            <StatusContainer
-              key={id}
-              id={id}
-              index={index}
-              listLength={statuses.size}
-              detailed={currentDetail === id}
-              setDetail={handleSetDetail}
-            />
-          )) : null}
-        </div>
-        {isLoading || true ? (
-          <div
-            className='loading_bar'
-            style={{ backgroundImage: `linear-gradient(90deg, ${rainbow.get('7').join(', ')}, ${rainbow.getIn(['7', 0])})` }}
-          />
+        <CommonList>
+          {statuses ? statuses.reduce(
+            (items, id) => items.push(
+              <StatusContainer
+                detailed={currentDetail === id}
+                filterRegex={settings.getIn(['regex', 'body'])}
+                hideIf={(settings.getIn(['shows', 'reblog']) && POST_TYPE.IS_REBLOG) | (settings.getIn(['shows', 'reply']) && POST_TYPE.IS_MENTION)}
+                id={id}
+                key={id}
+                setDetail={handleSetDetail}
+              />
+            ),
+            []
+          ) : null}
+        </CommonList>
+        <TimelinePane
+          hash={computedHash}
+          intl={intl}
+          path={path}
+        />
+        {isLoading ? (
+          <CommonLoadbar backgroundImage:={`linear-gradient(90deg, ${rainbow.get('15').join(', ')}, ${rainbow.getIn(['15', 0])})`} />
         ) : null}
       </div>
     );

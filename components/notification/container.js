@@ -23,12 +23,10 @@ import { connect } from 'themes/mastodon-go/util/connect';
 //  Connecting
 //  ----------
 
-//  Selector factory (props-only).
-export default connect(
-  go => createStructuredSelector({
-    account: (state, { id }) => state.getIn(['notification', id, 'account']),
-    datetime: (state, { id }) => state.getIn(['notification', id, 'datetime']),
-    status: (state, { id }) => state.getIn(['notification', id, 'status']),
-    type: (state, { id }) => state.getIn(['notification', id, 'type']),
-  }),
-)(Notification);
+//  Selector factory.
+export default connect(createStructuredSelector({
+  account: (state, { id }) => state.getIn(['notification', id, 'account']),
+  datetime: (state, { id }) => state.getIn(['notification', id, 'datetime']),
+  status: (state, { id }) => state.getIn(['notification', id, 'status']),
+  type: (state, { id }) => state.getIn(['notification', id, 'type']),
+}))(Notification);

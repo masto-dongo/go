@@ -1,89 +1,77 @@
 //  Package imports  //
+import classNames from 'class-names';
+import PropTypes from 'prop-types';
 import React from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import ImmutablePureComponent from 'react-immutable-pure-component';
-
-//  Mastodon imports  //
 
 //  Our imports  //
-import StatusContainer from '../status/container';
-import NotificationFollow from './follow';
-import NotificationOverlayContainer from './overlay/container';
+import {
+  AccountContainer,
+  StatusContainer,
+} from 'themes/mastodon-go/components';
 
-export default class Notification extends ImmutablePureComponent {
+import { POST_TYPE } from 'themes/mastodon-go/util/constants';
+
+export default class Notification extends React.PureComponent {
 
   static propTypes = {
-    notification: ImmutablePropTypes.map.isRequired,
-    settings: ImmutablePropTypes.map.isRequired,
+    className: PropTypes.string,
+    hideIf: PropTypes.number,
+    id: PropTypes.string.isRequired,
+    observer: PropTypes.object,
+    '🛄': PropTypes.shape({ intl: PropTypes.object }),
+    '💪': PropTypes.objectOf(PropTypes.func),
+    '🏪': PropTypes.shape({
+      account: PropTypes.string.isRequired,
+      datetime: PropTypes.instanceOf(Date),
+      status: PropTypes.string,
+      type: PropTypes.number.isRequired,
+    }).isRequired,
   };
 
-  renderFollow (notification) {
-    return (
-      <NotificationFollow
-        id={notification.get('id')}
-        account={notification.get('account')}
-        notification={notification}
-      />
-    );
-  }
-
-  renderMention (notification) {
-    return (
-      <StatusContainer
-        id={notification.get('status')}
-        notification={notification}
-        withDismiss
-      />
-    );
-  }
-
-  renderFavourite (notification) {
-    return (
-      <StatusContainer
-        id={notification.get('status')}
-        account={notification.get('account')}
-        prepend='favourite'
-        muted
-        notification={notification}
-        withDismiss
-      />
-    );
-  }
-
-  renderReblog (notification) {
-    return (
-      <StatusContainer
-        id={notification.get('status')}
-        account={notification.get('account')}
-        prepend='reblog'
-        muted
-        notification={notification}
-        withDismiss
-      />
-    );
-  }
-
   render () {
-    const { notification } = this.props;
+    const {
+      className,
+      hideIf,
+      id,
+      observer,
+      '🛄': context,
+      '💪': handler,
+      '🏪': {
+        account,
+        status,
+        type,
+      },
+      ...rest
+    } = this.props;
+    const computedClass = classNames('MASTODON_GO--NOTIFICATION', className);
+
+    if (hideIf & type) {
+      return null;
+    }
+
+    if (type & POST_TYPE.STATUS) {
+      return (
+        <StatusContainer
+          className={computedClass}
+          comrade={account}
+          containerId={id}
+          id={status}
+          observer={observer}
+          type={type}
+          {...rest}
+        />
+      );
+    }
 
     return (
-      <div class='status'>
-        {(() => {
-          switch (notification.get('type')) {
-          case 'follow':
-            return this.renderFollow(notification);
-          case 'mention':
-            return this.renderMention(notification);
-          case 'favourite':
-            return this.renderFavourite(notification);
-          case 'reblog':
-            return this.renderReblog(notification);
-          default:
-            return null;
-          }
-        })()}
-        <NotificationOverlayContainer notification={notification} />
-      </div>
+      <AccountContainer
+        className={computedClass}
+        containerId={id}
+        id={account}
+        observer={observer}
+        type={type}
+        {...rest}
+      />
     );
   }
 

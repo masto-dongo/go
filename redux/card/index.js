@@ -31,17 +31,17 @@ import { CARD_TYPE } from 'themes/mastodon-go/util/constants';
 //  `normalize()` normalizes our card into an Immutable map.
 const normalize = card => ImmutableMap({
   author: card.author ? ImmutableMap({
-    href: card.author.url,
-    name: card.author.name,
+    href: card.author.url ? '' + card.author.url : null,
+    name: card.author.name ? '' + card.author.name : null,
   }) : null,
   description: '' + card.description,
-  height: card.height,
-  href: '' + card.url,
-  html: card.html,
+  height: +card.height,
+  href: card.url ? '' + card.url : null,
+  html: card.html ? '' + card.html : null,
   image: card.image ? '' + card.image : null,
   provider: card.provider ? ImmutableMap({
-    href: card.provider.url,
-    name: card.provider.name,
+    href: card.provider.url ? '' + card.provider.url : null,
+    name: card.provider.name ? '' + card.provider.name : null,
   }) : null,
   rainbow: ImmutableMap({
     1: rainbow(card.url),
@@ -66,7 +66,7 @@ const normalize = card => ImmutableMap({
       }
     }
   )(card.type),
-  width: card.width,
+  width: +card.width,
 });
 
 //  * * * * * * *  //

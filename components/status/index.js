@@ -1,9 +1,6 @@
 //  <Status>
 //  ========
 
-//  For code documentation, please see:
-//  https://glitch-soc.github.io/docs/javascript/glitch/status
-
 //  For more information, please contact:
 //  @kibi@glitch.social
 
@@ -26,7 +23,10 @@ import {
 } from 'themes/mastodon-go/components';
 
 //  Common imports.
-import { CommonButton } from 'themes/mastodon-go/components';
+import {
+  CommonButton,
+  CommonObservable,
+} from 'themes/mastodon-go/components';
 
 //  Our imports.
 import StatusActionBar from './action_bar';
@@ -40,7 +40,7 @@ import './style';
 
 //  Other imports.
 import {
-  PREPEND_TYPE,
+  POST_TYPE,
   VISIBILITY,
 } from 'themes/mastodon-go/util/constants';
 
@@ -53,34 +53,36 @@ export default class Status extends React.PureComponent {
 
   //  Props, and state.
   static propTypes = {
-    account: PropTypes.string.isRequired,
-    application: ImmutablePropTypes.map,
-    card: ImmutablePropTypes.map,
     className: PropTypes.string,
-    comrade: PropTypes.string,
-    content: PropTypes.string,
-    datetime: PropTypes.instanceOf(Date),
+    containerId: PropTypes.string,
     detailed: PropTypes.bool,
-    handler: PropTypes.objectOf(PropTypes.func).isRequired,
+    filterRegex: PropTypes.string,
+    hideIf: PropTypes.number,
     history: PropTypes.object,
-    href: PropTypes.string,
     id: PropTypes.string.isRequired,
-    index: PropTypes.number,
-    inReplyTo: PropTypes.map,
-    intl: PropTypes.object,
-    is: ImmutablePropTypes.map.isRequired,
-    listLength: PropTypes.number,
-    location: PropTypes.object,  //  Not updated; don't use
-    match: PropTypes.object,  //  Not updated; don't use
-    me: PropTypes.string,
-    media: ImmutablePropTypes.list,
-    mentions: ImmutablePropTypes.list,
-    sensitive: PropTypes.bool,
+    observer: PropTypes.object,
     setDetail: PropTypes.func,
-    spoiler: PropTypes.string,
-    staticContext: PropTypes.object,  //  Don't use
-    tags: ImmutablePropTypes.list,
-    visibility: PropTypes.number.isRequired,
+    '🛄': PropTypes.shape({ intl: PropTypes.object.isRequired }).isRequired,
+    '💪': PropTypes.objectOf(PropTypes.func).isRequired,
+    '🏪': PropTypes.shape({
+      account: PropTypes.string.isRequired,
+      application: ImmutablePropTypes.map,
+      card: ImmutablePropTypes.map,
+      comrade: PropTypes.string,
+      content: ImmutablePropTypes.map,
+      datetime: PropTypes.instanceOf(Date),
+      href: PropTypes.string,
+      inReplyTo: PropTypes.map,
+      is: ImmutablePropTypes.map.isRequired,
+      me: PropTypes.string,
+      media: ImmutablePropTypes.list,
+      mentions: ImmutablePropTypes.list,
+      sensitive: PropTypes.bool,
+      spoiler: PropTypes.string,
+      tags: ImmutablePropTypes.list,
+      type: PropTypes.number,
+      visibility: PropTypes.number.isRequired,
+    }).isRequired,
   }
   state = {
     contentVisible: !this.props.spoiler,
@@ -90,11 +92,13 @@ export default class Status extends React.PureComponent {
   //  detailed status and we don't already have it.
   componentWillMount () {
     const {
-      card,
       detailed,
-      handler,
+      '💪': { card: handleCard },
+      '🏪': { card },
     } = this.props;
-    if (!card && detailed) handler.card();
+    if (!card && detailed) {
+      handleCard();
+    }
   }
 
   //  If our component is about to become detailed, we request its card
@@ -102,10 +106,10 @@ export default class Status extends React.PureComponent {
   componentWillUpdate (nextProps) {
     const {
       detailed,
-      handler,
+      '💪': { card: handleCard },
     } = this.props;
-    if (!nextProps.card && nextProps.detailed && !detailed) {
-      handler.card();
+    if (!nextProps['🏪'].card && nextProps.detailed && !detailed) {
+      handleCard();
     }
   }
 
@@ -135,10 +139,15 @@ export default class Status extends React.PureComponent {
   //  `handleClick()` handles all clicking stuff. We route links and
   //  make our status detailed if it isn't already.
   handleClick = (e) => {
-    const { detailed, history, id, setDetail, status } = this.props;
-    if (!history || e.button || e.ctrlKey || e.shiftKey || e.altKey || e.metaKey) return;
-    if (setDetail) setDetail(detailed ? null : id);
-    e.preventDefault();
+    const {
+      detailed,
+      id,
+      setDetail,
+    } = this.props;
+    if (setDetail && !(e.button || e.ctrlKey || e.shiftKey || e.altKey || e.metaKey)) {
+      setDetail(detailed ? null : id);
+      e.preventDefault();
+    }
   }
 
   //  Puts our element on the screen.
@@ -148,69 +157,80 @@ export default class Status extends React.PureComponent {
       setExpansion,
     } = this;
     const {
-      account,
-      application,
-      card,
       className,
-      comrade,
-      content,
-      datetime,
+      containerId,
       detailed,
-      handler,
+      filterRegex,
+      hideIf,
       history,
-      href,
       id,
-      index,
-      inReplyTo,
-      intl,
-      is,
-      listLength,
-      location,
-      match,
-      me,
-      media,
-      mentions,
-      sensitive,
+      observer,
       setDetail,
-      spoiler,
-      staticContext,
-      tags,
-      visibility,
+      '🛄': { intl },
+      '💪': handler,
+      '🏪': {
+        account,
+        application,
+        card,
+        comrade,
+        content,
+        datetime,
+        href,
+        inReplyTo,
+        is,
+        me,
+        media,
+        mentions,
+        sensitive,
+        spoiler,
+        tags,
+        type,
+        visibility,
+      },
+      ...rest
     } = this.props;
     const { contentVisible } = this.state;
 
-    let computedClass = classNames('MASTODON_GO--STATUS', {
+    const computedClass = classNames('MASTODON_GO--STATUS', {
       detailed,
       direct: visibility === VISIBILITY.DIRECT,
     }, className);
 
-    let conditionalProps = {};
-    let selectorAttribs = {};
+    const regex = function (exp) {
+      try {
+        return exp && new RegExp(exp, 'i');
+      } catch (e) {}
+    }(filterRegex);
 
-    //  If there's no status, we can't render lol.
-    if (status === null) {
-      return <StatusMissing />;
+    if (hideIf & type || regex && account !== me && regex.test(spoiler + '\n\n' + content.get('plain'))) {
+      return null;
     }
 
-    //  If our index and list length have been set, we can set the
-    //  corresponding ARIA attributes.
-    if (isFinite(index) && isFinite(listLength)) conditionalProps = {
-      'aria-posinset': index,
-      'aria-setsize': listLength,
-    };
+    //  If there's no status, we can't render lol.
+    if (!content) {
+      return (
+      <CommonObservable
+        className={computedClass}
+        id={containerId || id}
+        observer={observer}
+        {...rest}
+      ><StatusMissing /></CommonObservable>
+      );
+    }
 
     //  Otherwise, we can render our status!
     return (
-      <article
+      <CommonObservable
         className={computedClass}
-        {...conditionalProps}
-        {...selectorAttribs}
-        tabIndex='0'
+        id={containerId || id}
+        observer={observer}
+        searchText={spoiler + '\n\n' + content.get('plain')}
+        {...rest}
       >
-        {(comrade || inReplyTo) && false ? (  //  TK: Prepend support
+        {false ? (  //  TK: Prepend support
           <PrependContainer
             comrade={comrade || inReplyTo.account}
-            type={PREPEND_TYPE.STATUS | !!comrade * PREPEND_TYPE.REBLOG | !!inReplyTo * PREPEND_TYPE.REPLY}
+            type={POST_TYPE}
           />
         ) : null}
         <AccountContainer
@@ -253,7 +273,7 @@ export default class Status extends React.PureComponent {
         {detailed ? (
           <StatusNav id={id} intl={intl} />
         ) : null}
-      </article>
+      </CommonObservable>
     );
 
   }

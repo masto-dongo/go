@@ -1,8 +1,5 @@
-//  <StatusContentCard>
-//  ========
-
-//  For code documentation, please see:
-//  https://glitch-soc.github.io/docs/javascript/glitch/status/content/card
+//  <Card>
+//  ======
 
 //  For more information, please contact:
 //  @kibi@glitch.social
@@ -15,82 +12,82 @@
 //  Package imports.
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import punycode from 'punycode';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import ImmutablePureComponent from 'react-immutable-pure-component';
 
-//  Mastodon imports.
-import emojify from 'mastodon/emoji';
+import { ParseContainer } from 'themes/mastodon_go/components';
 
-//  Our imports.
-import CommonLink from 'glitch/components/common/link';
-import CommonSeparator from 'glitch/components/common/separator';
+import {
+  CommonLink,
+  CommonSeparator,
+} from 'themes/mastodon_go/components';
+
+import CardReference from './reference';
 
 //  Stylesheet imports.
 import './style';
 
 //  * * * * * * *  //
 
-//  Initial setup
-//  -------------
-
-//  Reliably gets the hostname from a URL.
-const getHostname = url => {
-  const parser = document.createElement('a');
-  parser.href = url;
-  return parser.hostname;
-};
-
-//  * * * * * * *  //
-
 //  The component
 //  -------------
-export default class Card extends ImmutablePureComponent {
+export default class Card extends React.PureComponent {
 
   //  Props.
   static propTypes = {
-    card: ImmutablePropTypes.map.isRequired,
-    fullwidth: PropTypes.bool,
-    letterbox: PropTypes.bool,
+    className: PropTypes.string,
+    id: PropTypes.string.isRequired,
+    '🛄': PropTypes.shape({ intl: PropTypes.object }),
+    '💪': PropTypes.objectOf(PropTypes.func),
+    '🏪': PropTypes.shape({
+      author: ImmutablePropTypes.map,
+      description: PropTypes.string,
+      height: PropTypes.number,
+      href: PropTypes.string,
+      html: PropTypes.string,
+      image: PropTypes.string,
+      provider: ImmutablePropTypes.map,
+      rainbow: ImmutablePropTypes.map,
+      title: PropTypes.string,
+      type: PropTypes.number.isRequired,
+      width: PropTypes.number,
+    }).isRequired,
   }
 
   //  Rendering.
   render () {
-    const { card, fullwidth, letterbox } = this.props;
+    const {
+      className,
+      id,
+      '🛄': context,
+      '💪': handler,
+      '🏪': PropTypes.shape({
+        author,
+        description,
+        height,
+        href,
+        html,
+        image,
+        provider,
+        rainbow,
+        title,
+        type,
+        width,
+      }).isRequired,
+    } = this.props;
     let media = null;
     let text = null;
-    let author = null;
-    let provider = null;
     let caption = null;
 
-    //  This gets all of our card properties.
-    const authorName = card.get('author_name');
-    const authorUrl = card.get('author_url');
-    const description = card.get('description');
-    const html = card.get('html');
-    const image = card.get('image');
-    const providerName = card.get('provider_name');
-    const providerUrl = card.get('provider_url');
-    const title = card.get('title');
-    const type = card.get('type');
-    const url = card.get('url');
-
     //  Sets our class.
-    const computedClass = classNames('glitch', 'glitch__status__content__card', type, {
-      _fullwidth: fullwidth,
-      _letterbox: letterbox,
-    });
-
-    //  A card is required to render.
-    if (!card) return null;
+    const computedClass = classNames('MASTODON_GO--CARD', className);
 
     //  This generates our card media (image or video).
-    switch(type) {
+    switch (type) {
     case 'photo':
       media = (
         <CommonLink
-          className='card\media card\photo'
+          className='image'
           href={url}
         >
           <img
@@ -103,8 +100,9 @@ export default class Card extends ImmutablePureComponent {
     case 'video':
       media = (
         <div
-          className='card\media card\video'
+          className='video'
           dangerouslySetInnerHTML={{ __html: html }}
+          title={title}
         />
       );
       break;
@@ -115,64 +113,50 @@ export default class Card extends ImmutablePureComponent {
     if (title || description) {
       text = (
         <CommonLink
-          className='card\description'
+          className='description'
           href={url}
         >
           {type === 'link' && image ? (
-            <div className='card\thumbnail'>
-              <img
-                alt=''
-                className='card\image'
-                src={image}
-              />
-            </div>
+            <img
+              alt=''
+              className='thumbnail'
+              src={image}
+            />
           ) : null}
           {title ? (
-            <h1 className='card\title'>{title}</h1>
+            <h1>
+              <ParseContainer
+                text={title}
+                type='emoji'
+              />
+            </h1>
           ) : null}
-          {emojify(description)}
+          {description ? (
+            <ParseContainer
+              text={description}
+              type='emoji'
+            />
+          ) : null}
         </CommonLink>
       );
-    }
-
-    //  This creates links or spans (depending on whether a URL was
-    //  provided) for the card author and provider.
-    if (authorUrl) {
-      author = (
-        <CommonLink
-          className='card\author card\link'
-          href={authorUrl}
-        >
-          {authorName ? authorName : punycode.toUnicode(getHostname(authorUrl))}
-        </CommonLink>
-      );
-    } else if (authorName) {
-      author = <span className='card\author'>{authorName}</span>;
-    }
-    if (providerUrl) {
-      provider = (
-        <CommonLink
-          className='card\provider card\link'
-          href={providerUrl}
-        >
-          {providerName ? providerName : punycode.toUnicode(getHostname(providerUrl))}
-        </CommonLink>
-      );
-    } else if (providerName) {
-      provider = <span className='card\provider'>{providerName}</span>;
     }
 
     //  If we have either the author or the provider, then we can
-    //  render an attachment.
+    //  render a caption.
     if (author || provider) {
       caption = (
-        <figcaption className='card\caption'>
-          {author}
-          <CommonSeparator
-            className='card\separator'
-            visible={author && provider}
+        <figcaption>
+          <CardReference
+            className='author'
+            href={author.get('href')}
+            name={author.get('name')}
           />
-          {provider}
+          <CommonSeparator visible={author && provider} />
+          <CardReference
+            className='provider'
+            href={provider.get('href')}
+            name={provider.get('name')}
+          />
         </figcaption>
       );
     }

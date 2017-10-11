@@ -7,12 +7,13 @@ import Switch from 'react-router-dom/Switch';
 import Route from 'react-router-dom/Route';
 
 import {
+  CatalogueContainer,
+  CourierContainer,
+  DrawerContainer,
+  ProfileContainer,
   StartContainer,
   TimelineContainer,
 } from 'themes/mastodon-go/components';
-
-import { RAINBOW } from 'themes/mastodon-go/util/constants';
-import rainbow from 'themes/mastodon-go/util/rainbow';
 
 //  Stylesheet imports.
 import './style';
@@ -36,7 +37,7 @@ const messages = defineMessages({
   },
 });
 
-export default class UIColumn extends React.Component {  //  Impure
+export default class UIColumn extends React.PureComponent {
 
   static propTypes = {
     activeRoute: PropTypes.bool,
@@ -82,26 +83,19 @@ export default class UIColumn extends React.Component {  //  Impure
                 activeRoute={activeRoute}
                 {...(activeRoute && hash ? { hash } : {})}
                 history={history}
-                intl={intl}
               />
             )}
           />
 
           <Route
             exact
-            path='/notifications'
+            path='/courier'
             render={({ location: { hash } }) => (
-              <section
-                className={computedClass}
-                {...rest}
-              >
-                <UIColumnCourier
-                  activeRoute={activeRoute}
-                  {...(activeRoute && hash ? { hash } : {})}
-                  history={history}
-                  intl={intl}
-                />
-              </section>
+              <CourierContainer
+                activeRoute={activeRoute}
+                {...(activeRoute && hash ? { hash } : {})}
+                history={history}
+              />
             )}
           />
 
@@ -109,17 +103,11 @@ export default class UIColumn extends React.Component {  //  Impure
             exact
             path='/compose'
             render={({ location: { hash } }) => (
-              <section
-                className={computedClass}
-                {...rest}
-              >
-                <UIColumnDrawer
-                  activeRoute={activeRoute}
-                  {...(activeRoute && hash ? { hash } : {})}
-                  history={history}
-                  intl={intl}
-                />
-              </section>
+              <DrawerContainer
+                activeRoute={activeRoute}
+                {...(activeRoute && hash ? { hash } : {})}
+                history={history}
+              />
             )}
           />
 
@@ -130,6 +118,7 @@ export default class UIColumn extends React.Component {  //  Impure
               <TimelineContainer
                 activeRoute={activeRoute}
                 {...(activeRoute && hash ? { hash } : {})}
+                history={history}
                 icon='home'
                 path='/api/v1/timelines/home'
                 title={<FormattedMessage {...messages.home} />}
@@ -143,6 +132,7 @@ export default class UIColumn extends React.Component {  //  Impure
               <TimelineContainer
                 activeRoute={activeRoute}
                 {...(activeRoute && hash ? { hash } : {})}
+                history={history}
                 icon='globe'
                 path='/api/v1/timelines/public'
                 title={<FormattedMessage {...messages.global} />}
@@ -156,6 +146,7 @@ export default class UIColumn extends React.Component {  //  Impure
               <TimelineContainer
                 activeRoute={activeRoute}
                 {...(activeRoute && hash ? { hash } : {})}
+                history={history}
                 icon='users'
                 path='/api/v1/timelines/public?local=true'
                 title={<FormattedMessage {...messages.local} />}
@@ -172,6 +163,7 @@ export default class UIColumn extends React.Component {  //  Impure
               <TimelineContainer
                 activeRoute={activeRoute}
                 {...(activeRoute && hash ? { hash } : {})}
+                history={history}
                 icon='hashtag'
                 path={`/api/v1/tag/${query}`}
                 title={query}
@@ -188,6 +180,7 @@ export default class UIColumn extends React.Component {  //  Impure
               <TimelineContainer
                 activeRoute={activeRoute}
                 {...(activeRoute && hash ? { hash } : {})}
+                history={history}
                 icon='hashtag'
                 path={`/api/v1/tag/${query}?local=true`}
                 title={<FormattedMessage {...messages.localTag} values={{ query }} />}
@@ -202,34 +195,23 @@ export default class UIColumn extends React.Component {  //  Impure
               location: { hash },
               match: { params: { id } },
             }) => (
-              <section
-                className={computedClass}
-                {...rest}
-              >
-                <UIColumnProfile
-                  activeRoute={activeRoute}
-                  {...(activeRoute && hash ? { hash } : {})}
-                  history={history}
-                  id={id}
-                  intl={intl}
-                />
-              </section>
+              <ProfileContainer
+                activeRoute={activeRoute}
+                {...(activeRoute && hash ? { hash } : {})}
+                history={history}
+                id={id}
+              />
             )}
           />
 
           <Route
             render={({ location: { hash } }) => (
-              <section
-                className={computedClass}
-                {...rest}
-              >
-                <UIColumnUnknown
-                  activeRoute={activeRoute}
-                  {...(activeRoute && hash ? { hash } : {})}
-                  history={history}
-                  intl={intl}
-                />
-              </section>
+              <UIColumnUnknown
+                activeRoute={activeRoute}
+                {...(activeRoute && hash ? { hash } : {})}
+                history={history}
+                intl={intl}
+              />
             )}
           />
         </Switch>

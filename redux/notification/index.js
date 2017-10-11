@@ -33,7 +33,7 @@ import { RELATIONSHIP_MUTE_SUCCESS } from 'themes/mastodon-go/redux/relationship
 import { STATUS_REMOVE_COMPLETE } from 'themes/mastodon-go/redux/status/remove';
 
 //  Our imports.
-import { NOTIFICATION_TYPE } from 'themes/mastodon-go/util/constants';
+import { POST_TYPE } from 'themes/mastodon-go/util/constants';
 
 //  * * * * * * *  //
 

@@ -8,38 +8,4 @@
     left: 3.5rem;
     right: 0;
   }
-
-  & > *.content {
-    display: block;
-    margin: 0;
-    border: none;
-    padding: 0;
-    height: 100%;
-    overflow: auto;
-  }
-
-  & > *.loading_bar {
-    display: block;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: 0;
-    border: none;
-    padding: 0;
-    height: 4px;
-    background-attachment: scroll;
-    background-size: 23rem auto;
-    background-repeat: repeat-x;
-    animation: 2s mastodon_go_timeline_is_loading linear infinite;
-
-    @keyframes mastodon_go_timeline_is_loading {
-      from {
-        background-position: 0 0;
-      }
-      to {
-        background-position: 23rem 0;
-      }
-    }
-  }
 }

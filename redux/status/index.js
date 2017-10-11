@@ -53,12 +53,18 @@ import { TIMELINE_REFRESH_SUCCESS } from 'themes/mastodon-go/redux/timeline/refr
 import { TIMELINE_UPDATE_RECEIVE } from 'themes/mastodon-go/redux/timeline/update';
 
 //  Other imports.
-import { VISIBILITY } from 'themes/mastodon-go/util/constants';
+import {
+  POST_TYPE,
+  VISIBILITY,
+} from 'themes/mastodon-go/util/constants';
+import { DOMParser } from 'themes/mastodon-go/util/polyfills';
 
 //  * * * * * * *  //
 
 //  Setup
 //  -----
+
+const domParser = new DOMParser();
 
 //  `normalize` takes a `status` API object and turns it into an
 //  Immutable map that we can store. We only keep track of the `id`
@@ -70,7 +76,10 @@ const normalize = status => ImmutableMap({
     name: status.application.name,
     website: status.application.website,
   }),
-  content: '' + status.content,
+  content: ImmutableMap({
+    html: '' + status.content,
+    plain: domParser.parseFromString(status.content.replace(/<br \/>/g, '\n').replace(/<\/p><p>/g, '\n\n'), 'text/html').documentElement.textContent,
+  }),
   counts: ImmutableMap({
     favourites: +status.favourites_count,
     reblogs: +status.reblogs_count,
@@ -94,7 +103,7 @@ const normalize = status => ImmutableMap({
   mentions: ImmutableList(status.mentions.map(
     mention => '' + mention.id,
   )),
-  reblog: '' + status.reblog.id,
+  reblog: status.reblog ? '' + status.reblog.id : null,
   sensitive: !!status.sensitive,
   spoiler: '' + status.spoiler_text,
   tags: ImmutableList(status.tags.map(

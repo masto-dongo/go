@@ -84,7 +84,7 @@ const normalize = attachment => ImmutableMap({
       }
     }
   )(attachment.type),
-  width: +((attachment.meta || {}).small || {}).width,
+  width: +((attachment.meta || {}).original || {}).width,
 })
 
 //  * * * * * * *  //

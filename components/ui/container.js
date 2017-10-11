@@ -10,10 +10,7 @@
 //  -------
 
 //  Package imports.
-import {
-  createSelector,
-  createStructuredSelector,
-} from 'reselect';
+import { createStructuredSelector } from 'reselect';
 
 //  Request imports.
 import { loadMeta } from 'themes/mastodon-go/redux';
@@ -31,25 +28,10 @@ import connect from 'themes/mastodon-go/util/connect';
 
 //  Selector factory.
 export default connect(
-  go => createSelector(
-
-    //  Connected props.
-    createStructuredSelector({
-      //  TK: TODO
-    }),
-
-    //  Own props.
-    (store, ownProps) => ownProps,
-
-    //  Result.
-    (props, ownProps) => ({
-      handler: {
-        fetch () {
-          go(loadMeta);
-        },
-      },
-      ...ownProps,
-      ...props,
-    })
-  )
+  createStructuredSelector({
+    //  TK: TODO
+  }),
+  (props, ownProps) => ({
+    fetch: () => go(loadMeta),
+  })
 )(UI);

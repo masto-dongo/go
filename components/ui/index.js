@@ -17,15 +17,17 @@ export default class UI extends React.Component {  //  Impure
     className: PropTypes.string,
     handler: PropTypes.objectOf(PropTypes.func).isRequired,
     history: PropTypes.object,
-    intl: PropTypes.object.isRequired,
     location: PropTypes.object,
     match: PropTypes.object,
     staticContext: PropTypes.object,  //  Unused
+    '🛄': PropTypes.shape({ intl: PropTypes.object.isRequired }).isRequired,
+    '💪': PropTypes.objectOf(PropTypes.func).isRequired,
+    '🏪': PropTypes.shape({}),
   };
 
   constructor (props) {
     super(props);
-    const { handler: { fetch } } = props;
+    const { '💪': { fetch } } = props;
     fetch();
   }
 
@@ -36,12 +38,13 @@ export default class UI extends React.Component {  //  Impure
   render () {
     const {
       className,
-      handler,
       history,
-      intl,
       location,
       match,
       staticContext,
+      '🛄': { intl },
+      '💪': handler,
+      '🏪': store,
       ...rest
     } = this.props;
 
@@ -52,7 +55,7 @@ export default class UI extends React.Component {  //  Impure
     return (
       <div
         className={computedClass}
-        //{...rest}
+        {...rest}
       >
         <UIModal history={history} />
         <UIColumn

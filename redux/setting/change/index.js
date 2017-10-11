@@ -5,14 +5,15 @@
 export const SETTING_CHANGE_COMPLETE = 'SETTING_CHANGE_COMPLETE';
 
 //  Action creators.
-const change = (key, value) => ({
+const change = (key, value, global) => ({
+  global,
   key,
   type: SETTING_CHANGE_COMPLETE,
   value,
 });
 
 //  Request.
-export default function changeSetting (key, value, go, current) {
-  go(change, key, value);
-  localStorage.setItem(`mastodon-go/${current().getIn(['meta', 'me'])}/settings`, JSON.stringify(state.get('settings').toJS()));
+export default function changeSetting (key, value, global, go, current) {
+  go(change, key, value, global);
+  localStorage.setItem(`mastodon-go/${current().getIn(['meta', 'me'])}/settings`, JSON.stringify(state.getIn(['settings', 'local']).toJS()));
 }

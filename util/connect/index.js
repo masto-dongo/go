@@ -68,6 +68,7 @@ import { injectIntl } from 'react-intl';
 import { connectAdvanced as reduxConnect } from 'react-redux';
 import shallowEqual from 'react-redux/lib/utils/shallowEqual';
 import { withRouter } from 'react-router';
+import { createSelector } from 'reselect';
 
 //  * * * * * * *  //
 
@@ -98,17 +99,38 @@ function readyToGo (fn, ...args) {
 
 //  `connect()` takes in a selector factory and hands it our `go()`
 //  function—which is just `dispatch()` composed with `readyToGo()`.
-export default function connect (factory, updateOnRouteChange, ...args) {
+export default function connect (stater, dispatcher, ...args) {
   return function (component) {
 
     //  `selectorFactory()` takes `dispatch()` and uses it to construct a
     //  `go()` function, which is then handed to our `factory`.
     const selectorFactory = dispatch => {
+
       const go = factory.length > args.length ?
         (fn, ...args) => dispatch(readyToGo(fn, ...args))
       : void 0;
-      const selector = factory(...args, go);
+
+      const selector = createSelector(
+        [
+          stater ? stater : () => null,
+          (state, ownProps) => ownProps,
+        ],
+        (store, {
+          intl,
+          ...props
+        }) => {
+          const context = { intl };
+          return {
+            ...props,
+            '🛄': context,
+            '💪': dispatcher ? dispatcher(go, store, props, context) : null,
+            '🏪': store,
+          };
+        };
+      );
+
       let props = null;
+
       return function (store, ownProps) {
         let shouldUpdate = false;
         if (typeof component.shouldComponentUpdate === 'function') {
@@ -121,10 +143,7 @@ export default function connect (factory, updateOnRouteChange, ...args) {
       }
     }
 
-    //  All connected functions are passed through `injectIntl` and
-    //  `withRouter`. The order of this composition means that the
-    //  component will **NOT** automatically update on router change,
-    //  which is desired behavior.
-    return injectIntl(reduxConnect(selectorFactory)(withRouter(component)));
+    //  All connected functions are passed through `injectIntl`.
+    return injectIntl(reduxConnect(selectorFactory)(component));
   };
 }

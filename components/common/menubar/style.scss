@@ -1,0 +1,41 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--COMMON--MENUBAR {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  width: 3.5rem;
+  color: $mastodon_go_menu_color;
+  background: $mastodon_go_menu_background;
+  overflow: hidden;
+  z-index: 100;
+
+  & > .MASTODON_GO--COMMON--BUTTON {
+    display: block;
+    margin: 0;
+    border-style: none none solid;
+    border-color: transparent;
+    border-width: 0 0 2px;
+    padding: .9375rem .75rem;
+    width: 2rem;
+    height: 1.25rem;
+    background-attachment: scroll;
+    background-clip: padding-box;
+    background-position: center;
+    background-size: cover;
+    font-size: 1.25rem;
+    line-height: 1;
+    text-align: center;
+
+    &.active {
+      color: $mastodon_go_menu_color_active;
+      background-color: $mastodon_go_menu_background_active;  //  Don't use shorthand!
+    }
+  }
+}

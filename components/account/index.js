@@ -22,13 +22,17 @@ import {
 import {
   CommonButton,
   CommonLink,
+  CommonObservable,
 } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style';
 
 //  Other imports.
-import { RELATIONSHIP } from 'themes/mastodon-go/util/constants';
+import {
+  POST_TYPE,
+  RELATIONSHIP,
+} from 'themes/mastodon-go/util/constants';
 
 //  * * * * * * *  //
 
@@ -37,72 +41,83 @@ import { RELATIONSHIP } from 'themes/mastodon-go/util/constants';
 
 //  Component definition.
 const Account = ({
-  at,
   className,
   comrade,
-  displayName,
-  handler,
+  containerId,
   history,
-  href,
   id,
-  intl,
-  location,  //  Not updated; don't use
-  match,  //  Not updated; don't use
-  rainbow,
-  relationship,
-  size,
+  small,
+  type,
+  '🛄': { intl },
+  '💪': handler,
+  '🏪': {
+    at,
+    displayName,
+    href,
+    rainbow,
+    relationship,
+  },
   ...rest
 }) => {
   const computedClass = classNames('MASTODON_GO--ACCOUNT', { small }, className);
   return (
-    <div
+    <CommonObservable
       className={computedClass}
-      style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('7').join(', ')})` } : {}}
+      id={containerId || id}
+      observer={observer}
+      searchText={displayName + '\n@' + at}
       {...rest}
     >
-      <AvatarContainer
-        account={id}
-        comrade={comrade}
-      />
-      <CommonLink
-        className='info'
-        destination={`/profile/${id}`}
-        history={history}
-        href={href}
+      <div
+        className='container'
+        style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('7').join(', ')})` } : {}}
       >
-        <b>
-          <ParserContainer
-            text={displayName || '———'}
-            type={ParseContainer.Type.EMOJI}
-          />
-        </b>
-        <code>@{at}</code>
-      </CommonLink>
-      {!small ?
-        <CommonButton
-          //  TK: relationship following stuff idk
+        <AvatarContainer
+          account={id}
+          comrade={comrade}
         />
-      : null}
-    </div>
+        <CommonLink
+          className='info'
+          destination={`/profile/${id}`}
+          history={history}
+          href={href}
+        >
+          <b>
+            <ParserContainer
+              text={displayName || '———'}
+              type='emoji'
+            />
+          </b>
+          <code>@{at}</code>
+        </CommonLink>
+        {!small ?
+          <CommonButton
+            //  TK: relationship following stuff idk
+          />
+        : null}
+      </div>
+    </CommonObservable>
   );
 }
 
 //  Component props.
 Account.propTypes = {
-  at: PropTypes.string.isRequired,
   className: PropTypes.string,
   comrade: PropTypes.string,
-  displayName: PropTypes.string,
-  handler: PropTypes.objectOf(PropTypes.func).isRequired,
+  containerId: PropTypes.string,
   history: PropTypes.object,
-  href: PropTypes.string,
   id: PropTypes.string.isRequired,
-  intl: PropTypes.object,
-  location: PropTypes.object,  //  Not updated; don't use
-  match: PropTypes.object,  //  Not updated; don't use
-  rainbow: ImmutablePropTypes.map,
-  relationship: PropTypes.number,
   small: PropTypes.bool,
+  type: PropTypes.number,
+  '🛄': PropTypes.shape({ intl: PropTypes.object }),
+  '💪': PropTypes.objectOf(PropTypes.func),
+  '🏪': PropTypes.shape({
+    at: PropTypes.string.isRequired,
+    displayName: PropTypes.string,
+    href: PropTypes.string,
+    rainbow: ImmutablePropTypes.map,
+    relationship: PropTypes.number,
+  }).isRequired,
 };
 
 //  Export.

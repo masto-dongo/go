@@ -30,26 +30,15 @@ import { connect } from 'themes/mastodon-go/util/connect';
 //  Connecting
 //  ----------
 
-//  Selector factory.
 export default connect(
-  go => createSelector(
-
-    //  Props.
-    createStructuredSelector({
-      accounts: (state, { path }) => state.getIn(['catalogue', path, 'accounts']),
-    }),
-
-    //  Inputs.
-    (state, { path }) => path,
-
-    //  Result.
-    (props, path) => ({
-      handler: {
-        expand: () => go(expandCatalogue, path),
-        block: () => go(fetchCatalogue, path),
-        follow: () => go(refreshCatalogue, path),
-      },
-      ...props,
-    })
-  )
+  createStructuredSelector({
+    accounts: (state, { path }) => state.getIn(['catalogue', path, 'accounts']),
+    isLoading: (state, { path }) => state.getIn(['catalogue', path, 'isLoading']),
+    rainbow: (state, { path }) => state.getIn(['catalogue', path, 'rainbow']),
+  }),
+  (go, store, { path }) => ({
+    expand: () => go(expandCatalogue, path),
+    block: () => go(fetchCatalogue, path),
+    follow: () => go(refreshCatalogue, path),
+  })
 )(Catalogue);

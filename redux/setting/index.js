@@ -23,6 +23,11 @@ import { SETTING_CHANGE_COMPLETE } from 'themes/mastodon-go/redux/setting/change
 
 //  Our `initialState()` holds our default setting values.
 const initialState = ImmutableMap({
+  global: ImmutableMap({
+    courier: ImmutableMap(),
+    timeline: ImmutableMap(),
+  }),
+  local: ImmutableMap(),
 });
 
 //  * * * * * * *  //
@@ -34,7 +39,7 @@ const initialState = ImmutableMap({
 export default function setting (state = initialState, action) {
   switch(action.type) {
   case SETTING_CHANGE_COMPLETE:
-    return state.setIn([].concat(action.key), action.value);
+    return state.setIn([action.global ? 'global' : 'local'].concat(action.key), action.value);
   default:
     return state;
   }

@@ -8,13 +8,6 @@ import ParseStatusContent from './status_content';
 
 import { Emojifier } from 'themes/mastodon-go/util/emojify';
 
-const Type = {
-  ACCOUNT: new String('ACCOUNT'),
-  EMOJI: new String('EMOJI'),
-  STATUS: new String('STATUS'),
-  TEXT: new String('TEXT'),
-}
-
 export default class Parse extends React.PureComponent {
 
   static propTypes = {
@@ -29,10 +22,10 @@ export default class Parse extends React.PureComponent {
     tags: ImmutablePropTypes.list,
     text: PropTypes.string,
     type: PropTypes.oneOf([
-      Type.ACCOUNT,
-      Type.EMOJI,
-      Type.STATUS,
-      Type.TEXT,
+      'account',
+      'emoji',
+      'status',
+      'text',
     ]),
   }
 
@@ -55,14 +48,14 @@ export default class Parse extends React.PureComponent {
     } = this.props;
     const computedClass = classNames('MASTODON_GO--PARSE', className);
     switch (type) {
-    case Parse.Type.ACCOUNT:
+    case 'account':
       return (
         <ParseAccountBio
           className={computedClass}
           text={text}
         />
       );
-    case Parse.Type.EMOJI:
+    case 'emoji':
       return (
         <ParseEmoji
           className={computedClass}
@@ -71,7 +64,7 @@ export default class Parse extends React.PureComponent {
           {...rest}
         />
       );
-    case Parse.Type.STATUS:
+    case 'status':
       return (
         <ParseStatusContent
           card={card}
@@ -84,7 +77,7 @@ export default class Parse extends React.PureComponent {
           {...rest}
         />
       );
-    case Parse.Type.TEXT:
+    case 'text':
       return (
         <ParseTextContent
           className={computedClass}
