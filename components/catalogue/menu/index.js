@@ -1,17 +1,44 @@
+/*********************************************************************\
+|                                                                     |
+|   <CatalogueMenu>                                                   |
+|   ===============                                                   |
+|                                                                     |
+|   Right now, the catalogue menu is just presented for consistency   |
+|   and doesn't actually do anything useful (there aren't any panes   |
+|   for you to navigate to in a catalogue).  But that may change at   |
+|   some point in the future.                                         |
+|                                                                     |
+|                                             ~ @kibi@glitch.social   |
+|                                                                     |
+\*********************************************************************/
+
+//  Imports
+//  -------
+
+//  Package imports.
 import classNames from 'classnames'
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { defineMessages } from 'react-intl';
 
+//  Common imports.
 import {
   CommonButton,
   CommonMenubar,
 } from 'themes/mastodon-go/components';
 
+//  Stylesheet imports.
 import './style';
 
+//  * * * * * * *  //
+
+//  The component
+//  -------------
+
+//  Component definition.
 export default class CatalogueMenu extends React.PureComponent {
 
+  //  Props.
   static propTypes = {
     activeRoute: PropTypes.bool,
     className: PropTypes.string,
@@ -24,6 +51,7 @@ export default class CatalogueMenu extends React.PureComponent {
     title: PropTypes.node,
   };
 
+  //  Click handling.
   handleCatalogueClick = () => {
     const { onSetHash } = this.props;
     if (onSetHash) {
@@ -31,6 +59,7 @@ export default class CatalogueMenu extends React.PureComponent {
     }
   }
 
+  //  Rendering.
   render () {
     const { handleCatalogueClick } = this;
     const {
@@ -45,9 +74,9 @@ export default class CatalogueMenu extends React.PureComponent {
       title,
       ...rest
     } = this.props;
-
     const computedClass = classNames('MASTODON_GO--CATALGOUE--MENU', className);
 
+    //  Our menu is just a button in a menubar.
     return (
       <CommonMenubar
         className={computedClass}

@@ -1,10 +1,14 @@
-//  <NotificationContainer>
-//  =======================
-
-//  For more information, please contact:
-//  @kibi@glitch.social
-
-//  * * * * * * *  //
+/*********************************************************************\
+|                                                                     |
+|   <NotificationContainer>                                           |
+|   =======================                                           |
+|                                                                     |
+|   Notifications are pretty simple (they're mostly just a wrapper)   |
+|   so the amount of data we need to fetch is fairly light.           |
+|                                                                     |
+|                                             ~ @kibi@glitch.social   |
+|                                                                     |
+\*********************************************************************/
 
 //  Imports
 //  -------
@@ -23,7 +27,7 @@ import { connect } from 'themes/mastodon-go/util/connect';
 //  Connecting
 //  ----------
 
-//  Selector factory.
+//  Building our store.
 export default connect(createStructuredSelector({
   account: (state, { id }) => state.getIn(['notification', id, 'account']),
   datetime: (state, { id }) => state.getIn(['notification', id, 'datetime']),

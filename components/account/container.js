@@ -1,10 +1,14 @@
-//  <AccountContainer>
-//  ==================
-
-//  For more information, please contact:
-//  @kibi@glitch.social
-
-//  * * * * * * *  //
+/*********************************************************************\
+|                                                                     |
+|   <AccountContainer>                                                |
+|   ==================                                                |
+|                                                                     |
+|   This is pretty simple—we just snatch the necessary account info   |
+|   from the store.                                                   |
+|                                                                     |
+|                                             ~ @kibi@glitch.social   |
+|                                                                     |
+\*********************************************************************/
 
 //  Imports
 //  -------
@@ -27,7 +31,7 @@ import {
   unmuteRelationship,
 } from 'themes/mastodon-go/redux';
 
-//  Other imports
+//  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
 
 //  * * * * * * *  //
@@ -35,6 +39,7 @@ import connect from 'themes/mastodon-go/util/connect';
 //  Connecting
 //  ----------
 
+//  Building our store and handlers.
 export default connect(
   createStructuredSelector({
     at: (state, { id }) => state.getIn(['account', id, 'at']),

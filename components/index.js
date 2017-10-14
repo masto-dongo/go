@@ -11,26 +11,29 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-//  Higher-order imports.
+//  Higher-order component imports.
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
-import BrowserRouter from 'react-router-dom/BrowserRouter';
-import Route from 'react-router-dom/Route';
+import {
+  BrowserRouter,
+  Route,
+} from 'react-router-dom';
 
 //  Container imports.
 import AccountContainer from './account/container';
-// import AttachmentContainer from './attachment/container';
+import AttachmentContainer from './attachment/container';
 import AvatarContainer from './avatar/container';
-// import CardContainer from './card/container';
-// import CatalogueContainer from './catalogue/container';
-// import ComposerContainer from './composer/container';
-// import ConversationContainer from './conversation/container';
-// import CourierContainer from './courier/container';
-// import NotificationContainer from './notification/container';
+import CardContainer from './card/container';
+import CatalogueContainer from './catalogue/container';
+import ConversationContainer from './conversation/container';
+import CourierContainer from './courier/container';
+import DrawerContainer from './drawer/container';
+import NotificationContainer from './notification/container';
 import ParseContainer from './parse/container';
-// import PrependContainer from './prepend/container';
-// import ProfileContainer from './profile/container';
+import PrependContainer from './prepend/container';
+import ProfileContainer from './profile/container';
 import ReferenceContainer from './reference/container';
+import SettingContainer from './setting/container';
 import StartContainer from './start/container';
 import StatusContainer from './status/container';
 import TimelineContainer from './timeline/container';
@@ -44,7 +47,8 @@ import './style';
 //  The component
 //  -------------
 
-const MastodonGO = ({
+//  Component definition.
+export default function MastodonGO = ({
   className,
   locale,
   messages,
@@ -52,6 +56,8 @@ const MastodonGO = ({
   ...rest
 }) => {
   const computedClass = classNames('MASTODON_GO', className);
+
+  //  Rendering.
   return (
     <div
       className={computedClass}
@@ -81,8 +87,6 @@ MastodonGO.propTypes = {
   store: PropTypes.object.isRequired,
 }
 
-export default MastodonGO;
-
 //  * * * * * * *  //
 
 //  Exports
@@ -94,18 +98,19 @@ export * from './common';
 //  Container exports.
 export {
   AccountContainer,
-//    AttachmentContainer,
+  AttachmentContainer,
   AvatarContainer,
-//    CardContainer,
-//    CatalogueContainer,
-//    ComposerContainer,
-//    ConversationContainer,
-//    CourierContainer,
-//    NotificationContainer,
+  CardContainer,
+  CatalogueContainer,
+  ConversationContainer,
+  CourierContainer,
+  DrawerContainer,
+  NotificationContainer,
   ParseContainer,
-//    PrependContainer,
-//    ProfileContainer,
+  PrependContainer,
+  ProfileContainer,
   ReferenceContainer,
+  SettingContainer,
   StartContainer,
   StatusContainer,
   TimelineContainer,

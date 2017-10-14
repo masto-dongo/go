@@ -1,10 +1,15 @@
-//  <AttachmentGifv>
-//  ================
-
-//  For more information, please contact:
-//  @kibi@glitch.social
-
-//  * * * * * * *  //
+/*********************************************************************\
+|                                                                     |
+|   <AttachmentGifv>                                                  |
+|   ================                                                  |
+|                                                                     |
+|   GIFVs are just videos which look like images.  If `autoplay` is   |
+|   set to `false`, you have to hover your mouse over them in order   |
+|   to get them to play.                                              |
+|                                                                     |
+|                                             ~ @kibi@glitch.social   |
+|                                                                     |
+\*********************************************************************/
 
 //  Imports:
 //  --------
@@ -16,7 +21,7 @@ import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages } from 'react-intl';
 
-//  Our imports.
+//  Common imports.
 import { CommonButton } from 'themes/mastodon_go/components';
 
 //  Stylesheet imports.
@@ -40,6 +45,7 @@ const messages = defineMessages({
 //  The component
 //  -------------
 
+//  Component definition.
 export default class AttachmentGifv extends React.PureComponent {
 
   //  Props.
@@ -49,32 +55,53 @@ export default class AttachmentGifv extends React.PureComponent {
     description: PropTypes.string,
     href: PropTypes.string,
     intl: PropTypes.object.isRequired,
+    onClick: PropTypes.func,
     preview: ImmutablePropTypes.map,
     src: PropTypes.string,
   };
 
-  //  Item rendering.
+  //  This starts playing the GIFV on hover.
+  handleMouseEnter ({ target }) {
+    const { autoplay } = this.props;
+    if (!autoplay) target.play();
+  }
+
+  //  When we stop playing, we also reset the time to the beginning.
+  handleMouseLeave ({ target }) {
+    const { autoplay } = this.props;
+    if (!autoplay) {
+      target.pause();
+      target.currentTime = 0;
+    }
+  }
+
+  //  Rendering.
   render () {
+    const {
+      handleMouseEnter,
+      handleMouseLeave,
+    } = this;
     const {
       autoplay,
       className,
       description,
       href,
       intl,
+      onClick,
       preview,
       src,
       ...rest
     } = this.props;
-
     const computedClass = classNames('MASTODON_GO--ATTACHMENT--GIFV', className);
 
-    //  Rendering. We render the item inside of a button+link, which
-    //  provides the original. (We can do this for gifvs because we
-    //  don't show the controls.)
+    //  We render the gifv inside of a linky button, which provides
+    //  provides the original. (We can only do this with a video
+    //  because we don't show the controls.)
     return (
       <CommonButton
         className={computedClass}
         href={href || src}
+        onClick={onClick}
         title={intl.formatMessage(messages.expand)}
         {...rest}
       >
@@ -82,6 +109,8 @@ export default class AttachmentGifv extends React.PureComponent {
           autoPlay={autoPlay}
           loop
           muted
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
           poster={preview.get('src')}
           src={src}
           title={description}

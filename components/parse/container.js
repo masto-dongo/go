@@ -1,10 +1,13 @@
-//  <ParseContainer>
-//  ================
-
-//  For more information, please contact:
-//  @kibi@glitch.social
-
-//  * * * * * * *  //
+/*********************************************************************\
+|                                                                     |
+|   <ParseContainer>                                                  |
+|   ================                                                  |
+|                                                                     |
+|   The only thing the parser needs access to is our emoji.           |
+|                                                                     |
+|                                             ~ @kibi@glitch.social   |
+|                                                                     |
+\*********************************************************************/
 
 //  Imports
 //  -------
@@ -17,31 +20,13 @@ import Parse from '.';
 
 //  Other imports
 import connect from 'themes/mastodon-go/util/connect';
-import { Emojifier } from 'themes/mastodon-go/util/emojify';
 
 //  * * * * * * *  //
 
 //  Connecting
 //  ----------
 
-//  Selector factory.
-const ParseContainer = connect(
-  go => createSelector(
-
-    //  Inputs.
-    state => state.get('emoji'),
-
-    (state, ownProps) => ownProps,
-
-    //  Result.
-    (emoji, ownProps) => ({
-      emojifier: (() => {
-        const data = [];
-        return new Emojifier(data);
-      })(),
-      ...ownProps,
-    })
-  )
-)(Parse);
-
-export default ParseContainer;
+//  Building our store.
+export default connect(createStructuredSelector({
+  emoji: state => state.get('emoji'),
+}))(Parse);

@@ -1,21 +1,53 @@
+/*********************************************************************\
+|                                                                     |
+|   <Catalogue>                                                       |
+|   ===========                                                       |
+|                                                                     |
+|   A catalogue is just a list of accounts.  I named it "catalogue"   |
+|   because uhh "Rolodex" is trademarked and also nobody knows what   |
+|   tf that even means anymore.  You hand it a `path` (which should   |
+|   be an API access point which returns a list of accounts) and it   |
+|   displays them all nice and fancy in a list.  This component has   |
+|   been designed for use with our `<UIContainer>` (ie, it includes   |
+|   a menu); it's trivial enough to just render a `<CommonList>` of   |
+|   accounts that we don't need a separate component for that.        |
+|                                                                     |
+|                                             ~ @kibi@glitch.social   |
+|                                                                     |
+\*********************************************************************/
+
+//  Imports
+//  -------
+
+//  Package imports.
 import classNames from 'classnames'
 import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages } from 'react-intl';
 
+//  Container imports.
 import { AccountContainer } from 'themes/mastodon-go/components';
 
+//  Component imports.
+import CatalogueMenu from './menu';
+
+//  Common imports.
 import {
   CommonHeader,
   CommonList,
   CommonLoadbar,
 } from 'themes/mastodon-go/components';
 
-import CatalogueMenu from './menu';
-
+//  Stylesheet imports.
 import './style';
 
+//  * * * * * * *  //
+
+//  Initial setup
+//  -------------
+
+//  Holds our localization messages.
 const messages = defineMessages({
   catalogue: {
     defaultMessage: "Catalogue",
@@ -23,8 +55,15 @@ const messages = defineMessages({
   }
 })
 
+//  * * * * * * *  //
+
+//  The component
+//  -------------
+
+//  Component definition.
 export default class Catalogue extends React.PureComponent {
 
+  //  Props and state.
   static propTypes = {
     activeRoute: PropTypes.bool,
     className: PropTypes.string,
@@ -44,23 +83,51 @@ export default class Catalogue extends React.PureComponent {
   state = { storedHash: '#' };
   node = null;
 
+  //  Constructor.  We go ahead and prefetch the catalogue.  Note that
+  //  this will erase any existing catalogue contents, but there
+  //  shouldn't be multiple of the same catalogue open at the same time
+  //  so this isn't really a problem.
   constructor (props) {
     super(props);
     const { '💪': { fetch } } = this.props;
     fetch();
   }
 
+  //  If our component is suddenly no longer the active route, we need
+  //  to store its hash value before it disappears.  If our path is
+  //  about to change, we need to fetch the new path.
+  componentWillReceiveProps (nextProps) {
+    const {
+      activeRoute,
+      hash,
+      path,
+    } = this.props;
+    if (activeRoute && !nextProps.activeRoute) {
+      this.setState({ storedHash: hash });
+    }
+    if (path !== nextProps.path) {
+      fetch(nextProps.path);
+    }
+  }
+
+  //  Loads more lol.
   handleLoadMore = () => {
     const { '💪': { expand } } = this.props;
     expand();
   }
 
+  //  This is a tiny function to update our hash if needbe.
   handleSetHash = (hash) => {
-    this.setState({ storedHash: hash });
+    const { activeRoute } = this;
+    if (!activeRoute) {
+      this.setState({ storedHash: hash });
+    }
   }
 
+  //  Saves our node.
   setRef = node => this.node = node;
 
+  //  Rendering.
   render () {
     const {
       handleSetDetail,
@@ -73,7 +140,6 @@ export default class Catalogue extends React.PureComponent {
       hash,
       history,
       icon,
-      intl,
       path,
       title,
       '🛄': { intl },
@@ -86,10 +152,12 @@ export default class Catalogue extends React.PureComponent {
       ...rest
     } = this.props;
     const { storedHash } = this.state;
-
     const computedClass = classNames('MASTODON_GO--CATALOGUE', className);
+
+    //  We only use our internal hash if this isn't the active route.
     const computedHash = activeRoute ? hash : storedHash;
 
+    //  Rendering.
     return (
       <div
         className={computedClass}

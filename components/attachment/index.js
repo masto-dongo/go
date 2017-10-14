@@ -1,23 +1,52 @@
-//  Package imports  //
+/*********************************************************************\
+|                                                                     |
+|   <Attachment>                                                      |
+|   ============                                                      |
+|                                                                     |
+|   <Attachment> presents a single media item.  It is intentionally   |
+|   general so that it can be used both in media galleries and with   |
+|   the media uploader in the compose area.  It needs two things to   |
+|   function: the `id` of the attachment and the `targetWidth` that   |
+|   describes its most likely rendered size.                          |
+|                                                                     |
+|                                             ~ @kibi@glitch.social   |
+|                                                                     |
+\*********************************************************************/
+
+//  Imports:
+//  --------
+
+//  Package imports.
 import classNames from 'class-names';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
+//  Component imports.
 import AttachmentGifv from './gifv';
 import AttachmentImage from './image';
 import AttachmentVideo from './video';
 
+//  Stylesheet imports.
+import './style';
+
+//  Other imports.
 import { MEDIA_TYPE } from 'themes/mastodon-go/util/constants';
 
+//  * * * * * * *  //
+
+//  The component
+//  -------------
+
+//  Component definition.
 export default class Notification extends React.PureComponent {
 
+  //  Props.
   static propTypes = {
     className: PropTypes.string,
     id: PropTypes.string.isRequired,
-    observer: PropTypes.object,
     targetWidth: PropTypes.number,
-    '🛄': PropTypes.shape({ intl: PropTypes.object }),
+    '🛄': PropTypes.shape({}),
     '💪': PropTypes.objectOf(PropTypes.func),
     '🏪': PropTypes.shape({
       autoplay: PropTypes.bool,
@@ -31,13 +60,19 @@ export default class Notification extends React.PureComponent {
     }).isRequired,
   };
 
+  //  Click handling.
+  handleClick = e => {
+
+  }
+
+  //  Rendering.
   render () {
+    const { handleClick } = this;
     const {
       className,
       id,
-      observer,
       targetWidth,
-      '🛄': { intl },
+      '🛄': context,
       '💪': handler,
       '🏪': {
         autoplay,
@@ -50,9 +85,11 @@ export default class Notification extends React.PureComponent {
       },
       ...rest
     } = this.props;
-
     const computedClass = classNames('MASTODON_GO--ATTACHMENT', className);
 
+    //  We pass the appropriate props to `<AttachmentImage>`,
+    //  `<AttachmentGifv>`, or `<AttachmentVideo>` depending on our
+    //  `type`.
     switch (type) {
     case MEDIA_TYPE.IMAGE:
       return (
@@ -60,6 +97,7 @@ export default class Notification extends React.PureComponent {
           className={computedClass}
           description={description}
           href={href}
+          intl={intl}
           preview={preview}
           src={src}
           targetWidth={targetWidth}
@@ -73,6 +111,7 @@ export default class Notification extends React.PureComponent {
           className={computedClass}
           description={description}
           href={href}
+          intl={intl}
           preview={preview}
           src={src}
         />
@@ -84,6 +123,7 @@ export default class Notification extends React.PureComponent {
           className={computedClass}
           description={description}
           href={href}
+          intl={intl}
           preview={preview}
           src={src}
         />

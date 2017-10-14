@@ -1,3 +1,6 @@
+//  Imports
+//  -------
+
 //  Package imports.
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -5,19 +8,26 @@ import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages, FormattedMessage } from 'react-intl';
 
-//  Our imports.
+//  Common imports.
 import {
   CommonButton,
   CommonHeader,
   CommonMenu,
 } from 'themes/mastodon-go/components';
 
+//  Other imports.
 import { RAINBOW } from 'themes/mastodon-go/util/constants';
 import rainbow from 'themes/mastodon-go/util/rainbow';
 
 //  Stylesheet imports.
 import './style';
 
+//  * * * * * * *  //
+
+//  Initial setup
+//  -------------
+
+//  Holds our localization messages.
 const messages = defineMessages({
   compose: {
     defaultMessage: 'Compose',
@@ -62,47 +72,51 @@ const messages = defineMessages({
 //  The component
 //  -------------
 
+//  Component definition.
 export default class Start extends React.PureComponent {
 
+  //  Props.
   static propTypes = {
     activeRoute: PropTypes.bool,
     className: PropTypes.string,
-    handler: PropTypes.objectOf(PropTypes.func).isRequired,
     hash: PropTypes.string,
     history: PropTypes.object,
-    intl: PropTypes.object.isRequired,
-    location: PropTypes.object,  //  Not updated; don't use
-    match: PropTypes.object,  //  Not updated; don't use
-    me: PropTypes.string,
-    myRainbow: ImmutablePropTypes.map,
-    staticContext: PropTypes.object,  //  Don't use
+    '🛄': PropTypes.shape({ intl: PropTypes.object.isRequired }).isRequired,
+    '💪': PropTypes.objectOf(PropTypes.func).isRequired,
+    '🏪': PropTypes.shape({
+      globalRainbow: ImmutablePropTypes.map,
+      homeRainbow: ImmutablePropTypes.map,
+      localRainbow: ImmutablePropTypes.map,
+      me: PropTypes.string,
+      myRainbow: ImmutablePropTypes.map,
+    }).isRequired,
   }
 
+  //  When we construct our `<Start>`, we go ahead and fetch our stuff.
   constructor (props) {
     super(props);
-    const { handler: { fetch } } = props;
+    const { '💪': { fetch } } = props;
     fetch();
   }
 
+  //  Rendering.
   render () {
     const {
       activeRoute,
       className,
-      globalRainbow,
-      handler,
       hash,
       history,
-      homeRainbow,
-      intl,
-      localRainbow,
-      match,
-      location,
-      me,
-      myRainbow,
-      staticContext,
+      '🛄': { intl },
+      '💪': handler,
+      '🏪': {
+        globalRainbow,
+        homeRainbow,
+        localRainbow,
+        me,
+        myRainbow,
+      },
       ...rest
     } = this.props;
-
     const computedClass = classNames('MASTODON_GO--START', className);
 
     return (

@@ -1,10 +1,15 @@
-//  <AttachmentVideo>
-//  =================
-
-//  For more information, please contact:
-//  @kibi@glitch.social
-
-//  * * * * * * *  //
+/*********************************************************************\
+|                                                                     |
+|   <AttachmentVideo>                                                 |
+|   =================                                                 |
+|                                                                     |
+|   A lot of the complexity here is just making sure that the video   |
+|   loaded properly.  Why do we do that here but not for GIFVs??  I   |
+|   don't know lol I'm just copying upstream with this one.           |
+|                                                                     |
+|                                             ~ @kibi@glitch.social   |
+|                                                                     |
+\*********************************************************************/
 
 //  Imports:
 //  --------
@@ -16,8 +21,8 @@ import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages, FormattedMessage } from 'react-intl';
 
-//  Our imports.
-import CommonButton from 'themes/mastodon-go/components';
+//  Common imports.
+import { CommonButton } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style';
@@ -69,13 +74,14 @@ export default class AttachmentVideo extends React.PureComponent {
     description: PropTypes.string,
     href: PropTypes.string,
     intl: PropTypes.object.isRequired,
+    onClick: PropTypes.func,
     preview: ImmutablePropTypes.map,
     src: PropTypes.string,
   }
   state = {
     hasAudio: true,
     muted: true,
-    preview: this.props.autoplay,
+    preview: !!this.props.autoplay,
     videoError: false,
   }
   video = null;
@@ -169,40 +175,36 @@ export default class AttachmentVideo extends React.PureComponent {
       preview,
       videoError,
     } = this.state;
-
-    let content;
-
     const computedClass = classNames('MASTODON_GO--ATTACHMENT--VIDEO', className);
 
     //  This gets our content: either a preview image, an error
     //  message, or the video.
-    switch (true) {
-    case preview:
-      content = (
-        <img
-          alt={description}
-          src={preview.get('src')}
-          title={description}
-        />
-      );
-      break;
-    case videoError:
-      content =  <FormattedMessage {...messages.error} />
-      break;
-    default:
-      content = (
-        <video
-          autoPlay={autoplay}
-          loop
-          muted={muted}
-          poster={preview.get('src')}
-          ref={setRef}
-          src={src}
-          title={description}
-        />
-      );
-      break;
-    }
+    const content = function () {
+      switch (true) {
+      case preview:
+        return (
+          <img
+            alt={description}
+            src={preview.get('src')}
+            title={description}
+          />
+        );
+      case videoError:
+        return <FormattedMessage {...messages.error} />;
+      default:
+        return = (
+          <video
+            autoPlay={autoplay}
+            loop
+            muted={muted}
+            poster={preview.get('src')}
+            ref={setRef}
+            src={src}
+            title={description}
+          />
+        );
+      }
+    }();
 
     //  Everything goes inside of a button because everything is a
     //  button. This is okay wrt the video element because it doesn't

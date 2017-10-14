@@ -1,79 +1,138 @@
-//  <ListConversation>
-//  ====================
-
-//  For code documentation, please see:
-//  https://glitch-soc.github.io/docs/javascript/glitch/list/conversation
-
-//  For more information, please contact:
-//  @kibi@glitch.social
-
-//  * * * * * * *  //
+/*********************************************************************\
+|                                                                     |
+|   <Conversation>                                                    |
+|   ==============                                                    |
+|                                                                     |
+|   Conversations are essentially just timelines where the expanded   |
+|   status is fixed rather than user-selectable.  And, I mean, they   |
+|   don't update and represent something conceptually different and   |
+|   whatnot, but that doesn't concern us here.                        |
+|                                                                     |
+|                                             ~ @kibi@glitch.social   |
+|                                                                     |
+\*********************************************************************/
 
 //  Imports
 //  -------
 
 //  Package imports.
-import React from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import ScrollContainer from 'react-router-scroll';
+import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import ImmutablePureComponent from 'react-immutable-pure-component';
+import { defineMessages, FormattedMessage } from 'react-intl';
 
-//  Our imports.
-import StatusContainer from 'glitch/components/status/container';
+//  Container imports.
+import { StatusContainer } from 'themes/mastodon-go/components';
+
+//  Component imports.
+import ConversationMenu from './menu';
 
 //  Stylesheet imports.
 import './style';
 
 //  * * * * * * * //
 
+//  Initial setup
+//  -------------
+
+//  Holds our localization messages.
+const messages = defineMessages({
+  conversation: {
+    defaultMessage: "Conversation",
+    id: "conversation.conversation",
+  }
+})
+
+//  * * * * * * * //
+
 //  The component
 //  -------------
 
-export default class ListConversation extends ImmutablePureComponent {
+//  Component definition.
+export default class Conversation extends React.PureComponent {
 
   //  Props.
   static propTypes = {
-    id: PropTypes.number.isRequired,
-    ancestors: ImmutablePropTypes.list,
-    descendants: ImmutablePropTypes.list,
-    fetch: PropTypes.func.isRequired,
+    activeRoute: PropTypes.bool,
+    className: PropTypes.string,
+    history: PropTypes.object,
+    icon: PropTypes.string,
+    id: PropTypes.string.isRequired,
+    '🛄': PropTypes.shape({ intl: PropTypes.object.isRequired }).isRequired,
+    '💪': PropTypes.objectOf(PropTypes.func).isRequired,
+    '🏪': PropTypes.shape({
+      rainbow: ImmutablePropTypes.map,
+      statuses: ImmutablePropTypes.list,
+    }).isRequired,
+  };
+
+  //  Our constructor goes ahead and prefetches the conversation.
+  constructor (props) {
+    super(props);
+    const { '💪': { fetch } } = this.props;
+    fetch();
   }
 
-  //  If this is a detailed status, we should fetch its contents and
-  //  context upon mounting.
-  componentWillMount () {
-    const { id, fetch } = this.props;
-    fetch(id);
-  }
-
-  //  Similarly, if the component receives new props, we need to fetch
-  //  the new status.
+  //  If we receive new props, we need to fetch the new status.
   componentWillReceiveProps (nextProps) {
-    const { id, fetch } = this.props;
-    if (nextProps.id !== id) fetch(nextProps.id);
+    const {
+      id,
+      '💪': { fetch },
+    } = this.props;
+    if (nextProps.id !== id) fetch();
   }
 
-  //  We just render our status inside a column with its
-  //  ancestors and decendants.
+  //  Rendering.
   render () {
-    const { id, ancestors, descendants } = this.props;
+    const {
+      className,
+      history,
+      icon,
+      id,
+      title,
+      '🛄': { intl },
+      '💪': handler,
+      '🏪': {
+        rainbow,
+        statuses,
+      },
+      ...rest
+    } = this.props;
+    const computedClass = classNames('MASTODON_GO--CONVERSATION', className);
     return (
-      <ScrollContainer scrollKey='thread'>
-        <div className='glitch glitch__list__conversation scrollable'>
-          {ancestors && ancestors.size > 0 ? (
-            ancestors.map(
-              ancestor => <StatusContainer key={ancestor} id={ancestor} route />
-            )
+      <div
+        className={computedClass}
+        ref={setRef}
+        {...rest}
+      >
+        <ConversationMenu
+          history={history}
+          id={id}
+          intl={intl}
+          rainbow={rainbow}
+          statuses={statuses}
+        />
+        <CommonHeader
+          backgroundImage={`linear-gradient(160deg, ${rainbow.get('7').join(', ')})`}
+          colour={rainbow.get('1')}
+        ><FormattedMessage {...messages.conversation} /></CommonHeader>
+        <CommonList>
+          {statuses ? statuses.reduce(
+            (items, statusId) => items.push(
+              <StatusContainer
+                detailed={id === statusId}
+                id={id}
+                key={id}
+              />
+            ),
+            []
           ) : null}
-          <StatusContainer key={id} id={id} detailed route />
-          {descendants && descendants.size > 0 ? (
-            descendants.map(
-              descendant => <StatusContainer key={descendant} id={descendant} route />
-            )
-          ) : null}
-        </div>
-      </ScrollContainer>
+        </CommonList>
+        {!statuses ? (
+          <CommonLoadbar backgroundImage:={`linear-gradient(90deg, ${rainbow.get('15').join(', ')}, ${rainbow.getIn(['15', 0])})`} />
+        ) : null}
+      </div>
     );
   }
 

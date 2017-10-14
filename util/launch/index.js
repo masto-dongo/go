@@ -2,15 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { addLocaleData } from 'react-intl';
 
-import { getLocale } from 'mastodon/locales';
-
 import launchOnReady from './on_ready';
 
-import MastodonGO from 'themes/mastodon-go/components';
-
-import redux from 'themes/mastodon-go/redux';
-
-export default function launch () {
+export default function launch (Component, redux, locale) {
 
   //  Redirects non-`/web/` links to their proper location.
   if (history && history.replaceState) {
@@ -22,8 +16,7 @@ export default function launch () {
   }
 
   //  Creates localization.
-  const { localeData, messages } = getLocale();
-  addLocaleData(localeData);
+  addLocaleData(locale.localeData);
 
   //  Creates store.
   const store = redux();
@@ -41,7 +34,7 @@ export default function launch () {
         (
           <MastodonGO
             locale={props.locale}
-            messages={messages}
+            messages={locale.messages}
             store={store}
           />
         ), root

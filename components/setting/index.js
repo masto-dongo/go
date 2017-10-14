@@ -1,35 +1,49 @@
+//  Imports
+//  -------
+
+//  Package imports.
 import classNames from 'classnames';
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import Toggle from 'react-toggle';
 
+//  * * * * * * *  //
+
+//  The component
+//  -------------
+
+//  Component definition.
 export default class Setting extends React.PureComponent {
 
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
     disabled: PropTypes.bool,
-    handler: PropTypes.objectOf(PropTypes.func).isRequired,
     global: PropTypes.bool,
     settingKey: PropTypes.oneOf([PropTypes.string, PropTypes.array]).isRequired,
     title: PropTypes.string,
     type: PropTypes.oneOf(['input', 'toggle']),
-    value: PropTypes.oneOf([PropTypes.string, PropTypes.bool]),
+    '🛄': PropTypes.shape({}),
+    '💪': PropTypes.objectOf(PropTypes.func).isRequired,
+    '🏪': PropTypes.shape({ value: PropTypes.oneOf([PropTypes.string, PropTypes.bool]) }).isRequired,
   };
 
-  handleChange = e => {
+  //  How we handle a change depends on the type of toggle we are
+  //  using.
+  handleChange = ({ target }) => {
     const {
       handler,
       type,
     } = this.props;
     switch (type) {
     case 'input':
-      handler.change('' + e.target.value);
+      handler.change('' + target.value);
     case 'toggle':
-      handler.change(!!e.target.value);
+      handler.change(!!target.value);
     }
   }
 
+  //  Rendering.
   render () {
     const { handleChange } = this;
     const {
@@ -40,16 +54,18 @@ export default class Setting extends React.PureComponent {
       global,
       title,
       type,
-      value,
+      '🛄': context,
+      '💪': handler,
+      '🏪': { value },
       ...rest
     } = this.props;
-
     const computedClass = classNames('MASTODON_GO--COMMON--TOGGLE', {
       active: value,
       disabled,
     }, className, type);
 
-    const component = function (type) {
+    //  The type of component we render depends on our `type`.
+    const component = function () {
       switch (type) {
       case 'input':
         return (
@@ -58,6 +74,7 @@ export default class Setting extends React.PureComponent {
             onChange={handleChange}
             placeholder={title}
             title={title}
+            type='text'
             value={value}
           />
         );
@@ -73,12 +90,15 @@ export default class Setting extends React.PureComponent {
       default:
         return null;
       }
-    }(type);
+    }();
 
+    //  If no component was generated, there's no sense in rendering.
     if (!component) {
       return null;
     }
 
+    //  If we have children, we create a `<label>`. If not, we use
+    //  `<span>`.
     return children ? (
       <label
         className={computedClass}

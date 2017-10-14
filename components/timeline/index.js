@@ -49,7 +49,6 @@ export default class Timeline extends React.PureComponent {
     currentDetail: null,
     storedHash: '#',
   };
-  node = null;
 
   constructor (props) {
     super(props);
@@ -62,13 +61,9 @@ export default class Timeline extends React.PureComponent {
     expand();
   }
 
-  handleSetDetail = (id) => {
-    this.setState({ currentDetail: id });
-  }
+  handleSetDetail = id => this.setState({ currentDetail: id });
 
-  handleSetHash = (hash) => {
-    this.setState({ storedHash: hash });
-  }
+  handleSetHash = hash => this.setState({ storedHash: hash });
 
   setRef = node => this.node = node;
 
@@ -84,7 +79,6 @@ export default class Timeline extends React.PureComponent {
       hash,
       history,
       icon,
-      intl,
       path,
       title,
       '🛄': { intl },
@@ -108,7 +102,6 @@ export default class Timeline extends React.PureComponent {
     return (
       <div
         className={computedClass}
-        ref={setRef}
         {...rest}
       >
         <TimelineMenu

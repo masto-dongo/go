@@ -1,7 +1,31 @@
-//  <Account>
-//  =========
-
-//  * * * * * * *  //
+/*********************************************************************\
+|                                                                     |
+|   <Account>                                                         |
+|   =========                                                         |
+|                                                                     |
+|   <Account> presents accounts as list items—see <Profile> for the   |
+|   column component.  This component is used inside catalogues and   |
+|   also at the top of statuses (via a `small` variant).  Regarding   |
+|   our other props:                                                  |
+|                                                                     |
+|   `comrade` gives an associated account whose avatar will then be   |
+|   overlaid above this one's—see <CommonAvatar> for more regarding   |
+|   that.  `observer` provides us with an Observer which we pass to   |
+|   our `<CommonObservable>`—see that component for more info there   |
+|   as well.  `containerId` gives us the `id` used by the account's   |
+|   container if it differs from the account's—this is the case for   |
+|   notifications.                                                    |
+|                                                                     |
+|   Aside from the account's `id`, `type` is the only other prop we   |
+|   use directly.  This is a `POST_TYPE` constant, which is used to   |
+|   generate the interaction button (eg, "block", "follow", "mute")   |
+|   for the account.  A follow notification should provide you with   |
+|   an option to follow back, but this wouldn't be appropriate on a   |
+|   catalogue of blocks or mutes.  So we check for that here.         |
+|                                                                     |
+|                                             ~ @kibi@glitch.social   |
+|                                                                     |
+\*********************************************************************/
 
 //  Imports
 //  -------
@@ -40,15 +64,16 @@ import {
 //  -------------
 
 //  Component definition.
-const Account = ({
+export default function Account ({
   className,
   comrade,
   containerId,
   history,
   id,
+  observer,
   small,
   type,
-  '🛄': { intl },
+  '🛄': context,
   '💪': handler,
   '🏪': {
     at,
@@ -58,9 +83,15 @@ const Account = ({
     relationship,
   },
   ...rest
-}) => {
+}) {
   const computedClass = classNames('MASTODON_GO--ACCOUNT', { small }, className);
+
+  //  Rendering.
   return (
+
+    //  We render our component inside of a `<CommonObservable>` in
+    //  case it appears inside of a list.  If `observer` is `null` then
+    //  this won't do anything.
     <CommonObservable
       className={computedClass}
       id={containerId || id}
@@ -68,6 +99,10 @@ const Account = ({
       searchText={displayName + '\n@' + at}
       {...rest}
     >
+      {/*
+          We need a `<div>` container to supply our rainbows and
+          sunshine 🌈🌻
+      */}
       <div
         className='container'
         style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('7').join(', ')})` } : {}}
@@ -76,6 +111,11 @@ const Account = ({
           account={id}
           comrade={comrade}
         />
+        {/*
+            We don't bother with a `<ReferenceContainer>` here since
+            we already have all of the account info and this lets us
+            put everything in one link.
+        */}
         <CommonLink
           className='info'
           destination={`/profile/${id}`}
@@ -90,26 +130,34 @@ const Account = ({
           </b>
           <code>@{at}</code>
         </CommonLink>
-        {!small ?
-          <CommonButton
-            //  TK: relationship following stuff idk
-          />
-        : null}
+        {/*
+            This function gets our interaction button for use with the
+            account.  We don't show this on `small` accounts (which
+            appear in status headers) or if we aren't provided a `type`
+            and `relationship`.
+        */}
+        {!small && type && isFinite(relationship) ? function (r, t) {
+          switch (t) {
+          default:
+            return null;
+          }
+        }(relationship, type) : null}
       </div>
     </CommonObservable>
   );
 }
 
-//  Component props.
+//  Props.
 Account.propTypes = {
   className: PropTypes.string,
   comrade: PropTypes.string,
   containerId: PropTypes.string,
   history: PropTypes.object,
   id: PropTypes.string.isRequired,
+  observer: PropTypes.object,
   small: PropTypes.bool,
   type: PropTypes.number,
-  '🛄': PropTypes.shape({ intl: PropTypes.object }),
+  '🛄': PropTypes.shape({}),
   '💪': PropTypes.objectOf(PropTypes.func),
   '🏪': PropTypes.shape({
     at: PropTypes.string.isRequired,
@@ -119,6 +167,3 @@ Account.propTypes = {
     relationship: PropTypes.number,
   }).isRequired,
 };
-
-//  Export.
-export default Account;

@@ -1,10 +1,14 @@
-//  <CardContainer>
-//  ===============
-
-//  For more information, please contact:
-//  @kibi@glitch.social
-
-//  * * * * * * *  //
+/*********************************************************************\
+|                                                                     |
+|   <CardContainer>                                                   |
+|   ===============                                                   |
+|                                                                     |
+|   Our container just pulls all of our card information from redux   |
+|   and passes it through.                                            |
+|                                                                     |
+|                                             ~ @kibi@glitch.social   |
+|                                                                     |
+\*********************************************************************/
 
 //  Imports
 //  -------
@@ -15,7 +19,7 @@ import { createStructuredSelector } from 'reselect';
 //  Component imports.
 import Card from '.';
 
-//  Other imports
+//  Other imports.
 import { connect } from 'themes/mastodon-go/util/connect';
 
 //  * * * * * * *  //
@@ -23,6 +27,7 @@ import { connect } from 'themes/mastodon-go/util/connect';
 //  Connecting
 //  ----------
 
+//  Building our store.
 export default connect(createStructuredSelector({
   author: (state, { id }) => state.getIn(['card', id, 'author']),
   description: (state, { id }) => state.getIn(['card', id, 'description']),

@@ -1,19 +1,23 @@
-//  <ConversationContainer>
-//  =======================
-
-//  For more information, please contact:
-//  @kibi@glitch.social
-
-//  * * * * * * *  //
+/*********************************************************************\
+|                                                                     |
+|   <ConversationContainer>                                           |
+|   =======================                                           |
+|                                                                     |
+|   Conversations are (extremely unfortunately) stored by status id   |
+|   in the redux store, so that's how we retrieve them here.  There   |
+|   aren't any rainbows created for conversations themselves in the   |
+|   store; we use the rainbow of the current status's account as an   |
+|   alternative.                                                      |
+|                                                                     |
+|                                             ~ @kibi@glitch.social   |
+|                                                                     |
+\*********************************************************************/
 
 //  Imports
 //  -------
 
 //  Package imports.
-import {
-  createSelector,
-  createStructuredSelector,
-} from 'reselect';
+import { createStructuredSelector } from 'reselect';
 
 //  Component imports.
 import Conversation from '.';
@@ -22,31 +26,20 @@ import Conversation from '.';
 import { fetchConversation } from 'themes/mastodon-go/redux';
 
 //  Other imports
-import { connect } from 'themes/mastodon-go/util/connect';
+import connect from 'themes/mastodon-go/util/connect';
 
 //  * * * * * * *  //
 
 //  Connecting
 //  ----------
 
-//  Selector factory.
+//  Building our store and handlers.
 export default connect(
-  go => createSelector(
-
-    //  Props.
-    createStructuredSelector({
-      statuses: (state, { id }) => state.getIn(['conversation', id, 'statuses']),
-    }),
-
-    //  Inputs.
-    (state, { id }) => id,
-
-    //  Result.
-    (props, id) => ({
-      handler: {
-        fetch: () => go(fetchConversation, id),
-      },
-      ...props,
-    })
-  )
+  createStructuredSelector({
+    rainbow: (state, { id }) => state.getIn(['account', state.getIn(['status', id, 'account']), 'rainbow']),
+    statuses: (state, { id }) => state.getIn(['conversation', id, 'statuses']),
+  }),
+  (props, { id }) => ({
+    fetch: () => go(fetchConversation, id),
+  })
 )(Conversation);

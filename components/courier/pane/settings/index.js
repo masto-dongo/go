@@ -1,3 +1,18 @@
+/*********************************************************************\
+|                                                                     |
+|   <CourierSettingsPane>                                             |
+|   =====================                                             |
+|                                                                     |
+|   This pane provides the various courier settings.                  |
+|                                                                     |
+|                                             ~ @kibi@glitch.social   |
+|                                                                     |
+\*********************************************************************/
+
+//  Imports
+//  -------
+
+//  Package imports.
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -6,8 +21,21 @@ import {
   FormattedMessage,
 } from 'react-intl';
 
+//  Container imports.
 import SettingContainer from 'themes/mastodon-go/components';
 
+//  Common imports.
+import CommonPane from 'themes/mastodon-go/components';
+
+//  Stylesheet imports.
+import './style';
+
+//  * * * * * * *  //
+
+//  Initial setup
+//  -------------
+
+//  Holds our localization messages.
 const messages = defineMessages({
   column: {
     defaultMessage: 'Show in column',
@@ -39,19 +67,29 @@ const messages = defineMessages({
   },
 });
 
-const CourierPaneSettings = ({
+//  * * * * * * *  //
+
+//  The component
+//  -------------
+
+//  Component definition.
+export default function CourierPaneSettings ({
   className,
   intl,
   path,
   ...rest
-}) => {
+}) {
   const computedClass = classNames('MASTODON_GO--TIMELINE--PANE--SETTINGS', className);
 
+  //  Rendering.
   return (
-    <aside
+    <CommonPane
       class={computedClass}
       {...rest}
     >
+      {
+        //  Follow notification settings.
+      }
       <section>
         <h2><FormattedMessage {...messages.follow} /></h2>
         <SettingContainer
@@ -70,6 +108,9 @@ const CourierPaneSettings = ({
           type='toggle'
         ><FormattedMessage {...messages.sound} /></SettingContainer>
       </section>
+      {
+        //  Favourite notification settings.
+      }
       <section>
         <h2><FormattedMessage {...messages.favourite} /></h2>
         <SettingContainer
@@ -88,6 +129,9 @@ const CourierPaneSettings = ({
           type='toggle'
         ><FormattedMessage {...messages.sound} /></SettingContainer>
       </section>
+      {
+        //  Mention notification settings.
+      }
       <section>
         <h2><FormattedMessage {...messages.mention} /></h2>
         <SettingContainer
@@ -106,6 +150,9 @@ const CourierPaneSettings = ({
           type='mention'
         ><FormattedMessage {...messages.sound} /></SettingContainer>
       </section>
+      {
+        //  Reblog notification settings.
+      }
       <section>
         <h2><FormattedMessage {...messages.reblog} /></h2>
         <SettingContainer
@@ -124,13 +171,12 @@ const CourierPaneSettings = ({
           type='toggle'
         ><FormattedMessage {...messages.sound} /></SettingContainer>
       </section>
-    </aside>
+    </CommonPane>
   );
 };
 
+//  Props.
 CourierPaneSettings.propTypes = {
   className: PropTypes.string,
   intl: PropTypes.object.isRequired,
 }
-
-export default CourierPaneSettings;

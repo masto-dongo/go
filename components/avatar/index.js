@@ -1,10 +1,16 @@
-//  <Avatar>
-//  ========
-
-//  For more information, please contact:
-//  @kibi@glitch.social
-
-//  * * * * * * *  //
+/*********************************************************************\
+|                                                                     |
+|   <Avatar>                                                          |
+|   ========                                                          |
+|                                                                     |
+|   `account` gives our main account, while `comrade` gives another   |
+|   (eg, the account of a reblogger) which is displayed overlaid on   |
+|   the main one.  Avatars are squares by default; `circular` gives   |
+|   a circular one if your sensibilities roll that direction.         |
+|                                                                     |
+|                                             ~ @kibi@glitch.social   |
+|                                                                     |
+\*********************************************************************/
 
 //  Imports
 //  -------
@@ -23,34 +29,42 @@ import './style';
 //  The component
 //  -------------
 
+//  Component definition.
 export default class Avatar extends React.PureComponent {
 
   //  Props and state.
   static propTypes = {
-    animate: PropTypes.bool,
     account: PropTypes.string.isRequired,
-    accountAt: PropTypes.string.isRequired,
-    accountSrc: ImmutablePropTypes.map.isRequired,
     circular: PropTypes.bool,
     comrade: PropTypes.string.isRequired,
-    comradeAt: PropTypes.string.isRequired,
-    comradeSrc: ImmutablePropTypes.map.isRequired,
+    '🛄': PropTypes.shape({}),
+    '💪': PropTypes.objectOf(PropTypes.func),
+    '🏪': PropTypes.shape({
+      autoplay: PropTypes.bool,
+      accountAt: PropTypes.string.isRequired,
+      accountSrc: ImmutablePropTypes.map.isRequired,
+      comradeAt: PropTypes.string.isRequired,
+      comradeSrc: ImmutablePropTypes.map.isRequired,
+    }).isRequired,
   }
   state = {
     hovering: false,
   }
 
-  //  Starts or stops animation on hover.
+  //  Starts or stops animation on hover. We don't do this if we're
+  //  `autoplay`ing to prevent needless re-renders.
   handleMouseEnter = () => {
-    if (this.props.animate) return;
+    const { autoplay } = this.props;
+    if (autoplay) return;
     this.setState({ hovering: true });
   }
   handleMouseLeave = () => {
-    if (this.props.animate) return;
+    const { autoplay } = this.props;
+    if (autoplay) return;
     this.setState({ hovering: false });
   }
 
-  //  Renders the component.
+  //  Rendering.
   render () {
     const {
       handleMouseEnter,
@@ -58,12 +72,17 @@ export default class Avatar extends React.PureComponent {
     } = this;
     const {
       account,
-      accountAt,
-      accountSrc,
       circular,
       comrade,
-      comradeAt,
-      comradeSrc,
+      '🛄': context,
+      '💪': handler,
+      '🏪': {
+        autoplay,
+        accountAt,
+        accountSrc,
+        comradeAt,
+        comradeSrc,
+      },
       ...rest
     } = this.props;
     const { hovering } = this.state;
@@ -81,12 +100,12 @@ export default class Avatar extends React.PureComponent {
       >
         <img
           className='main'
-          src={animate || hovering && animate !== false ? accountSrc.get('original') : accountSrc.get('static')}
+          src={autoplay || hovering ? accountSrc.get('original') : accountSrc.get('static')}
           alt={accountAt}
         />
         <img
           className='comrade'
-          src={animate || hovering && animate !== false ? comradeSrc.get('original') : comradeSrc.get('static')}
+          src={autoplay || hovering ? comradeSrc.get('original') : comradeSrc.get('static')}
           alt={comradeAt}
         />
       </div>
@@ -99,7 +118,7 @@ export default class Avatar extends React.PureComponent {
       >
         <img
           className='solo'
-          src={animate || hovering && animate !== false ? accountSrc.get('original') : accountSrc.get('static')}
+          src={autoplay || hovering ? accountSrc.get('original') : accountSrc.get('static')}
           alt={accountAt}
         />
       </div>

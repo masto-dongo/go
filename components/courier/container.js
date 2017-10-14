@@ -1,10 +1,16 @@
-//  <CourierContainer>
-//  ==================
-
-//  For more information, please contact:
-//  @kibi@glitch.social
-
-//  * * * * * * *  //
+/*********************************************************************\
+|                                                                     |
+|   <CourierContainer>                                                |
+|   ==================                                                |
+|                                                                     |
+|   The courier container just pulls the usual timeline-esque infos   |
+|   from our redux store: loading state, items, handlers, settings,   |
+|   et cetera.  Couriers only respond to a single API access point,   |
+|   /api/v1/notifications, so we don't need to specify the path.      |
+|                                                                     |
+|                                             ~ @kibi@glitch.social   |
+|                                                                     |
+\*********************************************************************/
 
 //  Imports
 //  -------
@@ -33,6 +39,7 @@ import { connect } from 'themes/mastodon-go/util/connect';
 //  Connecting
 //  ----------
 
+//  Building our store and handlers.
 export default connect(
   createStructuredSelector({
     isLoading: state => state.getIn(['courier', 'isLoading']),

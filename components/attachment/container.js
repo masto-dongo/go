@@ -1,10 +1,14 @@
-//  <AttachmentContainer>
-//  =====================
-
-//  For more information, please contact:
-//  @kibi@glitch.social
-
-//  * * * * * * *  //
+/*********************************************************************\
+|                                                                     |
+|   <AttachmentContainer>                                             |
+|   =====================                                             |
+|                                                                     |
+|   Aside from just grabbing the attachment's data, we also need to   |
+|   check whether autoplay is enabled for GIFs/videos.                |
+|                                                                     |
+|                                             ~ @kibi@glitch.social   |
+|                                                                     |
+\*********************************************************************/
 
 //  Imports
 //  -------
@@ -23,6 +27,7 @@ import { connect } from 'themes/mastodon-go/util/connect';
 //  Connecting
 //  ----------
 
+//  Building our store.
 export default connect(createStructuredSelector({
   autoplay: (state, { id }) => state.getIn(['meta', 'autoplay']),
   description: (state, { id }) => state.getIn(['attachment', id, 'description']),

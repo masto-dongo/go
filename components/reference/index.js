@@ -25,6 +25,12 @@ import './style';
 //  Other imports.
 import { MEDIA_TYPE } from 'themes/mastodon-go/util/constants';
 
+//  * * * * * * * //
+
+//  Initial setup
+//  -------------
+
+//  Holds our localization messages.
 const messages = defineMessages({
   card: {
     defaultMessage: 'Card',
@@ -53,138 +59,150 @@ const messages = defineMessages({
 //  The component
 //  -------------
 
+//  Component definition.
 export default class Reference extends React.PureComponent {
 
+  //  Props.
   static propTypes = {
-    at: PropTypes.string,
     attachment: PropTypes.string,
     card: PropTypes.string,
     className: PropTypes.string,
-    domain: PropTypes.string,
-    handler: PropTypes.objectOf(PropTypes.func).isRequired,
     history: PropTypes.object,
-    href: PropTypes.string,
-    intl: PropTypes.object.isRequired,
-    location: PropTypes.object,  //  Not updated; don't use
-    match: PropTypes.object,  //  Not updated; don't use
-    mediaType: PropTypes.number,
     mention: PropTypes.string,
-    rainbow: ImmutablePropTypes.map,
     showAt: PropTypes.bool,
     showHash: PropTypes.bool,
-    staticContext: PropTypes.object,  //  Don't use
     tagName: PropTypes.string,
-    title: PropTypes.string,
+    '🛄': PropTypes.shape({ intl: PropTypes.object.isRequired }).isRequired,
+    '💪': PropTypes.objectOf(PropTypes.func).isRequired,
+    '🏪': PropTypes.shape({
+      at: PropTypes.string,
+      href: PropTypes.string,
+      mediaType: PropTypes.number,
+      rainbow: ImmutablePropTypes.map,
+      title: PropTypes.string,
+      username: PropTypes.string,
+    }).isRequired,
   }
 
   constructor (props) {
     super(props)
-    const { handler: { fetch } } = props;
+    const { '💪': { fetch } } = props;
     fetch();
   }
 
+  //  Rendering.
   render () {
     const {
-      at,
       attachment,
       card,
       className,
-      domain,
-      handler,
       history,
-      href,
-      intl,
-      location,
-      match,
-      mediaType,
       mention,
-      rainbow,
       showAt,
       showHash,
-      staticContext,
       tagName,
-      title,
+      '🛄': { intl },
+      '💪': handler,
+      '🏪': {
+        at,
+        href,
+        mediaType,
+        rainbow,
+        title,
+        username,
+      }
       ...rest
     } = this.props;
-    const computedClass = classNames('MASTODON_GO--REFERENCE', className);
-    return (
-      <span
-        className={computedClass}
-        style={rainbow ? { color: rainbow.get('1') } : {}}
-        {...rest}
-      >
-        {(
-          () => {
-            let defaultTitle = '';
-            let icon = '';
-            switch (true) {
-            case !!attachment:
-              switch (mediaType) {
-              case MEDIA_TYPE.GIFV:
-              case MEDIA_TYPE.IMAGE:
-                defaultTitle = intl.formatMessage(messages.image);
-                icon = 'picture-o';
-                break;
-              case MEDIA_TYPE.VIDEO:
-                defaultTitle = intl.formatMessage(messages.video);
-                icon = 'video-camera';
-                break;
-              default:
-                defaultTitle = intl.formatMessage(messages.unknown);
-                icon = 'question';
-                break;
-              }
-              return (
-                <CommonButton
-                  className='attachment'
-                  href={href}
-                  icon={icon}
-                  style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : {}}
-                  title={title || defaultTitle}
-                />
-              );
-            case !!card:
-              return (
-                <CommonButton
-                  className='card'
-                  href={href}
-                  icon={'id-card-o'}
-                  style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : {}}
-                  title={title || intl.formatMessage(messages.card)}
-                />
-              );
-            case !!mention:
-              return (
-                <CommonLink
-                  className='mention'
-                  destination={`/profile/${mention}`}
-                  history={history}
-                  href={href}
-                  title={title}
-                >
-                  {showAt && username ? <span className='at'>@</span> : null}
-                  <span className='username'>{username || mention}</span>
-                </CommonLink>
-              );
-            case !!tagName:
-              return (
-                <CommonLink
-                  className='tag'
-                  destination={`/tagged/${tagName}`}
-                  history={history}
-                  href={href}
-                  title={intl.formatMessage(messages.hashtag, { tagName })}
-                >
-                  {showHash ? <span className='hash'>#</span> : null}
-                  <span className='tagname'>{tagName}</span>
-                </CommonLink>
-              );
-            default:
-              return null;
-            }
-          }
-        )()}
-      </span>
+    const computedClass = classNames('MASTODON_GO--REFERENCE', {
+      attachment,
+      card,
+      mention,
+      tagName,
+    }, className);
+      let defaultTitle = '';
+      let icon = '';
+
+      //  What we render depends on the props we are given.
+      switch (true) {
+
+      //  If we are given an `attachment`, we render a button with
+      //  the appropriate `icon` and `title`.
+      case !!attachment:
+        switch (mediaType) {
+        case MEDIA_TYPE.GIFV:
+        case MEDIA_TYPE.IMAGE:
+          defaultTitle = intl.formatMessage(messages.image);
+          icon = 'picture-o';
+          break;
+        case MEDIA_TYPE.VIDEO:
+          defaultTitle = intl.formatMessage(messages.video);
+          icon = 'video-camera';
+          break;
+        default:
+          defaultTitle = intl.formatMessage(messages.unknown);
+          icon = 'question';
+          break;
+        }
+        return (
+          <CommonButton
+            className={computedClass}
+            href={href}
+            icon={icon}
+            style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : {}}
+            title={title || defaultTitle}
+          />
+        );
+
+      //  If we are given a `card`, we render a card button.
+      case !!card:
+        return (
+          <CommonButton
+            className={computedClass}
+            href={href}
+            icon={'id-card-o'}
+            style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : {}}
+            title={title || intl.formatMessage(messages.card)}
+          />
+        );
+
+      //  If we are given a `mention`, we render a link to the
+      //  account's profile.
+      case !!mention:
+        return (
+          <CommonLink
+            className={computedClass}
+            destination={`/profile/${mention}`}
+            history={history}
+            href={href}
+            title={title}
+          >
+            <code style={rainbow ? { color: rainbow.get('1') } : {}}>
+              {showAt && username ? <span className='at'>@</span> : null}
+              <span className='username'>{username || mention}</span>
+            </code>
+          </CommonLink>
+        );
+
+      //  If we are given a `tagName`, we render a link to the
+      //  appropriate hashtag timeline.
+      case !!tagName:
+        return (
+          <CommonLink
+            className={computedClass}
+            destination={`/tagged/${tagName}`}
+            history={history}
+            href={href}
+            title={intl.formatMessage(messages.hashtag, { tagName })}
+          >
+            <b style={rainbow ? { color: rainbow.get('1') } : {}}>
+              {showHash ? <span className='hash'>#</span> : null}
+              <span className='tagname'>{tagName}</span>
+            </b>
+          </CommonLink>
+        );
+      default:
+        return null;
+      }
     );
   }
 
