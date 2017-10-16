@@ -1,7 +1,7 @@
 /*********************************************************************\
 |                                                                     |
-|   ƔAML                                                              |
-|   ====                                                              |
+|   ƔAML (pronounced "garglamel")                                     |
+|   =============================                                     |
 |                                                                     |
 |   The syntax recognized by _Mastodon GO!_ for its bio metadata is   |
 |   a limited subset of that provided by the YAML 1.2 specification   |

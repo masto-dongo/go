@@ -130,8 +130,8 @@ export default class ProfileContent extends React.PureComponent {
           ) : null
         }
         <ParseContainer
-          metadata={bio ? bio.get('metadata') : void 0}
-          text={bio ? bio.get('text') : void 0}
+          metadata={bio ? bio.getIn(['ɣaml', 'metadata']) : void 0}
+          text={bio ? bio.getIn(['ɣaml', 'text']) : void 0}
           type='account'
         />
         <footer>

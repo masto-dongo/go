@@ -18,11 +18,13 @@
   height: 100%;
   color: $mastodon_go_content_color;
   background-color: $mastodon_go_content_background;
-  transition: width (.3s * $mastodon_go_animation_speed) ease-in;
+  background-clip: padding-box;
+  transition: width (.6s * $mastodon_go_animation_speed) ease-out;
 
   &:empty {
+    border: none;
     width: 0;
-    transition: width (.3s * $mastodon_go_animation_speed) ease-out;
+    transition: width (.6s * $mastodon_go_animation_speed) ease-in;
   }
 
   .MASTODON_GO--COMMON--MENUBAR ~ & {
