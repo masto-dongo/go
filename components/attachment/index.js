@@ -17,7 +17,7 @@
 //  --------
 
 //  Package imports.
-import classNames from 'class-names';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';

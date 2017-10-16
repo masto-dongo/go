@@ -1,10 +1,12 @@
-@import 'variables';
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
 
 .glitch.glitch__status__prepend {
   display: block;
   position: relative;
   margin: 0 0 1em;
-  color: $ui-base-lighter-color;
+  //color: $ui-base-lighter-color;
   padding: 0 0 0 (3.35em * .7);
 
   .prepend\\icon {
@@ -19,15 +21,15 @@
 
     &.prepend\\reblog,
     &.prepend\\reblogged {
-      color: $ui-highlight-color;
+      //color: $ui-highlight-color;
     }
 
     &.prepend\\favourite {
-      color: $gold-star;
+      //color: $gold-star;
     }
   }
 
   .prepend\\comrade {
-    color: $glitch-lighter-color;
+    //color: $glitch-lighter-color;
   }
 }

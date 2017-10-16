@@ -192,7 +192,7 @@ export default class AttachmentVideo extends React.PureComponent {
       case videoError:
         return <FormattedMessage {...messages.error} />;
       default:
-        return = (
+        return (
           <video
             autoPlay={autoplay}
             loop

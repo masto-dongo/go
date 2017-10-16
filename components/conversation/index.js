@@ -126,7 +126,7 @@ export default class Conversation extends React.PureComponent {
           ) : null}
         </CommonList>
         {!statuses ? (
-          <CommonLoadbar backgroundImage:={`linear-gradient(90deg, ${rainbow.get('15').join(', ')}, ${rainbow.getIn(['15', 0])})`} />
+          <CommonLoadbar backgroundImage={`linear-gradient(90deg, ${rainbow.get('15').join(', ')}, ${rainbow.getIn(['15', 0])})`} />
         ) : null}
       </div>
     );

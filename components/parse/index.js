@@ -69,7 +69,7 @@ export default class Parse extends React.PureComponent {
     '💪': PropTypes.objectOf(PropTypes.func),
     '🏪': PropTypes.shape({ emoji: ImmutablePropTypes.list.isRequired }).isRequired,
   };
-  emojifier = this.props.type === 'emoji' ? return new Emojifier(this.props.emoji && this.props.emoji.toJS() || []) : null;
+  emojifier = this.props.type === 'emoji' ? new Emojifier(this.props.emoji && this.props.emoji.toJS() || []) : null;
 
   //  If our `emoji` change, then we need to create a new `Emojifier`.
   //  (We don't bother with this if our `type` isn't `'emoji'`.)

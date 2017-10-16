@@ -157,9 +157,9 @@ export default class Courier extends React.PureComponent {
               onSetHash={handleSetHash}
               title={intl.formatMessage(messages.courier)}
             />
-            <CommonHeader title={intl.formatMessage(messages.courier)} />
           ) : null
         }
+        {column ? <CommonHeader title={intl.formatMessage(messages.courier)} /> : null}
         <CommonList>
           {notifications ? notifications.reduce(
             (items, id) => items.push(

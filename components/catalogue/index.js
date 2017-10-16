@@ -168,9 +168,9 @@ export default class Catalogue extends React.PureComponent {
               onSetHash={handleSetHash}
               title={intl.formatMessage(messages.catalogue)}
             />
-            <CommonHeader title={title} />
           ) : null
         }
+        {column ? <CommonHeader title={title} /> : null}
         <CommonList>
           {accounts ? accounts.reduce(
             (items, id) => items.push(

@@ -13,7 +13,7 @@ import CommonSeparator from './separator';
 
 export {
   CommonButton,
-  CommonDropdown
+  CommonDropdown,
   CommonHeader,
   CommonIcon,
   CommonImage,

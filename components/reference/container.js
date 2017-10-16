@@ -92,7 +92,7 @@ export default connect(
       }
     },
     username: (state, { mention }) => mention ? state.getIn(['account', mention, 'username']) : null,
-  },
+  }),
   (go, store, {
     mention,
     tagName,

@@ -49,7 +49,7 @@ export default function Card ({
   id,
   '🛄': context,
   '💪': handler,
-  '🏪': PropTypes.shape({
+  '🏪': {
     author,
     description,
     height,
@@ -61,7 +61,7 @@ export default function Card ({
     title,
     type,
     width,
-  }).isRequired,
+  },
 }) {
   const computedClass = classNames('MASTODON_GO--CARD', className);
 

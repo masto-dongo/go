@@ -113,9 +113,9 @@ export default class Timeline extends React.PureComponent {
               onSetHash={handleSetHash}
               title={intl.formatMessage(messages.timeline)}
             />
-            <CommonHeader title={title} />
           ) : null
         }
+        {column ? <CommonHeader title={title} /> : null}
         <CommonList>
           {statuses ? statuses.reduce(
             (items, id) => items.push(

@@ -29,7 +29,6 @@ import {
 import StatusActionBar from './action_bar';
 import StatusContent from './content';
 import StatusFooter from './footer';
-import StatusMissing from './missing';
 import StatusNav from './nav';
 import StatusPrepend from './prepend';
 

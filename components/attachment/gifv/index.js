@@ -22,7 +22,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages } from 'react-intl';
 
 //  Common imports.
-import { CommonButton } from 'themes/mastodon_go/components';
+import { CommonButton } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style';

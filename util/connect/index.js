@@ -126,7 +126,7 @@ export default function connect (stater, dispatcher, ...args) {
             '💪': dispatcher ? dispatcher(go, store, props, context) : null,
             '🏪': store,
           };
-        };
+        }
       );
 
       let props = null;
