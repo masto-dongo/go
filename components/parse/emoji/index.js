@@ -73,7 +73,6 @@ export default function ParseEmoji ({
       );
       const {
         name,
-        location,
         title,
       } = emojo;
       const selector = '';  //  TK: Selector support forthcoming
@@ -89,7 +88,7 @@ export default function ParseEmoji ({
           className='emoji'
           draggable='false'
           key={result.length}
-          src={(location[location.length - 1] === '/' ? location : location + '/') + emojo.toFilename()}
+          src={emojo.toLocation()}
           title={title || name}
         />
       );

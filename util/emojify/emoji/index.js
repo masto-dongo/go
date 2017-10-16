@@ -33,7 +33,7 @@ export class Emoji {
     image.class = 'EMOJI';
     image.draggable = false;
     image.alt = '' + this + selector;
-    image.src = (location[location.length - 1] === '/' ? location : location + '/') + this.toFilename(variant);
+    image.src = this.toLocation(variant);
     image.title = this.title || this.name;
     return image;
   }
@@ -46,6 +46,14 @@ export class Emoji {
     } = this;
     const ext = extension && extension[0] !== '.' ? '.' + extension : extension || '';
     return variants && variants.indexOf(variant) !== -1 ? `${name}-${variant}${ext}` : `${name}${ext}`;
+  }
+
+  toLocation (variant) {
+    const { location } = this;
+    if (!location) {
+      return this.toFilename(variant);
+    }
+    return (location[location.length - 1] === '/' ? location : location + '/') + this.toFilename(variant);
   }
 
   toString () {
