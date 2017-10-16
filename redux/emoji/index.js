@@ -1,5 +1,8 @@
 //  Package imports.
-import { Map as ImmutableMap } from 'immutable';
+import {
+  List as ImmutableList,
+  Map as ImmutableMap,
+} from 'immutable';
 
 
 
