@@ -100,6 +100,7 @@ export default class Catalogue extends React.PureComponent {
       activeRoute,
       hash,
       path,
+      '💪': { fetch },
     } = this.props;
     if (activeRoute && !nextProps.activeRoute) {
       this.setState({ storedHash: hash });

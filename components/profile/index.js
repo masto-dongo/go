@@ -46,6 +46,7 @@ export default class Profile extends React.PureComponent {
       activeRoute,
       hash,
       id,
+      '💪': { fetch },
     } = this.props;
     if (activeRoute && !nextProps.activeRoute) {
       this.setState({ storedHash: hash });

@@ -13,7 +13,6 @@
     overflow: auto;
 
     & > .MASTODON_GO--ACCOUNT {
-      margin: 1.25rem 1rem;
       color: $mastodon_go_aside_color;
       background-color: $mastodon_go_content_button_color;
       transition: background-color ($mastodon_go_animation_speed * .15s) ease-in;
