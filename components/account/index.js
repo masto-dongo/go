@@ -100,49 +100,40 @@ export default function Account ({
       searchText={displayName + '\n@' + at}
       {...rest}
     >
+      <AvatarContainer
+        account={id}
+        comrade={comrade}
+      />
       {
-        //  We need a `<div>` container to supply our rainbows and
-        //  sunshine 🌈🌻
-        <div
-          className='container'
-          style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('7').join(', ')})` } : {}}
+        //  We don't bother with a `<ReferenceContainer>` here since
+        //  we already have all of the account info and this lets us
+        //  put everything in one link.
+        <CommonLink
+          className='info'
+          destination={`/profile/${id}`}
+          history={history}
+          href={href}
         >
-          <AvatarContainer
-            account={id}
-            comrade={comrade}
-          />
-          {
-            //  We don't bother with a `<ReferenceContainer>` here since
-            //  we already have all of the account info and this lets us
-            //  put everything in one link.
-            <CommonLink
-              className='info'
-              destination={`/profile/${id}`}
-              history={history}
-              href={href}
-            >
-              <b>
-                <ParseContainer
-                  text={displayName || '———'}
-                  type='emoji'
-                />
-              </b>
-              <code>@{at}</code>
-            </CommonLink>
+          <b>
+            <ParseContainer
+              text={displayName || '———'}
+              type='emoji'
+            />
+          </b>
+          <code>@{at}</code>
+        </CommonLink>
+      }
+      {
+        //  This function gets our interaction button for use with the
+        //  account.  We don't show this on `small` accounts (which
+        //  appear in status headers) or if we aren't provided a `type`
+        //  and `relationship`.
+        !small && type && isFinite(relationship) && id !== me ? function () {
+          switch (type) {
+          default:
+            return null;
           }
-          {
-            //  This function gets our interaction button for use with the
-            //  account.  We don't show this on `small` accounts (which
-            //  appear in status headers) or if we aren't provided a `type`
-            //  and `relationship`.
-            !small && type && isFinite(relationship) && id !== me ? function () {
-              switch (type) {
-              default:
-                return null;
-              }
-            }() : null
-          }
-        </div>
+        }() : null
       }
     </CommonObservable>
   );

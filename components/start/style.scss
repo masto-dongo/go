@@ -33,6 +33,12 @@
         overflow: hidden;
       }
 
+      & > .MASTODON_GO--ACCOUNT {
+        margin: 1.25rem 1rem;
+        color: $mastodon_go_aside_color;
+        background-color: $mastodon_go_aside_background;
+      }
+
       & > .MASTODON_GO--COMMON--BUTTON {
         display: block;
         margin: 0;

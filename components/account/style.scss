@@ -4,34 +4,33 @@
 
 .MASTODON_GO--ACCOUNT {
   display: block;
-  height: 3.125rem;
+  height: 3.15rem;
   margin: 0;
-  padding: 1.25rem 1.5em;
+  padding: .625rem .75rem;
 
   & > .MASTODON_GO--AVATAR {
     float: left;
     margin-right: .75rem;
-    width: 3.125rem;
-    height: 3.125rem;
+    width: 3.15rem;
+    height: 3.15rem;
   }
 
   & > *.info {
     display: block;
     margin: 0;
     border: none;
-    padding: 0;
     overflow: hidden;
 
     & > b, & > code {
       display: block;
       border: none;
       padding: 0;
-      height: 1.875rem;
+      height: 1.575rem;
       overflow: hidden;
-      font-size: 1.25rem;
+      font-size: 1.05rem;
       font-family: inherit;
       font-weight: inherit;
-      line-height: 1.875rem;
+      line-height: 1.575rem;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
@@ -46,7 +45,7 @@
     & > .MASTODON_GO--AVATAR { margin-right: .6rem }
 
     & > *.info {
-      margin-top: .875rem;
+      padding: .9rem 0 0;
 
       & > b {
         height: 1.25rem;
