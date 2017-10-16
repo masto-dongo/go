@@ -15,7 +15,6 @@ export default class UI extends React.Component {  //  Impure
 
   static propTypes = {
     className: PropTypes.string,
-    handler: PropTypes.objectOf(PropTypes.func).isRequired,
     history: PropTypes.object,
     location: PropTypes.object,
     match: PropTypes.object,

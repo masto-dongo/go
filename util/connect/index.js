@@ -105,7 +105,7 @@ export default function connect (stater, dispatcher, ...args) {
     //  `go()` function, which is then handed to our `factory`.
     const selectorFactory = dispatch => {
 
-      const go = dispatcher.length > args.length ?
+      const go = dispatcher && dispatcher.length > args.length ?
         (fn, ...args) => dispatch(readyToGo(fn, ...args))
       : void 0;
 
