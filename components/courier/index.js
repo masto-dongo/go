@@ -180,7 +180,7 @@ export default class Courier extends React.PureComponent {
             />
           ) : null
         }
-        {isLoading ? <CommonLoadbar backgroundImage:={`linear-gradient(90deg, ${rainbow.get('15').join(', ')}, ${rainbow.getIn(['15', 0])})`} /> : null}
+        {isLoading ? <CommonLoadbar backgroundImage={`linear-gradient(90deg, ${rainbow.get('15').join(', ')}, ${rainbow.getIn(['15', 0])})`} /> : null}
       </div>
     );
   }

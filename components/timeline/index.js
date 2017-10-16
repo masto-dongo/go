@@ -117,19 +117,21 @@ export default class Timeline extends React.PureComponent {
         }
         {column ? <CommonHeader title={title} /> : null}
         <CommonList>
-          {statuses ? statuses.reduce(
-            (items, id) => items.push(
-              <StatusContainer
-                detailed={currentDetail === id}
-                filterRegex={settings.getIn(['regex', 'body'])}
-                hideIf={(settings.getIn(['shows', 'reblog']) && POST_TYPE.IS_REBLOG) | (settings.getIn(['shows', 'reply']) && POST_TYPE.IS_MENTION)}
-                id={id}
-                key={id}
-                setDetail={handleSetDetail}
-              />
-            ),
-            []
-          ) : null}
+          {
+            statuses ? statuses.reduce(
+              (items, id) => items.push(
+                <StatusContainer
+                  detailed={currentDetail === id}
+                  filterRegex={settings.getIn(['regex', 'body'])}
+                  hideIf={(settings.getIn(['shows', 'reblog']) && POST_TYPE.IS_REBLOG) | (settings.getIn(['shows', 'reply']) && POST_TYPE.IS_MENTION)}
+                  id={id}
+                  key={id}
+                  setDetail={handleSetDetail}
+                />
+              ),
+              []
+            ) : null
+          }
         </CommonList>
         {
           column ? (
@@ -138,10 +140,10 @@ export default class Timeline extends React.PureComponent {
               intl={intl}
               path={path}
             />
-          )
+          ) : null
         }
         {isLoading ? (
-          <CommonLoadbar backgroundImage:={`linear-gradient(90deg, ${rainbow.get('15').join(', ')}, ${rainbow.getIn(['15', 0])})`} />
+          <CommonLoadbar backgroundImage={`linear-gradient(90deg, ${rainbow.get('15').join(', ')}, ${rainbow.getIn(['15', 0])})`} />
         ) : null}
       </div>
     );

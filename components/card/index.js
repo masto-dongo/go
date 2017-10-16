@@ -21,7 +21,7 @@ import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 //  Container imports.
-import { ParseContainer } from 'themes/mastodon_go/components';
+import { ParseContainer } from 'themes/mastodon-go/components';
 
 //  Component imports.
 import CardReference from './reference';

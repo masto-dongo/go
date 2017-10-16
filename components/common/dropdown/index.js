@@ -27,7 +27,7 @@ class CommonDropdown extends React.PureComponent {
     }
   }
 
-  handleKeyDown = { key } => {
+  handleKeyDown = ({ key }) => {
     switch (key) {
     case 'Escape':
       this.handleClose();

@@ -250,6 +250,7 @@ export {
   pinStatus,
   reblogStatus,
   removeStatus,
+  submitStatus,
   unfavouriteStatus,
   unmuteStatus,
   unpinStatus,

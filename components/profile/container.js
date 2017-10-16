@@ -33,7 +33,7 @@ import {
 } from 'themes/mastodon-go/redux';
 
 //  Other imports
-import { connect } from 'themes/mastodon-go/util/connect';
+import connect from 'themes/mastodon-go/util/connect';
 
 //  * * * * * * *  //
 

@@ -20,7 +20,7 @@ import { createStructuredSelector } from 'reselect';
 import Notification from '.';
 
 //  Other imports
-import { connect } from 'themes/mastodon-go/util/connect';
+import connect from 'themes/mastodon-go/util/connect';
 
 //  * * * * * * *  //
 

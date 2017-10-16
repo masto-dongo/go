@@ -110,7 +110,7 @@ export default class Reference extends React.PureComponent {
         rainbow,
         title,
         username,
-      }
+      },
       ...rest
     } = this.props;
     const computedClass = classNames('MASTODON_GO--REFERENCE', {

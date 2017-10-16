@@ -18,12 +18,12 @@ import Drawer from '.';
 //  Request imports.
 import {
   submitAttachment,
-  submitSearch,
+  // submitSearch,
   submitStatus,
 } from 'themes/mastodon-go/redux';
 
 //  Other imports
-import { connect } from 'themes/mastodon-go/util/connect';
+import connect from 'themes/mastodon-go/util/connect';
 
 //  * * * * * * *  //
 
@@ -37,7 +37,7 @@ export default connect(
     results: state => state.get('search'),
   }),
   go => ({
-    search: query => go(submitSearch, query),
+    // search: query => go(submitSearch, query),
     submit: (text, options) => go(submitStatus, text, options),
     upload: file => go(submitAttachment, file),
   })

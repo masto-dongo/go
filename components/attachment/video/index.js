@@ -81,7 +81,7 @@ export default class AttachmentVideo extends React.PureComponent {
   state = {
     hasAudio: true,
     muted: true,
-    preview: !!this.props.autoplay,
+    previewVisible: !!this.props.autoplay,
     videoError: false,
   }
   video = null;
@@ -105,8 +105,8 @@ export default class AttachmentVideo extends React.PureComponent {
   handleClick = () => {
     const { setState, video } = this;
     const { onClick } = this.props;
-    const { preview } = this.state;
-    if (preview) setState({ preview: false });
+    const { previewVisible } = this.state;
+    if (previewVisible) setState({ previewVisible: false });
     else {
       video.pause();
       onClick(video.currentTime);
@@ -172,7 +172,7 @@ export default class AttachmentVideo extends React.PureComponent {
     const {
       hasAudio,
       muted,
-      preview,
+      previewVisible,
       videoError,
     } = this.state;
     const computedClass = classNames('MASTODON_GO--ATTACHMENT--VIDEO', className);
@@ -181,7 +181,7 @@ export default class AttachmentVideo extends React.PureComponent {
     //  message, or the video.
     const content = function () {
       switch (true) {
-      case preview:
+      case previewVisible:
         return (
           <img
             alt={description}
@@ -218,9 +218,9 @@ export default class AttachmentVideo extends React.PureComponent {
           href={href || src}
           key='box'
           onClick={handleClick}
-          title={intl.formatMessage(preview ? messages.open : messages.expand)}
+          title={intl.formatMessage(previewVisible ? messages.open : messages.expand)}
         >{content}</CommonButton>
-        {!preview ? (
+        {!previewVisible ? (
           <CommonButton
             active={!video.paused}
             className='play_pause'
@@ -230,7 +230,7 @@ export default class AttachmentVideo extends React.PureComponent {
             title={intl.formatMessage(messages.play)}
           />
         ) : null}
-        {!preview && hasAudio ? (
+        {!previewVisible && hasAudio ? (
           <CommonButton
             active={!muted}
             className='mute'

@@ -27,7 +27,7 @@ const failure = (text, options, error) => ({
 });
 
 //  Request.
-export default function submitComposer (text, options, go, current, api) {
+export default function submitStatus (text, options, go, current, api) {
 
   //  If we have no text, we can't submit our composer.
   if (!text || !text.length) return;
