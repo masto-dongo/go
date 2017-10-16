@@ -11,7 +11,7 @@
   & > header {
     display: block;
     position: relative;
-    margin: 0;
+    margin: -3.125rem 0 0;
     border: none;
     padding: 8.1em 0 0;
 
@@ -26,6 +26,11 @@
       padding: 0;
       width: auto;
       height: 8.1em;
+    }
+
+    & > .MASTODON_GO--ACCOUNT {
+      color: $mastodon_go_aside_color;
+      background-color: $mastodon_go_aside_background;
     }
   }
 

@@ -15,11 +15,11 @@
     & > .MASTODON_GO--ACCOUNT {
       margin: 1.25rem 1rem;
       color: $mastodon_go_aside_color;
-      background-color: $mastodon_go_button_color;
+      background-color: $mastodon_go_content_button_color;
       transition: background-color ($mastodon_go_animation_speed * .15s) ease-in;
 
       &:hover {
-        background-color: $mastodon_go_button_hover;
+        background-color: $mastodon_go_content_button_hover;
         transition: background-color ($mastodon_go_animation_speed * .15s) ease-out;
       }
     }

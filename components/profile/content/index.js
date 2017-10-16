@@ -106,7 +106,7 @@ export default class ProfileContent extends React.PureComponent {
         className={computedClass}
         {...rest}
       >
-        <header>
+        <header style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('7').join(', ')})` } : {}}>
           <CommonImage
             animatedSrc={header.get('original')}
             description=''
