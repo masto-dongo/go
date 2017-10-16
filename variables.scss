@@ -22,7 +22,7 @@ $mastodon_go_content_disabled: $go_red_01 !default;
 $mastodon_go_content_button_color: $go_navy_00 !default;
 $mastodon_go_content_button_hover: $go_navy_01 !default;
 $mastodon_go_content_button_active: $go_navy_02 !default;
-$mastodon_go_content_border_color: $go_red_02 !default;
+$mastodon_go_content_border: $go_red_02 !default;
 
 $mastodon_go_menu_color: $go_white !default;
 $mastodon_go_menu_background: $go_navy_00 !default;
@@ -39,6 +39,12 @@ $mastodon_go_aside_disabled: $go_red_05 !default;
 $mastodon_go_aside_button: $go_red_04 !default;
 $mastodon_go_aside_button_hover: $go_red_05 !default;
 $mastodon_go_aside_button_active: $go_white !default;
+
+$mastodon_go_table_color: $go_navy_01 !default;
+$mastodon_go_table_background: $go_white !default;
+$mastodon_go_table_heading_color: $go_white !default;
+$mastodon_go_table_heading_background: $go_red_02 !default;
+$mastodon_go_table_border: $go_red_02 !default;
 
 $mastodon_go_media_color: $go_white !default;
 $mastodon_go_media_background: $go_black !default;

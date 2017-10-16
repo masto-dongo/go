@@ -6,5 +6,41 @@
   display: block;
   margin: 0;
   border: none;
-  padding: 0;
+  padding: 0 1em;
+
+  & > .MASTODON_GO--PARSE--ACCOUNT_BIO--PARAGRAPH { margin: 1.25em 0 }
+
+  & > table {
+    display: table;
+    margin: 1.25em 0;
+    border: none;
+    border-collapse: collapse;
+    padding: 0;
+    width: 100%;
+    color: $mastodon_go_table_color;
+    background-color: $mastodon_go_table_background;
+    text-align: left;
+
+    & > tbody {
+      & > tr {
+        & > td {
+          display: table-cell;
+          margin: 0;
+          border: 1px $mastodon_go_table_border solid;
+          padding: .3125em .5em;
+          vertical-align: middle;
+        }
+
+        & > th {
+          display: table-cell;
+          margin: 0;
+          border: 1px $mastodon_go_table_border solid;
+          padding: .3125em .5em;
+          color: $mastodon_go_table_heading_color;
+          background-color: $mastodon_go_table_heading_background;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
 }
