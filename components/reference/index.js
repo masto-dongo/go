@@ -119,91 +119,90 @@ export default class Reference extends React.PureComponent {
       mention,
       tagName,
     }, className);
-      let defaultTitle = '';
-      let icon = '';
+    let defaultTitle = '';
+    let icon = '';
 
-      //  What we render depends on the props we are given.
-      switch (true) {
+    //  What we render depends on the props we are given.
+    switch (true) {
 
-      //  If we are given an `attachment`, we render a button with
-      //  the appropriate `icon` and `title`.
-      case !!attachment:
-        switch (mediaType) {
-        case MEDIA_TYPE.GIFV:
-        case MEDIA_TYPE.IMAGE:
-          defaultTitle = intl.formatMessage(messages.image);
-          icon = 'picture-o';
-          break;
-        case MEDIA_TYPE.VIDEO:
-          defaultTitle = intl.formatMessage(messages.video);
-          icon = 'video-camera';
-          break;
-        default:
-          defaultTitle = intl.formatMessage(messages.unknown);
-          icon = 'question';
-          break;
-        }
-        return (
-          <CommonButton
-            className={computedClass}
-            href={href}
-            icon={icon}
-            style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : {}}
-            title={title || defaultTitle}
-          />
-        );
-
-      //  If we are given a `card`, we render a card button.
-      case !!card:
-        return (
-          <CommonButton
-            className={computedClass}
-            href={href}
-            icon={'id-card-o'}
-            style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : {}}
-            title={title || intl.formatMessage(messages.card)}
-          />
-        );
-
-      //  If we are given a `mention`, we render a link to the
-      //  account's profile.
-      case !!mention:
-        return (
-          <CommonLink
-            className={computedClass}
-            destination={`/profile/${mention}`}
-            history={history}
-            href={href}
-            title={title}
-          >
-            <code style={rainbow ? { color: rainbow.get('1') } : {}}>
-              {showAt && username ? <span className='at'>@</span> : null}
-              <span className='username'>{username || mention}</span>
-            </code>
-          </CommonLink>
-        );
-
-      //  If we are given a `tagName`, we render a link to the
-      //  appropriate hashtag timeline.
-      case !!tagName:
-        return (
-          <CommonLink
-            className={computedClass}
-            destination={`/tagged/${tagName}`}
-            history={history}
-            href={href}
-            title={intl.formatMessage(messages.hashtag, { tagName })}
-          >
-            <b style={rainbow ? { color: rainbow.get('1') } : {}}>
-              {showHash ? <span className='hash'>#</span> : null}
-              <span className='tagname'>{tagName}</span>
-            </b>
-          </CommonLink>
-        );
+    //  If we are given an `attachment`, we render a button with
+    //  the appropriate `icon` and `title`.
+    case !!attachment:
+      switch (mediaType) {
+      case MEDIA_TYPE.GIFV:
+      case MEDIA_TYPE.IMAGE:
+        defaultTitle = intl.formatMessage(messages.image);
+        icon = 'picture-o';
+        break;
+      case MEDIA_TYPE.VIDEO:
+        defaultTitle = intl.formatMessage(messages.video);
+        icon = 'video-camera';
+        break;
       default:
-        return null;
+        defaultTitle = intl.formatMessage(messages.unknown);
+        icon = 'question';
+        break;
       }
-    );
+      return (
+        <CommonButton
+          className={computedClass}
+          href={href}
+          icon={icon}
+          style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : {}}
+          title={title || defaultTitle}
+        />
+      );
+
+    //  If we are given a `card`, we render a card button.
+    case !!card:
+      return (
+        <CommonButton
+          className={computedClass}
+          href={href}
+          icon={'id-card-o'}
+          style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : {}}
+          title={title || intl.formatMessage(messages.card)}
+        />
+      );
+
+    //  If we are given a `mention`, we render a link to the
+    //  account's profile.
+    case !!mention:
+      return (
+        <CommonLink
+          className={computedClass}
+          destination={`/profile/${mention}`}
+          history={history}
+          href={href}
+          title={title}
+        >
+          <code style={rainbow ? { color: rainbow.get('1') } : {}}>
+            {showAt && username ? <span className='at'>@</span> : null}
+            <span className='username'>{username || mention}</span>
+          </code>
+        </CommonLink>
+      );
+
+    //  If we are given a `tagName`, we render a link to the
+    //  appropriate hashtag timeline.
+    case !!tagName:
+      return (
+        <CommonLink
+          className={computedClass}
+          destination={`/tagged/${tagName}`}
+          history={history}
+          href={href}
+          title={intl.formatMessage(messages.hashtag, { tagName })}
+        >
+          <b style={rainbow ? { color: rainbow.get('1') } : {}}>
+            {showHash ? <span className='hash'>#</span> : null}
+            <span className='tagname'>{tagName}</span>
+          </b>
+        </CommonLink>
+      );
+    default:
+      return null;
+    }
   }
 
 }
