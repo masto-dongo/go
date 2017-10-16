@@ -14,7 +14,7 @@ export class DOMParser {
     //  If this produces an object, then DOM Parsing is natively
     //  supported and we don't have to do anything.
     try {
-      result = nativeParse('', 'text/html');
+      result = nativeParse(markup, 'text/html');
       if (result) {
         return result;
       }

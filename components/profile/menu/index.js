@@ -155,7 +155,7 @@ export default class ProfileMenu extends React.PureComponent {
           active={hash === '#media'}
           destination={activeRoute ? '#media' : undefined}
           history={history}
-          icon='paint-brush'
+          icon='picture-o'
           onClick={!activeRoute ? handleMediaClick : undefined}
           title={intl.formatMessage(messages.media)}
         />

@@ -101,6 +101,6 @@ export default function ParseAccountBio ({
 //  Props.
 ParseAccountBio.propTypes = {
   className: PropTypes.string,
-  metadata: ImmutablePropTypes.map,
+  metadata: ImmutablePropTypes.list,
   text: PropTypes.string,
 };
