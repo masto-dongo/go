@@ -97,7 +97,6 @@
     line-height: 1.6;
     cursor: pointer;
     vertical-align: baseline;
-    transition: background-color ($mastodon_go_animation_speed * .15s) ease-in, outline-color ($mastodon_go_animation_speed * .3s) ease-in-out;
 
     & > *.icon {
       display: inline-block;

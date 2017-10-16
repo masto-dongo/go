@@ -20,9 +20,9 @@ const messages = defineMessages({
     defaultMessage: 'Information below may reflect the user\'s profile incompletely.',
     id: 'profile.disclaimer',
   },
-  following: {
-    defaultMessage: 'Following',
-    id: 'profile.following',
+  followers: {
+    defaultMessage: 'Followers',
+    id: 'profile.followers',
   },
   follows: {
     defaultMessage: 'Follows',

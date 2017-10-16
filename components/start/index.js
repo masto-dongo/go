@@ -149,13 +149,13 @@ export default class Start extends React.PureComponent {
           title={intl.formatMessage(messages.start)}
         />
         <CommonHeader title={intl.formatMessage(messages.start)} />
-        {me ? (
-          <AccountContainer
-            history={history}
-            id={me}
-          />
-        ) : null}
         <div className='content'>
+          {me ? (
+            <AccountContainer
+              history={history}
+              id={me}
+            />
+          ) : null}
           <nav>
             <h2><FormattedMessage {...messages.personal} /></h2>
             <CommonButton

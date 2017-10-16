@@ -45,7 +45,7 @@ export default connect(
     rainbow: (state, { id }) => state.getIn(['account', id, 'rainbow']),
     relationship: (state, { id }) => state.getIn(['relationship', id]),
   }),
-  (go, store, id) => ({
+  (go, store, { id }) => ({
     block: () => go(blockRelationship, id),
     fetch: (newId = id) => go(fetchAccount, newId, true),
     follow: () => go(followRelationship, id),

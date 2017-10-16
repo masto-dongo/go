@@ -71,6 +71,6 @@ export default function ProfilePane ({
 //  Props.
 ProfilePane.propTypes = {
   className: PropTypes.string,
-  hash: PropTypes.string.isRequired,
+  hash: PropTypes.string,
   id: PropTypes.string.isRequired,
 };

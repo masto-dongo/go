@@ -12,6 +12,18 @@
     height: 100%;
     overflow: auto;
 
+    & > .MASTODON_GO--ACCOUNT {
+      margin: 1.25rem 1rem;
+      color: $mastodon_go_aside_color;
+      background-color: $mastodon_go_button_color;
+      transition: background-color ($mastodon_go_animation_speed * .15s) ease-in;
+
+      &:hover {
+        background-color: $mastodon_go_button_hover;
+        transition: background-color ($mastodon_go_animation_speed * .15s) ease-out;
+      }
+    }
+
     & > nav {
       display: block;
       margin: 0;
@@ -31,12 +43,6 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
-      }
-
-      & > .MASTODON_GO--ACCOUNT {
-        margin: 1.25rem 1rem;
-        color: $mastodon_go_aside_color;
-        background-color: $mastodon_go_aside_background;
       }
 
       & > .MASTODON_GO--COMMON--BUTTON {
