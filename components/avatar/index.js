@@ -94,14 +94,14 @@ Avatar.propTypes = {
   account: PropTypes.string.isRequired,
   circular: PropTypes.bool,
   className: PropTypes.string,
-  comrade: PropTypes.string.isRequired,
+  comrade: PropTypes.string,
   '🛄': PropTypes.shape({}),
   '💪': PropTypes.objectOf(PropTypes.func),
   '🏪': PropTypes.shape({
     autoplay: PropTypes.bool,
     accountAt: PropTypes.string.isRequired,
     accountSrc: ImmutablePropTypes.map.isRequired,
-    comradeAt: PropTypes.string.isRequired,
-    comradeSrc: ImmutablePropTypes.map.isRequired,
+    comradeAt: PropTypes.string,
+    comradeSrc: ImmutablePropTypes.map,
   }).isRequired,
 };

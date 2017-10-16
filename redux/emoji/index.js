@@ -9,6 +9,6 @@ const normalize = emoji => ImmutableMap({
 });
 
 
-export default function emoji (state = ImmutableMap(), action) {
+export default function emoji (state = ImmutableList(), action) {
   return state;
 }

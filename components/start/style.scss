@@ -38,10 +38,11 @@
         margin: 0;
         border: none;
         padding: .625rem .5rem;
+        color: $mastodon_go_content_button_color;
         font-size: 1.25rem;
         line-height: 1;
 
-        &:hover { color: $mastodon_go_content_button_active }
+        &:hover { color: $mastodon_go_content_active }
       }
     }
   }

@@ -10,16 +10,17 @@ export default class CommonObservable extends React.PureComponent {
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
     id: PropTypes.string,
-    observer: PropTypes.object.isRequired,
+    observer: PropTypes.object,
     searchText: PropTypes.string,
   };
   state = {
     height: 0,
     isHidden: false,
-    isIntersecting: false,
+    isIntersecting: true,
   };
   entry = null;
   mounted = false;
+  node = null;
 
   componentDidMount () {
     const {
@@ -30,8 +31,32 @@ export default class CommonObservable extends React.PureComponent {
       id,
       observer,
     } = this.props;
-    observer.observe(id, node, handleIntersection);
-    this.mounted = true;
+    if (observer) {
+      observer.observe(id, node, handleIntersection);
+      this.mounted = true;
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const {
+      handleIntersection,
+      node,
+    } = this;
+    const {
+      id,
+      observer,
+    } = this.props;
+    if (!observer && nextProps.observer) {
+      nextProps.observe(id, node, handleIntersection);
+      this.mounted = true;
+    } else if (observer && !nextProps.observer) {
+      observer.unobserve(id, node);
+      this.mounted = false;
+      this.setState({
+        isHidden: false,
+        isIntersecting: true,
+      });
+    }
   }
 
   componentWillUnmount () {
@@ -40,8 +65,10 @@ export default class CommonObservable extends React.PureComponent {
       id,
       observer,
     } = this.props;
-    observer.unobserve(id, node);
-    this.mounted = false;
+    if (observer) {
+      observer.unobserve(id, node);
+      this.mounted = false;
+    }
   }
 
   handleIntersection = (entry) => {
@@ -81,7 +108,7 @@ export default class CommonObservable extends React.PureComponent {
     );
   }
 
-  handleRef = c => this.node = c;
+  handleRef = node => this.node = node;
 
   render () {
     const { handleRef } = this;

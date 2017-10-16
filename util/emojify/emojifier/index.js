@@ -124,9 +124,11 @@ export class Emojifier {
         if (emojo.name) emoji[emojo.name] = emojo;
 
         //  Aliases only overwrite other aliases, not names.
-        for (let j = 0; j < emojo.aliases.length; j++) {
-          const alias = emojo.aliases[j];
-          if (!emoji[alias] || emoji[alias].name !== alias) emoji[alias] = emojo;
+        if (emojo.aliases) {
+          for (let j = 0; j < emojo.aliases.length; j++) {
+            const alias = emojo.aliases[j];
+            if (!emoji[alias] || emoji[alias].name !== alias) emoji[alias] = emojo;
+          }
         }
       }
     }
