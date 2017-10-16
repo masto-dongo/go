@@ -35,65 +35,6 @@ $go_black: #000000;  //  Pitch
 
 ///////////////////////////////////////////////////////////////////////
 
-//  THE \U2764 16-COLOUR PALLETE
-//  by: kibigo!
-
-//  This theme gives a gentle spectrum of colours built around
-//  contrasting ideals.  It is used as the basis for `rainbow()`.
-
-$u2764_base05: #faf8f7;
-$u2764_base15: #dedbd9;
-$u2764_base40: #b8b3b0;
-$u2764_base45: #948d87;
-$u2764_base55: #75706a;
-$u2764_base60: #57534c;
-$u2764_base85: #302f2b;
-$u2764_base95: #1f1a14;
-
-$u2764_unity: #a6627a;
-$u2764_age: #9e6960;
-$u2764_energy: #8d7249;
-$u2764_truth: #58814d;
-$u2764_independence: #03867e;
-$u2764_youth: #268395;
-$u2764_peace: #567ba4;
-$u2764_mystery: #9765a3;
-
-///////////////////////////////////////////////////////////////////////
-//  PRINT + PASTELS
-//  by: kibigo!
-
-//  This theme combines offwhite greys with bright pastels for a faded
-//  yet distinctive look.  This is "pastel" in the art medium sense—the
-//  colours are actually quite bright, so be careful.
-
-//  This theme was inspired by the look of coloured pencils on old
-//  newsprint and can be used to capture a similar feel.
-
-//  PRINT  //
-
-$print_white: #faf8f7;
-$print_bright: #dedbd9;
-$print_light: #b8b3b0;
-$print: #948d87;
-$print_medium: #75706a;
-$print_dark: #57534c;
-$print_dim: #302f2b;
-$print_black: #1f1a14;
-
-//  PASTELS  //
-
-$pastel_red: #b01c1c;
-$pastel_orange: #d15919;
-$pastel_gold: #eb9100;
-$pastel_yellow: #fae13e;
-$pastel_green: #50d952;
-$pastel_cyan: #1aaceb;
-$pastel_blue: #4b2df7;
-$pastel_pink: #f56e97;
-
-///////////////////////////////////////////////////////////////////////
-
 //  rainbow.txt
 //  by: kibigo!
 
@@ -162,6 +103,66 @@ $rainbow_grey_medium: #636363;
 $rainbow_grey_dark: #3b3b3b;
 $rainbow_grey_dim: #1c1c1c;
 $rainbow_grey_black: #0c0c0c;
+
+///////////////////////////////////////////////////////////////////////
+
+//  THE \U2764 16-COLOUR PALLETE
+//  by: kibigo!
+
+//  This theme gives a gentle spectrum of colours built around
+//  contrasting ideals.
+
+$u2764_base05: #faf8f7;
+$u2764_base15: #dedbd9;
+$u2764_base40: #b8b3b0;
+$u2764_base45: #948d87;
+$u2764_base55: #75706a;
+$u2764_base60: #57534c;
+$u2764_base85: #302f2b;
+$u2764_base95: #1f1a14;
+
+$u2764_unity: #a6627a;
+$u2764_age: #9e6960;
+$u2764_energy: #8d7249;
+$u2764_truth: #58814d;
+$u2764_independence: #03867e;
+$u2764_youth: #268395;
+$u2764_peace: #567ba4;
+$u2764_mystery: #9765a3;
+
+///////////////////////////////////////////////////////////////////////
+
+//  PRINT + PASTELS
+//  by: kibigo!
+
+//  This theme combines offwhite greys with bright pastels for a faded
+//  yet distinctive look.  This is "pastel" in the art medium sense—the
+//  colours are actually quite bright, so be careful.
+
+//  This theme was inspired by the look of coloured pencils on old
+//  newsprint and can be used to capture a similar feel.
+
+//  PRINT  //
+
+$print_white: #faf8f7;
+$print_bright: #dedbd9;
+$print_light: #b8b3b0;
+$print: #948d87;
+$print_medium: #75706a;
+$print_dark: #57534c;
+$print_dim: #302f2b;
+$print_black: #1f1a14;
+
+//  PASTELS  //
+
+$pastel_red: #b01c1c;
+$pastel_orange: #d15919;
+$pastel_gold: #eb9100;
+$pastel_yellow: #fae13e;
+$pastel_green: #50d952;
+$pastel_cyan: #1aaceb;
+$pastel_blue: #4b2df7;
+$pastel_pink: #f56e97;
 
 ///////////////////////////////////////////////////////////////////////
 

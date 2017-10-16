@@ -19,12 +19,11 @@
   color: $mastodon_go_content_color;
   background-color: $mastodon_go_content_background;
   background-clip: padding-box;
-  transition: width (.6s * $mastodon_go_animation_speed) ease-out;
+  transition: width (.45s * $mastodon_go_animation_speed) ease;
 
   &:empty {
     border: none;
     width: 0;
-    transition: width (.6s * $mastodon_go_animation_speed) ease-in;
   }
 
   .MASTODON_GO--COMMON--MENUBAR ~ & {

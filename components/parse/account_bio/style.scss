@@ -31,8 +31,6 @@
           margin: 0;
           border: 1px $mastodon_go_table_border solid;
           padding: .625em 1em;
-          width: 40%;
-          max-width: 8em;
           vertical-align: middle;
         }
 
@@ -41,6 +39,8 @@
           margin: 0;
           border: 1px $mastodon_go_table_heading_border solid;
           padding: .625em 1em;
+          width: 40%;
+          max-width: 8em;
           color: $mastodon_go_table_heading_color;
           background-color: $mastodon_go_table_heading_background;
           font-weight: inherit;
