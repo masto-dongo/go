@@ -18,4 +18,4 @@ if (process.env.NODE_ENV === 'production') {
 
 const root = document.getElementById('mastodon') || document.body;
 events(root);
-launch(MastodonGO, redux(), getLocale(), root);
+launch(root, MastodonGO, redux(), getLocale());

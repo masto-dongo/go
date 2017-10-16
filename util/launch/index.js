@@ -4,7 +4,7 @@ import { addLocaleData } from 'react-intl';
 
 import launchOnReady from './on_ready';
 
-export default function launch (Component, store, locale) {
+export default function launch (root, Component, store, locale) {
 
   //  Redirects non-`/web/` links to their proper location.
   if (history && history.replaceState) {
