@@ -15,6 +15,8 @@ import {
   CommonImage,
 } from 'themes/mastodon-go/components';
 
+import './style';
+
 const messages = defineMessages({
   disclaimer: {
     defaultMessage: 'Information below may reflect the user\'s profile incompletely.',
@@ -106,11 +108,12 @@ export default class ProfileContent extends React.PureComponent {
         className={computedClass}
         {...rest}
       >
-        <header style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('7').join(', ')})` } : {}}>
+        <header>
           <CommonImage
             animatedSrc={header.get('original')}
             description=''
             staticSrc={header.get('static')}
+            style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('7').join(', ')})` } : {}}
           />
           {
             //  We don't give the `<AccountContainer>` our `history`
