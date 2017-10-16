@@ -23,7 +23,7 @@ import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 //  Component imports.
-import ParseAccountBioParagraph from '.';
+import ParseAccountBioParagraph from './paragraph';
 
 //  Stylesheet imports.
 import './style';
@@ -47,7 +47,7 @@ export default function ParseAccountBio ({
 
   //  First, we create paragraphs for our `parsedText`.
   if (text) {
-    bio.concat(text.split('\n\n').map(
+    bio.splice(0, 0, ...text.split('\n\n').map(
       (paragraph, index) => (
         <ParseAccountBioParagraph
           key={index}
