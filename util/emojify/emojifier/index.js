@@ -150,131 +150,129 @@ export class Emojifier {
           'Symbols',
           'Flags',
         ].indexOf(category) === -1,
-        get: (
-          () => {
-            let subgroups;
-            switch (category) {
-            case 'Smileys & People':
-              subgroups = [
-                'face-positive',
-                'face-neutral',
-                'face-negative',
-                'face-sick',
-                'face-role',
-                'face-fantasy',
-                'cat-face',
-                'monkey-face',
-                'person',
-                'person-role',
-                'person-fantasy',
-                'person-gesture',
-                'person-activity',
-                'person-sport',
-                'family',
-                'body',
-                'emotion',
-                'clothing',
-              ];
-              break;
-            case 'Animals & Nature':
-              subgroups = [
-                'animal-mammal',
-                'animal-bird',
-                'animal-amphibian',
-                'animal-reptile',
-                'animal-marine',
-                'animal-bug',
-                'plant-flower',
-                'plant-other',
-              ];
-              break;
-            case 'Food & Drink':
-              subgroups = [
-                'food-fruit',
-                'food-vegetable',
-                'food-prepared',
-                'food-asian',
-                'food-sweet',
-                'drink',
-                'dishware',
-              ];
-              break;
-            case 'Travel & Places':
-              subgroups = [
-                'place-map',
-                'place-geographic',
-                'place-building',
-                'place-religious',
-                'place-other',
-                'transport-ground',
-                'transport-water',
-                'transport-air',
-                'hotel',
-                'time',
-                'sky & weather',
-              ];
-              break;
-            case 'Activities':
-              subgroups = [
-                'event',
-                'award-medal',
-                'sport',
-                'game',
-              ];
-              break;
-            case 'Objects':
-              subgroups = [
-                'sound',
-                'music',
-                'musical-instrument',
-                'phone',
-                'computer',
-                'light & video',
-                'book-paper',
-                'money',
-                'mail',
-                'writing',
-                'office',
-                'lock',
-                'tool',
-                'medical',
-                'other-object',
-              ];
-              break;
-            case 'Symbols':
-              subgroups = [
-                'transport-sign',
-                'warning',
-                'arrow',
-                'religion',
-                'zodiac',
-                'av-symbol',
-                'other-symbol',
-                'keycap',
-                'alphanum',
-                'geometric',
-              ];
-              break;
-            case 'Flags':
-              subgroups = [
-                'flag',
-                'country-flag',
-                'subdivision-flag',
-              ];
-              break;
-            default:
-              subgroups = [category];
-              return;
-            }
-            return function () {
-              const result = [];
-              for (let i = 0; i < subgroups.length; i++) {
-                result.concat(categories[subgroups[i]]);
-              }
-              return result;
-            }();
+        get: function () {
+          let subgroups;
+          switch (category) {
+          case 'Smileys & People':
+            subgroups = [
+              'face-positive',
+              'face-neutral',
+              'face-negative',
+              'face-sick',
+              'face-role',
+              'face-fantasy',
+              'cat-face',
+              'monkey-face',
+              'person',
+              'person-role',
+              'person-fantasy',
+              'person-gesture',
+              'person-activity',
+              'person-sport',
+              'family',
+              'body',
+              'emotion',
+              'clothing',
+            ];
+            break;
+          case 'Animals & Nature':
+            subgroups = [
+              'animal-mammal',
+              'animal-bird',
+              'animal-amphibian',
+              'animal-reptile',
+              'animal-marine',
+              'animal-bug',
+              'plant-flower',
+              'plant-other',
+            ];
+            break;
+          case 'Food & Drink':
+            subgroups = [
+              'food-fruit',
+              'food-vegetable',
+              'food-prepared',
+              'food-asian',
+              'food-sweet',
+              'drink',
+              'dishware',
+            ];
+            break;
+          case 'Travel & Places':
+            subgroups = [
+              'place-map',
+              'place-geographic',
+              'place-building',
+              'place-religious',
+              'place-other',
+              'transport-ground',
+              'transport-water',
+              'transport-air',
+              'hotel',
+              'time',
+              'sky & weather',
+            ];
+            break;
+          case 'Activities':
+            subgroups = [
+              'event',
+              'award-medal',
+              'sport',
+              'game',
+            ];
+            break;
+          case 'Objects':
+            subgroups = [
+              'sound',
+              'music',
+              'musical-instrument',
+              'phone',
+              'computer',
+              'light & video',
+              'book-paper',
+              'money',
+              'mail',
+              'writing',
+              'office',
+              'lock',
+              'tool',
+              'medical',
+              'other-object',
+            ];
+            break;
+          case 'Symbols':
+            subgroups = [
+              'transport-sign',
+              'warning',
+              'arrow',
+              'religion',
+              'zodiac',
+              'av-symbol',
+              'other-symbol',
+              'keycap',
+              'alphanum',
+              'geometric',
+            ];
+            break;
+          case 'Flags':
+            subgroups = [
+              'flag',
+              'country-flag',
+              'subdivision-flag',
+            ];
+            break;
+          default:
+            subgroups = [category];
+            break;
           }
-        )(),
+          return function () {
+            const result = [];
+            for (let i = 0; i < subgroups.length; i++) {
+              result.concat(categories[subgroups[i]]);
+            }
+            return result;
+          };
+        }(),
       });
     }
   }

@@ -140,7 +140,7 @@ const filterByStatus = (state, statuses) => {
     'notifications',
     list => list.filter(
       notification => !notification.get('status') || statuses.indexOf(notification.get('status')) === -1
-    );
+    )
   );
 };
 
