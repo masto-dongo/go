@@ -266,7 +266,7 @@ export class Emojifier {
               subgroups = [category];
               return;
             }
-            return function {
+            return function () {
               const result = [];
               for (let i = 0; i < subgroups.length; i++) {
                 result.concat(categories[subgroups[i]]);

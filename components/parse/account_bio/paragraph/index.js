@@ -110,7 +110,7 @@ export default function ParseAccountBioParagraph ({
 };
 
 //  Props.
-ParseStatusContent.propTypes = {
+ParseAccountBioParagraph.propTypes = {
   className: PropTypes.string,
   text: PropTypes.string,
 };

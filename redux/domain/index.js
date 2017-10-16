@@ -14,10 +14,7 @@
 //  -------
 
 //  Package imports.
-import {
-  List as ImmutableList,
-  Map as ImmutableMap,
-} from 'immutable';
+import { Map as ImmutableMap } from 'immutable';
 
 //  Request types.
 import blockDomain from './block';

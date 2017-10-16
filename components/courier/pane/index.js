@@ -50,7 +50,7 @@ export default function CourierPane ({
         function () {
           switch (hash) {
           case '#settings':
-            return <CourierPaneSettings {...rest}/>;
+            return <CourierPaneSettings {...rest} />;
           default:
             return null;
           }

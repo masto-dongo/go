@@ -118,7 +118,7 @@ const filterByAccount = (state, accounts) => {
       notification => accounts.indexOf(notification.get('account')) === -1
     )
   );
-}
+};
 
 //  `filterById()` removes the `notification`s associated with the
 //  provided `ids` from the courier.
@@ -128,7 +128,7 @@ const filterById = (state, ids) => {
     'notifications',
     list => list.filter(
       notification => ids.indexOf(notification.get('id')) === -1
-    );
+    )
   );
 };
 

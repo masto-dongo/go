@@ -47,13 +47,13 @@ const normalize = card => ImmutableMap({
   type: (
     type => {
       switch (type) {
-      case "link":
+      case 'link':
         return CARD_TYPE.LINK;
-      case "photo":
+      case 'photo':
         return CARD_TYPE.PHOTO;
-      case "rich":
+      case 'rich':
         return CARD_TYPE.RICH;
-      case "video":
+      case 'video':
         return CARD_TYPE.VIDEO;
       default:
         return CARD_TYPE.UNKNOWN;

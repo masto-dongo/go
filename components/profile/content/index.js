@@ -47,7 +47,7 @@ export default class ProfileContent extends React.PureComponent {
     counts: ImmutablePropTypes.map,
     handler: PropTypes.objectOf(PropTypes.func),
     header: ImmutablePropTypes.map,
-    history: Proptypes.object,
+    history: PropTypes.object,
     href: PropTypes.string,
     id: PropTypes.string,
     local: PropTypes.bool,

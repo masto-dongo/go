@@ -59,7 +59,7 @@ export default function updateAccount (info, go, current, api) {
   //  The request.
   go(request, info);
   api.patch(
-    `/api/v1/accounts/update_credentials`, data
+    '/api/v1/accounts/update_credentials', data
   ).then(
     response => go(success, response.data)
   ).catch(

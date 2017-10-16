@@ -109,7 +109,7 @@ const normalize = (status, oldContent) => {
       })
     )),
     visibility: function (visibility) {
-      let value = VISIBLITY.DIRECT;
+      let value = VISIBILITY.DIRECT;
       switch (visibility) {
       case 'private':
         value = VISIBILITY.PRIVATE;

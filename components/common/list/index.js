@@ -59,7 +59,6 @@ export default class CommonList extends React.PureComponent {
     () => {
       const { node } = this;
       const {
-        isLoading,
         onScrollToBottom,
         onScrollToTop,
         onScroll,
@@ -73,7 +72,7 @@ export default class CommonList extends React.PureComponent {
         const offset = scrollHeight - scrollTop - clientHeight;
         this.oldScrollPosition = scrollHeight - scrollTop;
 
-        if (400 > offset && onScrollToBottom && !isLoading) {
+        if (400 > offset && onScrollToBottom) {
           onScrollToBottom();
         } else if (scrollTop < 100 && onScrollToTop) {
           onScrollToTop();
@@ -102,7 +101,7 @@ export default class CommonList extends React.PureComponent {
   componentDidUpdate (prevProps) {
     const {
       node,
-      oldScrollPosition
+      oldScrollPosition,
     } = this;
     const { children } = this.props;
     if (node && oldScrollPosition) {

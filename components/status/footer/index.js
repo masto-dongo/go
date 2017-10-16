@@ -122,7 +122,10 @@ export default class StatusFooter extends React.PureComponent {
     //  If our status isn't detailed, our footer only contains the
     //  relative timestamp and visibility information.
     if (!detailed) return (
-      <footer className={computedClass}>
+      <footer
+        className={computedClass}
+        {...rest}
+      >
         <CommonIcon
           name={visibilityIcon}
           proportional
@@ -141,7 +144,10 @@ export default class StatusFooter extends React.PureComponent {
     //  Otherwise, we give the full timestamp and include a link to the
     //  application which posted the status if applicable.
     return (
-      <footer className={computedClass}>
+      <footer
+        className={computedClass}
+        {...rest}
+      >
         <CommonLink
           className='timestamp'
           href={href}

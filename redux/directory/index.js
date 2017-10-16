@@ -41,9 +41,6 @@ import {
   DIRECTORY_REFRESH_SUCCESS,
 } from 'themes/mastodon-go/redux/directory/refresh';
 
-//  Other imports.
-import rainbow from 'themes/mastodon-go/util/rainbow';
-
 //  * * * * * * *  //
 
 //  Setup

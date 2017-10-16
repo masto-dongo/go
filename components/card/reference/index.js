@@ -22,6 +22,9 @@ import React from 'react';
 //  Container imports.
 import { ParseContainer } from 'themes/mastodon-go/components';
 
+//  Common imports.
+import { CommonLink } from 'themes/mastodon-go/components';
+
 //  Stylesheet imports.
 import './style';
 

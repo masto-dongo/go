@@ -8,7 +8,7 @@ export const CustomEvent = function (CustomEvent) {
     const evt = document.createEvent('CustomEvent');
     evt.initCustomEvent(typeArg, bubbles, cancelable, detail);
     return evt;
-  }
+  };
   CustomEvent.prototype = window.Event.prototype;
   return CustomEvent;
 }(window.CustomEvent);

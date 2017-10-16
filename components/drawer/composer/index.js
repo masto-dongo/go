@@ -19,7 +19,6 @@ import ComposerWarning from './warning';
 //  Stylesheet imports
 import './style';
 
-import { VISIBILITY } from 'themes/mastodon-go/util/constants';
 import uuid from 'themes/mastodon-go/util/uuid';
 
 const messages = defineMessages({
@@ -175,7 +174,7 @@ export default class DrawerComposer extends React.PureComponent {
       isSubmitting,
       onUpload,
       onSubmit,
-      ...rest,
+      ...rest
     } = this.props;
     const {
       inReplyTo,
@@ -228,9 +227,10 @@ export default class DrawerComposer extends React.PureComponent {
         />
         <ComposerOptions
           onLocalChange={handleLocalChange}
-          onSensitivityChange={handleSensitivityChange}
+          onSensitiveChange={handleSensitiveChange}
           onSpoilableChange={handleSpoilableChange}
           onVisibilityChange={handleVisibilityChange}
+          visibility={visibility}
         />
       </div>
     );
