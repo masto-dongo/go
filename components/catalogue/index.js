@@ -78,7 +78,6 @@ export default class Catalogue extends React.PureComponent {
     '🏪': PropTypes.shape({
       accounts: ImmutablePropTypes.list,
       isLoading: PropTypes.bool,
-      rainbow: ImmutablePropTypes.map,
     }).isRequired,
   };
   state = { storedHash: '#' };
@@ -141,7 +140,6 @@ export default class Catalogue extends React.PureComponent {
       '🏪': {
         accounts,
         isLoading,
-        rainbow,
       },
       ...rest
     } = this.props;
@@ -182,7 +180,7 @@ export default class Catalogue extends React.PureComponent {
             []
           ) : null}
         </CommonList>
-        {isLoading ? <CommonLoadbar backgroundImage={`linear-gradient(90deg, ${rainbow.get('15').join(', ')}, ${rainbow.getIn(['15', 0])})`} /> : null}
+        {isLoading ? <CommonLoadbar /> : null}
       </div>
     );
   }

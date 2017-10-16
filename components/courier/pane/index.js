@@ -63,5 +63,5 @@ export default function CourierPane ({
 //  Props.
 CourierPane.propTypes = {
   className: PropTypes.string,
-  hash: PropTypes.string.isRequired,
+  hash: PropTypes.string,
 };

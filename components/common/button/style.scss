@@ -37,9 +37,7 @@
   }
 
   &.active {
-    & > *.icon {
-      color: $mastodon_go_content_button_active;
-    }
+    color: $mastodon_go_content_button_active;
 
     &.animated > *.icon {
       animation-name: mastodon_go--common--button--activate;
@@ -94,8 +92,6 @@
     display: inline-block;
     border: none;
     padding: 0 .5em;
-    color: $mastodon_go_content_button_text;
-    background-color: $mastodon_go_content_button_color;
     font-size: .75em;
     font-weight: inherit;
     line-height: 1.6;
@@ -111,19 +107,6 @@
 
     & > *:not(:first-child) {
       margin: 0 0 0 1ex;
-    }
-
-    &:hover,
-    &:focus {
-      color: $mastodon_go_content_button_text;
-      background-color: $mastodon_go_content_button_hover;
-      transition: background-color ($mastodon_go_animation_speed * .3s) ease-out, outline-color ($mastodon_go_animation_speed * .15s) ease-in-out;
-    }
-
-    &:active {
-      color: $mastodon_go_content_button_text;
-      background-color: $mastodon_go_content_button_active;
-      transition: background-color ($mastodon_go_animation_speed * .3s) ease-out, outline-color ($mastodon_go_animation_speed * .15s) ease-in-out;
     }
   }
 }

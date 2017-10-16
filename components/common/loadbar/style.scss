@@ -12,6 +12,7 @@
   border: none;
   padding: 0;
   height: 4px;
+  background-image: linear-gradient(to right, $rainbow_cyan, $rainbow_blue, $rainbow_purple, $rainbow_magenta, $rainbow_red, $rainbow_yellow, $rainbow_green, $rainbow_teal, $rainbow_cyan);
   background-attachment: scroll;
   background-size: 23rem auto;
   background-repeat: repeat-x;

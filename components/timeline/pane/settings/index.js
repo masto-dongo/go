@@ -41,7 +41,7 @@ export default function TimelinePaneSettings ({
 
   return (
     <div
-      class={computedClass}
+      className={computedClass}
       {...rest}
     >
       <section>

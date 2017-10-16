@@ -43,7 +43,7 @@ export default function TimelinePane ({
 
 TimelinePane.propTypes = {
   className: PropTypes.string,
-  hash: PropTypes.string.isRequired,
+  hash: PropTypes.string,
   intl: PropTypes.object.isRequired,
   path: PropTypes.string.isRequired,
 };

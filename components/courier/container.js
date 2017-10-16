@@ -44,7 +44,6 @@ export default connect(
   createStructuredSelector({
     isLoading: state => state.getIn(['courier', 'isLoading']),
     notifications: state => state.getIn(['courier', 'notifications']),
-    rainbow: state => state.getIn(['courier', 'rainbow']),
     settings: (state, { column }) => column ? state.getIn(['setting', 'global', 'courier']) : null,
   }),
   go => ({

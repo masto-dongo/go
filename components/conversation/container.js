@@ -36,7 +36,6 @@ import connect from 'themes/mastodon-go/util/connect';
 //  Building our store and handlers.
 export default connect(
   createStructuredSelector({
-    rainbow: (state, { id }) => state.getIn(['account', state.getIn(['status', id, 'account']), 'rainbow']),
     statuses: (state, { id }) => state.getIn(['conversation', id, 'statuses']),
   }),
   (go, store, { id }) => ({

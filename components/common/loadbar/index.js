@@ -23,7 +23,6 @@ import './style';
 //  -------------
 
 export default function CommonLoadbar ({
-  backgroundImage,
   className,
   ...rest
 }) {
@@ -31,14 +30,10 @@ export default function CommonLoadbar ({
   return (
     <div
       className={computedClass}
-      style={backgroundImage ? { backgroundImage } : {}}
       {...rest}
     />
   );
 }
 
 //  Props.
-CommonLoadbar.propTypes = {
-  backgroundImage: PropTypes.string,
-  className: PropTypes.string,
-};
+CommonLoadbar.propTypes = { className: PropTypes.string };

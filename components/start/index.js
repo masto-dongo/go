@@ -90,7 +90,7 @@ export default class Start extends React.PureComponent {
     hash: PropTypes.string,
     history: PropTypes.object,
     '🛄': PropTypes.shape({ intl: PropTypes.object.isRequired }).isRequired,
-    '💪': PropTypes.objectOf(PropTypes.func).isRequired,
+    '💪': PropTypes.objectOf(PropTypes.func),
     '🏪': PropTypes.shape({ me: PropTypes.string }).isRequired,
   }
   state = { storedHash: '#' };
@@ -155,61 +155,63 @@ export default class Start extends React.PureComponent {
             id={me}
           />
         ) : null}
-        <nav>
-          <h2><FormattedMessage {...messages.personal} /></h2>
-          <CommonButton
-            destination='/compose'
-            history={history}
-            icon='pencil-square-o'
-            showTitle
-            title={intl.formatMessage(messages.compose)}
-          />
-          <CommonButton
-            href='/settings/preferences'
-            icon='cog'
-            showTitle
-            title={intl.formatMessage(messages.preferences)}
-          />
-        </nav>
-        <nav>
-          <h2><FormattedMessage {...messages.timelines} /></h2>
-          <CommonButton
-            destination='/home'
-            history={history}
-            icon='home'
-            showTitle
-            title={intl.formatMessage(messages.home)}
-          />
-          <CommonButton
-            destination='/global'
-            history={history}
-            icon='globe'
-            showTitle
-            title={intl.formatMessage(messages.global)}
-          />
-          <CommonButton
-            destination='/local'
-            history={history}
-            icon='users'
-            showTitle
-            title={intl.formatMessage(messages.local)}
-          />
-        </nav>
-        <nav>
-          <h2><FormattedMessage {...messages.meta} /></h2>
-          <CommonButton
-            href='/about/more'
-            icon='book'
-            showTitle
-            title={intl.formatMessage(messages.about)}
-          />
-          <CommonButton
-            href='/auth/sign_out'
-            icon='sign-out'
-            showTitle
-            title={intl.formatMessage(messages.logout)}
-          />
-        </nav>
+        <div class='content'>
+          <nav>
+            <h2><FormattedMessage {...messages.personal} /></h2>
+            <CommonButton
+              destination='/compose'
+              history={history}
+              icon='pencil-square-o'
+              showTitle
+              title={intl.formatMessage(messages.compose)}
+            />
+            <CommonButton
+              href='/settings/preferences'
+              icon='cog'
+              showTitle
+              title={intl.formatMessage(messages.preferences)}
+            />
+          </nav>
+          <nav>
+            <h2><FormattedMessage {...messages.timelines} /></h2>
+            <CommonButton
+              destination='/home'
+              history={history}
+              icon='home'
+              showTitle
+              title={intl.formatMessage(messages.home)}
+            />
+            <CommonButton
+              destination='/global'
+              history={history}
+              icon='globe'
+              showTitle
+              title={intl.formatMessage(messages.global)}
+            />
+            <CommonButton
+              destination='/local'
+              history={history}
+              icon='users'
+              showTitle
+              title={intl.formatMessage(messages.local)}
+            />
+          </nav>
+          <nav>
+            <h2><FormattedMessage {...messages.meta} /></h2>
+            <CommonButton
+              href='/about/more'
+              icon='book'
+              showTitle
+              title={intl.formatMessage(messages.about)}
+            />
+            <CommonButton
+              href='/auth/sign_out'
+              icon='sign-out'
+              showTitle
+              title={intl.formatMessage(messages.logout)}
+            />
+          </nav>
+        </div>
       </div>
     );
   }

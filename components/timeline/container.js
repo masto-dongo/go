@@ -34,7 +34,6 @@ import connect from 'themes/mastodon-go/util/connect';
 export default connect(
   createStructuredSelector({
     isLoading: (state, { path }) => state.getIn(['timeline', path, 'isLoading']),
-    rainbow: (state, { path }) => state.getIn(['timeline', path, 'rainbow']),
     settings: (state, { path }) => state.getIn([
       'setting',
       'global',

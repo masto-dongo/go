@@ -41,7 +41,6 @@ export default class Timeline extends React.PureComponent {
     '💪': PropTypes.objectOf(PropTypes.func).isRequired,
     '🏪': PropTypes.shape({
       isLoading: PropTypes.bool,
-      rainbow: ImmutablePropTypes.map,
       settings: ImmutablePropTypes.map,
       statuses: ImmutablePropTypes.list,
     }).isRequired,
@@ -83,7 +82,6 @@ export default class Timeline extends React.PureComponent {
       '💪': handler,
       '🏪': {
         isLoading,
-        rainbow,
         settings,
         statuses,
       },
@@ -142,9 +140,7 @@ export default class Timeline extends React.PureComponent {
             />
           ) : null
         }
-        {isLoading ? (
-          <CommonLoadbar backgroundImage={`linear-gradient(90deg, ${rainbow.get('15').join(', ')}, ${rainbow.getIn(['15', 0])})`} />
-        ) : null}
+        {isLoading ? <CommonLoadbar /> : null}
       </div>
     );
   }

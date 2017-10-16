@@ -68,10 +68,7 @@ export default class Conversation extends React.PureComponent {
     id: PropTypes.string.isRequired,
     '🛄': PropTypes.shape({ intl: PropTypes.object.isRequired }).isRequired,
     '💪': PropTypes.objectOf(PropTypes.func).isRequired,
-    '🏪': PropTypes.shape({
-      rainbow: ImmutablePropTypes.map,
-      statuses: ImmutablePropTypes.list,
-    }).isRequired,
+    '🏪': PropTypes.shape({ statuses: ImmutablePropTypes.list }).isRequired,
   };
 
   //  Our constructor goes ahead and prefetches the conversation.
@@ -100,10 +97,7 @@ export default class Conversation extends React.PureComponent {
       id,
       '🛄': { intl },
       '💪': handler,
-      '🏪': {
-        rainbow,
-        statuses,
-      },
+      '🏪': { statuses },
       ...rest
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONVERSATION', className);
@@ -131,7 +125,7 @@ export default class Conversation extends React.PureComponent {
             []
           ) : null}
         </CommonList>
-        {!statuses ? <CommonLoadbar backgroundImage={`linear-gradient(90deg, ${rainbow.get('15').join(', ')}, ${rainbow.getIn(['15', 0])})`} /> : null}
+        {isLoading ? <CommonLoadbar /> : null}
       </div>
     );
   }

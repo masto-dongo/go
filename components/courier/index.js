@@ -76,7 +76,6 @@ export default class Courier extends React.PureComponent {
     '🏪': PropTypes.shape({
       isLoading: PropTypes.bool,
       notifications: ImmutablePropTypes.list,
-      rainbow: ImmutablePropTypes.map,
       settings: ImmutablePropTypes.map,
     }).isRequired,
   };
@@ -129,7 +128,6 @@ export default class Courier extends React.PureComponent {
       '🏪': {
         isLoading,
         notifications,
-        rainbow,
         settings,
       },
       ...rest
@@ -172,7 +170,7 @@ export default class Courier extends React.PureComponent {
           ) : null}
         </CommonList>
         {column ? <CourierPane hash={computedHash} /> : null}
-        {isLoading ? <CommonLoadbar backgroundImage={`linear-gradient(90deg, ${rainbow.get('15').join(', ')}, ${rainbow.getIn(['15', 0])})`} /> : null}
+        {isLoading ? <CommonLoadbar /> : null}
       </div>
     );
   }

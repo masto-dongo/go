@@ -32,4 +32,8 @@
     overflow: hidden;
     font: inherit;
   }
+
+  .MASTODON_GO--COMMON--MENUBAR ~ & {
+    left: 3.5em;
+  }
 }

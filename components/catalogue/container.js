@@ -40,7 +40,6 @@ export default connect(
   createStructuredSelector({
     accounts: (state, { path }) => state.getIn(['catalogue', path, 'accounts']),
     isLoading: (state, { path }) => state.getIn(['catalogue', path, 'isLoading']),
-    rainbow: (state, { path }) => state.getIn(['catalogue', path, 'rainbow']),
   }),
   (go, store, { path }) => ({
     expand: (newPath = path) => go(expandCatalogue, newPath),
