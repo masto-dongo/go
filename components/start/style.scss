@@ -10,7 +10,7 @@
     padding: 0;
     width: auto;
     height: 100%;
-    scroll: auto;
+    overflow: auto;
 
     & > nav {
       display: block;
@@ -25,6 +25,7 @@
         border-color: transparent transparent currentColor;
         border-width: 0 0 thin;
         padding: 0;
+        color: $mastodon_go_content_alternate;
         font: inherit;
         text-transform: uppercase;
         text-overflow: ellipsis;
@@ -39,6 +40,8 @@
         padding: .625rem .5rem;
         font-size: 1.25rem;
         line-height: 1;
+
+        &:hover { color: $mastodon_go_content_button_active }
       }
     }
   }

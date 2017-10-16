@@ -28,9 +28,7 @@ import connect from 'themes/mastodon-go/util/connect';
 
 //  Selector factory.
 export default connect(
-  createStructuredSelector({
-    //  TK: TODO
-  }),
+  null,
   go => ({
     fetch: () => go(loadMeta),
   })

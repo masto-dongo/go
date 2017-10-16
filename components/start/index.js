@@ -155,7 +155,7 @@ export default class Start extends React.PureComponent {
             id={me}
           />
         ) : null}
-        <div class='content'>
+        <div className='content'>
           <nav>
             <h2><FormattedMessage {...messages.personal} /></h2>
             <CommonButton
