@@ -109,7 +109,7 @@ export class Emojifier {
 
     //  Iterates over our data lists.
     for (let i = 0; i < dataLists.length; i++) {
-      dataList = [].concat(dataLists[i]);
+      const dataList = [].concat(dataLists[i]);
 
       //  Iterates over each data object and makes an Emoji.
       for (let ii = 0; ii < dataList.length; ii++) {
