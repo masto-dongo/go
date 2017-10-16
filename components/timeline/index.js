@@ -56,6 +56,23 @@ export default class Timeline extends React.PureComponent {
     fetch();
   }
 
+  //  If our component is suddenly no longer the active route, we need
+  //  to store its hash value before it disappears.  If our path is
+  //  about to change, we need to fetch the new path.
+  componentWillReceiveProps (nextProps) {
+    const {
+      activeRoute,
+      hash,
+      path,
+    } = this.props;
+    if (activeRoute && !nextProps.activeRoute) {
+      this.setState({ storedHash: hash });
+    }
+    if (path !== nextProps.path) {
+      fetch(nextProps.path);
+    }
+  }
+
   handleLoadMore = () => {
     const { '💪': { expand } } = this.props;
     expand();

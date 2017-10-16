@@ -24,9 +24,16 @@
     padding: .9375rem .75rem;
     width: 2rem;
     height: 1.25rem;
+    color: $mastodon_go_menu_color;
+    background-color: $mastodon_go_menu_background;
     font-size: 1.25rem;
     line-height: 1;
     text-align: center;
+
+    &:hover {
+      color: $mastodon_go_menu_hover_color;
+      background-color: $mastodon_go_menu_hover_background;
+    }
 
     &.active {
       color: $mastodon_go_menu_active_color;

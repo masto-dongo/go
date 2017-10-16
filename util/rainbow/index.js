@@ -2,16 +2,16 @@
 import rainbowCombine from './combine';
 import rainbowHash from './hash';
 
-//  "Rainbow" colour palette by kibigo!
+//  From The \u2764 16-Colour Pallete
 const colours = [
-  0x31b9db,  //  Cyan
-  0x7476fc,  //  Blue
-  0xc258f2,  //  Purple
-  0xe63ca4,  //  Magenta
-  0xe83f2c,  //  Red
-  0xf6d037,  //  Yellow
-  0x6ad622,  //  Green
-  0x49cfa2,  //  Teal
+  0xa6627a,  //  Unity
+  0x9e6960,  //  Age
+  0x8d7249,  //  Energy
+  0x58814d,  //  Truth
+  0x03867e,  //  Independence
+  0x268395,  //  Youth
+  0x567ba4,  //  Peace
+  0x9765a3,  //  Mystery
 ];
 
 //  `rainbow()` creates a spectrum of colours from the hash of the

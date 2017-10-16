@@ -31,14 +31,14 @@ export default function ProfilePaneCatalogue ({
     case '#followers':
       return `/api/v1/accounts/${id}/followers`;
     default:
-      return `/api/v1/accounts/${id}/follows`;
+      return `/api/v1/accounts/${id}/following`;
     }
   }();
 
   //  Rendering.
   return (
     <CatalogueContainer
-      class={computedClass}
+      className={computedClass}
       path={path}
       {...rest}
     />

@@ -42,7 +42,7 @@ export default function ProfilePaneTimeline ({
   //  Rendering.
   return (
     <TimelineContainer
-      class={computedClass}
+      className={computedClass}
       path={path}
       {...rest}
     />

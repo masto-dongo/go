@@ -13,7 +13,10 @@
     position: relative;
     margin: -3.125rem 0 0;
     border: none;
-    padding: 8.1em 0 0;
+    padding: 10rem 0 0;
+    background-size: 100% 10rem;
+    background-origin: padding-box;
+    background-position: top left;
 
     & > .MASTODON_GO--COMMON--IMAGE {
       display: block;
@@ -25,7 +28,7 @@
       border: none;
       padding: 0;
       width: auto;
-      height: 8.1em;
+      height: 10rem;
     }
 
     & > .MASTODON_GO--ACCOUNT {
