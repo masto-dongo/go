@@ -47,13 +47,13 @@ import './style';
 //  -------------
 
 //  Component definition.
-export default function MastodonGO = ({
+export default function MastodonGO ({
   className,
   locale,
   messages,
   store,
   ...rest
-}) => {
+}) {
   const computedClass = classNames('MASTODON_GO', className);
 
   //  Rendering.

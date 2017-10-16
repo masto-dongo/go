@@ -57,7 +57,7 @@ import {
   POST_TYPE,
   VISIBILITY,
 } from 'themes/mastodon-go/util/constants';
-import { deHTMLify } from 'themes/mastodon-go/util/deHTMLify';
+import deHTMLify from 'themes/mastodon-go/util/deHTMLify';
 
 //  * * * * * * *  //
 
