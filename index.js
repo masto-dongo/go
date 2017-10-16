@@ -16,6 +16,4 @@ if (process.env.NODE_ENV === 'production') {
   OfflinePluginRuntime.install();
 }
 
-const root = document.getElementById('mastodon') || document.body;
-events(root);
-launch(root, MastodonGO, redux(), getLocale());
+launch('mastodon', MastodonGO, redux(), events, getLocale());
