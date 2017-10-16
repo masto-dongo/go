@@ -20,7 +20,7 @@ function runTasks (deadline) {
 
 export default function schedule (task) {
   taskQueue.push(task);
-  if (!runningRequestIdleCallback) {
+  if (!running) {
     running = true;
     requestIdleCallback(runTasks);
   }

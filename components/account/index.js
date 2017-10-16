@@ -122,7 +122,7 @@ export default function Account ({
               href={href}
             >
               <b>
-                <ParserContainer
+                <ParseContainer
                   text={displayName || '———'}
                   type='emoji'
                 />

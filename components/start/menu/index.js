@@ -2,7 +2,7 @@
 //  -------
 
 //  Package imports.
-import classNames from 'classnames'
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -39,9 +39,9 @@ export default class StartMenu extends React.PureComponent {
   handleStartClick = () => {
     const { onSetHash } = this.props;
     if (onSetHash) {
-      onSetHash('#')
+      onSetHash('#');
     }
-  }
+  };
 
   //  Rendering.
   render () {

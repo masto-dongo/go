@@ -72,8 +72,6 @@ const messages = defineMessages({
 //  Component definition.
 export default function CourierPaneSettings ({
   className,
-  intl,
-  path,
   ...rest
 }) {
   const computedClass = classNames('MASTODON_GO--COURIER--PANE--SETTINGS', className);
@@ -173,7 +171,4 @@ export default function CourierPaneSettings ({
 };
 
 //  Props.
-CourierPaneSettings.propTypes = {
-  className: PropTypes.string,
-  intl: PropTypes.object.isRequired,
-}
+CourierPaneSettings.propTypes = { className: PropTypes.string };

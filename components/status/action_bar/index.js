@@ -68,13 +68,9 @@ export default class StatusActionBar extends React.PureComponent {
 
   //  These handle all of our actions.
   handleReplyClick = () => {
-    const { handler, history, status } = this.props;
-    handler.reply(status, { history });  //  hack
-  }
+  };
   handleMentionClick = () => {
-    const { handler, history, status } = this.props;
-    handler.mention(status.get('account'), { history });  //  hack
-  }
+  };
 
   //  Renders our component.
   render () {
@@ -93,7 +89,6 @@ export default class StatusActionBar extends React.PureComponent {
     } = this.props;
 
     const computedClass = classNames('MASTODON_GO--STATUS--ACTION_BAR', className);
-    const account = status.get('account');
     const rebloggable = VISIBILITY & VISIBILITY.BOOSTABLE;
     const reblogTitle = rebloggable ? intl.formatMessage(messages.reblog) : intl.formatMessage(messages.cannot_reblog);
     const anonymousAccess = !me;
@@ -101,7 +96,7 @@ export default class StatusActionBar extends React.PureComponent {
     let replyTitle;
 
     //  This selects our reply icon.
-    if (status.get('in_reply_to_id', null) === null) {
+    if (is.get('reply')) {
       replyIcon = 'reply';
       replyTitle = intl.formatMessage(messages.reply);
     } else {
@@ -111,7 +106,10 @@ export default class StatusActionBar extends React.PureComponent {
 
     //  Now we can render the component.
     return (
-      <div className={computedClass}>
+      <div
+        className={computedClass}
+        {...rest}
+      >
         <CommonButton
           disabled={anonymousAccess}
           title={replyTitle}
@@ -119,7 +117,7 @@ export default class StatusActionBar extends React.PureComponent {
           onClick={handleReplyClick}
         />
         <CommonButton
-          disabled={anonymousAccess || reblogDisabled}
+          disabled={anonymousAccess || !rebloggable}
           active={is.get('reblogged')}
           title={reblogTitle}
           icon='retweet'

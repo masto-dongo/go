@@ -27,7 +27,7 @@ const failure = (status, error) => ({
 });
 
 //  Request.
-export const fetchConversation = (status, go, current, api) => {
+export default function fetchConversation (status, go, current, api) {
   go(request, status);
   api.get(
     `/api/v1/statuses/${status}/context`

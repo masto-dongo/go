@@ -25,7 +25,7 @@ import unfollowRelationship from './unfollow';
 import unmuteRelationship from './unmute';
 
 //  Action types.
-import { RELATIONSHIP_AUTHORIZE_SUCCESS } from 'themes/mastodon-go/redux/relationship/authorize'
+import { RELATIONSHIP_AUTHORIZE_SUCCESS } from 'themes/mastodon-go/redux/relationship/authorize';
 import { RELATIONSHIP_BLOCK_SUCCESS } from 'themes/mastodon-go/redux/relationship/block';
 import { RELATIONSHIP_FOLLOW_SUCCESS } from 'themes/mastodon-go/redux/relationship/follow';
 import { RELATIONSHIP_MUTE_SUCCESS } from 'themes/mastodon-go/redux/relationship/mute';

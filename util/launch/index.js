@@ -19,22 +19,20 @@ export default function launch (Component, store, locale) {
   addLocaleData(locale.localeData);
 
   //  Launches app when the brower is ready.
-  launchOnReady(
-    () => {
+  launchOnReady(function () {
 
-      //  Gets root element and props.
-      const props = JSON.parse(root.getAttribute('data-props'));
+    //  Gets root element and props.
+    const props = JSON.parse(root.getAttribute('data-props'));
 
-      //  Renders.
-      ReactDOM.render(
-        (
-          <MastodonGO
-            locale={props.locale}
-            messages={locale.messages}
-            store={store}
-          />
-        ), root
-      );
-    }
-  );
+    //  Renders.
+    ReactDOM.render(
+      (
+        <Component
+          locale={props.locale}
+          messages={locale.messages}
+          store={store}
+        />
+      ), root
+    );
+  });
 }

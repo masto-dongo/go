@@ -74,4 +74,4 @@ TimelinePaneSettings.propTypes = {
   className: PropTypes.string,
   intl: PropTypes.object.isRequired,
   path: PropTypes.string.isRequired,
-}
+};

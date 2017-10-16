@@ -3,7 +3,7 @@
 export class DOMParser {
 
   constructor () {
-      this._parser = new window.DOMParser;
+    this._parser = new window.DOMParser;
   }
 
   parseFromString (markup, type) {
@@ -29,11 +29,11 @@ export class DOMParser {
       //  If we are given a doctype, then we put our HTML in the
       //  <html> element.
       if (markup.toLowerCase().indexOf('<!doctype') !== -1) {
-        doc.documentElement.innerHTML = markup;
+        result.documentElement.innerHTML = markup;
 
       //  Otherwise, it goes in the <body>.
       } else {
-        doc.body.innerHTML = markup;
+        result.body.innerHTML = markup;
       }
 
       return result;

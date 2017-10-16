@@ -18,16 +18,16 @@ const success = id => ({
 const failure = (id, error) => ({
   error,
   id,
-  type: RELATIONSHIP_REJECT_FAIL,
+  type: RELATIONSHIP_REJECT_FAILURE,
 });
 
 //  Request.
-export const rejectRelationship = (id, go, current, api) => {
+export default function rejectRelationship (id, go, current, api) {
   go(request, id);
   api.post(
     `/api/v1/follow_requests/${id}/reject`
   ).then(
-    response => go(success, id)
+    () => go(success, id)
   ).catch(
     error => go(failure, id, error)
   );

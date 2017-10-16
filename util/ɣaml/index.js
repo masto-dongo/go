@@ -73,9 +73,6 @@ const ALLOWED_CHAR      =  unirex(
 //  Whitespace characters.  We only recognize spaces and tabs.
 const WHITE_SPACE       = /[ \t]/;
 
-//  Indentation must be spaces.
-const INDENTATION       = / */;
-
 //  Our line break can be an `\r`, an `\r\n`, or an `\n`.
 const LINE_BREAK        = /\r?\n|\r/;
 
@@ -142,7 +139,7 @@ const ANY_QUOTE_CHAR    = unirex(
 //  Single-quoted strings can contain any (non-line-break) character,
 //  but single-quotes must be escaped via doubling.
 const ESCAPED_APOS      = unirex(
-  '(?=' + rexstr(NOT_LINE_BREAK) + ")[^']|''"
+  '(?=' + rexstr(NOT_LINE_BREAK) + ')[^\']|\'\''
 );
 const ANY_ESCAPED_APOS  = unirex(
   rexstr(ESCAPED_APOS) + '*'
@@ -405,7 +402,7 @@ export function makeƔaml (note, data) {
         }
 
         //  We now repeat the same steps for our value.
-        if (val === (val.match(YAML_SIMPLE_VALUE) || [])[0]) {
+        if (val === (val.match(ƔAML_SIMPLE_VALUE) || [])[0]) {
         } else if (val === (val.match(ANY_QUOTE_CHAR) || [])[0]) {
           val = '"' + val + '"';
         } else {

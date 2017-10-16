@@ -15,5 +15,5 @@ const change = (key, value, global) => ({
 //  Request.
 export default function changeSetting (key, value, global, go, current) {
   go(change, key, value, global);
-  localStorage.setItem(`mastodon-go/${current().getIn(['meta', 'me'])}/settings`, JSON.stringify(state.getIn(['settings', 'local']).toJS()));
+  localStorage.setItem(`mastodon-go/${current().getIn(['meta', 'me'])}/settings`, JSON.stringify(current().getIn(['settings', 'local']).toJS()));
 }

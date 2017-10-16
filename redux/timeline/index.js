@@ -46,9 +46,6 @@ import {
 } from 'themes/mastodon-go/redux/timeline/refresh';
 import { TIMELINE_UPDATE_RECEIVE } from 'themes/mastodon-go/redux/timeline/update';
 
-//  Other imports.
-import rainbow from 'themes/mastodon-go/util/rainbow';
-
 //  * * * * * * *  //
 
 //  Setup
@@ -74,12 +71,6 @@ const makeTimeline = (path, statuses) => ImmutableMap({
   connected: false,
   isLoading: false,
   path: '' + path,
-  rainbow: ImmutableMap({
-    1: rainbow(path),
-    3: ImmutableList(rainbow(path, 3)),
-    7: ImmutableList(rainbow(path, 7)),
-    15: ImmutableList(rainbow(path, 15)),
-  }),
   statuses: normalize(statuses),
 });
 
@@ -180,7 +171,7 @@ const filterByAccount = (state, accounts) => {
       )
     )
   );
-}
+};
 
 // `filterByStatus()` removes the `status`es associated with the
 //   provided `statuses` from the timeline.
@@ -194,7 +185,7 @@ const filterByStatus = (state, statuses) => {
       )
     )
   );
-}
+};
 
 //  `setConnected()` sets the connected state for our timeline.
 const setConnected = (state, path, value) => state.update(
@@ -213,7 +204,7 @@ export default function timeline (state = initialState, action) {
   case RELATIONSHIP_BLOCK_SUCCESS:
   case RELATIONSHIP_MUTE_SUCCESS:
     if (action.relationship.blocking || action.relationship.muting) {
-      return filterByAccount(state, action.relationship.id)
+      return filterByAccount(state, action.relationship.id);
     }
     return state;
   case TIMELINE_CONNECT_OPEN:

@@ -48,9 +48,6 @@ import { RELATIONSHIP_BLOCK_SUCCESS } from 'themes/mastodon-go/redux/relationshi
 import { RELATIONSHIP_MUTE_SUCCESS } from 'themes/mastodon-go/redux/relationship/mute';
 import { STATUS_REMOVE_COMPLETE } from 'themes/mastodon-go/redux/status/remove';
 
-//  Other imports.
-import rainbow from 'themes/mastodon-go/util/rainbow';
-
 //  * * * * * * *  //
 
 //  Setup
@@ -78,12 +75,6 @@ const initialState = ImmutableMap({
   connected: false,
   isLoading: false,
   notifications: ImmutableList(),
-  rainbow: ImmutableMap({
-    1: rainbow('/api/v1/notifications'),
-    3: ImmutableList(rainbow('/api/v1/notifications', 3)),
-    7: ImmutableList(rainbow('/api/v1/notifications', 7)),
-    15: ImmutableList(rainbow('/api/v1/notifications', 15)),
-  }),
 });
 
 //  `set()` just replaces our `notifications` with a new `normalized()`
@@ -121,7 +112,7 @@ const append = (state, notifications) => state.withMutations(
 //  provided `accounts` from the courier.
 const filterByAccount = (state, accounts) => {
   accounts = [].concat(accounts);
-  state.update(
+  return state.update(
     'notifications',
     list => list.filter(
       notification => accounts.indexOf(notification.get('account')) === -1
@@ -133,25 +124,25 @@ const filterByAccount = (state, accounts) => {
 //  provided `ids` from the courier.
 const filterById = (state, ids) => {
   ids = [].concat(ids);
-  state.update(
+  return state.update(
     'notifications',
     list => list.filter(
       notification => ids.indexOf(notification.get('id')) === -1
-    )
+    );
   );
-}
+};
 
 //  `filterByStatus()` removes the `notification`s associated with the
 //  provided `statuses` from the courier.
 const filterByStatus = (state, statuses) => {
   statuses = [].concat(statuses);
-  state.update(
+  return state.update(
     'notifications',
     list => list.filter(
       notification => !notification.get('status') || statuses.indexOf(notification.get('status')) === -1
-    )
+    );
   );
-}
+};
 
 //  * * * * * * *  //
 
@@ -190,7 +181,7 @@ export default function courier (state = initialState, action) {
   case RELATIONSHIP_BLOCK_SUCCESS:
   case RELATIONSHIP_MUTE_SUCCESS:
     if (action.relationship.blocking || action.relationship.muting && action.relationship.muting.notifications) {
-      return filterByAccount(state, action.relationship.id)
+      return filterByAccount(state, action.relationship.id);
     }
     return state;
   case STATUS_REMOVE_COMPLETE:

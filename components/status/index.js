@@ -13,17 +13,13 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { defineMessages } from 'react-intl';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 //  Container imports.
 import { AccountContainer } from 'themes/mastodon-go/components';
 
 //  Common imports.
-import {
-  CommonButton,
-  CommonObservable,
-} from 'themes/mastodon-go/components';
+import { CommonObservable } from 'themes/mastodon-go/components';
 
 //  Our imports.
 import StatusActionBar from './action_bar';
@@ -82,7 +78,7 @@ export default class Status extends React.PureComponent {
     }).isRequired,
   }
   state = {
-    contentVisible: !this.props.spoiler,
+    contentVisible: !this.props['🏪'].spoiler,
   }
 
   //  Prior to mounting, we fetch the status's card if this is a
@@ -112,7 +108,6 @@ export default class Status extends React.PureComponent {
 
   //  `setExpansion` handles expanding and collapsing spoilers.
   setExpansion = (value) => {
-    const { detailed } = this.props;
     const { contentVisible } = this.state;
     switch (true) {
 
@@ -196,7 +191,9 @@ export default class Status extends React.PureComponent {
     const regex = function (exp) {
       try {
         return exp && new RegExp(exp, 'i');
-      } catch (e) {}
+      } catch (e) {
+        return null;
+      }
     }(filterRegex);
 
     const searchText = spoiler + '\n\n' + content.get('plain').replace(/\ufdd0([^]*)\ufdd1([^]*)\ufdd2/g, '$1');
@@ -234,7 +231,9 @@ export default class Status extends React.PureComponent {
           media={media}
           mentions={mentions}
           onClick={handleClick}
+          sensitive={sensitive}
           setExpansion={setExpansion}
+          spoiler={spoiler}
           tags={tags}
         />
         <StatusFooter

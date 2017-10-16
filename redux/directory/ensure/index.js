@@ -7,7 +7,7 @@ export const DIRECTORY_ENSURE_MAKE = 'DIRECTORY_ENSURE_MAKE';
 //  Action creators.
 const make = path => ({
   path,
-  type: DIRECTORY_ENSURE_MAKE
+  type: DIRECTORY_ENSURE_MAKE,
 });
 
 //  Request.

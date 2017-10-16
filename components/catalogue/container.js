@@ -43,8 +43,8 @@ export default connect(
     rainbow: (state, { path }) => state.getIn(['catalogue', path, 'rainbow']),
   }),
   (go, store, { path }) => ({
-    expand: (newPath = path) => go(expandCatalogue, path),
-    fetch: (newPath = path) => go(fetchCatalogue, path),
-    refresh: (newPath = path) => go(refreshCatalogue, path),
+    expand: (newPath = path) => go(expandCatalogue, newPath),
+    fetch: (newPath = path) => go(fetchCatalogue, newPath),
+    refresh: (newPath = path) => go(refreshCatalogue, newPath),
   })
 )(Catalogue);

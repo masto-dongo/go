@@ -15,12 +15,12 @@ const success = (path, statuses) => ({
   path,
   statuses,
   type: TIMELINE_FETCH_SUCCESS,
-})
+});
 const failure = (path, error) => ({
   error,
   path,
   type: TIMELINE_FETCH_FAILURE,
-})
+});
 
 //  Request.
 export default function fetchTimeline (path, go, current, api) {

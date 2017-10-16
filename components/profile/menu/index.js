@@ -2,7 +2,7 @@
 //  -------
 
 //  Package imports.
-import classNames from 'classnames'
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { defineMessages } from 'react-intl';
@@ -62,33 +62,33 @@ export default class ProfileMenu extends React.PureComponent {
   handleProfileClick = () => {
     const { onSetHash } = this.props;
     if (onSetHash) {
-      onSetHash('#')
+      onSetHash('#');
     }
-  }
+  };
   handlePinnedClick = () => {
     const { onSetHash } = this.props;
     if (onSetHash) {
-      onSetHash('#pinned')
+      onSetHash('#pinned');
     }
-  }
+  };
   handlePostsClick = () => {
     const { onSetHash } = this.props;
     if (onSetHash) {
-      onSetHash('#posts')
+      onSetHash('#posts');
     }
-  }
+  };
   handleAllClick = () => {
     const { onSetHash } = this.props;
     if (onSetHash) {
-      onSetHash('#all')
+      onSetHash('#all');
     }
-  }
+  };
   handleMediaClick = () => {
     const { onSetHash } = this.props;
     if (onSetHash) {
-      onSetHash('#media')
+      onSetHash('#media');
     }
-  }
+  };
 
   //  Rendering.
   render () {
@@ -137,7 +137,7 @@ export default class ProfileMenu extends React.PureComponent {
           destination={activeRoute ? '#posts' : undefined}
           history={history}
           icon='comment'
-          onClick={!activeRoute ? handleProfileClick : undefined}
+          onClick={!activeRoute ? handlePostsClick : undefined}
           title={intl.formatMessage(messages.posts)}
         />
         <CommonButton
@@ -145,7 +145,7 @@ export default class ProfileMenu extends React.PureComponent {
           destination={activeRoute ? '#all' : undefined}
           history={history}
           icon='comments'
-          onClick={!activeRoute ? handleProfileClick : undefined}
+          onClick={!activeRoute ? handleAllClick : undefined}
           title={intl.formatMessage(messages.all)}
         />
         <CommonButton
@@ -153,7 +153,7 @@ export default class ProfileMenu extends React.PureComponent {
           destination={activeRoute ? '#media' : undefined}
           history={history}
           icon='paint-brush'
-          onClick={!activeRoute ? handleProfileClick : undefined}
+          onClick={!activeRoute ? handleMediaClick : undefined}
           title={intl.formatMessage(messages.media)}
         />
       </CommonMenubar>

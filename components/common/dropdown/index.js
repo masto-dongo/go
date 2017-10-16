@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { CommonButton } from 'themes/mastodon-go/components';
 
-class CommonDropdown extends React.PureComponent {
+export default class CommonDropdown extends React.PureComponent {
 
   static propTypes = {
     children: PropTypes.node.isRequired,
@@ -22,8 +22,9 @@ class CommonDropdown extends React.PureComponent {
 
   handleDocumentClick = ({ target }) => {
     const { node } = this;
-    if (node && !node.contains(e.target)) {
-      this.props.onClose();
+    const { expanded } = this.state;
+    if (expanded && node && !node.contains(target)) {
+      this.setState({ expanded: false });
     }
   }
 
@@ -66,6 +67,7 @@ class CommonDropdown extends React.PureComponent {
       <div
         className={computedClass}
         onKeyDown={handleKeyDown}
+        {...rest}
       >
         <CommonButton
           active={expanded}

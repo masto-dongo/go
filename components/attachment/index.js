@@ -46,7 +46,7 @@ export default class Notification extends React.PureComponent {
     className: PropTypes.string,
     id: PropTypes.string.isRequired,
     targetWidth: PropTypes.number,
-    '🛄': PropTypes.shape({}),
+    '🛄': PropTypes.shape({ intl: PropTypes.object.isRequired }).isRequired,
     '💪': PropTypes.objectOf(PropTypes.func),
     '🏪': PropTypes.shape({
       autoplay: PropTypes.bool,
@@ -72,7 +72,7 @@ export default class Notification extends React.PureComponent {
       className,
       id,
       targetWidth,
-      '🛄': context,
+      '🛄': { intl },
       '💪': handler,
       '🏪': {
         autoplay,
@@ -102,6 +102,7 @@ export default class Notification extends React.PureComponent {
           src={src}
           targetWidth={targetWidth}
           width={width}
+          {...rest}
         />
       );
     case MEDIA_TYPE.GIFV:
@@ -114,6 +115,7 @@ export default class Notification extends React.PureComponent {
           intl={intl}
           preview={preview}
           src={src}
+          {...rest}
         />
       );
     case MEDIA_TYPE.VIDEO:
@@ -126,6 +128,7 @@ export default class Notification extends React.PureComponent {
           intl={intl}
           preview={preview}
           src={src}
+          {...rest}
         />
       );
     default:

@@ -51,7 +51,7 @@ import rainbow from 'themes/mastodon-go/util/rainbow';
 
 //  `normalize()` normalizes the given array of `domains` into a
 //  proper directory.
-const normalize = (domains, path) => ImmutableList(domains ? domains.map(
+const normalize = domains => ImmutableList(domains ? domains.map(
   domain => '' + domain
 ) : []);
 
@@ -61,12 +61,6 @@ const makeDirectory = (path, domains) => ImmutableMap({
   accounts: normalize(domains),
   isLoading: false,
   path: '' + path,
-  rainbow: ImmutableMap({
-    1: rainbow(path),
-    3: ImmutableList(rainbow(path, 3)),
-    7: ImmutableList(rainbow(path, 7)),
-    15: ImmutableList(rainbow(path, 15)),
-  }),
 });
 
 //  * * * * * * *  //

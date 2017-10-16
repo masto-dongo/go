@@ -21,7 +21,7 @@ import { FormattedMessage } from 'react-intl';
 //  Our imports.
 import {
   CommonIcon,
-  CommonLink
+  CommonLink,
 } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.

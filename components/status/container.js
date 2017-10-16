@@ -24,7 +24,6 @@ import {
   muteStatus,
   pinStatus,
   reblogStatus,
-  submitStatus,
   unfavouriteStatus,
   unmuteStatus,
   unpinStatus,
@@ -43,11 +42,11 @@ import { POST_TYPE } from 'themes/mastodon-go/util/constants';
 const getInStatus = (state, id, key) => {
   id = state.getIn(['status', id, 'reblog']) || id;
   return state.getIn(['status', id, key]);
-}
+};
 const getCard = (state, id) => {
   id = state.getIn(['status', id, 'reblog']) || id;
   return state.getIn(['card', id]);
-}
+};
 
 //  * * * * * * *  //
 
@@ -85,15 +84,16 @@ export default connect(
     visibility: (state, { id }) => getInStatus(state, id, 'visibility'),
   }),
   (go, store, { id }) => ({
-    card: () => go(fetchCard, ownProps.id),
-    delete: () => go(deleteStatus, ownProps.id),
-    favourite: () => go(favouriteStatus, ownProps.id),
-    fetch: () => go(fetchStatus, ownProps.id),
-    mute: () => go(muteStatus, ownProps.id),
-    pin: () => go(pinStatus, ownProps.id),
-    reblog: () => go(reblogStatus, ownProps.id),
-    unmute: () => go(unmuteStatus, ownProps.id),
-    unpin: () => go(unpinStatus, ownProps.id),
-    unreblog: () => go(unreblogStatus, ownProps.id),
+    card: () => go(fetchCard, id),
+    delete: () => go(deleteStatus, id),
+    favourite: () => go(favouriteStatus, id),
+    fetch: () => go(fetchStatus, id),
+    mute: () => go(muteStatus, id),
+    pin: () => go(pinStatus, id),
+    reblog: () => go(reblogStatus, id),
+    unfavourite: () => go(unfavouriteStatus, id),
+    unmute: () => go(unmuteStatus, id),
+    unpin: () => go(unpinStatus, id),
+    unreblog: () => go(unreblogStatus, id),
   })
 )(Status);

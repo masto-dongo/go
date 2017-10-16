@@ -70,7 +70,7 @@ const normalize = (account, oldBio) => {
           keyVal => ImmutableList(keyVal),
         )),
         text: '' + ɣamlBio.text,
-      })
+      }),
     }),
     counts: ImmutableMap({
       followers: +account.followers_count,
@@ -95,7 +95,7 @@ const normalize = (account, oldBio) => {
     }),
     username: '' + account.username,
   });
-}
+};
 
 //  * * * * * * *  //
 

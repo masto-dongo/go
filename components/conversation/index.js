@@ -20,13 +20,20 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { defineMessages, FormattedMessage } from 'react-intl';
+import { defineMessages } from 'react-intl';
 
 //  Container imports.
 import { StatusContainer } from 'themes/mastodon-go/components';
 
 //  Component imports.
 import ConversationMenu from './menu';
+
+//  Common imports.
+import {
+  CommonHeader,
+  CommonList,
+  CommonLoadbar,
+} from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style';
@@ -39,10 +46,10 @@ import './style';
 //  Holds our localization messages.
 const messages = defineMessages({
   conversation: {
-    defaultMessage: "Conversation",
-    id: "conversation.conversation",
-  }
-})
+    defaultMessage: 'Conversation',
+    id: 'conversation.conversation',
+  },
+});
 
 //  * * * * * * * //
 
@@ -80,17 +87,17 @@ export default class Conversation extends React.PureComponent {
       id,
       '💪': { fetch },
     } = this.props;
-    if (nextProps.id !== id) fetch();
+    if (nextProps.id !== id) fetch(nextProps.id);
   }
 
   //  Rendering.
   render () {
     const {
+      activeRoute,
       className,
       history,
       icon,
       id,
-      title,
       '🛄': { intl },
       '💪': handler,
       '🏪': {
@@ -103,7 +110,6 @@ export default class Conversation extends React.PureComponent {
     return (
       <div
         className={computedClass}
-        ref={setRef}
         {...rest}
       >
         <ConversationMenu
@@ -125,9 +131,7 @@ export default class Conversation extends React.PureComponent {
             []
           ) : null}
         </CommonList>
-        {!statuses ? (
-          <CommonLoadbar backgroundImage={`linear-gradient(90deg, ${rainbow.get('15').join(', ')}, ${rainbow.getIn(['15', 0])})`} />
-        ) : null}
+        {!statuses ? <CommonLoadbar backgroundImage={`linear-gradient(90deg, ${rainbow.get('15').join(', ')}, ${rainbow.getIn(['15', 0])})`} /> : null}
       </div>
     );
   }

@@ -33,7 +33,7 @@ export default function CommonLoadbar ({
       className={computedClass}
       style={backgroundImage ? { backgroundImage } : {}}
       {...rest}
-    >{children}</div>
+    />
   );
 }
 

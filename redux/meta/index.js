@@ -105,7 +105,7 @@ const set = (state, meta) => state.withMutations(
         )(data.default_privacy));
       }
     }
-    if (media.hasOwnProperty('media_attachments') && (data = meta.media_attachments)) {
+    if (meta.hasOwnProperty('media_attachments') && (data = meta.media_attachments)) {
       if (data.hasOwnProperty('accept_content_types')) {
         map.set('mediaFormats', ImmutableList([].concat(data.accept_content_types)));
       }

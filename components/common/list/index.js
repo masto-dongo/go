@@ -35,9 +35,9 @@ export default class CommonList extends React.PureComponent {
       const item = function () {
         switch (key) {
         case 'PageDown':
-          return target.parentNode == node && target.nextElementSibling;
+          return target.parentNode === node && target.nextElementSibling;
         case 'PageUp':
-          return target.parentNode == node && target.previousElementSibling;
+          return target.parentNode === node && target.previousElementSibling;
         case 'End':
           return node.lastElementChild;
         case 'Home':
@@ -113,12 +113,12 @@ export default class CommonList extends React.PureComponent {
       const newItems = (
         () => {
           switch (true) {
-            case React.Children.count(prevProps.children) <= 0:
-            case React.Children.count(prevProps.children) >= React.Children.count(children):
-            case prevProps.children[0].key === children[0].key:
-              return false;
-            default:
-              return true;
+          case React.Children.count(prevProps.children) <= 0:
+          case React.Children.count(prevProps.children) >= React.Children.count(children):
+          case prevProps.children[0].key === children[0].key:
+            return false;
+          default:
+            return true;
           }
         }
       )();
@@ -144,7 +144,6 @@ export default class CommonList extends React.PureComponent {
     } = this;
     node.removeEventListener('scroll', handleScroll);
     Observer.disconnect();
-    detachFullscreenListener(this.onFullScreenChange);
   }
 
   setRef = (c) => this.node = c;
@@ -160,7 +159,6 @@ export default class CommonList extends React.PureComponent {
       onScroll,
       onScrollToBottom,
       onScrollToTop,
-      shouldUpdateScroll,
       ...rest
     } = this.props;
 
@@ -174,10 +172,12 @@ export default class CommonList extends React.PureComponent {
         role='feed'
         {...rest}
       >
-        {React.Children.map(
-          children,
-          child => {child && React.cloneElement(child, { observer: Observer })}
-        )}
+        {
+          React.Children.map(
+            children,
+            child => child ? React.cloneElement(child, { observer: Observer }) : null
+          )
+        }
       </div>
     );
   }

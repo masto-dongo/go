@@ -15,9 +15,10 @@
 //  -------
 
 //  Package imports.
-import classNames from 'classnames'
-import React from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import React from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages } from 'react-intl';
 
 //  Common imports.
@@ -37,10 +38,10 @@ import './style';
 //  Holds our localization messages.
 const messages = defineMessages({
   status: {
-    defaultMessage: "View status",
-    id: "conversation.view_status",
-  }
-})
+    defaultMessage: 'View status',
+    id: 'conversation.view_status',
+  },
+});
 
 //  * * * * * * * //
 
@@ -50,11 +51,10 @@ const messages = defineMessages({
 //  Component definition.
 export default function ConversationMenu ({
     className,
-    hash,
     history,
-    icon,
+    id,
     intl,
-    onSetHash,
+    statuses,
     ...rest
 }) {
   const computedClass = classNames('MASTODON_GO--CONVERSATION--MENU', className);
@@ -85,9 +85,7 @@ export default function ConversationMenu ({
 ConversationMenu.propTypes = {
   className: PropTypes.string,
   history: PropTypes.object,
-  icon: PropTypes.string,
   id: PropTypes.string.isRequired,
   intl: PropTypes.object.isRequired,
   statuses: ImmutablePropTypes.list,
-  title: PropTypes.string,
 };

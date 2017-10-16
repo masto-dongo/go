@@ -30,16 +30,18 @@ export default class Setting extends React.PureComponent {
 
   //  How we handle a change depends on the type of toggle we are
   //  using.
-  handleChange = ({ target }) => {
+  handleChange = ({ target: { value } }) => {
     const {
-      handler,
+      '💪': { change },
       type,
     } = this.props;
     switch (type) {
     case 'input':
-      handler.change('' + target.value);
+      change('' + value);
+      break;
     case 'toggle':
-      handler.change(!!target.value);
+      change(!!value);
+      break;
     }
   }
 
@@ -50,7 +52,7 @@ export default class Setting extends React.PureComponent {
       children,
       className,
       disabled,
-      key,
+      settingKey,
       global,
       title,
       type,

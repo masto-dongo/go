@@ -1,7 +1,13 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages, FormattedMessage } from 'react-intl';
+
+import {
+  AccountContainer,
+  ParseContainer,
+} from 'themes/mastodon-go/components';
 
 import {
   CommonButton,
@@ -35,7 +41,20 @@ const messages = defineMessages({
 export default class ProfileContent extends React.PureComponent {
 
   static propTypes = {
+    activeRoute: PropTypes.bool,
+    bio: ImmutablePropTypes.map,
     className: PropTypes.string,
+    counts: ImmutablePropTypes.map,
+    handler: PropTypes.objectOf(PropTypes.func),
+    header: ImmutablePropTypes.map,
+    history: Proptypes.object,
+    href: PropTypes.string,
+    id: PropTypes.string,
+    local: PropTypes.bool,
+    me: PropTypes.string,
+    onSetHash: PropTypes.func,
+    rainbow: ImmutablePropTypes.map,
+    relationship: PropTypes.number,
   }
 
   handleFollowersClick () {
@@ -104,13 +123,13 @@ export default class ProfileContent extends React.PureComponent {
           !local ? (
             <strong>
               <FormattedMessage {...messages.disclaimer} />
-              <CommonLink href={href}><FormattedMessages {...messages.view} /></CommonLink>
+              <CommonLink href={href}><FormattedMessage {...messages.view} /></CommonLink>
             </strong>
           ) : null
         }
         <ParseContainer
-          metadata={bio.get('metadata')}
-          text={bio.get('text')}
+          metadata={bio ? bio.get('metadata') : void 0}
+          text={bio ? bio.get('text') : void 0}
           type='account'
         />
         <footer>

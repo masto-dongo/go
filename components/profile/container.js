@@ -10,23 +10,18 @@
 //  -------
 
 //  Package imports.
-import {
-  createSelector,
-  createStructuredSelector,
-} from 'reselect';
+import { createStructuredSelector } from 'reselect';
 
 //  Component imports.
-import Account from '.';
+import Profile from '.';
 
 //  Request imports.
 import {
   fetchAccount,
   updateAccount,
-  authorizeRelationship,
   blockRelationship,
   followRelationship,
   muteRelationship,
-  rejectRelationship,
   unblockRelationship,
   unfollowRelationship,
   unmuteRelationship,
@@ -40,6 +35,7 @@ import connect from 'themes/mastodon-go/util/connect';
 //  Selector factory.
 export default connect(
   createStructuredSelector({
+    at: (state, { id }) => state.getIn(['account', id, 'at']),
     bio: (state, { id }) => state.getIn(['account', id, 'bio']),
     counts: (state, { id }) => state.getIn(['account', id, 'counts']),
     datetime: (state, { id }) => state.getIn(['account', id, 'datetime']),

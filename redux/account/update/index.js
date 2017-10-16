@@ -7,17 +7,17 @@ export const ACCOUNT_UPDATE_SUCCESS = 'ACCOUNT_UPDATE_SUCCESS';
 export const ACCOUNT_UPDATE_FAILURE = 'ACCOUNT_UPDATE_FAILURE';
 
 //  Action creators.
-const request = id => ({
-  id,
+const request = info => ({
+  info,
   type: ACCOUNT_UPDATE_REQUEST,
 });
 const success = account => ({
   account,
   type: ACCOUNT_UPDATE_SUCCESS,
 });
-const failure = (id, error) => ({
+const failure = (info, error) => ({
   error,
-  id,
+  info,
   type: ACCOUNT_UPDATE_FAILURE,
 });
 
@@ -47,7 +47,7 @@ export default function updateAccount (info, go, current, api) {
 
   //  Otherwise, we can just use a plain object.
   } else {
-    data = {}
+    data = {};
     if ((item = info.displayName)) {
       data.display_name = item;
     }
@@ -57,12 +57,12 @@ export default function updateAccount (info, go, current, api) {
   }
 
   //  The request.
-  go(request, id);
+  go(request, info);
   api.patch(
     `/api/v1/accounts/update_credentials`, data
   ).then(
     response => go(success, response.data)
   ).catch(
-    error => go(failure, id, error)
+    error => go(failure, info, error)
   );
 }

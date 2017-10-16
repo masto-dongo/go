@@ -31,7 +31,7 @@ export default connect(
   createStructuredSelector({
     //  TK: TODO
   }),
-  (props, ownProps) => ({
+  go => ({
     fetch: () => go(loadMeta),
   })
 )(UI);

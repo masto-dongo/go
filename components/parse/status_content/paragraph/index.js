@@ -18,18 +18,19 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 //  Container imports.
-import { ParseContainer } from 'themes/mastodon-go/components';
+import {
+  ParseContainer,
+  ReferenceContainer,
+} from 'themes/mastodon-go/components';
 
 //  Common imports.
 import { CommonLink } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style';
-
-//  Other imports.
-import { MEDIA_TYPE } from 'themes/mastodon-go/util/constants';
 
 //  * * * * * * *  //
 
@@ -41,6 +42,7 @@ export default function ParseStatusContentParagraph ({
   attachments,
   card,
   className,
+  history,
   mentions,
   text,
   tags,
@@ -113,13 +115,13 @@ export default function ParseStatusContentParagraph ({
 
                 //  This handles attachment links.
                 case !!attachment:
-                    return (
-                      <ReferenceContainer
-                        attachment={attachment.get('id')}
-                        history={history}
-                        key={pContents.length}
-                      />
-                    )
+                  return (
+                    <ReferenceContainer
+                      attachment={attachment.get('id')}
+                      history={history}
+                      key={pContents.length}
+                    />
+                  );
 
                 //  This handles hashtag links.
                 case !!tag && (content.replace(/^#/, '') === tag.get('name')):
@@ -183,7 +185,7 @@ export default function ParseStatusContentParagraph ({
 };
 
 //  Props.
-ParseStatusContent.propTypes = {
+ParseStatusContentParagraph.propTypes = {
   attachments: ImmutablePropTypes.list,
   card: ImmutablePropTypes.map,
   className: PropTypes.string,

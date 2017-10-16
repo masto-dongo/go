@@ -18,14 +18,14 @@ export default function deHTMLify (text) {
       case node.parentElement && node.parentElement.nodeName.toUpperCase() === 'A':
         return NodeFilter.FILTER_REJECT;  //  No link children
       case node.nodeType === Node.TEXT_NODE:
-      case name.toUpperCase() === 'A':
-      case name.toUpperCase() === 'P':
-      case name.toUpperCase() === 'BR':
+      case nodeName === 'A':
+      case nodeName === 'P':
+      case nodeName === 'BR':
         return NodeFilter.FILTER_ACCEPT;
       default:
         return NodeFilter.FILTER_SKIP;
       }
-    }
+    },
   });
 
   //  We'll store our de-HTML-ified result in `result`.
@@ -46,7 +46,7 @@ export default function deHTMLify (text) {
 
     //  If our element is a BR, we insert a line break.
     case 'BR':
-      result.push('\n')
+      result.push('\n');
       break;
 
     //  If our element is a P, then we add two line breaks—assuming

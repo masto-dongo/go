@@ -16,11 +16,11 @@
 //  -------
 
 //  Package imports.
-import classNames from 'classnames'
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { defineMessages, FormattedMessage } from 'react-intl';
+import { defineMessages } from 'react-intl';
 
 //  Container imports.
 import { NotificationContainer } from 'themes/mastodon-go/components';
@@ -50,10 +50,10 @@ import { POST_TYPE } from 'themes/mastodon-go/util/constants';
 //  Holds our localization messages.
 const messages = defineMessages({
   courier: {
-    defaultMessage: "Courier",
-    id: "courier.courier",
-  }
-})
+    defaultMessage: 'Courier',
+    id: 'courier.courier',
+  },
+});
 
 //  * * * * * * * //
 
@@ -144,7 +144,6 @@ export default class Courier extends React.PureComponent {
     return (
       <div
         className={computedClass}
-        ref={setRef}
         {...rest}
       >
         {
@@ -172,14 +171,7 @@ export default class Courier extends React.PureComponent {
             []
           ) : null}
         </CommonList>
-        {
-          column ? (
-            <CourierPane
-              hash={computedHash}
-              intl={intl}
-            />
-          ) : null
-        }
+        {column ? <CourierPane hash={computedHash} /> : null}
         {isLoading ? <CommonLoadbar backgroundImage={`linear-gradient(90deg, ${rainbow.get('15').join(', ')}, ${rainbow.getIn(['15', 0])})`} /> : null}
       </div>
     );

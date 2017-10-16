@@ -7,7 +7,7 @@ export const TIMELINE_ENSURE_MAKE = 'TIMELINE_ENSURE_MAKE';
 //  Action creators.
 const make = path => ({
   path,
-  type: TIMELINE_ENSURE_MAKE
+  type: TIMELINE_ENSURE_MAKE,
 });
 
 //  Request.

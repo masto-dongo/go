@@ -15,6 +15,10 @@ import {
   TimelineContainer,
 } from 'themes/mastodon-go/components';
 
+//  Component imports.
+//import UIColumnUnknown from './unknown';
+const UIColumnUnknown = () => null;
+
 //  Stylesheet imports.
 import './style';
 
@@ -78,148 +82,167 @@ export default class UIColumn extends React.PureComponent {
           <Route
             exact
             path='/start'
-            render={({ location: { hash } }) => (
-              <StartContainer
-                activeRoute={activeRoute}
-                {...(activeRoute && hash ? { hash } : {})}
-                history={history}
-              />
-            )}
+            render={function ({ location: { hash } }) {
+              return (
+                <StartContainer
+                  activeRoute={activeRoute}
+                  {...(activeRoute && hash ? { hash } : {})}
+                  history={history}
+                />
+              );
+            }}
           />
 
           <Route
             exact
             path='/courier'
-            render={({ location: { hash } }) => (
-              <CourierContainer
-                activeRoute={activeRoute}
-                column
-                {...(activeRoute && hash ? { hash } : {})}
-                history={history}
-              />
-            )}
+            render={function ({ location: { hash } }) {
+              return (
+                <CourierContainer
+                  activeRoute={activeRoute}
+                  column
+                  {...(activeRoute && hash ? { hash } : {})}
+                  history={history}
+                />
+              );
+            }}
           />
 
           <Route
             exact
             path='/compose'
-            render={({ location: { hash } }) => (
-              <DrawerContainer
-                activeRoute={activeRoute}
-                {...(activeRoute && hash ? { hash } : {})}
-                history={history}
-              />
-            )}
+            render={function ({ location: { hash } }) {
+              return (
+                <DrawerContainer
+                  activeRoute={activeRoute}
+                  {...(activeRoute && hash ? { hash } : {})}
+                  history={history}
+                />
+              );
+            }}
           />
 
           <Route
             exact
             path='/home'
-            render={({ location: { hash } }) => (
-              <TimelineContainer
-                activeRoute={activeRoute}
-                column
-                {...(activeRoute && hash ? { hash } : {})}
-                history={history}
-                icon='home'
-                path='/api/v1/timelines/home'
-                title={<FormattedMessage {...messages.home} />}
-              />
-            )}
+            render={function ({ location: { hash } }) {
+              return (
+                <TimelineContainer
+                  activeRoute={activeRoute}
+                  column
+                  {...(activeRoute && hash ? { hash } : {})}
+                  history={history}
+                  icon='home'
+                  path='/api/v1/timelines/home'
+                  title={<FormattedMessage {...messages.home} />}
+                />
+              );
+            }}
           />
           <Route
             exact
             path='/global'
-            render={({ location: { hash } }) => (
-              <TimelineContainer
-                activeRoute={activeRoute}
-                column
-                {...(activeRoute && hash ? { hash } : {})}
-                history={history}
-                icon='globe'
-                path='/api/v1/timelines/public'
-                title={<FormattedMessage {...messages.global} />}
-              />
-            )}
+            render={function ({ location: { hash } }) {
+              return (
+                <TimelineContainer
+                  activeRoute={activeRoute}
+                  column
+                  {...(activeRoute && hash ? { hash } : {})}
+                  history={history}
+                  icon='globe'
+                  path='/api/v1/timelines/public'
+                  title={<FormattedMessage {...messages.global} />}
+                />
+              );
+            }}
           />
           <Route
             exact
             path='/local'
-            render={({ location: { hash } }) => (
-              <TimelineContainer
-                activeRoute={activeRoute}
-                column
-                {...(activeRoute && hash ? { hash } : {})}
-                history={history}
-                icon='users'
-                path='/api/v1/timelines/public?local=true'
-                title={<FormattedMessage {...messages.local} />}
-              />
-            )}
+            render={function ({ location: { hash } }) {
+              return (
+                <TimelineContainer
+                  activeRoute={activeRoute}
+                  column
+                  {...(activeRoute && hash ? { hash } : {})}
+                  history={history}
+                  icon='users'
+                  path='/api/v1/timelines/public?local=true'
+                  title={<FormattedMessage {...messages.local} />}
+                />
+              );
+            }}
           />
           <Route
             exact
             path='/tagged/:query'
-            render={({
+            render={function ({
               location: { hash },
               match: { params: { query } },
-            }) => (
-              <TimelineContainer
-                activeRoute={activeRoute}
-                column
-                {...(activeRoute && hash ? { hash } : {})}
-                history={history}
-                icon='hashtag'
-                path={`/api/v1/tag/${query}`}
-                title={query}
-              />
-            )}
+            }) {
+              return (
+                <TimelineContainer
+                  activeRoute={activeRoute}
+                  column
+                  {...(activeRoute && hash ? { hash } : {})}
+                  history={history}
+                  icon='hashtag'
+                  path={`/api/v1/tag/${query}`}
+                  title={query}
+                />
+              );
+            }}
           />
           <Route
             exact
             path='/tagged/:query/local'
-            render={({
+            render={function ({
               location: { hash },
               match: { params: { query } },
-            }) => (
-              <TimelineContainer
-                activeRoute={activeRoute}
-                column
-                {...(activeRoute && hash ? { hash } : {})}
-                history={history}
-                icon='hashtag'
-                path={`/api/v1/tag/${query}?local=true`}
-                title={<FormattedMessage {...messages.localTag} values={{ query }} />}
-              />
-            )}
+            }) {
+              return (
+                <TimelineContainer
+                  activeRoute={activeRoute}
+                  column
+                  {...(activeRoute && hash ? { hash } : {})}
+                  history={history}
+                  icon='hashtag'
+                  path={`/api/v1/tag/${query}?local=true`}
+                  title={<FormattedMessage {...messages.localTag} values={{ query }} />}
+                />
+              );
+            }}
           />
 
           <Route
             exact
             path='/profile/:id'
-            render={({
+            render={function ({
               location: { hash },
               match: { params: { id } },
-            }) => (
-              <AccountContainer
-                activeRoute={activeRoute}
-                column
-                {...(activeRoute && hash ? { hash } : {})}
-                history={history}
-                id={id}
-              />
-            )}
+            }) {
+              return (
+                <ProfileContainer
+                  activeRoute={activeRoute}
+                  {...(activeRoute && hash ? { hash } : {})}
+                  history={history}
+                  id={id}
+                />
+              );
+            }}
           />
 
           <Route
-            render={({ location: { hash } }) => (
-              <UIColumnUnknown
-                activeRoute={activeRoute}
-                {...(activeRoute && hash ? { hash } : {})}
-                history={history}
-                intl={intl}
-              />
-            )}
+            render={function ({ location: { hash } }) {
+              return (
+                <UIColumnUnknown
+                  activeRoute={activeRoute}
+                  {...(activeRoute && hash ? { hash } : {})}
+                  history={history}
+                  intl={intl}
+                />
+              );
+            }}
           />
         </Switch>
       </section>

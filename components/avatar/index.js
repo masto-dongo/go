@@ -35,6 +35,7 @@ import './style';
 //  Component definition.
 export default function Avatar ({
   account,
+  className,
   circular,
   comrade,
   '🛄': context,
@@ -59,16 +60,18 @@ export default function Avatar ({
       {...rest}
     >
       <CommonImage
+        autoplay={autoplay}
         animatedSrc={accountSrc.get('original')}
         className='main'
         description={accountAt}
         staticSrc={accountSrc.get('static')}
       />
       <CommonImage
-        animatedSrc={accountSrc.get('original')}
+        autoplay={autoplay}
+        animatedSrc={comradeSrc.get('original')}
         className='comrade'
         description={comradeAt}
-        staticSrc={accountSrc.get('static')}
+        staticSrc={comradeSrc.get('static')}
       />
     </div>
   ) : (
@@ -77,6 +80,7 @@ export default function Avatar ({
       {...rest}
     >
       <CommonImage
+        autoplay={autoplay}
         animatedSrc={accountSrc.get('original')}
         className='solo'
         description={accountAt}
@@ -89,6 +93,7 @@ export default function Avatar ({
 Avatar.propTypes = {
   account: PropTypes.string.isRequired,
   circular: PropTypes.bool,
+  className: PropTypes.string,
   comrade: PropTypes.string.isRequired,
   '🛄': PropTypes.shape({}),
   '💪': PropTypes.objectOf(PropTypes.func),
@@ -99,4 +104,4 @@ Avatar.propTypes = {
     comradeAt: PropTypes.string.isRequired,
     comradeSrc: ImmutablePropTypes.map.isRequired,
   }).isRequired,
-}
+};

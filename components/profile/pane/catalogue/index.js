@@ -28,10 +28,10 @@ export default function ProfilePaneCatalogue ({
 
   const path = function () {
     switch (hash) {
-      case '#followers':
-        return `/api/v1/accounts/${id}/followers`;
-      default:
-        return `/api/v1/accounts/${id}/follows`;
+    case '#followers':
+      return `/api/v1/accounts/${id}/followers`;
+    default:
+      return `/api/v1/accounts/${id}/follows`;
     }
   }();
 
@@ -49,4 +49,5 @@ export default function ProfilePaneCatalogue ({
 ProfilePaneCatalogue.propTypes = {
   className: PropTypes.string,
   hash: PropTypes.string,
-}
+  id: PropTypes.string.isRequired,
+};

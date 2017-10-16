@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import classNames from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages } from 'react-intl';
@@ -12,8 +12,8 @@ import './style';
 
 const messages = defineMessages({
   settings: {
-    defaultMessage: "Settings",
-    id: "timeline.settings",
+    defaultMessage: 'Settings',
+    id: 'timeline.settings',
   },
 });
 
@@ -33,15 +33,15 @@ export default class TimelineMenu extends React.PureComponent {
   handleTimelineClick = () => {
     const { onSetHash } = this.props;
     if (onSetHash) {
-      onSetHash('#')
+      onSetHash('#');
     }
-  }
+  };
   handleSettingsClick = () => {
     const { onSetHash } = this.props;
     if (onSetHash) {
-      onSetHash('#settings')
+      onSetHash('#settings');
     }
-  }
+  };
 
   render () {
     const {

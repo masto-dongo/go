@@ -50,10 +50,10 @@ import './style';
 //  Holds our localization messages.
 const messages = defineMessages({
   catalogue: {
-    defaultMessage: "Catalogue",
-    id: "catalogue.catalogue",
-  }
-})
+    defaultMessage: 'Catalogue',
+    id: 'catalogue.catalogue',
+  },
+});
 
 //  * * * * * * *  //
 

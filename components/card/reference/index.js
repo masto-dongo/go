@@ -57,7 +57,7 @@ export default function CardReference ({
         className={computedClass}
         href={href}
       >
-        <ParseContianer
+        <ParseContainer
           text={name || punycode.toUnicode(getHostname(href))}
           type='emoji'
         />
@@ -69,7 +69,7 @@ export default function CardReference ({
   if (name) {
     return (
       <span className={computedClass}>
-        <ParseContianer
+        <ParseContainer
           text={name || punycode.toUnicode(getHostname(href))}
           type='emoji'
         />

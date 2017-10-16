@@ -30,7 +30,7 @@ export default function deleteStatus (id, go, current, api) {
   api.delete(
     `/api/v1/statuses/${id}`
   ).then(
-    response => {
+    () => {
       go(success, id);
       go(removeStatus, id);
     }

@@ -27,7 +27,7 @@ export default function authorizeRelationship (id, go, current, api) {
   api.post(
     `/api/v1/follow_requests/${id}/authorize`
   ).then(
-    response => go(success, id)
+    () => go(success, id)
   ).catch(
     error => go(failure, id, error)
   );

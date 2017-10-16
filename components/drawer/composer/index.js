@@ -5,8 +5,7 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import { defineMessages, injectIntl } from 'react-intl';
+import { defineMessages } from 'react-intl';
 
 //  Our imports
 import ComposerControls from './input';
@@ -63,7 +62,7 @@ export default class DrawerComposer extends React.PureComponent {
     spoilable: false,
     text: '\n',
     visibility: this.props.defaultVisibility,
-  }
+  };
   textArea = null;
   spoiler = null;
   node = null;
@@ -75,8 +74,8 @@ export default class DrawerComposer extends React.PureComponent {
       media: media.filter(
         mediaId => mediaId !== id
       ),
-    })
-  }
+    });
+  };
   handleReplyCancel = () => {
     this.setState({
       idempotency: uuid(),
@@ -89,7 +88,7 @@ export default class DrawerComposer extends React.PureComponent {
       text: '\n',
       visibility: this.props.defaultVisibility,
     });
-  }
+  };
   handleSpoiler = spoiler => {
     const { spoilable } = this.state;
     if (spoilable) {
@@ -98,7 +97,7 @@ export default class DrawerComposer extends React.PureComponent {
         spoiler,
       });
     }
-  }
+  };
   handleSubmit = () => {
     const { onSubmit } = this.props;
     const {
@@ -122,13 +121,13 @@ export default class DrawerComposer extends React.PureComponent {
         visibility,  //  TK: Handle this enum properly in the redux
       });
     }
-  }
+  };
   handleText = text => {
     this.setState({
       idempotency: uuid(),
       text,
     });
-  }
+  };
 
   handleLocalChange = value => {
     const { local } = this.state;
@@ -136,24 +135,24 @@ export default class DrawerComposer extends React.PureComponent {
       idempotency: uuid(),
       local: value === void 0 ? !local : !!value,
     });
-  }
+  };
   handleSensitiveChange = value => {
     const { sensitive } = this.state;
     this.setState({
       idempotency: uuid(),
       sensitive: value === void 0 ? !sensitive : !!value,
     });
-  }
+  };
   handleSpoilableChange = value => {
     const { spoilable } = this.state;
     this.setState({ spoilable: value === void 0 ? !spoilable : !!value });
-  }
+  };
   handleVisibilityChange = value => {
     this.setState({
       idempotency: uuid(),
       visibility: value,
     });
-  }
+  };
 
   render () {
     const {
@@ -162,6 +161,7 @@ export default class DrawerComposer extends React.PureComponent {
       handleReplyCancel,
       handleSensitiveChange,
       handleSpoiler,
+      handleSensitiveChange,
       handleSpoilableChange,
       handleSubmit,
       handleText,
@@ -187,14 +187,16 @@ export default class DrawerComposer extends React.PureComponent {
       text,
       visibility,
     } = this.state;
-
-    const maybeEye = local ? ' 👁️' : '';
     const computedClass = classNames('MASTODON_GO--COMPOSER', className);
 
+    const text2HTML = text => text;
+
     return (
-      <div className={computedClass}>
-        <ComposerWarning
-        />
+      <div
+        className={computedClass}
+        {...rest}
+      >
+        <ComposerWarning />
         <ComposerSpoiler
           disabled={!spoilable}
           placeholder={intl.formatMessage(messages.spoiler)}
@@ -207,7 +209,7 @@ export default class DrawerComposer extends React.PureComponent {
         />
         <ComposerTextArea
           disabled={isSubmitting}
-          innerHTML={text2HTML(value)}
+          innerHTML={text2HTML(text)}
           onChange={handleText}
           onSubmit={handleSubmit}
           placeholder={intl.formatMessage(messages.placeholder)}
@@ -218,9 +220,11 @@ export default class DrawerComposer extends React.PureComponent {
         />
         <ComposerControls
           attachments={media}
-          value={value}
+          local={local}
           onUpload={onUpload}
           onSubmit={handleSubmit}
+          sensitive={sensitive}
+          value={text}
         />
         <ComposerOptions
           onLocalChange={handleLocalChange}

@@ -3,16 +3,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-//  Container imports.
-import { AccountContainer } from 'themes/mastodon-go/components';
-
 //  Component imports.
 import ProfileContent from './content';
 import ProfileMenu from './menu';
 import ProfilePane from './pane';
-
-//  Common imports.
-import { CommonButton } from 'themes/mastodon-go/components';
 
 export default class Profile extends React.PureComponent {
 
@@ -61,16 +55,6 @@ export default class Profile extends React.PureComponent {
     }
   }
 
-  //  Follow/unfollow handlers.
-  handleFollow () {
-    const { '💪': { follow } } = this.props;
-    follow();
-  }
-  handleUnfollow () {
-    const { '💪': { unfollow } } = this.props;
-    unfollow();
-  }
-
   //  This is a tiny function to update our hash if needbe.
   handleSetHash = hash => {
     const { activeRoute } = this;
@@ -95,6 +79,7 @@ export default class Profile extends React.PureComponent {
       '🛄': { intl },
       '💪': handler,
       '🏪': {
+        at,
         bio,
         counts,
         header,
@@ -107,7 +92,7 @@ export default class Profile extends React.PureComponent {
       ...rest
     } = this.props;
     const { storedHash } = this.state;
-    const computedClass = classNames('MASTODON_GO--CATALOGUE', { column }, className);
+    const computedClass = classNames('MASTODON_GO--PROFILE', className);
 
     //  We only use our internal hash if this isn't the active route.
     const computedHash = activeRoute ? hash : storedHash;

@@ -85,7 +85,7 @@ export default class Reference extends React.PureComponent {
   }
 
   constructor (props) {
-    super(props)
+    super(props);
     const { '💪': { fetch } } = props;
     fetch();
   }
@@ -150,6 +150,7 @@ export default class Reference extends React.PureComponent {
           icon={icon}
           style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : {}}
           title={title || defaultTitle}
+          {...rest}
         />
       );
 
@@ -162,6 +163,7 @@ export default class Reference extends React.PureComponent {
           icon={'id-card-o'}
           style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : {}}
           title={title || intl.formatMessage(messages.card)}
+          {...rest}
         />
       );
 
@@ -174,7 +176,8 @@ export default class Reference extends React.PureComponent {
           destination={`/profile/${mention}`}
           history={history}
           href={href}
-          title={title}
+          title={title || '@' + at}
+          {...rest}
         >
           <code style={rainbow ? { color: rainbow.get('1') } : {}}>
             {showAt && username ? <span className='at'>@</span> : null}
@@ -193,6 +196,7 @@ export default class Reference extends React.PureComponent {
           history={history}
           href={href}
           title={intl.formatMessage(messages.hashtag, { tagName })}
+          {...rest}
         >
           <b style={rainbow ? { color: rainbow.get('1') } : {}}>
             {showHash ? <span className='hash'>#</span> : null}

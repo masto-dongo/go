@@ -28,9 +28,6 @@ import { DOMAIN_BLOCK_SUCCESS } from 'themes/mastodon-go/redux/domain/block';
 import { DOMAIN_UNBLOCK_SUCCESS } from 'themes/mastodon-go/redux/domain/unblock';
 import { RELATIONSHIP_FETCH_SUCCESS } from 'themes/mastodon-go/redux/relationship/fetch';
 
-//  Other imports.
-import rainbow from 'themes/mastodon-go/util/rainbow';
-
 //  * * * * * * *  //
 
 //  Setup
@@ -41,12 +38,6 @@ import rainbow from 'themes/mastodon-go/util/rainbow';
 const normalize = (domain) => ImmutableMap({
   blocking: !!domain.blocking,
   domain: '' + domain.domain || '',
-  rainbow: ImmutableMap({
-    1: rainbow(domain.domain),
-    3: ImmutableList(rainbow(domain.domain, 3)),
-    7: ImmutableList(rainbow(domain.domain, 7)),
-    15: ImmutableList(rainbow(domain.domain, 15)),
-  }),
 });
 
 //  * * * * * * *  //
@@ -65,7 +56,7 @@ const set = (state, domains) => state.withMutations(
   map => [].concat(domains).forEach(
     domain => {
       if (domain.domain) {
-        state.set('' + domain.domain, normalize(domain));
+        map.set('' + domain.domain, normalize(domain));
       }
     }
   )
@@ -109,5 +100,5 @@ export default function domain (state = initialState, action) {
 //  Our requests.
 export {
   blockDomain,
-  unblockDomain
+  unblockDomain,
 };

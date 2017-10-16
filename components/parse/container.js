@@ -13,7 +13,7 @@
 //  -------
 
 //  Package imports.
-import { createSelector } from 'reselect';
+import { createStructuredSelector } from 'reselect';
 
 //  Component imports.
 import Parse from '.';

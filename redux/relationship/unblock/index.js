@@ -18,7 +18,7 @@ const success = relationship => ({
 const failure = (id, error) => ({
   error,
   id,
-  type: RELATIONSHIP_UNBLOCK_FAIL,
+  type: RELATIONSHIP_UNBLOCK_FAILURE,
 });
 
 //  Request.

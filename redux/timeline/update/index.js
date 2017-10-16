@@ -8,7 +8,7 @@ export const TIMELINE_UPDATE_RECEIVE = 'TIMELINE_UPDATE_RECEIVE';
 const receive = (path, status) => ({
   path,
   status,
-  type: TIMELINE_UPDATE_RECEIVE
+  type: TIMELINE_UPDATE_RECEIVE,
 });
 
 //  Request.

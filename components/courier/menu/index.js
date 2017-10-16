@@ -14,7 +14,7 @@
 //  -------
 
 //  Package imports.
-import classNames from 'classnames'
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { defineMessages } from 'react-intl';
@@ -36,9 +36,9 @@ import './style';
 //  Holds our localization messages.
 const messages = defineMessages({
   settings: {
-    defaultMessage: "Settings",
-    id: "courier.settings",
-  }
+    defaultMessage: 'Settings',
+    id: 'courier.settings',
+  },
 });
 
 //  * * * * * * *  //
@@ -64,20 +64,20 @@ export default class CourierMenu extends React.PureComponent {
   handleCourierClick = () => {
     const { onSetHash } = this.props;
     if (onSetHash) {
-      onSetHash('#')
+      onSetHash('#');
     }
-  }
+  };
   handleSettingsClick = () => {
     const { onSetHash } = this.props;
     if (onSetHash) {
-      onSetHash('#settings')
+      onSetHash('#settings');
     }
-  }
+  };
 
   //  Rendering.
   render () {
     const {
-      handleTimelineClick,
+      handleCourierClick,
       handleSettingsClick,
     } = this;
     const {
@@ -92,30 +92,25 @@ export default class CourierMenu extends React.PureComponent {
     } = this.props;
     const computedClass = classNames('MASTODON_GO--COURIER--MENU', className);
 
-    //  These are our possible hashes.
-    const hashes = ['#', '#settings'];
-
     return (
       <CommonMenubar
         className={computedClass}
         {...rest}
       >
         <CommonButton
-          active
+          active={!hash || hash === '#'}
           destination={activeRoute ? '#' : undefined}
           history={history}
           icon='bell'
           onClick={!activeRoute ? handleCourierClick : undefined}
-          style={hash === '#' || hashes.indexOf(hash) === -1 ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : { color: rainbow.get('1') }}
           title={title}
         />
         <CommonButton
-          active
+          active={hash === '#settings'}
           destination={activeRoute ? '#settings' : undefined}
           history={history}
           icon='toggles'
           onClick={!activeRoute ? handleSettingsClick : undefined}
-          style={hash === '#settings' ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : { color: rainbow.get('1') }}
           title={intl.formatMessage(messages.settings)}
         />
       </CommonMenubar>

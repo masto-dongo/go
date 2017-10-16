@@ -14,11 +14,11 @@ const request = { type: COURIER_FETCH_REQUEST };
 const success = notifications => ({
   notifications,
   type: COURIER_FETCH_SUCCESS,
-})
+});
 const failure = error => ({
   error,
   type: COURIER_FETCH_FAILURE,
-})
+});
 
 //  Request.
 export default function fetchCourier (go, current, api) {
@@ -37,7 +37,7 @@ export default function fetchCourier (go, current, api) {
     response => {
 
       //  We fetch the relationships for any follow notifications.
-      follows = [];
+      const follows = [];
       response.data.forEach(
         notification => {
           if (notification.type === 'follow') follows.push(notification.account.id);
@@ -48,7 +48,7 @@ export default function fetchCourier (go, current, api) {
       }
 
       //  Regardless, we dispatch our success.
-      go(success, response.data)
+      go(success, response.data);
     }
   ).catch(
     error => go(failure, error)

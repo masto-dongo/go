@@ -32,7 +32,7 @@ import connect from 'themes/mastodon-go/util/connect';
 export default connect(createStructuredSelector({
   accountAt: (state, { account }) => state.getIn(['account', account, 'at']),
   accountSrc: (state, { account }) => state.getIn(['account', account, 'avatar']),
-  autoplay: (state, { id }) => state.getIn(['meta', 'autoplay']),
+  autoplay: state => state.getIn(['meta', 'autoplay']),
   comradeAt: (state, { comrade }) => comrade ? state.getIn(['account', comrade, 'at']) : null,
   comradeSrc: (state, { comrade }) => comrade ? state.getIn(['account', comrade, 'avatar']) : null,
 }))(Avatar);

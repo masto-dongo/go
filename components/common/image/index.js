@@ -21,6 +21,7 @@ export default class CommonImage extends React.PureComponent {
   static propTypes = {
     animatedSrc: PropTypes.string,
     autoplay: PropTypes.bool,
+    className: PropTypes.string,
     description: PropTypes.string,
     staticSrc: PropTypes.string,
     title: PropTypes.string,
@@ -57,6 +58,7 @@ export default class CommonImage extends React.PureComponent {
     const {
       animatedSrc,
       autoplay,
+      className,
       description,
       staticSrc,
       title,
@@ -68,6 +70,8 @@ export default class CommonImage extends React.PureComponent {
       <img
         alt={description}
         className={computedClass}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         src={autoplay || hovering ? animatedSrc || staticSrc : staticSrc}
         title={title || description}
         {...rest}

@@ -84,7 +84,7 @@ MastodonGO.propTypes = {
   locale: PropTypes.string.isRequired,
   messages: PropTypes.object.isRequired,
   store: PropTypes.object.isRequired,
-}
+};
 
 //  * * * * * * *  //
 

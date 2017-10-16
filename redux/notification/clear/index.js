@@ -25,7 +25,7 @@ export default function clearNotification (go, current, api) {
   ).then(
     () => {
       go(success);
-      go(removeNotification, state.get('notification').keySeq().toArray());
+      go(removeNotification, current().get('notification').keySeq().toArray());
     }
   ).catch(
     error => go(failure, error)

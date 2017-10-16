@@ -52,16 +52,16 @@ const normalize = notification => ImmutableMap({
   type: (
     type => {
       switch (type) {
-      case "follow":
-        return NOTIFICATION_TYPE.FOLLOW;
-      case "favourite":
-        return NOTIFICATION_TYPE.FAVOURITE;
-      case "reblog":
-        return NOTIFICATION_TYPE.REBLOG;
-      case "mention":
-        return NOTIFICATION_TYPE.MENTION;
+      case 'follow':
+        return POST_TYPE.FOLLOW;
+      case 'favourite':
+        return POST_TYPE.FAVOURITE;
+      case 'reblog':
+        return POST_TYPE.REBLOG;
+      case 'mention':
+        return POST_TYPE.MENTION;
       default:
-        return NOTIFICATION_TYPE.UNKNOWN;
+        return POST_TYPE.UNKNOWN;
       }
     }
   )(notification.type),
@@ -99,7 +99,7 @@ const filterByAccount = (state, accounts) => {
   state.filter(
     notification => accounts.indexOf(notification.get('account')) === -1
   );
-}
+};
 
 // `filterByStatus()` deletes those notifications whose associated
 //  `status` matches one of the ones provided.
@@ -108,7 +108,7 @@ const filterByStatus = (state, statuses) => {
   state.filter(
     notification => !notification.get('status') || statuses.indexOf(notification.get('status')) === -1
   );
-}
+};
 
 //  * * * * * * *  //
 
@@ -121,7 +121,7 @@ export default function notification (state = initialState, action) {
   case COURIER_EXPAND_SUCCESS:
   case COURIER_FETCH_SUCCESS:
   case COURIER_REFRESH_SUCCESS:
-    return set(state, action.notifications)
+    return set(state, action.notifications);
   case COURIER_UPDATE_RECEIVE:
     return set(state, action.notification);
   case NOTIFICATION_FETCH_SUCCESS:

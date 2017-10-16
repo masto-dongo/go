@@ -19,8 +19,8 @@ export default function stream (location, accessToken, stream, {
       data = e.data;
     }
     received(data);
-  }
+  };
   client.onclose = disconnected;
   client.onreconnect = reconnected;
   return client;
-};
+}

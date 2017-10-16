@@ -106,7 +106,7 @@ export default class AttachmentGifv extends React.PureComponent {
         {...rest}
       >
         <video
-          autoPlay={autoPlay}
+          autoPlay={autoplay}
           loop
           muted
           onMouseEnter={handleMouseEnter}

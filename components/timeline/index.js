@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import classNames from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -21,10 +21,10 @@ import { POST_TYPE } from 'themes/mastodon-go/util/constants';
 
 const messages = defineMessages({
   timeline: {
-    defaultMessage: "Timeline",
-    id: "timeline.timeline",
-  }
-})
+    defaultMessage: 'Timeline',
+    id: 'timeline.timeline',
+  },
+});
 
 export default class Timeline extends React.PureComponent {
 

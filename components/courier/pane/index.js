@@ -36,7 +36,6 @@ import './style';
 export default function CourierPane ({
   className,
   hash,
-  intl,
   ...rest
 }) {
   const computedClass = classNames('MASTODON_GO--COURIER--PANE', className);
@@ -51,12 +50,7 @@ export default function CourierPane ({
         function () {
           switch (hash) {
           case '#settings':
-            return (
-              <CourierPaneSettings
-                intl={intl}
-                {...rest}
-              />
-            );
+            return <CourierPaneSettings {...rest}/>;
           default:
             return null;
           }
@@ -70,5 +64,4 @@ export default function CourierPane ({
 CourierPane.propTypes = {
   className: PropTypes.string,
   hash: PropTypes.string.isRequired,
-  intl: PropTypes.object.isRequired,
-}
+};

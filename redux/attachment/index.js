@@ -59,12 +59,6 @@ const normalize = attachment => ImmutableMap({
     src: '' + attachment.preview_url,
     width: +((attachment.meta || {}).small || {}).width,
   }),
-  rainbow: ImmutableMap({
-    1: rainbow(attachment.remote_url || attachment.url),
-    3: ImmutableList(rainbow(attachment.remote_url || attachment.url, 3)),
-    7: ImmutableList(rainbow(attachment.remote_url || attachment.url, 7)),
-    15: ImmutableList(rainbow(attachment.remote_url || attachment.url, 15)),
-  }),
   src: ImmutableMap({
     local: '' + attachment.url,
     remote: '' + attachment.remote_url,
@@ -85,7 +79,7 @@ const normalize = attachment => ImmutableMap({
     }
   )(attachment.type),
   width: +((attachment.meta || {}).original || {}).width,
-})
+});
 
 //  * * * * * * *  //
 

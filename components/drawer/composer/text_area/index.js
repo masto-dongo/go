@@ -57,7 +57,7 @@ When our component mounts, we immediately set its `value` using
 */
 
   componentDidMount () {
-    const { input, getContents } = this;
+    const { getContents } = this;
     const { onChange } = this.props;
     if (onChange) onChange(getContents());
   }
@@ -96,7 +96,7 @@ for each `<br>` we find. In essence, this is just a `<br>`-aware
   getContents = () => {
     const { input } = this;
     if (!input) return;
-    let wkr = document.createTreeWalker(input)
+    let wkr = document.createTreeWalker(input);
     let nde = null;
     let out = '';
     while (wkr.nextNode()) {

@@ -24,11 +24,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-//  Container imports.
-import {
-  ParseContainer,
-  ReferenceContainer,
-} from 'themes/mastodon-go/components';
+//  Component imports.
+import ParseStatusContentParagraph from './paragraph';
 
 //  Stylesheet imports.
 import './style';

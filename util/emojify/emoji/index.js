@@ -4,6 +4,7 @@ export class Emoji {
     aliases,
     category,
     codepoints,
+    extension,
     location,
     name,
     selectors,
@@ -22,10 +23,13 @@ export class Emoji {
   }
 
   toImage (selector) {
-    const { location, selectors } = this;
+    const {
+      location,
+      selectors,
+    } = this;
     const variant = selectors ? selectors[selector] : null;
     if (!selectors || !variant) selector = '';
-    const image = new Image();
+    const image = new Image;
     image.class = 'EMOJI';
     image.draggable = false;
     image.alt = '' + this + selector;
@@ -35,17 +39,23 @@ export class Emoji {
   }
 
   toFilename (variant) {
-    const { extension, name, variants } = this;
-    const ext = extension && extension[0] !== '.' ? '.' + extension : extension || ''
+    const {
+      extension,
+      name,
+      variants,
+    } = this;
+    const ext = extension && extension[0] !== '.' ? '.' + extension : extension || '';
     return variants && variants.indexOf(variant) !== -1 ? `${name}-${variant}${ext}` : `${name}${ext}`;
   }
 
   toString () {
-    const { codepoints } = this
-    if (typeof String.fromCodePoint === 'function') return String.fromCodePoint.apply(String, codepoints);
+    const { codepoints } = this;
+    if (typeof String.fromCodePoint === 'function') {
+      return String.fromCodePoint.apply(String, codepoints);
+    }
     const codeunits = [];
     for (let i = 0; i < codepoints.length; i++) {
-      let codepoint = codepoints[i]
+      let codepoint = codepoints[i];
       if (codepoint < 0xFFFF) codeunits.push(codepoint);
       else {
         codepoint -= 0x10000;

@@ -99,7 +99,7 @@ export default function ParseAccountBio ({
 };
 
 //  Props.
-ParseStatusContent.propTypes = {
+ParseAccountBio.propTypes = {
   className: PropTypes.string,
   metadata: ImmutablePropTypes.map,
   text: PropTypes.string,

@@ -18,16 +18,16 @@ import { defineMessages, FormattedMessage } from 'react-intl';
 
 import {
   CardContainer,
+  ParseContainer,
   ReferenceContainer,
 } from 'themes/mastodon-go/components';
 
-import {
-  CommonButton,
-  CommonLink,
-} from 'themes/mastodon-go/components';
+import { CommonButton } from 'themes/mastodon-go/components';
 
 // import StatusContentGallery from './gallery';
 // import StatusContentUnknown from './unknown';
+const StatusContentGallery = () => null;
+const StatusContentUnknown = () => null;
 
 //  Stylesheet imports.
 import './style';
@@ -71,6 +71,7 @@ export default class StatusContent extends React.PureComponent {
     onClick: PropTypes.func,
     sensitive: PropTypes.bool,
     setExpansion: PropTypes.func,
+    spoiler: PropTypes.string,
     tags: ImmutablePropTypes.list,
   }
 
@@ -123,8 +124,8 @@ export default class StatusContent extends React.PureComponent {
   handleSpoilerClick = (e) => {
     const { setExpansion } = this.props;
     e.preventDefault();
-    if (this.props.setExpansion) {
-      this.props.setExpansion();  //  Calling with no argument toggles
+    if (setExpansion) {
+      setExpansion();  //  Calling with no argument toggles
     }
   }
 
@@ -149,6 +150,7 @@ export default class StatusContent extends React.PureComponent {
       onClick,
       sensitive,
       setExpansion,
+      spoiler,
       tags,
       ...rest
     } = this.props;
@@ -156,30 +158,33 @@ export default class StatusContent extends React.PureComponent {
       actionable: !detailed && onClick,
       spoilered: !contentVisible,
     });
-    let mediaElement;
+    const mediaElement = function () {
+      switch (true) {
 
-    //  If there aren't any media attachments, we try showing a card.
-    if ((!media || !media.size) && card) {
-      mediaElement = <CardContainer card={card.get('id')} />;
+      //  If there aren't any media attachments, we try showing a card.
+      case (!media || !media.size) && card:
+        return <CardContainer card={card.get('id')} />;
 
-    //  Otherwise, if there is an unknown attachment, we show an
-    //  attachment list.
-    } else if (attachments && attachments.some(
-      item => item.get('type') === 'unknown'
-    )) {
-      mediaElement = (
-        <StatusContentUnknown media={media} />
-      );
+      //  Otherwise, if there is an unknown attachment, we show an
+      //  attachment list.
+      case (media && media.some(
+        item => item.get('type') === 'unknown'
+      )):
+        return <StatusContentUnknown media={media} />;
 
-    //  Otherwise, we render the attachments in a gallery
-    } else {
-      mediaElement = (
-        <StatusContentGallery
-          media={media}
-          sensitive={sensitive}
-        />
-      );
-    }
+      //  Otherwise, if there are attachments, we render them in a
+      //  gallery.
+      case !!media:
+        return (
+          <StatusContentGallery
+            media={media}
+            sensitive={sensitive}
+          />
+        );
+      default:
+        return null;
+      }
+    }();
 
     //  Spoiler stuff.
     if (spoiler.length > 0) {
@@ -198,7 +203,10 @@ export default class StatusContent extends React.PureComponent {
 
       //  Component rendering.
       return (
-        <div className={computedClass}>
+        <div
+          className={computedClass}
+          {...rest}
+        >
           <div
             className='spoiler'
             {...(onClick ? {
@@ -247,7 +255,10 @@ export default class StatusContent extends React.PureComponent {
     //  Non-spoiler statuses.
     } else {
       return (
-        <div className={computedClass}>
+        <div
+          className={computedClass}
+          {...rest}
+        >
           <div className='contents'>
             <div
               className='text'

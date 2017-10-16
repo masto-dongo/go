@@ -29,7 +29,7 @@ import connect from 'themes/mastodon-go/util/connect';
 
 //  Building our store.
 export default connect(createStructuredSelector({
-  autoplay: (state, { id }) => state.getIn(['meta', 'autoplay']),
+  autoplay: state => state.getIn(['meta', 'autoplay']),
   description: (state, { id }) => state.getIn(['attachment', id, 'description']),
   height: (state, { id }) => state.getIn(['attachment', id, 'height']),
   href: (state, { id }) => state.getIn([
@@ -41,4 +41,4 @@ export default connect(createStructuredSelector({
   ]),
   type: (state, { id }) => state.getIn(['attachment', id, 'type']),
   width: (state, { id }) => state.getIn(['attachment', id, 'width']),
-}))(Media);
+}))(Attachment);

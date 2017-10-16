@@ -16,10 +16,9 @@
 //  -------
 
 //  Package imports.
-import classNames from 'classnames'
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { defineMessages } from 'react-intl';
 
 //  Common imports.
 import {
@@ -54,9 +53,9 @@ export default class CatalogueMenu extends React.PureComponent {
   handleCatalogueClick = () => {
     const { onSetHash } = this.props;
     if (onSetHash) {
-      onSetHash('#')
+      onSetHash('#');
     }
-  }
+  };
 
   //  Rendering.
   render () {

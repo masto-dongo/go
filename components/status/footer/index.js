@@ -78,7 +78,7 @@ export default class StatusFooter extends React.PureComponent {
     href: PropTypes.string,
     intl: PropTypes.object.isRequired,
     visibility: PropTypes.string,
-  }
+  };
 
   //  Rendering.
   render () {
@@ -92,27 +92,31 @@ export default class StatusFooter extends React.PureComponent {
       visibility,
       ...rest
     } = this.props;
-
     const computedClass = classNames('MASTODON_GO--STATUS--FOOTER', { detailed }, className);
 
     let visibilityIcon;
     let visibilityText;
     switch (true) {
-      case (visibility & VISIBILITY.PUBLIC) === VISIBILITY.PUBLIC:
-        visibilityIcon = 'globe';
-        visibilityText = intl.formatMessage(messages.public);
-      case (visibility & VISIBILITY.UNLISTED) === VISIBILITY.UNLISTED:
-        visibilityIcon = 'unlock-alt';
-        visibilityText = intl.formatMessage(messages.unlisted);
-      case (visibility & VISIBILITY.PRIVATE) === VISIBILITY.PRIVATE:
-        visibilityIcon = 'lock';
-        visibilityText = intl.formatMessage(messages.private);
-      case (visibility & VISIBILITY.DIRECT) === VISIBILITY.DIRECT:
-        visibilityIcon = 'envelope';
-        visibilityText = intl.formatMessage(messages.direct);
-      default:
-        visibilityIcon = 'question-circle';
-        visibilityText = intl.formatMessage(messages.unknown);
+    case (visibility & VISIBILITY.PUBLIC) === VISIBILITY.PUBLIC:
+      visibilityIcon = 'globe';
+      visibilityText = intl.formatMessage(messages.public);
+      break;
+    case (visibility & VISIBILITY.UNLISTED) === VISIBILITY.UNLISTED:
+      visibilityIcon = 'unlock-alt';
+      visibilityText = intl.formatMessage(messages.unlisted);
+      break;
+    case (visibility & VISIBILITY.PRIVATE) === VISIBILITY.PRIVATE:
+      visibilityIcon = 'lock';
+      visibilityText = intl.formatMessage(messages.private);
+      break;
+    case (visibility & VISIBILITY.DIRECT) === VISIBILITY.DIRECT:
+      visibilityIcon = 'envelope';
+      visibilityText = intl.formatMessage(messages.direct);
+      break;
+    default:
+      visibilityIcon = 'question-circle';
+      visibilityText = intl.formatMessage(messages.unknown);
+      break;
     }
 
     //  If our status isn't detailed, our footer only contains the

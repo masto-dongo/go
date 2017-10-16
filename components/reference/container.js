@@ -54,6 +54,8 @@ export default connect(
         return state.getIn(['account', mention, 'href']);
       case !!tagName:
         return state.getIn(['tag', tagName, 'href']);
+      default:
+        return void 0;
       }
     },
     mediaType: (state, { attachment }) => attachment ? state.getIn(['attachment', attachment, 'type']) : null,
@@ -71,7 +73,9 @@ export default connect(
       case !!mention:
         return state.getIn(['account', mention, 'rainbow']);
       case !!tagName:
-        return state.getIn(['tag', `/api/v1/timelines/tag/${ownProps.tagName}`, 'rainbow']);
+        return state.getIn(['tag', `/api/v1/timelines/tag/${tagName}`, 'rainbow']);
+      default:
+        return void 0;
       }
     },
     title: (state, {
@@ -89,6 +93,8 @@ export default connect(
         return state.getIn(['account', mention, 'at']);
       case !!tagName:
         return tagName;
+      default:
+        return void 0;
       }
     },
     username: (state, { mention }) => mention ? state.getIn(['account', mention, 'username']) : null,
@@ -101,8 +107,10 @@ export default connect(
       switch (true) {
       case !!mention:
         go(fetchAccount, mention, false);
+        break;
       case !!tagName:
         go(ensureTimeline, `/api/v1/timelines/tag/${tagName}`);
+        break;
       }
     },
   }),

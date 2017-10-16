@@ -19,9 +19,9 @@ const success = ids => ({
   type: NOTIFICATION_DELETE_SUCCESS,
 });
 const failure = (ids, error) => ({
-    error,
-    ids,
-    type: NOTIFICATION_DELETE_FAILURE,
+  error,
+  ids,
+  type: NOTIFICATION_DELETE_FAILURE,
 });
 
 //  Request.

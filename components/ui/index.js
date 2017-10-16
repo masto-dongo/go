@@ -51,6 +51,7 @@ export default class UI extends React.Component {  //  Impure
     const computedClass = classNames('MASTODON_GO--UI', className);
 
     const singleColumn = true;  //  for now
+    const columns = { size: 0 };  //  for now
 
     return (
       <div

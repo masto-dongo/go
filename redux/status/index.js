@@ -13,7 +13,6 @@ import {
   List as ImmutableList,
   Map as ImmutableMap,
 } from 'immutable';
-import escapeTextContentForBrowser from 'escape-html';
 
 //  Requests.
 import deleteStatus from './delete';
@@ -53,10 +52,7 @@ import { TIMELINE_REFRESH_SUCCESS } from 'themes/mastodon-go/redux/timeline/refr
 import { TIMELINE_UPDATE_RECEIVE } from 'themes/mastodon-go/redux/timeline/update';
 
 //  Other imports.
-import {
-  POST_TYPE,
-  VISIBILITY,
-} from 'themes/mastodon-go/util/constants';
+import { VISIBILITY } from 'themes/mastodon-go/util/constants';
 import deHTMLify from 'themes/mastodon-go/util/deHTMLify';
 
 //  * * * * * * *  //
@@ -112,27 +108,26 @@ const normalize = (status, oldContent) => {
         name: '' + tag.name,
       })
     )),
-    visibility: (
-      visibility => {
-        let value = VISIBLITY.DIRECT;
-        switch (type) {
-        case "private":
-          value = VISIBILITY.PRIVATE;
-          break;
-        case "public":
-          value = VISIBILITY.PUBLIC;
-          break;
-        case "unlisted":
-          value = VISIBILITY.UNLISTED;
-          break;
-        }
-        if (/👁\ufe0f?$/.test(status.content)) {
-          value &= ~VISIBILITY.FEDERATED;
-        }
+    visibility: function (visibility) {
+      let value = VISIBLITY.DIRECT;
+      switch (visibility) {
+      case 'private':
+        value = VISIBILITY.PRIVATE;
+        break;
+      case 'public':
+        value = VISIBILITY.PUBLIC;
+        break;
+      case 'unlisted':
+        value = VISIBILITY.UNLISTED;
+        break;
       }
-    )(status.visiblity),
+      if (/👁\ufe0f?$/.test(status.content)) {
+        value &= ~VISIBILITY.FEDERATED;
+      }
+      return value;
+    }(status.visiblity),
   });
-}
+};
 
 //  * * * * * * *  //
 
@@ -149,14 +144,11 @@ const set = (state, statuses) => state.withMutations(
   map => ([].concat(statuses)).forEach(
     status => {
       if (status) {
-        map.set('' + status.id, normalize(status))
+        map.set('' + status.id, normalize(status));
       }
     }
   )
 );
-
-//  `remove()` deletes the statuses with the given `ids` from the store.
-const remove = (state, ids) => state.deleteAll([].concat(ids));
 
 //  `filterByAccount()` deletes those statuses whose associated
 //  `account` matches one of the ones provided.
@@ -173,7 +165,7 @@ const filterByAccount = (state, accounts) => {
       return true;
     }
   );
-}
+};
 
 // `filterByStatus()` deletes those statuses whose `id`
 //   or `reblog` matches one of the ones provided.
@@ -182,7 +174,7 @@ const filterByStatus = (state, statuses) => {
   state.filter(
     status => statuses.indexOf(status.get('id')) === -1 && (!status.get('reblog') || statuses.indexOf(status.get('reblog')) === -1)
   );
-}
+};
 
 //  * * * * * * *  //
 

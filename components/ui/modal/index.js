@@ -1,3 +1,5 @@
 //  TK
 
-export default function () {return null};
+export default function UIModal () {
+  return null;
+};

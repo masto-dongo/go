@@ -2,7 +2,7 @@
 //  ===============
 
 //  Imported requests.
-import { updateTimeline } from 'themes/mastodon-go/redux/timeline'
+import { updateTimeline } from 'themes/mastodon-go/redux/timeline';
 
 //  Action types.
 export const COMPOSER_SUBMIT_REQUEST = 'COMPOSER_SUBMIT_REQUEST';
@@ -13,7 +13,7 @@ export const COMPOSER_SUBMIT_FAILURE = 'COMPOSER_SUBMIT_FAILURE';
 const request = (text, options) => ({
   options,
   text,
-  type: COMPOSER_SUBMIT_REQUEST
+  type: COMPOSER_SUBMIT_REQUEST,
 });
 const success = status => ({
   status,

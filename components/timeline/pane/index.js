@@ -32,8 +32,10 @@ export default function TimelinePane ({
                 {...rest}
               />
             );
+          default:
+            return null;
           }
-        }
+        }()
       }
     </CommonPane>
   );
@@ -44,4 +46,4 @@ TimelinePane.propTypes = {
   hash: PropTypes.string.isRequired,
   intl: PropTypes.object.isRequired,
   path: PropTypes.string.isRequired,
-}
+};

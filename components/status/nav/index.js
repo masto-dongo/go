@@ -13,7 +13,6 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ImmutablePureComponent from 'react-immutable-pure-component';
 import { defineMessages } from 'react-intl';
 
 //  Our imports.
@@ -34,7 +33,7 @@ import './style';
 const messages = defineMessages({
   conversation: {
     defaultMessage: 'View conversation',
-    id : 'status.view_conversation'
+    id : 'status.view_conversation',
   },
   reblogs: {
     defaultMessage: 'View reblogs',
@@ -56,7 +55,7 @@ export default class StatusNav extends React.PureComponent {
   //  Props.
   static propTypes = {
     className: PropTypes.string,
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     intl: PropTypes.object.isRequired,
   }
 
@@ -72,7 +71,7 @@ export default class StatusNav extends React.PureComponent {
     return (
       <nav className={computedClass}>
         <CommonLink title={intl.formatMessage(messages.conversation)}>
-          <CommonIcon name='comments-o'/>
+          <CommonIcon name='comments-o' />
         </CommonLink>
         <CommonLink title={intl.formatMessage(messages.reblogs)}>
           <CommonIcon name='retweet' />

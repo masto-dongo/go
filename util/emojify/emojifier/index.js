@@ -126,7 +126,7 @@ export class Emojifier {
         //  Aliases only overwrite other aliases, not names.
         for (let j = 0; j < emojo.aliases.length; j++) {
           const alias = emojo.aliases[j];
-          if (!emoji[alias] || emoji[alias].name !== alias) emoji[alias] = emojo
+          if (!emoji[alias] || emoji[alias].name !== alias) emoji[alias] = emojo;
         }
       }
     }
@@ -137,7 +137,7 @@ export class Emojifier {
     ) });
 
     //  Provides restricted access to categories through getters.
-    this.categories = {}
+    this.categories = {};
     for (let category in categories) {
       Object.defineProperty(this.categories, category, {
         enumerable: [
@@ -266,15 +266,13 @@ export class Emojifier {
               subgroups = [category];
               return;
             }
-            return (
-              () => {
-                const result = [];
-                for (let i = 0; i < subgroups.length; i++) {
-                  result.concat(categories[subgroups[i]]);
-                }
-                return result;
+            return function {
+              const result = [];
+              for (let i = 0; i < subgroups.length; i++) {
+                result.concat(categories[subgroups[i]]);
               }
-            );
+              return result;
+            }();
           }
         )(),
       });

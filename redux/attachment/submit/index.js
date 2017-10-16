@@ -29,7 +29,7 @@ export default function uploadComposer (file, go, current, api) {
   data.append('file', file);
 
   //  The request.
-  go(request, files);
+  go(request, file);
   api.post(
     '/api/v1/media', data, {
       onUploadProgress: e => {},  //  TODO
@@ -37,6 +37,6 @@ export default function uploadComposer (file, go, current, api) {
   ).then(
     response => go(success, response.data)
   ).catch(
-    error =>  go(error, file, error)
+    error =>  go(failure, file, error)
   );
 }

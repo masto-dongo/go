@@ -67,7 +67,6 @@ import axios from 'axios';
 import { injectIntl } from 'react-intl';
 import { connectAdvanced as reduxConnect } from 'react-redux';
 import shallowEqual from 'react-redux/lib/utils/shallowEqual';
-import { withRouter } from 'react-router';
 import { createSelector } from 'reselect';
 
 //  * * * * * * *  //
@@ -106,7 +105,7 @@ export default function connect (stater, dispatcher, ...args) {
     //  `go()` function, which is then handed to our `factory`.
     const selectorFactory = dispatch => {
 
-      const go = factory.length > args.length ?
+      const go = dispatcher.length > args.length ?
         (fn, ...args) => dispatch(readyToGo(fn, ...args))
       : void 0;
 
@@ -140,8 +139,8 @@ export default function connect (stater, dispatcher, ...args) {
           props = ownProps;
         }
         return selector(store, props);
-      }
-    }
+      };
+    };
 
     //  All connected functions are passed through `injectIntl`.
     return injectIntl(reduxConnect(selectorFactory)(component));

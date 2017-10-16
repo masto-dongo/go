@@ -28,6 +28,7 @@ import CardReference from './reference';
 
 //  Common imports.
 import {
+  CommonImage,
   CommonLink,
   CommonSeparator,
 } from 'themes/mastodon-go/components';
@@ -52,16 +53,14 @@ export default function Card ({
   '🏪': {
     author,
     description,
-    height,
     href,
     html,
     image,
     provider,
-    rainbow,
     title,
     type,
-    width,
   },
+  ...rest
 }) {
   const computedClass = classNames('MASTODON_GO--CARD', className);
 
@@ -72,7 +71,7 @@ export default function Card ({
       return (
         <CommonLink
           className='image'
-          href={url}
+          href={href}
         >
           <CommonImage
             alt={title}
@@ -100,7 +99,7 @@ export default function Card ({
       return (
         <CommonLink
           className='description'
-          href={url}
+          href={href}
         >
           {type === CARD_TYPE.LINK && image ? (
             <img
@@ -156,7 +155,10 @@ export default function Card ({
 
   //  Putting the pieces together and returning.
   return (
-    <figure className={computedClass}>
+    <figure
+      className={computedClass}
+      {...rest}
+    >
       {media}
       {text}
       {caption}
@@ -183,4 +185,4 @@ Card.propTypes = {
     type: PropTypes.number.isRequired,
     width: PropTypes.number,
   }).isRequired,
-}
+};

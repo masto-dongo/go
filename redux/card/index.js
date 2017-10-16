@@ -43,12 +43,6 @@ const normalize = card => ImmutableMap({
     href: card.provider.url ? '' + card.provider.url : null,
     name: card.provider.name ? '' + card.provider.name : null,
   }) : null,
-  rainbow: ImmutableMap({
-    1: rainbow(card.url),
-    3: ImmutableList(rainbow(card.url, 3)),
-    7: ImmutableList(rainbow(card.url, 7)),
-    15: ImmutableList(rainbow(card.url, 15)),
-  }),
   title: '' + card.title,
   type: (
     type => {

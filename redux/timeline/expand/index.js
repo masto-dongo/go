@@ -14,12 +14,12 @@ const request = path => ({
 const success = (path, statuses) => ({
   statuses,
   type: TIMELINE_EXPAND_SUCCESS,
-})
+});
 const failure = (path, error) => ({
   error,
   path,
   type: TIMELINE_EXPAND_FAILURE,
-})
+});
 
 //  Request.
 export default function expandTimeline (path, go, current, api) {

@@ -10,7 +10,7 @@ export const COURIER_UPDATE_RECEIVE = 'COURIER_UPDATE_RECEIVE';
 //  Action creators.
 const receive = notification => ({
   notification,
-  type: COURIER_UPDATE_RECEIVE
+  type: COURIER_UPDATE_RECEIVE,
 });
 
 //  Request.
@@ -23,5 +23,5 @@ export default function updateCourier (notification, go) {
   }
 
   //  Regardless, we dispatch the notification.
-  go(receive, notification)
+  go(receive, notification);
 }

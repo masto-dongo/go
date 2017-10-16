@@ -44,9 +44,9 @@ export default connect(
     statuses: (state, { path }) => state.getIn(['timeline', path, 'statuses']),
   }),
   (go, store, { path }) => ({
-      connect: () => go(connectTimeline, path),
-      expand: () => go(expandTimeline, path),
-      fetch: () => go(fetchTimeline, path),
-      refresh: () => go(refreshTimeline, path),
+    connect: (newPath = path) => go(connectTimeline, newPath),
+    expand: (newPath = path) => go(expandTimeline, newPath),
+    fetch: (newPath = path) => go(fetchTimeline, newPath),
+    refresh: (newPath = path) => go(refreshTimeline, newPath),
   })
 )(Timeline);

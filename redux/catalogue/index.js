@@ -41,9 +41,6 @@ import {
   CATALOGUE_REFRESH_SUCCESS,
 } from 'themes/mastodon-go/redux/catalogue/refresh';
 
-//  Other imports.
-import rainbow from 'themes/mastodon-go/util/rainbow';
-
 //  * * * * * * *  //
 
 //  Setup
@@ -51,7 +48,7 @@ import rainbow from 'themes/mastodon-go/util/rainbow';
 
 //  `normalize()` normalizes the given array of `accounts` into a
 //  proper catalogue. We only store the `ids` of the `accounts`.
-const normalize = (accounts, path) => ImmutableList(accounts ? accounts.map(
+const normalize = accounts => ImmutableList(accounts ? accounts.map(
   account => '' + account.id
 ) : []);
 
@@ -61,12 +58,6 @@ const makeCatalogue = (path, accounts) => ImmutableMap({
   accounts: normalize(accounts),
   isLoading: false,
   path: '' + path,
-  rainbow: ImmutableMap({
-    1: rainbow(path),
-    3: ImmutableList(rainbow(path, 3)),
-    7: ImmutableList(rainbow(path, 7)),
-    15: ImmutableList(rainbow(path, 15)),
-  }),
 });
 
 //  * * * * * * *  //
@@ -160,6 +151,8 @@ const setLoading = (state, path, value) => state.update(
 //  Action reducing.
 export default function catalogue (state = initialState, action) {
   switch (action.type) {
+  case CATALOGUE_ENSURE_MAKE:
+    return ensure(state, action.path);
   case CATALOGUE_EXPAND_FAILURE:
     return setLoading(state, action.path, false);
   case CATALOGUE_EXPAND_REQUEST:

@@ -39,7 +39,7 @@ export default connect(
     rainbow: (state, { id }) => state.getIn(['account', state.getIn(['status', id, 'account']), 'rainbow']),
     statuses: (state, { id }) => state.getIn(['conversation', id, 'statuses']),
   }),
-  (props, { id }) => ({
-    fetch: () => go(fetchConversation, id),
+  (go, store, { id }) => ({
+    fetch: (newId = id) => go(fetchConversation, newId),
   })
 )(Conversation);

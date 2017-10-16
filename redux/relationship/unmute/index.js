@@ -18,7 +18,7 @@ const success = relationship => ({
 const failure = (id, error) => ({
   error,
   id,
-  type: RELATIONSHIP_UNMUTE_FAIL,
+  type: RELATIONSHIP_UNMUTE_FAILURE,
 });
 
 //  Request.

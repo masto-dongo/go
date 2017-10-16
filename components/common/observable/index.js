@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
-import measure from 'themes/mastodon-go/util/schedule';
+import measure from 'themes/mastodon-go/util/measure';
 import schedule from 'themes/mastodon-go/util/schedule';
 
 export default class CommonObservable extends React.PureComponent {
@@ -52,15 +52,13 @@ export default class CommonObservable extends React.PureComponent {
     const { isIntersecting } = this.state;
     this.entry = entry;
     if (isIntersecting && !entry.isIntersecting) {
-      scheduleIdleTask(hide);
+      schedule(hide);
     }
-    this.setState(
-      prevState => ({
-        isIntersecting: entry.isIntersecting,
-        isHidden: false,
-      })
-    );
-    scheduleIdleTask(calculateHeight);
+    this.setState({
+      isIntersecting: entry.isIntersecting,
+      isHidden: false,
+    });
+    schedule(calculateHeight);
   }
 
   calculateHeight = () => {
@@ -75,7 +73,7 @@ export default class CommonObservable extends React.PureComponent {
 
   hide = () => {
     const { mounted } = this;
-    if (!this.mounted) {
+    if (!mounted) {
       return;
     }
     this.setState(

@@ -28,14 +28,14 @@ export default function ProfilePaneTimeline ({
 
   const path = function () {
     switch (hash) {
-      case '#all':
-        return `/api/v1/accounts/${id}/statuses`;
-      case '#media':
-        return `/api/v1/accounts/${id}/statuses?only_media=true`;
-      case '#pinned':
-        return `/api/v1/accounts/${id}/statuses?pinned=true`;
-      default:
-        return `/api/v1/accounts/${id}/statuses?exclude_replies=true`;
+    case '#all':
+      return `/api/v1/accounts/${id}/statuses`;
+    case '#media':
+      return `/api/v1/accounts/${id}/statuses?only_media=true`;
+    case '#pinned':
+      return `/api/v1/accounts/${id}/statuses?pinned=true`;
+    default:
+      return `/api/v1/accounts/${id}/statuses?exclude_replies=true`;
     }
   }();
 
@@ -53,4 +53,5 @@ export default function ProfilePaneTimeline ({
 ProfilePaneTimeline.propTypes = {
   className: PropTypes.string,
   hash: PropTypes.string,
-}
+  id: PropTypes.string.isRequired,
+};

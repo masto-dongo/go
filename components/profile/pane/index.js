@@ -69,8 +69,8 @@ export default function ProfilePane ({
 }
 
 //  Props.
-CourierPane.propTypes = {
+ProfilePane.propTypes = {
   className: PropTypes.string,
   hash: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-}
+};

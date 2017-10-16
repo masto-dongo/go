@@ -5,8 +5,13 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages, FormattedMessage } from 'react-intl';
+
+//  Container imports.
+import { AccountContainer } from 'themes/mastodon-go/components';
+
+//  Component imports.
+import StartMenu from './menu';
 
 //  Common imports.
 import {
@@ -123,6 +128,7 @@ export default class Start extends React.PureComponent {
       '🏪': { me },
       ...rest
     } = this.props;
+    const { storedHash } = this.state;
     const computedClass = classNames('MASTODON_GO--START', className);
 
     //  We only use our internal hash if this isn't the active route.
@@ -137,7 +143,7 @@ export default class Start extends React.PureComponent {
           activeRoute={activeRoute}
           hash={computedHash}
           history={history}
-          icon={icon}
+          icon='asterisk'
           intl={intl}
           onSetHash={handleSetHash}
           title={intl.formatMessage(messages.start)}

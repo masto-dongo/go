@@ -9,17 +9,17 @@ export const TIMELINE_REFRESH_FAILURE = 'TIMELINE_REFRESH_FAILURE';
 //  Action creators.
 const request = path => ({
   path,
-  type: TIMELINE_REFRESH_REQUEST
+  type: TIMELINE_REFRESH_REQUEST,
 });
 const success = (path, statuses) => ({
   statuses,
   type: TIMELINE_REFRESH_SUCCESS,
-})
+});
 const failure = (path, error) => ({
   error,
   path,
   type: TIMELINE_REFRESH_FAILURE,
-})
+});
 
 //  Request.
 export default function refreshTimeline (path, go, current, api) {

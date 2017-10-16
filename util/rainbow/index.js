@@ -86,8 +86,7 @@ export default function rainbow (text, numColours) {
     if (bitsPerColour === 1) {
       if (colourBits) {
         n = (n + 1) % 8;
-      }
-      else {
+      } else {
         n = (n - 1) % 8;
       }
       result.push(colours[n]);

@@ -33,6 +33,7 @@ import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 //  Component imports.
+import ParseAccountBio from './account_bio';
 import ParseEmoji from './emoji';
 import ParseStatusContent from './status_content';
 
@@ -63,13 +64,12 @@ export default class Parse extends React.PureComponent {
       'account',
       'emoji',
       'status',
-      'text',
     ]),
     '🛄': PropTypes.shape({ intl: PropTypes.object }),
     '💪': PropTypes.objectOf(PropTypes.func),
     '🏪': PropTypes.shape({ emoji: ImmutablePropTypes.list.isRequired }).isRequired,
   };
-  emojifier = this.props.type === 'emoji' ? new Emojifier(this.props.emoji && this.props.emoji.toJS() || []) : null;
+  emojifier = this.props.type === 'emoji' ? new Emojifier(this.props['🏪'].emoji && this.props['🏪'].emoji.toJS() || []) : null;
 
   //  If our `emoji` change, then we need to create a new `Emojifier`.
   //  (We don't bother with this if our `type` isn't `'emoji'`.)
@@ -129,14 +129,6 @@ export default class Parse extends React.PureComponent {
           intl={intl}
           mentions={mentions}
           tags={tags}
-          text={text}
-          {...rest}
-        />
-      );
-    case 'text':
-      return (
-        <ParseTextContent
-          className={computedClass}
           text={text}
           {...rest}
         />
