@@ -62,7 +62,10 @@ export default function ConversationMenu ({
   //  Rendering.
   return (
     <CommonMenubar
+      activeRoute={activeRoute}
       className={computedClass}
+      history={history}
+      intl={intl}
       {...rest}
     >
       {statuses ? statuses.reduce(

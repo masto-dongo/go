@@ -94,7 +94,10 @@ export default class CourierMenu extends React.PureComponent {
 
     return (
       <CommonMenubar
+        activeRoute={activeRoute}
         className={computedClass}
+        history={history}
+        intl={intl}
         {...rest}
       >
         <CommonButton

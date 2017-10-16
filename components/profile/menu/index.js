@@ -113,7 +113,10 @@ export default class ProfileMenu extends React.PureComponent {
 
     return (
       <CommonMenubar
+        activeRoute={activeRoute}
         className={computedClass}
+        history={history}
+        intl={intl}
         {...rest}
       >
         <CommonButton

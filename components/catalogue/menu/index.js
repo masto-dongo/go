@@ -76,7 +76,10 @@ export default class CatalogueMenu extends React.PureComponent {
     //  Our menu is just a button in a menubar.
     return (
       <CommonMenubar
+        activeRoute={activeRoute}
         className={computedClass}
+        history={history}
+        intl={intl}
         {...rest}
       >
         <CommonButton
