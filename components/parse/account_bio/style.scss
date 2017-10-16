@@ -7,11 +7,13 @@
   margin: 0;
   border: none;
   padding: 0 1em;
+  text-align: center;
 
   & > .MASTODON_GO--PARSE--ACCOUNT_BIO--PARAGRAPH { margin: 1.25em 0 }
 
   & > table {
     display: table;
+    table-layout: fixed;
     margin: 1.25em 0;
     border: none;
     border-collapse: collapse;
@@ -25,19 +27,24 @@
       & > tr {
         & > td {
           display: table-cell;
+          box-sizing: border-box;
           margin: 0;
           border: 1px $mastodon_go_table_border solid;
-          padding: .3125em .5em;
+          padding: .625em 1em;
+          width: 40%;
+          max-width: 8em;
           vertical-align: middle;
         }
 
         & > th {
           display: table-cell;
           margin: 0;
-          border: 1px $mastodon_go_table_border solid;
-          padding: .3125em .5em;
+          border: 1px $mastodon_go_table_heading_border solid;
+          padding: .625em 1em;
           color: $mastodon_go_table_heading_color;
           background-color: $mastodon_go_table_heading_background;
+          font-weight: inherit;
+          font-variant: small-caps;
           vertical-align: middle;
         }
       }
