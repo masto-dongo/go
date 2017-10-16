@@ -2,16 +2,16 @@
 import rainbowCombine from './combine';
 import rainbowHash from './hash';
 
-//  These colours are *based on* the default Masto colour scheme.
+//  "Rainbow" colour palette by kibigo!
 const colours = [
-  0xda445d,  //  Red
-  0xee5353,  //  Orange
-  0xd2a846,  //  Yellow
-  0x79bd9a,  //  Green
-  0x5c9dd6,  //  Sky
-  0x2b90d9,  //  Cyan
-  0x2071d9,  //  Blue
-  0x2149b5,  //  Navy
+  0x31b9db,  //  Cyan
+  0x7476fc,  //  Blue
+  0xc258f2,  //  Purple
+  0xe63ca4,  //  Magenta
+  0xe83f2c,  //  Red
+  0xf6d037,  //  Yellow
+  0x6ad622,  //  Green
+  0x49cfa2,  //  Teal
 ];
 
 //  `rainbow()` creates a spectrum of colours from the hash of the
