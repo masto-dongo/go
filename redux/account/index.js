@@ -43,7 +43,9 @@ import { TIMELINE_UPDATE_RECEIVE } from 'themes/mastodon-go/redux/timeline/updat
 import { STATUS_FETCH_SUCCESS } from 'themes/mastodon-go/redux/status/fetch';
 
 //  Other imports.
+import deHTMLify from 'themes/mastodon-go/util/deHTMLify';
 import rainbow from 'themes/mastodon-go/util/rainbow';
+import { readƔaml } from 'themes/mastodon-go/util/ɣaml';
 
 //  * * * * * * *  //
 
@@ -51,36 +53,49 @@ import rainbow from 'themes/mastodon-go/util/rainbow';
 //  -----
 
 //  `normalize()` normalizes our account into an Immutable map.
-const normalize = account => ImmutableMap({
-  at: '' + account.acct,
-  avatar: ImmutableMap({
-    original: '' + account.avatar,
-    static: '' + account.avatar_static,
-  }),
-  bio: '' + account.bio,
-  counts: ImmutableMap({
-    followers: +account.followers_count,
-    following: +account.following_count,
-    statuses: +account.statuses_count,
-  }),
-  datetime: new Date(account.created_at),
-  displayName: '' + (account.display_name || account.username),
-  domain: '' + (account.acct.split('@')[1] || ''),
-  header: ImmutableMap({
-    original: '' + account.header,
-    static: '' + account.header_static,
-  }),
-  href: '' + account.url,
-  id: '' + account.id,
-  locked: !!account.locked,
-  rainbow: ImmutableMap({
-    1: rainbow(account.acct),
-    3: ImmutableList(rainbow(account.acct, 3)),
-    7: ImmutableList(rainbow(account.acct, 7)),
-    15: ImmutableList(rainbow(account.acct, 15)),
-  }),
-  username: '' + account.username,
-});
+const normalize = (account, oldBio) => {
+  const plainBio = oldBio && oldBio.get('html') === '' + account.bio ? oldBio.get('plain') : deHTMLify(account.bio);
+  const ɣamlBio = oldBio && oldBio.get('html') === '' + account.bio ? oldBio.get('ɣaml') : readƔaml(plainBio);
+  return ImmutableMap({
+    at: '' + account.acct,
+    avatar: ImmutableMap({
+      original: '' + account.avatar,
+      static: '' + account.avatar_static,
+    }),
+    bio: ImmutableMap({
+      html: '' + account.bio,
+      plain: '' + plainBio,
+      ɣaml: ImmutableMap({
+        metadata: ImmutableList(ɣamlBio.metadata.map(
+          keyVal => ImmutableList(keyVal),
+        )),
+        text: '' + ɣamlBio.text,
+      })
+    }),
+    counts: ImmutableMap({
+      followers: +account.followers_count,
+      following: +account.following_count,
+      statuses: +account.statuses_count,
+    }),
+    datetime: new Date(account.created_at),
+    displayName: '' + (account.display_name || account.username),
+    domain: '' + (account.acct.split('@')[1] || ''),
+    header: ImmutableMap({
+      original: '' + account.header,
+      static: '' + account.header_static,
+    }),
+    href: '' + account.url,
+    id: '' + account.id,
+    locked: !!account.locked,
+    rainbow: ImmutableMap({
+      1: rainbow(account.acct),
+      3: ImmutableList(rainbow(account.acct, 3)),
+      7: ImmutableList(rainbow(account.acct, 7)),
+      15: ImmutableList(rainbow(account.acct, 15)),
+    }),
+    username: '' + account.username,
+  });
+}
 
 //  * * * * * * *  //
 
@@ -95,7 +110,7 @@ const initialState = ImmutableMap();
 //  a newly normalized account.
 const set = (state, accounts) => state.withMutations(
   map => [].concat(accounts).forEach(
-    account => map.set('' + account.id, normalize(account))
+    account => map.set('' + account.id, normalize(account, state.getIn(['' + account.id, 'bio'])))
   )
 );
 

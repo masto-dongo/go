@@ -12,30 +12,25 @@
   padding: 0;
   width: 3.5rem;
   color: $mastodon_go_menu_color;
-  background: $mastodon_go_menu_background;
-  overflow: hidden;
+  background-color: $mastodon_go_menu_background;
+  overflow-x: hidden;
+  overflow-y: auto;
   z-index: 100;
 
   & > .MASTODON_GO--COMMON--BUTTON {
     display: block;
-    margin: 0;
-    border-style: none none solid;
-    border-color: transparent;
-    border-width: 0 0 2px;
+    margin: 0 0 2px;
+    border: none;
     padding: .9375rem .75rem;
     width: 2rem;
     height: 1.25rem;
-    background-attachment: scroll;
-    background-clip: padding-box;
-    background-position: center;
-    background-size: cover;
     font-size: 1.25rem;
     line-height: 1;
     text-align: center;
 
     &.active {
-      color: $mastodon_go_menu_color_active;
-      background-color: $mastodon_go_menu_background_active;  //  Don't use shorthand!
+      color: $mastodon_go_menu_active_color;
+      background-color: $mastodon_go_menu_active_background;
     }
   }
 }

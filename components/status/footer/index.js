@@ -17,14 +17,17 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages, FormattedDate } from 'react-intl';
 
 //  Our imports.
-import CommonIcon from 'themes/mastodon-go/components';
-import CommonLink from 'themes/mastodon-go/components';
-import CommonSeparator from 'themes/mastodon-go/components';
-
-import { VISIBILITY } from 'themes/mastodon-go/util/constants';
+import {
+  CommonIcon,
+  CommonLink,
+  CommonSeparator,
+} from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style';
+
+//  Other imports.
+import { VISIBILITY } from 'themes/mastodon-go/util/constants';
 
 //  * * * * * * *  //
 
@@ -86,7 +89,8 @@ export default class StatusFooter extends React.PureComponent {
       detailed,
       href,
       intl,
-      visibility
+      visibility,
+      ...rest
     } = this.props;
 
     const computedClass = classNames('MASTODON_GO--STATUS--FOOTER', { detailed }, className);

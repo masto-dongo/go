@@ -74,9 +74,9 @@ export default function Card ({
           className='image'
           href={url}
         >
-          <img
+          <CommonImage
             alt={title}
-            src={image}
+            staticSrc={image}
           />
         </CommonLink>
       );

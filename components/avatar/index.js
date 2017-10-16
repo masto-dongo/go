@@ -21,6 +21,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
+//  Common imports.
+import { CommonImage } from 'themes/mastodon-go/components';
+
 //  Stylesheet imports.
 import './style';
 
@@ -30,99 +33,70 @@ import './style';
 //  -------------
 
 //  Component definition.
-export default class Avatar extends React.PureComponent {
+export default function Avatar ({
+  account,
+  circular,
+  comrade,
+  '🛄': context,
+  '💪': handler,
+  '🏪': {
+    autoplay,
+    accountAt,
+    accountSrc,
+    comradeAt,
+    comradeSrc,
+  },
+  ...rest
+}) {
+  const computedClass = classNames('MASTODON_GO--AVATAR', {
+    circular: circular,
+  }, className);
 
-  //  Props and state.
-  static propTypes = {
-    account: PropTypes.string.isRequired,
-    circular: PropTypes.bool,
-    comrade: PropTypes.string.isRequired,
-    '🛄': PropTypes.shape({}),
-    '💪': PropTypes.objectOf(PropTypes.func),
-    '🏪': PropTypes.shape({
-      autoplay: PropTypes.bool,
-      accountAt: PropTypes.string.isRequired,
-      accountSrc: ImmutablePropTypes.map.isRequired,
-      comradeAt: PropTypes.string.isRequired,
-      comradeSrc: ImmutablePropTypes.map.isRequired,
-    }).isRequired,
-  }
-  state = {
-    hovering: false,
-  }
+  //  Avatars are a straightforward div with image(s) inside.
+  return comrade ? (
+    <div
+      className={computedClass}
+      {...rest}
+    >
+      <CommonImage
+        animatedSrc={accountSrc.get('original')}
+        className='main'
+        description={accountAt}
+        staticSrc={accountSrc.get('static')}
+      />
+      <CommonImage
+        animatedSrc={accountSrc.get('original')}
+        className='comrade'
+        description={comradeAt}
+        staticSrc={accountSrc.get('static')}
+      />
+    </div>
+  ) : (
+    <div
+      className={computedClass}
+      {...rest}
+    >
+      <CommonImage
+        animatedSrc={accountSrc.get('original')}
+        className='solo'
+        description={accountAt}
+        staticSrc={accountSrc.get('static')}
+      />
+    </div>
+  );
+}
 
-  //  Starts or stops animation on hover. We don't do this if we're
-  //  `autoplay`ing to prevent needless re-renders.
-  handleMouseEnter = () => {
-    const { autoplay } = this.props;
-    if (autoplay) return;
-    this.setState({ hovering: true });
-  }
-  handleMouseLeave = () => {
-    const { autoplay } = this.props;
-    if (autoplay) return;
-    this.setState({ hovering: false });
-  }
-
-  //  Rendering.
-  render () {
-    const {
-      handleMouseEnter,
-      handleMouseLeave,
-    } = this;
-    const {
-      account,
-      circular,
-      comrade,
-      '🛄': context,
-      '💪': handler,
-      '🏪': {
-        autoplay,
-        accountAt,
-        accountSrc,
-        comradeAt,
-        comradeSrc,
-      },
-      ...rest
-    } = this.props;
-    const { hovering } = this.state;
-    const computedClass = classNames('MASTODON_GO--AVATAR', {
-      circular: circular,
-    }, className);
-
-    //  Avatars are a straightforward div with image(s) inside.
-    return comrade ? (
-      <div
-        className={computedClass}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        {...rest}
-      >
-        <img
-          className='main'
-          src={autoplay || hovering ? accountSrc.get('original') : accountSrc.get('static')}
-          alt={accountAt}
-        />
-        <img
-          className='comrade'
-          src={autoplay || hovering ? comradeSrc.get('original') : comradeSrc.get('static')}
-          alt={comradeAt}
-        />
-      </div>
-    ) : (
-      <div
-        className={computedClass}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        {...rest}
-      >
-        <img
-          className='solo'
-          src={autoplay || hovering ? accountSrc.get('original') : accountSrc.get('static')}
-          alt={accountAt}
-        />
-      </div>
-    );
-  }
-
+Avatar.propTypes = {
+  account: PropTypes.string.isRequired,
+  circular: PropTypes.bool,
+  comrade: PropTypes.string.isRequired,
+  '🛄': PropTypes.shape({}),
+  '💪': PropTypes.objectOf(PropTypes.func),
+  '🏪': PropTypes.shape({
+    autoplay: PropTypes.bool,
+    accountAt: PropTypes.string.isRequired,
+    accountSrc: ImmutablePropTypes.map.isRequired,
+    comradeAt: PropTypes.string.isRequired,
+    comradeSrc: ImmutablePropTypes.map.isRequired,
+  }).isRequired,
 }

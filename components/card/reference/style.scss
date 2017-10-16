@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--CARD--REFERENCE {
+  display: inline;
+  color: inherit;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

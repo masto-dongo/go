@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--COMMON--IMAGE {
+  display: block;
+  margin: 0;
+  border: none;
+  padding: 0;
+  background-color: $mastodon_go_media_background;
+}

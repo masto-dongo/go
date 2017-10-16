@@ -47,8 +47,7 @@ export default class CatalogueMenu extends React.PureComponent {
     icon: PropTypes.string,
     intl: PropTypes.object.isRequired,
     onSetHash: PropTypes.func,
-    rainbow: ImmutablePropTypes.map.isRequired,
-    title: PropTypes.node,
+    title: PropTypes.string,
   };
 
   //  Click handling.
@@ -70,11 +69,10 @@ export default class CatalogueMenu extends React.PureComponent {
       icon,
       intl,
       onSetHash,
-      rainbow,
       title,
       ...rest
     } = this.props;
-    const computedClass = classNames('MASTODON_GO--CATALGOUE--MENU', className);
+    const computedClass = classNames('MASTODON_GO--CATALOGUE--MENU', className);
 
     //  Our menu is just a button in a menubar.
     return (
@@ -83,12 +81,11 @@ export default class CatalogueMenu extends React.PureComponent {
         {...rest}
       >
         <CommonButton
-          active
+          active={!hash || hash === '#'}
           destination={activeRoute ? '#' : undefined}
           history={history}
           icon={icon}
           onClick={!activeRoute ? handleCatalogueClick : undefined}
-          style={hash !== '#settings' ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : { color: rainbow.get('1') }}
           title={title}
         />
       </CommonMenubar>

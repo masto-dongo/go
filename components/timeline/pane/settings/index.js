@@ -6,7 +6,7 @@ import {
   FormattedMessage,
 } from 'react-intl';
 
-import SettingContainer from 'themes/mastodon-go/components';
+import { SettingContainer } from 'themes/mastodon-go/components';
 
 const messages = defineMessages({
   advanced: {
@@ -31,16 +31,16 @@ const messages = defineMessages({
   },
 });
 
-const TimelinePaneSettings = ({
+export default function TimelinePaneSettings ({
   className,
   intl,
   path,
   ...rest
-}) => {
+}) {
   const computedClass = classNames('MASTODON_GO--TIMELINE--PANE--SETTINGS', className);
 
   return (
-    <aside
+    <div
       class={computedClass}
       {...rest}
     >
@@ -66,7 +66,7 @@ const TimelinePaneSettings = ({
           type='input'
         />
       </section>
-    </aside>
+    </div>
   );
 };
 
@@ -75,5 +75,3 @@ TimelinePaneSettings.propTypes = {
   intl: PropTypes.object.isRequired,
   path: PropTypes.string.isRequired,
 }
-
-export default TimelinePaneSettings;

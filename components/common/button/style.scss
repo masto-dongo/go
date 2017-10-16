@@ -6,8 +6,8 @@
   display: inline-block;
   border: none;
   padding: 0;
-  //color: $ui-base-lighter-color;
-  background: transparent;
+  color: $mastodon_go_content_button_color;
+  background-color: transparent;
   outline: 1px transparent dotted;
   outline-offset: -1px;
   font-size: inherit;
@@ -38,7 +38,7 @@
 
   &.active {
     & > *.icon {
-      //color: $ui-highlight-color;
+      color: $mastodon_go_content_button_active;
     }
 
     &.animated > *.icon {
@@ -61,25 +61,26 @@
     }
   }
 
-  /*
-  For links, we consider them disabled if they don't have an `href`
-  attribute (see JS).
-  */
+  //  For links, we consider them disabled if they don't have an `href`
+  //  attribute (see JS).
   &.disabled {
-    //opacity: $glitch-disabled-opacity;
+    opacity: $mastodon_go_content_disabled;
     cursor: default;
   }
 
-  /*
-  This is confusing becuase of the names, but the `color .3 ease-out`
-  transition is actually used when easing *in* to a hovering/active/
-  focusing state, and the default transition is used when leaving. Our
-  buttons are a little slower to glow than they are to fade.
-  */
-  &:active,
+
+  //  This is confusing becuase of the names, but the `color .3 ease-out`
+  //  transition is actually used when easing *in* to a hovering/active/
+  //  focusing state, and the default transition is used when leaving. Our
+  //  buttons are a little slower to glow than they are to fade.
   &:focus,
   &:hover {
-    //color: $glitch-lighter-color;
+    color: $mastodon_go_content_button_hover;
+    transition: color ($mastodon_go_animation_speed * .3s) ease-out, outline-color ($mastodon_go_animation_speed * .15s) ease-in-out;
+  }
+
+  &:active {
+    color: $mastodon_go_content_button_active;
     transition: color ($mastodon_go_animation_speed * .3s) ease-out, outline-color ($mastodon_go_animation_speed * .15s) ease-in-out;
   }
 
@@ -87,16 +88,14 @@
     outline-color: currentColor;
   }
 
-  /*
-  Buttons with text have a number of different styling rules and an
-  overall different appearance.
-  */
+  //  Buttons with text have a number of different styling rules and an
+  //  overall different appearance.
   &.with_text {
     display: inline-block;
     border: none;
     padding: 0 .5em;
-    //color: $glitch-texture-color;
-    //background: $ui-base-lighter-color;
+    color: $mastodon_go_content_button_text;
+    background-color: $mastodon_go_content_button_color;
     font-size: .75em;
     font-weight: inherit;
     line-height: 1.6;
@@ -114,11 +113,16 @@
       margin: 0 0 0 1ex;
     }
 
-    &:active,
     &:hover,
     &:focus {
-      //color: $glitch-texture-color;
-      //background: $glitch-lighter-color;
+      color: $mastodon_go_content_button_text;
+      background-color: $mastodon_go_content_button_hover;
+      transition: background-color ($mastodon_go_animation_speed * .3s) ease-out, outline-color ($mastodon_go_animation_speed * .15s) ease-in-out;
+    }
+
+    &:active {
+      color: $mastodon_go_content_button_text;
+      background-color: $mastodon_go_content_button_active;
       transition: background-color ($mastodon_go_animation_speed * .3s) ease-out, outline-color ($mastodon_go_animation_speed * .15s) ease-in-out;
     }
   }

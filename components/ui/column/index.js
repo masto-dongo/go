@@ -93,6 +93,7 @@ export default class UIColumn extends React.PureComponent {
             render={({ location: { hash } }) => (
               <CourierContainer
                 activeRoute={activeRoute}
+                column
                 {...(activeRoute && hash ? { hash } : {})}
                 history={history}
               />
@@ -117,6 +118,7 @@ export default class UIColumn extends React.PureComponent {
             render={({ location: { hash } }) => (
               <TimelineContainer
                 activeRoute={activeRoute}
+                column
                 {...(activeRoute && hash ? { hash } : {})}
                 history={history}
                 icon='home'
@@ -131,6 +133,7 @@ export default class UIColumn extends React.PureComponent {
             render={({ location: { hash } }) => (
               <TimelineContainer
                 activeRoute={activeRoute}
+                column
                 {...(activeRoute && hash ? { hash } : {})}
                 history={history}
                 icon='globe'
@@ -145,6 +148,7 @@ export default class UIColumn extends React.PureComponent {
             render={({ location: { hash } }) => (
               <TimelineContainer
                 activeRoute={activeRoute}
+                column
                 {...(activeRoute && hash ? { hash } : {})}
                 history={history}
                 icon='users'
@@ -162,6 +166,7 @@ export default class UIColumn extends React.PureComponent {
             }) => (
               <TimelineContainer
                 activeRoute={activeRoute}
+                column
                 {...(activeRoute && hash ? { hash } : {})}
                 history={history}
                 icon='hashtag'
@@ -179,6 +184,7 @@ export default class UIColumn extends React.PureComponent {
             }) => (
               <TimelineContainer
                 activeRoute={activeRoute}
+                column
                 {...(activeRoute && hash ? { hash } : {})}
                 history={history}
                 icon='hashtag'
@@ -195,8 +201,9 @@ export default class UIColumn extends React.PureComponent {
               location: { hash },
               match: { params: { id } },
             }) => (
-              <ProfileContainer
+              <AccountContainer
                 activeRoute={activeRoute}
+                column
                 {...(activeRoute && hash ? { hash } : {})}
                 history={history}
                 id={id}

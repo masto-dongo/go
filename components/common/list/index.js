@@ -3,7 +3,6 @@ import { throttle } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import CommonObservable from 'themes/mastodon-go/components';
 import Observer from 'themes/mastodon-go/util/observer';
 
 export default class CommonList extends React.PureComponent {

@@ -22,11 +22,11 @@ import './style';
 //  The component
 //  -------------
 
-const CommonLoadbar = ({
+export default function CommonLoadbar ({
   backgroundImage,
   className,
   ...rest
-}) => {
+}) {
   const computedClass = classNames('MASTODON_GO--COMMON--LOADBAR', className);
   return (
     <div
@@ -42,6 +42,3 @@ CommonLoadbar.propTypes = {
   backgroundImage: PropTypes.string,
   className: PropTypes.string,
 };
-
-//  Export.
-export default CommonLoadbar;

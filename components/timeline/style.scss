@@ -1,11 +1,6 @@
-.MASTODON_GO--TIMELINE {
-  //  See also .MASTODON_GO--UI--COLUMN > *
-  padding: 3.125rem 0 0 3.5rem;
+@charset "UTF-8";
 
-  & > .MASTODON_GO--COMMON--HEADER {
-    position: absolute;
-    top: 0;
-    left: 3.5rem;
-    right: 0;
-  }
-}
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--TIMELINE {}
+

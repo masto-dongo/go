@@ -10,10 +10,12 @@ import {
 
 import './style';
 
-const messages = defineMessages({ settings: {
-  defaultMessage: "Settings",
-  id: "timeline.settings",
-} });
+const messages = defineMessages({
+  settings: {
+    defaultMessage: "Settings",
+    id: "timeline.settings",
+  },
+});
 
 export default class TimelineMenu extends React.PureComponent {
 
@@ -25,7 +27,6 @@ export default class TimelineMenu extends React.PureComponent {
     icon: PropTypes.string,
     intl: PropTypes.object.isRequired,
     onSetHash: PropTypes.func,
-    rainbow: ImmutablePropTypes.map.isRequired,
     title: PropTypes.node,
   };
 
@@ -55,7 +56,6 @@ export default class TimelineMenu extends React.PureComponent {
       icon,
       intl,
       onSetHash,
-      rainbow,
       title,
       ...rest
     } = this.props;
@@ -68,21 +68,19 @@ export default class TimelineMenu extends React.PureComponent {
         {...rest}
       >
         <CommonButton
-          active
+          active={!hash || hash === '#'}
           destination={activeRoute ? '#' : undefined}
           history={history}
           icon={icon}
           onClick={!activeRoute ? handleTimelineClick : undefined}
-          style={hash !== '#settings' ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : { color: rainbow.get('1') }}
           title={title}
         />
         <CommonButton
-          active
+          active={hash === '#settings'}
           destination={activeRoute ? '#settings' : undefined}
           history={history}
           icon='toggles'
           onClick={!activeRoute ? handleSettingsClick : undefined}
-          style={hash === '#settings' ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : { color: rainbow.get('1') }}
           title={intl.formatMessage(messages.settings)}
         />
       </CommonMenubar>

@@ -1,66 +1,146 @@
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 
-import emojify from 'mastodon/emoji';
+import {
+  CommonButton,
+  CommonLink,
+  CommonImage,
+} from 'themes/mastodon-go/components';
 
-import processBio from 'glitch/util/bio_metadata';
-
-messages = defineMessages({
-  disclaimer:
-    { id: 'account.disclaimer_full', defaultMessage: 'Information below may reflect the user\'s profile incompletely.' },
-  viewFullProfile:
-    { id: 'account.view_full_profile', defaultMessage: 'View full profile' },
+const messages = defineMessages({
+  disclaimer: {
+    defaultMessage: 'Information below may reflect the user\'s profile incompletely.',
+    id: 'profile.disclaimer',
+  },
+  following: {
+    defaultMessage: 'Following',
+    id: 'profile.following',
+  },
+  follows: {
+    defaultMessage: 'Follows',
+    id: 'profile.follows',
+  },
+  posts: {
+    defaultMessage: 'Posts',
+    id: 'profile.posts',
+  },
+  view: {
+    defaultMessage: 'View full profile',
+    id: 'profile.view',
+  },
 });
 
-const ProfileMetadata = ({
-  className,
-  local,
-  href,
-  note,
-}) => {
-  const computedClass = classNames('glitch', 'glitch__profile__metadata', className);
-  const { text, metadata } = processBio(note);
+export default class ProfileContent extends React.PureComponent {
 
-  return (
-    <div className={computedClass}>
-      {!local ? (
-        <div className='content\disclaimer'>
-          <FormattedMessage {...messages.disclaimer} />
-          {' '}
-          <CommonLink
-            className='content\link'
-            href={href}
-          ><FormattedMessage {...messages.viewFullProfile} /></CommonLink>
-        </div>
-      ) : null}
-      {emojify(text)}
-      {metadata && metadata.length ? (
-        <table className='content\metadata'>
-          <tbody>
-            {(() => {
-              let data = [];
-              for (let i = 0; i < metadata.length; i++) {
-                data.push(
-                  <tr key={i}>
-                    <th scope='row'><div dangerouslySetInnerHTML={{ __html: emojify(metadata[i][0]) }} /></th>
-                    <td><div dangerouslySetInnerHTML={{ __html: emojify(metadata[i][1]) }} /></td>
-                  </tr>
-                );
-              }
-              return data;
-            })()}
-          </tbody>
-        </table>
-      ) : null}
-    </div>
-  );
+  static propTypes = {
+    className: PropTypes.string,
+  }
+
+  handleFollowersClick () {
+    const { onSetHash } = this.props;
+    if (onSetHash) {
+      onSetHash('#followers');
+    }
+  }
+  handleFollowsClick () {
+    const { onSetHash } = this.props;
+    if (onSetHash) {
+      onSetHash('#follows');
+    }
+  }
+  handlePostsClick () {
+    const { onSetHash } = this.props;
+    if (onSetHash) {
+      onSetHash('#posts');
+    }
+  }
+
+  render () {
+    const {
+      handleFollowersClick,
+      handleFollowsClick,
+      handlePostsClick,
+    } = this;
+    const {
+      activeRoute,
+      bio,
+      className,
+      counts,
+      handler,
+      header,
+      history,
+      href,
+      id,
+      local,
+      me,
+      onSetHash,
+      rainbow,
+      relationship,
+      ...rest
+    } = this.props;
+    const computedClass = classNames('MASTODON_GO--PROFILE--CONTENT', className);
+
+    return (
+      <article
+        className={computedClass}
+        {...rest}
+      >
+        <header>
+          <CommonImage
+            animatedSrc={header.get('original')}
+            description=''
+            staticSrc={header.get('static')}
+          />
+          {
+            //  We don't give the `<AccountContainer>` our `history`
+            //  because we don't *want* it to open in the web view.
+            <AccountContainer id={id} />
+          }
+        </header>
+        {
+          //  If the account isn't local, then we provide a disclaimer.
+          !local ? (
+            <strong>
+              <FormattedMessage {...messages.disclaimer} />
+              <CommonLink href={href}><FormattedMessages {...messages.view} /></CommonLink>
+            </strong>
+          ) : null
+        }
+        <ParseContainer
+          metadata={bio.get('metadata')}
+          text={bio.get('text')}
+          type='account'
+        />
+        <footer>
+          <CommonButton
+            destination={activeRoute ? '#posts' : void 0}
+            history={history}
+            onClick={!activeRoute ? handlePostsClick : undefined}
+          >
+            <FormattedMessage {...messages.posts} />
+            <strong>{counts.get('statuses')}</strong>
+          </CommonButton>
+          <CommonButton
+            destination={activeRoute ? '#follows' : void 0}
+            history={history}
+            onClick={!activeRoute ? handleFollowsClick : undefined}
+          >
+            <FormattedMessage {...messages.follows} />
+            <strong>{counts.get('following')}</strong>
+          </CommonButton>
+          <CommonButton
+            destination={activeRoute ? '#followers' : void 0}
+            history={history}
+            onClick={!activeRoute ? handleFollowersClick : undefined}
+          >
+            <FormattedMessage {...messages.followers} />
+            <strong>{counts.get('followers')}</strong>
+          </CommonButton>
+        </footer>
+      </article>
+    );
+  }
+
 }
-
-ProfileMetadata.propTypes = {
-  className: PropTypes.string,
-  href: PropTypes.string,
-  local: PropTypes.bool,
-  note: PropTypes.string,
-}
-
-return ProfileMetadata;

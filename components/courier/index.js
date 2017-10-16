@@ -67,6 +67,7 @@ export default class Courier extends React.PureComponent {
   static propTypes = {
     activeRoute: PropTypes.bool,
     className: PropTypes.string,
+    column: PropTypes.bool,
     hash: PropTypes.string,
     history: PropTypes.object,
     path: PropTypes.string.isRequired,
@@ -119,6 +120,7 @@ export default class Courier extends React.PureComponent {
     const {
       activeRoute,
       className,
+      column,
       hash,
       history,
       path,
@@ -145,19 +147,19 @@ export default class Courier extends React.PureComponent {
         ref={setRef}
         {...rest}
       >
-        <CourierMenu
-          activeRoute={activeRoute}
-          hash={computedHash}
-          history={history}
-          intl={intl}
-          onSetHash={handleSetHash}
-          rainbow={rainbow}
-          title={intl.formatMessage(messages.courier)}
-        />
-        <CommonHeader
-          backgroundImage={`linear-gradient(160deg, ${rainbow.get('7').join(', ')})`}
-          colour={rainbow.get('1')}
-        ><FormattedMessage {...messages.courier} /></CommonHeader>
+        {
+          column ? (
+            <CourierMenu
+              activeRoute={activeRoute}
+              hash={computedHash}
+              history={history}
+              intl={intl}
+              onSetHash={handleSetHash}
+              title={intl.formatMessage(messages.courier)}
+            />
+            <CommonHeader title={intl.formatMessage(messages.courier)} />
+          ) : null
+        }
         <CommonList>
           {notifications ? notifications.reduce(
             (items, id) => items.push(
@@ -170,13 +172,15 @@ export default class Courier extends React.PureComponent {
             []
           ) : null}
         </CommonList>
-        <CourierPane
-          hash={computedHash}
-          intl={intl}
-        />
-        {isLoading ? (
-          <CommonLoadbar backgroundImage:={`linear-gradient(90deg, ${rainbow.get('15').join(', ')}, ${rainbow.getIn(['15', 0])})`} />
-        ) : null}
+        {
+          column ? (
+            <CourierPane
+              hash={computedHash}
+              intl={intl}
+            />
+          ) : null
+        }
+        {isLoading ? <CommonLoadbar backgroundImage:={`linear-gradient(90deg, ${rainbow.get('15').join(', ')}, ${rainbow.getIn(['15', 0])})`} /> : null}
       </div>
     );
   }

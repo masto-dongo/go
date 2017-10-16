@@ -1,99 +1,151 @@
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import PropTypes from 'prop-types';
-import ImmutablePureComponent from 'react-immutable-pure-component';
 
-import ProfileActionBar from './action_bar';
+//  Container imports.
+import { AccountContainer } from 'themes/mastodon-go/components';
+
+//  Component imports.
 import ProfileContent from './content';
-import ProfileHeader from './header';
-import ProfileMissing from './missing';
+import ProfileMenu from './menu';
+import ProfilePane from './pane';
 
-export default class Profile extends ImmutablePureComponent {
+//  Common imports.
+import { CommonButton } from 'themes/mastodon-go/components';
+
+export default class Profile extends React.PureComponent {
 
   static propTypes = {
-    account: ImmutablePropTypes.map,
+    activeRoute: PropTypes.bool,
     className: PropTypes.string,
-    handler: PropTypes.object.isRequired,
+    hash: PropTypes.string,
     history: PropTypes.object.isRequired,
-    id: PropTypes.number.isRequired,
-    me: PropTypes.number.isRequired,
-    mode: PropTypes.string.isRequired,
-    noReplies: PropTypes.bool,
-    onlyMedia: PropTypes.bool,
-    onlyPinned: PropTypes.bool,
+    id: PropTypes.string.isRequired,
+    '🛄': PropTypes.shape({ intl: PropTypes.object.isRequired }).isRequired,
+    '💪': PropTypes.objectOf(PropTypes.func),
+    '🏪': PropTypes.shape({
+      bio: ImmutablePropTypes.map,
+      counts: ImmutablePropTypes.map,
+      header: ImmutablePropTypes.map,
+      href: PropTypes.string,
+      local: PropTypes.bool,
+      me: PropTypes.string,
+      rainbow: ImmutablePropTypes.map,
+      relationship: PropTypes.number,
+    }).isRequired,
+  }
+  state = { storedHash: '#' };
+
+  //  Constructor.  We go ahead and fetch the profile right away.
+  constructor (props) {
+    super(props);
+    const { '💪': { fetch } } = this.props;
+    fetch();
   }
 
-  handleFollow = () => {
-    { account, handler } = this.props;
-    handler.follow(account);
+  //  If our component is suddenly no longer the active route, we need
+  //  to store its hash value before it disappears.  If our id is about
+  //  about to change, we need to fetch the new id.
+  componentWillReceiveProps (nextProps) {
+    const {
+      activeRoute,
+      hash,
+      id,
+    } = this.props;
+    if (activeRoute && !nextProps.activeRoute) {
+      this.setState({ storedHash: hash });
+    }
+    if (id !== nextProps.id) {
+      fetch(id);
+    }
   }
 
+  //  Follow/unfollow handlers.
+  handleFollow () {
+    const { '💪': { follow } } = this.props;
+    follow();
+  }
+  handleUnfollow () {
+    const { '💪': { unfollow } } = this.props;
+    unfollow();
+  }
+
+  //  This is a tiny function to update our hash if needbe.
+  handleSetHash = hash => {
+    const { activeRoute } = this;
+    if (!activeRoute) {
+      this.setState({ storedHash: hash });
+    }
+  }
+
+  //  Rendering.
   render () {
     const {
       handleFollow,
+      handleUnfollow,
+      handleSetHash,
     } = this;
     const {
-      account,
+      activeRoute,
       className,
-      handler,
+      hash,
       history,
       id,
-      me,
-      mode,
-      onlyMedia,
-      ...others
+      '🛄': { intl },
+      '💪': handler,
+      '🏪': {
+        bio,
+        counts,
+        header,
+        href,
+        local,
+        me,
+        rainbow,
+        relationship,
+      },
+      ...rest
     } = this.props;
+    const { storedHash } = this.state;
+    const computedClass = classNames('MASTODON_GO--CATALOGUE', { column }, className);
 
-    const computedClass = classNames('glitch', 'glitch__profile', className);
+    //  We only use our internal hash if this isn't the active route.
+    const computedHash = activeRoute ? hash : storedHash;
 
-    if (!account) return (
-      <ProfileMissing className='profile\missing' />
-    );
-
-    //  Returns `true` for local users.
-    const local = account.get('acct') !== account.get('username');
-
+    //  Putting everything together.
     return (
-      <article className={computedClass} {...others}>
-        <ProfileHeader
-          account={account}
-          className='profile\header'
-          history={history}
-          me={me}
-          onFollow={handleFollow}
-        />
-        <ProfileContent
-          className='profile\metadata'
-          local={!domain}
-          href={account.get('url')}
-          note={account.get('note')}
-        />
-        <ProfileActionBar
-          account={account}
-          className='profile\actions'
-          handler={handler}
+      <div
+        className={computedClass}
+        {...rest}
+      >
+        <ProfileMenu
+          activeRoute={activeRoute}
+          hash={computedHash}
           history={history}
           intl={intl}
-          me={me}
+          onSetHash={handleSetHash}
+          title={'@' + at}
         />
-        {(() => {
-          switch (mode) {
-            case 'followers':
-            case 'following':
-          case 'timeline':
-            const params = [];
-            const getParams = () => params.length ? '?' + params.join('&') : '';
-            if (noReplies) params.push('exclude_replies=true');
-            if (onlyMedia) params.push('only_media=true');
-            if (onlyPinned) params.push('pinned=true');
-            return (
-              <TimelineContainer
-                path={`/api/v1/accounts/${id}/statuses${getParams()}`}
-              />
-            );
-          }
-        })()}
-      </article>
+        <ProfileContent
+          activeRoute={activeRoute}
+          bio={bio}
+          counts={counts}
+          handler={handler}
+          header={header}
+          history={history}
+          href={href}
+          id={id}
+          local={local}
+          me={me}
+          onSetHash={handleSetHash}
+          rainbow={rainbow}
+          relationship={relationship}
+        />
+        <ProfilePane
+          hash={computedHash}
+          id={id}
+        />
+      </div>
     );
   }
 

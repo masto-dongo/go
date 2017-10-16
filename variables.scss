@@ -1,19 +1,41 @@
 @charset "UTF-8";
 
-@import 'themes/mastodon-go//palettes';
+@import 'themes/mastodon-go/palettes';
 
 $mastodon_go_animation_speed: 1;
 $mastodon_go_avatar_border_radius: 0;
 
-$mastodon_go_root_color: $rainbow_grey_white !default;
-$mastodon_go_root_background: $rainbow_grey_dim !default;
+$mastodon_go_root_color: $go_red_00 !default;
+$mastodon_go_root_background: $go_red_04 !default;
 
-$mastodon_go_column_color: $rainbow_grey_bright !default;
-$mastodon_go_column_background: $rainbow_grey_black !default;
-$mastodon_go_column_content_color: $rainbow_grey_bright !default;
-$mastodon_go_column_content_background: $rainbow_grey_black !default;
+$mastodon_go_column_color: $go_red_00 !default;
+$mastodon_go_column_background: $go_red_06 !default;
 
-$mastodon_go_menu_color: $rainbow_grey_light !default;
-$mastodon_go_menu_background: $rainbow_grey_black !default;
-$mastodon_go_menu_color_active: $rainbow_grey_black !default;
-$mastodon_go_menu_background_active: $rainbow_grey_bright !default;
+$mastodon_go_header_color: $go_white !default;
+$mastodon_go_header_background: $go_red_03 !default;
+
+$mastodon_go_content_color: $go_black !default;
+$mastodon_go_content_background: $go_white !default;
+$mastodon_go_content_active: $go_red_03 !default;
+$mastodon_go_content_disabled: $go_red_01 !default;
+$mastodon_go_content_button_color: $go_navy_00 !default;
+$mastodon_go_content_button_hover: $go_navy_01 !default;
+$mastodon_go_content_button_active: $go_navy_02 !default;
+$mastodon_go_content_button_text: $go_navy_02 !default;
+$mastodon_go_content_border_color: $go_red_02 !default;
+
+$mastodon_go_menu_color: $go_white !default;
+$mastodon_go_menu_background: $go_red_02 !default;
+$mastodon_go_menu_active_color: $go_red_02 !default;
+$mastodon_go_menu_active_background: $go_white !default;
+
+$mastodon_go_aside_color: $go_red_06 !default;
+$mastodon_go_aside_background: $go_red_01 !default;
+$mastodon_go_aside_active: $go_white !default;
+$mastodon_go_aside_disabled: $go_red_05 !default;
+$mastodon_go_aside_button: $go_red_04 !default;
+$mastodon_go_aside_button_hover: $go_red_05 !default;
+$mastodon_go_aside_button_active: $go_white !default;
+
+$mastodon_go_media_color: $go_white !default;
+$mastodon_go_media_background: $go_black !default;

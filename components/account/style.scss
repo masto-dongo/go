@@ -6,16 +6,7 @@
   display: block;
   height: 3.125rem;
   margin: 0;
-  border-style: none none solid;
-  border-color: transparent;
-  border-width: 0 0 2px;
   padding: 1.25rem 1.5em;
-  background-attachment: scroll;
-  background-clip: border-box;
-  background-origin: border-box;
-  background-position: bottom left;
-  background-repeat: repeat-x;
-  background-size: 100% 2px;
 
   & > .MASTODON_GO--AVATAR {
     float: left;

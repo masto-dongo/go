@@ -12,9 +12,6 @@
 //  Package imports.
 import { createStructuredSelector } from 'reselect';
 
-//  Requests.
-import { ensureTimeline } from 'themes/mastodon-go/redux';
-
 //  Component imports.
 import Start from '.';
 
@@ -27,19 +24,6 @@ import connect from 'themes/mastodon-go/util/connect';
 //  ----------
 
 //  Building our store and handlers.
-export default connect(
-  createStructuredSelector({
-    globalRainbow: state => state.getIn(['timeline', '/api/v1/timelines/public', 'rainbow']),
-    homeRainbow: state => state.getIn(['timeline', '/api/v1/timelines/home', 'rainbow']),
-    localRainbow: state => state.getIn(['timeline', '/api/v1/timelines/public?local=true', 'rainbow']),
-    me: state => state.getIn(['meta', 'me']),
-    myRainbow: state => state.getIn(['meta', 'me']) ? state.getIn(['account', state.getIn(['meta', 'me']), 'rainbow']) : void 0,
-  }),
-  go => ({
-    fetch () {
-      go(ensureTimeline, '/api/v1/timelines/home');  //  Home timeline
-      go(ensureTimeline, '/api/v1/timelines/public');  //  Global timeline
-      go(ensureTimeline, '/api/v1/timelines/public?local=true');  //  Local timeline
-    },
-  })
-)(Start);
+export default connect(createStructuredSelector({
+  me: state => state.getIn(['meta', 'me']),
+}))(Start);

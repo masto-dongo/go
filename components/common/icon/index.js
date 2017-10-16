@@ -22,29 +22,32 @@ import './style';
 //  The component
 //  -------------
 
-const CommonIcon = ({
+export default function CommonIcon ({
   className,
   colour,
   name,
   proportional,
   title,
   ...others
-}) => name ? (
-  <span
-    className={classNames('MASTODON_GO--COMMON--ICON', className)}
-    {...others}
-  >
+}) {
+  const computedClass = classNames('MASTODON_GO--COMMON--ICON', className);
+  return name ? (
     <span
-      aria-hidden
-      className={`fa ${proportional ? '' : 'fa-fw'} fa-${name}`}
-      style={colour ? { color: colour } : {}}
-      {...(title ? { title } : {})}
-    />
-    {title ? (
-      <span className='for-screenreader'>{title}</span>
-    ) : null}
-  </span>
-) : null;
+      className={computedClass}
+      {...others}
+    >
+      <span
+        aria-hidden
+        className={`fa ${proportional ? '' : 'fa-fw'} fa-${name}`}
+        style={colour ? { color: colour } : {}}
+        {...(title ? { title } : {})}
+      />
+      {title ? (
+        <span className='for-screenreader'>{title}</span>
+      ) : null}
+    </span>
+  ) : null;
+}
 
 //  Props.
 CommonIcon.propTypes = {
@@ -54,6 +57,3 @@ CommonIcon.propTypes = {
   proportional: PropTypes.bool,
   title: PropTypes.string,
 };
-
-//  Export.
-export default CommonIcon;

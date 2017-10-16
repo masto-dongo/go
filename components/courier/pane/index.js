@@ -21,6 +21,9 @@ import React from 'react';
 //  Component imports.
 import CourierPaneSettings from './settings';
 
+//  Common imports.
+import { CommonPane } from 'themes/mastodon-go/components';
+
 //  Stylesheet imports.
 import './style';
 
@@ -38,19 +41,29 @@ export default function CourierPane ({
 }) {
   const computedClass = classNames('MASTODON_GO--COURIER--PANE', className);
 
-  //  We switch over our `hash` to determine the pane to render.
-  switch (hash) {
-  case '#settings':
-    return (
-      <CourierPaneSettings
-        className={computedClass}
-        intl={intl}
-        {...rest}
-      />
-    );
-  default:
-    return null;
-  }
+  return (
+    <CommonPane
+      class={computedClass}
+      {...rest}
+    >
+      {
+        //  We switch over our `hash` to determine the pane to render.
+        function () {
+          switch (hash) {
+          case '#settings':
+            return (
+              <CourierPaneSettings
+                intl={intl}
+                {...rest}
+              />
+            );
+          default:
+            return null;
+          }
+        }()
+      }
+    </CommonPane>
+  );
 }
 
 //  Props.

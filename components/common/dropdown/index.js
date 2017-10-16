@@ -2,9 +2,9 @@ import classNames from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import CommonButton from 'themes/mastodon_go/components';
+import { CommonButton } from 'themes/mastodon_go/components';
 
-class DropdownMenu extends React.PureComponent {
+class CommonDropdown extends React.PureComponent {
 
   static propTypes = {
     children: PropTypes.node.isRequired,

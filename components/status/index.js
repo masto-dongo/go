@@ -17,10 +17,7 @@ import { defineMessages } from 'react-intl';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 //  Container imports.
-import {
-  AccountContainer,
-//  PrependContainer,
-} from 'themes/mastodon-go/components';
+import { AccountContainer } from 'themes/mastodon-go/components';
 
 //  Common imports.
 import {
@@ -34,6 +31,7 @@ import StatusContent from './content';
 import StatusFooter from './footer';
 import StatusMissing from './missing';
 import StatusNav from './nav';
+import StatusPrepend from './prepend';
 
 //  Stylesheet imports.
 import './style';
@@ -202,37 +200,25 @@ export default class Status extends React.PureComponent {
       } catch (e) {}
     }(filterRegex);
 
-    if (hideIf & type || regex && account !== me && regex.test(spoiler + '\n\n' + content.get('plain'))) {
+    const searchText = spoiler + '\n\n' + content.get('plain').replace(/\ufdd0([^]*)\ufdd1([^]*)\ufdd2/g, '$1');
+
+    if (hideIf & type || regex && account !== me && regex.test(searchText)) {
       return null;
     }
 
-    //  If there's no status, we can't render lol.
-    if (!content) {
-      return (
-      <CommonObservable
-        className={computedClass}
-        id={containerId || id}
-        observer={observer}
-        {...rest}
-      ><StatusMissing /></CommonObservable>
-      );
-    }
-
-    //  Otherwise, we can render our status!
+    //  We can now render our status!
     return (
       <CommonObservable
         className={computedClass}
         id={containerId || id}
         observer={observer}
-        searchText={spoiler + '\n\n' + content.get('plain')}
+        searchText={searchText}
         {...rest}
       >
-        {false ? (  //  TK: Prepend support
-          <PrependContainer
-            comrade={comrade || inReplyTo.account}
-            type={POST_TYPE}
-          />
-        ) : null}
+        <StatusPrepend
+          comrade={comrade || inReplyTo.account}
+          type={POST_TYPE}
+        />
         <AccountContainer
           comrade={comrade}
           id={account}
@@ -240,7 +226,7 @@ export default class Status extends React.PureComponent {
         />
         <StatusContent
           card={card}
-          content={content}
+          content={content.get('plain')}
           contentVisible={contentVisible}
           detailed={detailed}
           handler={handler}

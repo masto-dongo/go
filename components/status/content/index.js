@@ -17,7 +17,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages, FormattedMessage } from 'react-intl';
 
 import {
-  // CardContainer,
+  CardContainer,
   ReferenceContainer,
 } from 'themes/mastodon-go/components';
 
@@ -39,10 +39,14 @@ import './style';
 
 //  Holds our localization messages.
 const messages = defineMessages({
-  show_more  :
-    { id: 'status.show_more', defaultMessage: 'Show more' },
-  show_less  :
-    { id: 'status.show_less', defaultMessage: 'Show less' },
+  show_more: {
+    defaultMessage: 'Show more',
+    id: 'status.show_more',
+  },
+  show_less: {
+    defaultMessage: 'Show less',
+    id: 'status.show_less',
+  },
 });
 
 //  * * * * * * *  //
@@ -161,7 +165,7 @@ export default class StatusContent extends React.PureComponent {
     //  Otherwise, if there is an unknown attachment, we show an
     //  attachment list.
     } else if (attachments && attachments.some(
-      (item) => item.get('type') === 'unknown'
+      item => item.get('type') === 'unknown'
     )) {
       mediaElement = (
         <StatusContentUnknown media={media} />
@@ -188,7 +192,9 @@ export default class StatusContent extends React.PureComponent {
             showAt
           />
         )
-      ).reduce((aggregate, item) => [...aggregate, ' ', item], []);
+      ).reduce(
+        (aggregate, item) => [...aggregate, ' ', item], []
+      );
 
       //  Component rendering.
       return (
@@ -203,7 +209,7 @@ export default class StatusContent extends React.PureComponent {
             <p>
               <ParseContainer
                 text={spoiler}
-                type={ParseContainer.Type.EMOJI}
+                type='emoji'
               />
               {' '}
               <CommonButton
@@ -230,7 +236,7 @@ export default class StatusContent extends React.PureComponent {
             >
               <ParseContainer
                 text={content}
-                type={ParseContainer.Type.STATUS}
+                type='status'
               />
             </div>
             {mediaElement}
@@ -252,7 +258,7 @@ export default class StatusContent extends React.PureComponent {
             >
               <ParseContainer
                 text={content}
-                type={ParseContainer.Type.STATUS}
+                type='status'
               />
             </div>
             {mediaElement}

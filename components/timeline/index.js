@@ -30,6 +30,7 @@ export default class Timeline extends React.PureComponent {
 
   static propTypes = {
     activeRoute: PropTypes.bool,
+    column: PropTypes.bool,
     className: PropTypes.string,
     hash: PropTypes.string,
     history: PropTypes.object,
@@ -62,20 +63,17 @@ export default class Timeline extends React.PureComponent {
   }
 
   handleSetDetail = id => this.setState({ currentDetail: id });
-
   handleSetHash = hash => this.setState({ storedHash: hash });
-
-  setRef = node => this.node = node;
 
   render () {
     const {
       handleSetDetail,
       handleSetHash,
-      setRef,
     } = this;
     const {
       activeRoute,
       className,
+      column,
       hash,
       history,
       icon,
@@ -104,20 +102,20 @@ export default class Timeline extends React.PureComponent {
         className={computedClass}
         {...rest}
       >
-        <TimelineMenu
-          activeRoute={activeRoute}
-          hash={computedHash}
-          history={history}
-          icon={icon}
-          intl={intl}
-          onSetHash={handleSetHash}
-          rainbow={rainbow}
-          title={intl.formatMessage(messages.timeline)}
-        />
-        <CommonHeader
-          backgroundImage={`linear-gradient(160deg, ${rainbow.get('7').join(', ')})`}
-          colour={rainbow.get('1')}
-        >{title}</CommonHeader>
+        {
+          column ? (
+            <TimelineMenu
+              activeRoute={activeRoute}
+              hash={computedHash}
+              history={history}
+              icon={icon}
+              intl={intl}
+              onSetHash={handleSetHash}
+              title={intl.formatMessage(messages.timeline)}
+            />
+            <CommonHeader title={title} />
+          ) : null
+        }
         <CommonList>
           {statuses ? statuses.reduce(
             (items, id) => items.push(
@@ -133,11 +131,15 @@ export default class Timeline extends React.PureComponent {
             []
           ) : null}
         </CommonList>
-        <TimelinePane
-          hash={computedHash}
-          intl={intl}
-          path={path}
-        />
+        {
+          column ? (
+            <TimelinePane
+              hash={computedHash}
+              intl={intl}
+              path={path}
+            />
+          )
+        }
         {isLoading ? (
           <CommonLoadbar backgroundImage:={`linear-gradient(90deg, ${rainbow.get('15').join(', ')}, ${rainbow.getIn(['15', 0])})`} />
         ) : null}

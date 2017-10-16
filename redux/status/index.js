@@ -57,81 +57,82 @@ import {
   POST_TYPE,
   VISIBILITY,
 } from 'themes/mastodon-go/util/constants';
-import { DOMParser } from 'themes/mastodon-go/util/polyfills';
+import { deHTMLify } from 'themes/mastodon-go/util/deHTMLify';
 
 //  * * * * * * *  //
 
 //  Setup
 //  -----
 
-const domParser = new DOMParser();
-
 //  `normalize` takes a `status` API object and turns it into an
 //  Immutable map that we can store. We only keep track of the `id`
 //  of the status's related `account`, `reblog`, and `attachments`—not
 //  their contents.
-const normalize = status => ImmutableMap({
-  account: '' + status.account.id,
-  application: ImmutableMap({
-    name: status.application.name,
-    website: status.application.website,
-  }),
-  content: ImmutableMap({
-    html: '' + status.content,
-    plain: domParser.parseFromString(status.content.replace(/<br \/>/g, '\n').replace(/<\/p><p>/g, '\n\n'), 'text/html').documentElement.textContent,
-  }),
-  counts: ImmutableMap({
-    favourites: +status.favourites_count,
-    reblogs: +status.reblogs_count,
-  }),
-  datetime: new Date(status.created_at),
-  href: '' + status.url,
-  id: '' + status.id,
-  inReplyTo: status.in_reply_to_id ? ImmutableMap({
-    account: '' + status.in_reply_to_account_id,
-    id: '' + status.in_reply_to_id,
-  }) : null,
-  is: ImmutableMap({
-    favourited: !!status.favourited,
-    muted: !!status.muted,
-    reblogged: !!status.reblogged,
-    reply: !!status.in_reply_to_id,
-  }),
-  media: ImmutableList(status.media_attachments.map(
-    attachment => '' + attachment.id,
-  )),
-  mentions: ImmutableList(status.mentions.map(
-    mention => '' + mention.id,
-  )),
-  reblog: status.reblog ? '' + status.reblog.id : null,
-  sensitive: !!status.sensitive,
-  spoiler: '' + status.spoiler_text,
-  tags: ImmutableList(status.tags.map(
-    tag => ImmutableMap({
-      href: '' + tag.url,
-      name: '' + tag.name,
-    })
-  )),
-  visibility: (
-    visibility => {
-      let value = VISIBLITY.DIRECT;
-      switch (type) {
-      case "private":
-        value = VISIBILITY.PRIVATE;
-        break;
-      case "public":
-        value = VISIBILITY.PUBLIC;
-        break;
-      case "unlisted":
-        value = VISIBILITY.UNLISTED;
-        break;
+const normalize = (status, oldContent) => {
+  const plainContent = oldContent && oldContent.get('html') === '' + status.content ? oldContent.get('plain') : deHTMLify(status.content);
+  return ImmutableMap({
+    account: '' + status.account.id,
+    application: ImmutableMap({
+      name: status.application.name,
+      website: status.application.website,
+    }),
+    content: ImmutableMap({
+      html: '' + status.content,
+      plain: '' + plainContent,
+    }),
+    counts: ImmutableMap({
+      favourites: +status.favourites_count,
+      reblogs: +status.reblogs_count,
+    }),
+    datetime: new Date(status.created_at),
+    href: '' + status.url,
+    id: '' + status.id,
+    inReplyTo: status.in_reply_to_id ? ImmutableMap({
+      account: '' + status.in_reply_to_account_id,
+      id: '' + status.in_reply_to_id,
+    }) : null,
+    is: ImmutableMap({
+      favourited: !!status.favourited,
+      muted: !!status.muted,
+      reblogged: !!status.reblogged,
+      reply: !!status.in_reply_to_id,
+    }),
+    media: ImmutableList(status.media_attachments.map(
+      attachment => '' + attachment.id,
+    )),
+    mentions: ImmutableList(status.mentions.map(
+      mention => '' + mention.id,
+    )),
+    reblog: status.reblog ? '' + status.reblog.id : null,
+    sensitive: !!status.sensitive,
+    spoiler: '' + status.spoiler_text,
+    tags: ImmutableList(status.tags.map(
+      tag => ImmutableMap({
+        href: '' + tag.url,
+        name: '' + tag.name,
+      })
+    )),
+    visibility: (
+      visibility => {
+        let value = VISIBLITY.DIRECT;
+        switch (type) {
+        case "private":
+          value = VISIBILITY.PRIVATE;
+          break;
+        case "public":
+          value = VISIBILITY.PUBLIC;
+          break;
+        case "unlisted":
+          value = VISIBILITY.UNLISTED;
+          break;
+        }
+        if (/👁\ufe0f?$/.test(status.content)) {
+          value &= ~VISIBILITY.FEDERATED;
+        }
       }
-      if (/👁\ufe0f?$/.test(status.content)) {
-        value &= ~VISIBILITY.FEDERATED;
-      }
-    }
-  )(status.visiblity),
-});
+    )(status.visiblity),
+  });
+}
 
 //  * * * * * * *  //
 

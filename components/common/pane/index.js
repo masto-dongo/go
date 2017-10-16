@@ -30,6 +30,7 @@ export default function CommonPane ({
   const computedClass = classNames('MASTODON_GO--COMMON--PANE', className);
   return (
     <aside
+      {...(!React.Children.count(children) ? { 'aria-hidden': 'true' } : {})}
       className={computedClass}
       {...rest}
     >{children}</aside>

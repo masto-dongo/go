@@ -11,14 +11,12 @@ import './style';
 //  The component
 //  -------------
 
-const CommonHeader = ({
-  backgroundImage,
-  children,
+export default function CommonHeader ({
   className,
-  colour,
   onClick,
+  title,
   ...rest
-}) => {
+}) {
   const computedClass = classNames('MASTODON_GO--COMMON--HEADER', className);
 
   let conditionalProps = {};
@@ -27,32 +25,19 @@ const CommonHeader = ({
     conditionalProps.role = 'button';
     conditionalProps.tabIndex = '0';
   }
-  if (backgroundImage || colour) {
-    conditionalProps.style = {};
-    if (backgroundImage) {
-      conditionalProps.style.backgroundImage = backgroundImage;
-    }
-    if (colour) {
-      conditionalProps.style.color = colour;
-    }
-  }
 
   return (
     <header
       className={computedClass}
       {...conditionalProps}
       {...rest}
-    >
-      <h1>{children}</h1>
-    </header>
+    ><h1>{title}</h1></header>
   );
 }
 
 CommonHeader.propTypes = {
   backgroundImage: PropTypes.string,
-  children: PropTypes.node,
   className: PropTypes.string,
   onClick: PropTypes.func,
+  title: PropTypes.node,
 };
-
-export default CommonHeader;

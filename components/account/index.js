@@ -79,6 +79,7 @@ export default function Account ({
     at,
     displayName,
     href,
+    me,
     rainbow,
     relationship,
   },
@@ -99,50 +100,50 @@ export default function Account ({
       searchText={displayName + '\n@' + at}
       {...rest}
     >
-      {/*
-          We need a `<div>` container to supply our rainbows and
-          sunshine 🌈🌻
-      */}
-      <div
-        className='container'
-        style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('7').join(', ')})` } : {}}
-      >
-        <AvatarContainer
-          account={id}
-          comrade={comrade}
-        />
-        {/*
-            We don't bother with a `<ReferenceContainer>` here since
-            we already have all of the account info and this lets us
-            put everything in one link.
-        */}
-        <CommonLink
-          className='info'
-          destination={`/profile/${id}`}
-          history={history}
-          href={href}
+      {
+        //  We need a `<div>` container to supply our rainbows and
+        //  sunshine 🌈🌻
+        <div
+          className='container'
+          style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('7').join(', ')})` } : {}}
         >
-          <b>
-            <ParserContainer
-              text={displayName || '———'}
-              type='emoji'
-            />
-          </b>
-          <code>@{at}</code>
-        </CommonLink>
-        {/*
-            This function gets our interaction button for use with the
-            account.  We don't show this on `small` accounts (which
-            appear in status headers) or if we aren't provided a `type`
-            and `relationship`.
-        */}
-        {!small && type && isFinite(relationship) ? function (r, t) {
-          switch (t) {
-          default:
-            return null;
+          <AvatarContainer
+            account={id}
+            comrade={comrade}
+          />
+          {
+            //  We don't bother with a `<ReferenceContainer>` here since
+            //  we already have all of the account info and this lets us
+            //  put everything in one link.
+            <CommonLink
+              className='info'
+              destination={`/profile/${id}`}
+              history={history}
+              href={href}
+            >
+              <b>
+                <ParserContainer
+                  text={displayName || '———'}
+                  type='emoji'
+                />
+              </b>
+              <code>@{at}</code>
+            </CommonLink>
           }
-        }(relationship, type) : null}
-      </div>
+          {
+            //  This function gets our interaction button for use with the
+            //  account.  We don't show this on `small` accounts (which
+            //  appear in status headers) or if we aren't provided a `type`
+            //  and `relationship`.
+            !small && type && isFinite(relationship) && id !== me ? function () {
+              switch (type) {
+              default:
+                return null;
+              }
+            }() : null
+          }
+        </div>
+      }
     </CommonObservable>
   );
 }
@@ -154,6 +155,7 @@ Account.propTypes = {
   containerId: PropTypes.string,
   history: PropTypes.object,
   id: PropTypes.string.isRequired,
+  me: PropTypes.string,
   observer: PropTypes.object,
   small: PropTypes.bool,
   type: PropTypes.number,

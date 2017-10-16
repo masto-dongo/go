@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--COMMON--LIST {
+  display: block;
+  margin: 0;
+  border: none;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}

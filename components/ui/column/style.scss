@@ -21,9 +21,9 @@
     right: 0;
     margin: 0;
     border: none;
-    //  Padding is left to individual components
-    color: $mastodon_go_column_content_color;
-    background-color: $mastodon_go_column_content_background;
+    padding: 3.125rem 0 0 3.5rem;
+    color: $mastodon_go_content_color;
+    background-color: $mastodon_go_content_background;
     overflow: auto;
   }
 }

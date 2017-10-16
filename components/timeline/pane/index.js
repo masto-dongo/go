@@ -4,26 +4,39 @@ import React from 'react';
 
 import TimelinePaneSettings from './settings';
 
-const TimelinePane = ({
+import { CommonPane } from 'themes/mastodon-go/components';
+
+export default function TimelinePane ({
   className,
   hash,
   intl,
   path,
   ...rest
-}) => {
+}) {
   const computedClass = classNames('MASTODON_GO--TIMELINE--PANE', className);
 
-  switch (hash) {
-  case '#settings':
-    return (
-      <TimelinePaneSettings
-        className={computedClass}
-        intl={intl}
-        path={path}
-        {...rest}
-      />
-    );
-  }
+  return (
+    <CommonPane
+      class={computedClass}
+      {...rest}
+    >
+      {
+        function () {
+          switch (hash) {
+          case '#settings':
+            return (
+              <TimelinePaneSettings
+                className={computedClass}
+                intl={intl}
+                path={path}
+                {...rest}
+              />
+            );
+          }
+        }
+      }
+    </CommonPane>
+  );
 }
 
 TimelinePane.propTypes = {
@@ -32,5 +45,3 @@ TimelinePane.propTypes = {
   intl: PropTypes.object.isRequired,
   path: PropTypes.string.isRequired,
 }
-
-export default TimelinePane;

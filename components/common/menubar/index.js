@@ -22,11 +22,11 @@ import './style';
 //  The component
 //  -------------
 
-const CommonMenubar = ({
+export default function CommonMenubar ({
   children,
   className,
   ...rest
-}) => {
+}) {
   const computedClass = classNames('MASTODON_GO--COMMON--MENUBAR', className);
   return (
     <div
@@ -41,6 +41,3 @@ CommonMenubar.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
 };
-
-//  Export.
-export default CommonMenubar;

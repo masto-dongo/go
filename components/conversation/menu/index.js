@@ -55,7 +55,6 @@ export default function ConversationMenu ({
     icon,
     intl,
     onSetHash,
-    rainbow,
     ...rest
 }) {
   const computedClass = classNames('MASTODON_GO--CONVERSATION--MENU', className);
@@ -73,7 +72,6 @@ export default function ConversationMenu ({
             destination={`/status/${id}`}
             history={history}
             icon={!index ? 'comment' : 'comments'}
-            style={id === statusId ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : { color: rainbow.get('1') }}
             title={intl.formatMessage(messages.status)}
           />
         ),
@@ -90,7 +88,6 @@ ConversationMenu.propTypes = {
   icon: PropTypes.string,
   id: PropTypes.string.isRequired,
   intl: PropTypes.object.isRequired,
-  rainbow: ImmutablePropTypes.map.isRequired,
   statuses: ImmutablePropTypes.list,
   title: PropTypes.string,
 };

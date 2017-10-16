@@ -17,8 +17,10 @@ import ImmutablePureComponent from 'react-immutable-pure-component';
 import { defineMessages } from 'react-intl';
 
 //  Our imports.
-import CommonIcon from 'themes/mastodon-go/components';
-import CommonLink from 'themes/mastodon-go/components';
+import {
+  CommonIcon,
+  CommonLink,
+} from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style';
@@ -30,12 +32,18 @@ import './style';
 
 //  Localization messages.
 const messages = defineMessages({
-  conversation:
-    { id : 'status.view_conversation', defaultMessage : 'View conversation' },
-  reblogs:
-    { id : 'status.view_reblogs', defaultMessage : 'View reblogs' },
-  favourites:
-    { id : 'status.view_favourites', defaultMessage : 'View favourites' },
+  conversation: {
+    defaultMessage: 'View conversation',
+    id : 'status.view_conversation'
+  },
+  reblogs: {
+    defaultMessage: 'View reblogs',
+    id: 'status.view_reblogs',
+  },
+  favourites: {
+    defaultMessage: 'View favourites',
+    id: 'status.view_favourites',
+  },
 });
 
 //  * * * * * * *  //
@@ -63,24 +71,14 @@ export default class StatusNav extends React.PureComponent {
 
     return (
       <nav className={computedClass}>
-        <CommonLink
-          title={intl.formatMessage(messages.conversation)}
-        >
+        <CommonLink title={intl.formatMessage(messages.conversation)}>
           <CommonIcon name='comments-o'/>
         </CommonLink>
-        <CommonLink
-          title={intl.formatMessage(messages.reblogs)}
-        >
-          <CommonIcon
-            name='retweet'
-          />
+        <CommonLink title={intl.formatMessage(messages.reblogs)}>
+          <CommonIcon name='retweet' />
         </CommonLink>
-        <CommonLink
-          title={intl.formatMessage(messages.favourites)}
-        >
-          <CommonIcon
-            name='star'
-          />
+        <CommonLink title={intl.formatMessage(messages.favourites)}>
+          <CommonIcon name='star' />
         </CommonLink>
       </nav>
     );

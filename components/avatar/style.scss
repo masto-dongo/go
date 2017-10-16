@@ -5,8 +5,11 @@
 .MASTODON_GO--AVATAR {
   display: inline-block;
   position: relative;
+  margin: 0;
+  border: none;
+  padding: 0;
 
-  & > img {
+  & > .MASTODON_GO--COMMON--IMAGE {
     display: block;
     position: static;
     margin: 0;
@@ -30,7 +33,7 @@
   }
 
   &.circular {
-    & > img {
+    & > .MASTODON_GO--COMMON--IMAGE {
       transition: border-radius ($mastodon_go_animation_speed * .3s);
     }
 

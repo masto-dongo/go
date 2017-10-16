@@ -45,6 +45,7 @@ export default connect(
     at: (state, { id }) => state.getIn(['account', id, 'at']),
     displayName: (state, { id }) => state.getIn(['account', id, 'displayName']),
     href: (state, { id }) => state.getIn(['account', id, 'href']),
+    me: state => state.getIn(['meta', 'me']),
     rainbow: (state, { id }) => state.getIn(['account', id, 'rainbow']),
     relationship: (state, { id }) => state.getIn(['relationship', id]),
   }),

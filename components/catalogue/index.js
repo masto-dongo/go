@@ -67,6 +67,7 @@ export default class Catalogue extends React.PureComponent {
   static propTypes = {
     activeRoute: PropTypes.bool,
     className: PropTypes.string,
+    column: PropTypes.bool,
     hash: PropTypes.string,
     history: PropTypes.object,
     icon: PropTypes.string,
@@ -81,7 +82,6 @@ export default class Catalogue extends React.PureComponent {
     }).isRequired,
   };
   state = { storedHash: '#' };
-  node = null;
 
   //  Constructor.  We go ahead and prefetch the catalogue.  Note that
   //  this will erase any existing catalogue contents, but there
@@ -117,26 +117,20 @@ export default class Catalogue extends React.PureComponent {
   }
 
   //  This is a tiny function to update our hash if needbe.
-  handleSetHash = (hash) => {
+  handleSetHash = hash => {
     const { activeRoute } = this;
     if (!activeRoute) {
       this.setState({ storedHash: hash });
     }
   }
 
-  //  Saves our node.
-  setRef = node => this.node = node;
-
   //  Rendering.
   render () {
-    const {
-      handleSetDetail,
-      handleSetHash,
-      setRef,
-    } = this;
+    const { handleSetHash } = this;
     const {
       activeRoute,
       className,
+      column,
       hash,
       history,
       icon,
@@ -152,32 +146,31 @@ export default class Catalogue extends React.PureComponent {
       ...rest
     } = this.props;
     const { storedHash } = this.state;
-    const computedClass = classNames('MASTODON_GO--CATALOGUE', className);
+    const computedClass = classNames('MASTODON_GO--CATALOGUE', { column }, className);
 
     //  We only use our internal hash if this isn't the active route.
     const computedHash = activeRoute ? hash : storedHash;
 
-    //  Rendering.
+    //  Putting everything together.
     return (
       <div
         className={computedClass}
-        ref={setRef}
         {...rest}
       >
-        <CatalogueMenu
-          activeRoute={activeRoute}
-          hash={computedHash}
-          history={history}
-          icon={icon}
-          intl={intl}
-          onSetHash={handleSetHash}
-          rainbow={rainbow}
-          title={intl.formatMessage(messages.catalogue)}
-        />
-        <CommonHeader
-          backgroundImage={`linear-gradient(160deg, ${rainbow.get('7').join(', ')})`}
-          colour={rainbow.get('1')}
-        >{title}</CommonHeader>
+        {
+          column ? (
+            <CatalogueMenu
+              activeRoute={activeRoute}
+              hash={computedHash}
+              history={history}
+              icon={icon}
+              intl={intl}
+              onSetHash={handleSetHash}
+              title={intl.formatMessage(messages.catalogue)}
+            />
+            <CommonHeader title={title} />
+          ) : null
+        }
         <CommonList>
           {accounts ? accounts.reduce(
             (items, id) => items.push(
@@ -189,9 +182,7 @@ export default class Catalogue extends React.PureComponent {
             []
           ) : null}
         </CommonList>
-        {isLoading ? (
-          <CommonLoadbar backgroundImage:={`linear-gradient(90deg, ${rainbow.get('15').join(', ')}, ${rainbow.getIn(['15', 0])})`} />
-        ) : null}
+        {isLoading ? <CommonLoadbar backgroundImage={`linear-gradient(90deg, ${rainbow.get('15').join(', ')}, ${rainbow.getIn(['15', 0])})`} /> : null}
       </div>
     );
   }

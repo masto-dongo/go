@@ -87,7 +87,6 @@ export default function AttachmentImage ({
     >
       <img
         alt={description}
-        className='item\image'
         sizes={sizes}
         src={preview.get('src')}
         srcSet={srcSet}

@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--COMMON--PANE {
+  display: block;
+  margin: 0;
+  border-style: none solid none none;
+  border-color: transparent;
+  border-width: 0 5px 0 0;
+  padding: 0;
+  width: auto;
+  height: 100%;
+  color: $mastodon_go_content_color;
+  background-color: $mastodon_go_content_background;
+  transition: width (.8s * $mastodon_go_animation_speed) ease-in;
+
+  &:empty {
+    width: 0;
+    transition: width (.8s * $mastodon_go_animation_speed) ease-out;
+  }
+}

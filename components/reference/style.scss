@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--REFERENCE {
+  & > b {
+    & > *.tagname:hover {
+      text-decoration: underline;
+    }
+  }
+
+  & > code {
+    & > *.username:hover {
+      text-decoration: underline;
+    }
+  }
+}

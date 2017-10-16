@@ -22,10 +22,7 @@ import {
 } from 'react-intl';
 
 //  Container imports.
-import SettingContainer from 'themes/mastodon-go/components';
-
-//  Common imports.
-import CommonPane from 'themes/mastodon-go/components';
+import { SettingContainer } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style';
@@ -79,11 +76,11 @@ export default function CourierPaneSettings ({
   path,
   ...rest
 }) {
-  const computedClass = classNames('MASTODON_GO--TIMELINE--PANE--SETTINGS', className);
+  const computedClass = classNames('MASTODON_GO--COURIER--PANE--SETTINGS', className);
 
   //  Rendering.
   return (
-    <CommonPane
+    <div
       class={computedClass}
       {...rest}
     >
@@ -171,7 +168,7 @@ export default function CourierPaneSettings ({
           type='toggle'
         ><FormattedMessage {...messages.sound} /></SettingContainer>
       </section>
-    </CommonPane>
+    </div>
   );
 };
 

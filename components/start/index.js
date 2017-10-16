@@ -12,12 +12,7 @@ import { defineMessages, FormattedMessage } from 'react-intl';
 import {
   CommonButton,
   CommonHeader,
-  CommonMenu,
 } from 'themes/mastodon-go/components';
-
-//  Other imports.
-import { RAINBOW } from 'themes/mastodon-go/util/constants';
-import rainbow from 'themes/mastodon-go/util/rainbow';
 
 //  Stylesheet imports.
 import './style';
@@ -29,6 +24,10 @@ import './style';
 
 //  Holds our localization messages.
 const messages = defineMessages({
+  about: {
+    defaultMessage: 'About this instance',
+    id: 'start.about',
+  },
   compose: {
     defaultMessage: 'Compose',
     id: 'start.compose',
@@ -44,6 +43,14 @@ const messages = defineMessages({
   local: {
     defaultMessage: 'Community timeline',
     id: 'start.local',
+  },
+  logout: {
+    defaultMessage: 'Logout',
+    id: 'start.logout',
+  },
+  meta: {
+    defaultMessage: 'Meta',
+    id: 'start.meta',
   },
   personal: {
     defaultMessage: 'Personal',
@@ -61,11 +68,7 @@ const messages = defineMessages({
     defaultMessage: 'Timelines',
     id: 'start.timelines',
   },
-  yours: {
-    defaultMessage: 'Your account',
-    id: 'start.yours'
-  },
-})
+});
 
 //  * * * * * * *  //
 
@@ -83,24 +86,33 @@ export default class Start extends React.PureComponent {
     history: PropTypes.object,
     '🛄': PropTypes.shape({ intl: PropTypes.object.isRequired }).isRequired,
     '💪': PropTypes.objectOf(PropTypes.func).isRequired,
-    '🏪': PropTypes.shape({
-      globalRainbow: ImmutablePropTypes.map,
-      homeRainbow: ImmutablePropTypes.map,
-      localRainbow: ImmutablePropTypes.map,
-      me: PropTypes.string,
-      myRainbow: ImmutablePropTypes.map,
-    }).isRequired,
+    '🏪': PropTypes.shape({ me: PropTypes.string }).isRequired,
+  }
+  state = { storedHash: '#' };
+
+  //  If our component is suddenly no longer the active route, we need
+  //  to store its hash value before it disappears.
+  componentWillReceiveProps (nextProps) {
+    const {
+      activeRoute,
+      hash,
+    } = this.props;
+    if (activeRoute && !nextProps.activeRoute) {
+      this.setState({ storedHash: hash });
+    }
   }
 
-  //  When we construct our `<Start>`, we go ahead and fetch our stuff.
-  constructor (props) {
-    super(props);
-    const { '💪': { fetch } } = props;
-    fetch();
+  //  This is a tiny function to update our hash if needbe.
+  handleSetHash = hash => {
+    const { activeRoute } = this;
+    if (!activeRoute) {
+      this.setState({ storedHash: hash });
+    }
   }
 
   //  Rendering.
   render () {
+    const { handleSetHash } = this;
     const {
       activeRoute,
       className,
@@ -108,94 +120,90 @@ export default class Start extends React.PureComponent {
       history,
       '🛄': { intl },
       '💪': handler,
-      '🏪': {
-        globalRainbow,
-        homeRainbow,
-        localRainbow,
-        me,
-        myRainbow,
-      },
+      '🏪': { me },
       ...rest
     } = this.props;
     const computedClass = classNames('MASTODON_GO--START', className);
+
+    //  We only use our internal hash if this isn't the active route.
+    const computedHash = activeRoute ? hash : storedHash;
 
     return (
       <div
         className={computedClass}
         {...rest}
       >
-        <CommonMenu>
-          <CommonButton
-            active
-            href={activeRoute ? '#' : void 0}
-            icon='mouse-pointer'
-            style={true ? { backgroundImage: `linear-gradient(160deg, ${rainbow(RAINBOW.START, 3).join(', ')})` } : { color: rainbow(RAINBOW.START) }}
-            title={intl.formatMessage(messages.start)}
+        <StartMenu
+          activeRoute={activeRoute}
+          hash={computedHash}
+          history={history}
+          icon={icon}
+          intl={intl}
+          onSetHash={handleSetHash}
+          title={intl.formatMessage(messages.start)}
+        />
+        <CommonHeader title={intl.formatMessage(messages.start)} />
+        {me ? (
+          <AccountContainer
+            history={history}
+            id={me}
           />
-        </CommonMenu>
-        <CommonHeader
-          backgroundImage={`linear-gradient(160deg, ${rainbow(RAINBOW.START, 7).join(', ')})`}
-          colour={rainbow(RAINBOW.START, 1)}
-        >
-          <FormattedMessage {...messages.start} />
-        </CommonHeader>
-        <div className='content'>
-          <nav>
-            <h2><FormattedMessage {...messages.personal} /></h2>
-            {me ? (
-              <CommonButton
-                destination={`profile/${me}`}
-                history={history}
-                icon='user'
-                iconColour={myRainbow ? myRainbow.get('1') : void 0}
-                showTitle
-                title={intl.formatMessage(messages.yours)}
-              />
-            ) : null}
-            <CommonButton
-              destination='/compose'
-              history={history}
-              icon='pencil-square-o'
-              iconColour={rainbow(RAINBOW.COMPOSE)}
-              showTitle
-              title={intl.formatMessage(messages.compose)}
-            />
-            <CommonButton
-              href='/settings/preferences'
-              icon='cog'
-              iconColour={rainbow(RAINBOW.PREFERENCES)}
-              showTitle
-              title={intl.formatMessage(messages.preferences)}
-            />
-          </nav>
-          <nav>
-            <h2><FormattedMessage {...messages.timelines} /></h2>
-            <CommonButton
-              destination='/home'
-              history={history}
-              icon='home'
-              iconColour={homeRainbow ? homeRainbow.get('1') : void 0}
-              showTitle
-              title={intl.formatMessage(messages.home)}
-            />
-            <CommonButton
-              destination='/global'
-              history={history}
-              icon='globe'
-              iconColour={globalRainbow ? globalRainbow.get('1') : void 0}
-              showTitle
-              title={intl.formatMessage(messages.global)}
-            />
-            <CommonButton
-              destination='/local'
-              history={history}
-              icon='users'
-              iconColour={localRainbow ? localRainbow.get('1') : void 0}
-              showTitle
-              title={intl.formatMessage(messages.local)}
-            />
-          </nav>
-        </div>
+        ) : null}
+        <nav>
+          <h2><FormattedMessage {...messages.personal} /></h2>
+          <CommonButton
+            destination='/compose'
+            history={history}
+            icon='pencil-square-o'
+            showTitle
+            title={intl.formatMessage(messages.compose)}
+          />
+          <CommonButton
+            href='/settings/preferences'
+            icon='cog'
+            showTitle
+            title={intl.formatMessage(messages.preferences)}
+          />
+        </nav>
+        <nav>
+          <h2><FormattedMessage {...messages.timelines} /></h2>
+          <CommonButton
+            destination='/home'
+            history={history}
+            icon='home'
+            showTitle
+            title={intl.formatMessage(messages.home)}
+          />
+          <CommonButton
+            destination='/global'
+            history={history}
+            icon='globe'
+            showTitle
+            title={intl.formatMessage(messages.global)}
+          />
+          <CommonButton
+            destination='/local'
+            history={history}
+            icon='users'
+            showTitle
+            title={intl.formatMessage(messages.local)}
+          />
+        </nav>
+        <nav>
+          <h2><FormattedMessage {...messages.meta} /></h2>
+          <CommonButton
+            href='/about/more'
+            icon='book'
+            showTitle
+            title={intl.formatMessage(messages.about)}
+          />
+          <CommonButton
+            href='/auth/sign_out'
+            icon='sign-out'
+            showTitle
+            title={intl.formatMessage(messages.logout)}
+          />
+        </nav>
       </div>
     );
   }

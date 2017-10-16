@@ -30,7 +30,6 @@ import CourierContainer from './courier/container';
 import DrawerContainer from './drawer/container';
 import NotificationContainer from './notification/container';
 import ParseContainer from './parse/container';
-import PrependContainer from './prepend/container';
 import ProfileContainer from './profile/container';
 import ReferenceContainer from './reference/container';
 import SettingContainer from './setting/container';
@@ -107,7 +106,6 @@ export {
   DrawerContainer,
   NotificationContainer,
   ParseContainer,
-  PrependContainer,
   ProfileContainer,
   ReferenceContainer,
   SettingContainer,

@@ -20,13 +20,16 @@ import Account from '.';
 
 //  Request imports.
 import {
-  blockAccount,
   fetchAccount,
-  followAccount,
-  muteAccount,
-  unblockAccount,
-  unfollowAccount,
-  unmuteAccount,
+  updateAccount,
+  authorizeRelationship,
+  blockRelationship,
+  followRelationship,
+  muteRelationship,
+  rejectRelationship,
+  unblockRelationship,
+  unfollowRelationship,
+  unmuteRelationship,
 } from 'themes/mastodon-go/redux';
 
 //  Other imports
@@ -36,34 +39,24 @@ import { connect } from 'themes/mastodon-go/util/connect';
 
 //  Selector factory.
 export default connect(
-  go => createSelector(
-
-    //  Props.
-    createStructuredSelector({
-      at: (state, { id }) => state.getIn(['account', id, 'at']),
-      bio: (state, { id }) => state.getIn(['account', id, 'bio']),
-      datetime: (state, { id }) => state.getIn(['account', id, 'datetime']),
-      displayName: (state, { id }) => state.getIn(['account', id, 'displayName']),
-      header: (state, { id }) => state.getIn(['account', id, 'header']),
-      href: (state, { id }) => state.getIn(['account', id, 'href']),
-      relationship: (state, { id }) => state.getIn(['relationship', id]),
-    }),
-
-    //  Inputs.
-    (state, { id }) => id,
-
-    //  Result.
-    (props, id) => ({
-      handler: {
-        block: () => go(blockAccount, id),
-        fetch: () => go(fetchAccount, id),
-        follow: () => go(followAccount, id),
-        mute: () => go(muteAccount, id),
-        unblock: () => go(unblockAccount, id),
-        unfollow: () => go(unfollowAccount, id),
-        unmute: () => go(unmuteAccount, id),
-      },
-      ...props,
-    })
-  )
+  createStructuredSelector({
+    bio: (state, { id }) => state.getIn(['account', id, 'bio']),
+    counts: (state, { id }) => state.getIn(['account', id, 'counts']),
+    datetime: (state, { id }) => state.getIn(['account', id, 'datetime']),
+    header: (state, { id }) => state.getIn(['account', id, 'header']),
+    href: (state, { id }) => state.getIn(['account', id, 'href']),
+    local: (state, { id }) => !state.getIn(['account', id, 'domain']),
+    rainbow: (state, { id }) => state.getIn(['account', id, 'rainbow']),
+    relationship: (state, { id }) => state.getIn(['relationship', id]),
+  }),
+  (go, store, id) => ({
+    block: () => go(blockRelationship, id),
+    fetch: (newId = id) => go(fetchAccount, newId, true),
+    follow: () => go(followRelationship, id),
+    mute: () => go(muteRelationship, id),
+    unblock: () => go(unblockRelationship, id),
+    unfollow: () => go(unfollowRelationship, id),
+    unmute: () => go(unmuteRelationship, id),
+    update: info => go(updateAccount, info),
+  })
 )(Profile);

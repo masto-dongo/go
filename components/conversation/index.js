@@ -110,13 +110,9 @@ export default class Conversation extends React.PureComponent {
           history={history}
           id={id}
           intl={intl}
-          rainbow={rainbow}
           statuses={statuses}
         />
-        <CommonHeader
-          backgroundImage={`linear-gradient(160deg, ${rainbow.get('7').join(', ')})`}
-          colour={rainbow.get('1')}
-        ><FormattedMessage {...messages.conversation} /></CommonHeader>
+        <CommonHeader title={intl.formatMessage(messages.conversation)} />
         <CommonList>
           {statuses ? statuses.reduce(
             (items, statusId) => items.push(

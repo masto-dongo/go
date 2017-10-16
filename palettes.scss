@@ -1,19 +1,49 @@
 @charset "UTF-8";
 
-/*
-  This stylesheet contains a few default colour palettes you can use
-  when customizing your server for a consistent appearance.
-*/
+//  This stylesheet contains a few different colour palettes you can
+//  use when customizing your server for a consistent appearance.
 
 ///////////////////////////////////////////////////////////////////////
 
-/*  PRINT + PASTELS  */
-/*  by: Kibigo!      */
+//  MASTODON GO!
+//  by: kibigo!
 
-/*
-  This theme combines offwhite greys with bright pastels for a faded
-  yet distinctive look.
-*/
+//  This is the _Mastodon GO!_ default colour scheme!  I made up some
+//  names to go along with the colours because I hear that's what's in
+//  vogue these days idk.
+
+//  This theme challenges the blueness of the internet with rustic reds
+//  and deep navys.  It makes a nice counterpoint to the vanilla
+//  Mastodon theme's blueïsh greys.
+
+//  The navys and reds are paired such that `$go_navy_02` and
+//  `$go_red_02` look to be more-or-less the same intensity—however,
+//  only dark navys are provided.
+
+$go_white: #f0f0f0;  //  Shirt white
+$go_red_06: #f1ccc0;  //  Faded rose
+$go_red_05: #ecafa2;  //  Floral paper
+$go_red_04: #d58072;  //  Rustic rose
+$go_red_03: #cd2c00;  //  GO! red
+$go_red_02: #8a1c00;  //  Barnhouse red
+$go_red_01: #521205;  //  Soiled red
+$go_red_00: #2e0500;  //  Deep rust
+$go_navy_02: #004599;  //  Picnic sky
+$go_navy_01: #05285c;  //  Jean jacket
+$go_navy_00: #021335;  //  Navy blanket
+$go_black: #000000;  //  Pitch
+
+///////////////////////////////////////////////////////////////////////
+
+//  PRINT + PASTELS
+//  by: kibigo!
+
+//  This theme combines offwhite greys with bright pastels for a faded
+//  yet distinctive look.  This is "pastel" in the art medium sense—the
+//  colours are actually quite bright, so be careful.
+
+//  This theme was inspired by the look of coloured pencils on old
+//  newsprint and can be used to capture a similar feel.
 
 //  PRINT  //
 
@@ -39,13 +69,15 @@ $pastel_pink: #f56e97;
 
 ///////////////////////////////////////////////////////////////////////
 
-/*  rainbow.txt  */
-/*  by: Kibigo!  */
+//  rainbow.txt
+//  by: kibigo!
 
-/*
-  This theme contains eight colours and eight greys. Each colour comes
-  in standard, light, and dark variants.
-*/
+//  This theme contains eight colours and eight greys.  Each colour
+//  comes in standard, light, and dark variants.  If you want a
+//  spectrum of colours which have been designed to all look good
+//  together, this palette is for you.  However, if you need multiple
+//  shades of a single colour, you may find this palette to be a bit
+//  limited.
 
 //  CYAN  //
 
@@ -108,13 +140,12 @@ $rainbow_grey_black: #0c0c0c;
 
 ///////////////////////////////////////////////////////////////////////
 
-/*  MOTHER MINT                  */
-/*  from the Mother video games  */
+//  MOTHER MINT
+//  from the Mother video games
 
-/*
-  This palette contains a mint theme inspired by the Mother series of
-  video games.
-*/
+//  This palette contains a mint theme inspired by the Mother series of
+//  video games.  I have no idea why this theme is meaningful but I
+//  present it here for your consideration.
 
 $mint00: #000000; // black
 $mint01: #50f0b0; // light
@@ -126,14 +157,12 @@ $mint06: #f8f0e8; // white
 
 ///////////////////////////////////////////////////////////////////////
 
-/*  CLASSIC MASTODON     */
-/*  by: Gargron          */
+//  CLASSIC MASTODON
+//  by: Gargron
 
-/*
-  This theme contains the original eight-colour palette used by
-  https://mastodon.social. Use it to obtain that old-school Mastodon
-  vibe.
-*/
+//  This theme contains the original eight-colour palette used by
+//  <https://mastodon.social>. Use it to obtain that old-school
+//  Mastodon vibe.
 
 $classic-color1: #282c37; // darkest
 $classic-color2: #d9e1e8; // lightest
@@ -146,13 +175,11 @@ $classic-color8: #000000; // black
 
 ///////////////////////////////////////////////////////////////////////
 
-/*  MODERN MASTODON      */
-/*  by: Gargron          */
+//  MODERN MASTODON
+//  by: Gargron
 
-/*
-  This is an expanded (and better-named!) version of the above classic
-  palette.
-*/
+//  This is an expanded (and better-named!) version of the above classic
+//  palette.
 
 // Commonly used web colors
 $mastodon-black: #000000;            // Black

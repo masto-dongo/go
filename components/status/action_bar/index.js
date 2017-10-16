@@ -17,7 +17,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages } from 'react-intl';
 
 //  Our imports.
-import CommonButton from 'themes/mastodon-go/components';
+import { CommonButton } from 'themes/mastodon-go/components';
 
 //  Other imports.
 import { VISIBILITY } from 'themes/mastodon-go/util/constants';

@@ -56,6 +56,7 @@ export default class Parse extends React.PureComponent {
     className: PropTypes.string,
     history: PropTypes.object,
     mentions: ImmutablePropTypes.list,
+    metadata: ImmutablePropTypes.list,
     tags: ImmutablePropTypes.list,
     text: PropTypes.string,
     type: PropTypes.oneOf([
@@ -87,6 +88,7 @@ export default class Parse extends React.PureComponent {
       className,
       history,
       mentions,
+      metadata,
       tags,
       text,
       type,
@@ -104,7 +106,9 @@ export default class Parse extends React.PureComponent {
       return (
         <ParseAccountBio
           className={computedClass}
+          metadata={metadata}
           text={text}
+          {...rest}
         />
       );
     case 'emoji':

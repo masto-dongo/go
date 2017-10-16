@@ -57,7 +57,6 @@ export default class CourierMenu extends React.PureComponent {
     history: PropTypes.object,
     intl: PropTypes.object.isRequired,
     onSetHash: PropTypes.func,
-    rainbow: ImmutablePropTypes.map.isRequired,
     title: PropTypes.string,
   };
 
@@ -88,7 +87,6 @@ export default class CourierMenu extends React.PureComponent {
       history,
       intl,
       onSetHash,
-      rainbow,
       title,
       ...rest
     } = this.props;

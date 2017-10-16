@@ -19,8 +19,10 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { FormattedMessage } from 'react-intl';
 
 //  Our imports.
-import CommonIcon from 'glitch/components/common/icon';
-import CommonLink from 'glitch/components/common/link';
+import {
+  CommonIcon,
+  CommonLink
+} from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style';
@@ -85,7 +87,7 @@ export default class StatusPrepend extends React.PureComponent {
   render () {
     const { Message } = this;
     const { type } = this.props;
-    return type ? (
+    return false ? (
       <aside className='glitch glitch__status__prepend'>
         <CommonIcon
           className={`prepend\\icon prepend\\${type}`}
