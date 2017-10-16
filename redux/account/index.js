@@ -54,8 +54,8 @@ import { readƔaml } from 'themes/mastodon-go/util/ɣaml';
 
 //  `normalize()` normalizes our account into an Immutable map.
 const normalize = (account, oldBio) => {
-  const plainBio = oldBio && oldBio.get('html') === '' + account.bio ? oldBio.get('plain') : deHTMLify(account.bio);
-  const ɣamlBio = oldBio && oldBio.get('html') === '' + account.bio ? oldBio.get('ɣaml') : readƔaml(plainBio);
+  const plainBio = oldBio && oldBio.get('html') === '' + account.note ? oldBio.get('plain') : deHTMLify(account.note);
+  const ɣamlBio = oldBio && oldBio.get('html') === '' + account.note ? oldBio.get('ɣaml') : readƔaml(plainBio);
   return ImmutableMap({
     at: '' + account.acct,
     avatar: ImmutableMap({
@@ -63,7 +63,7 @@ const normalize = (account, oldBio) => {
       static: '' + account.avatar_static,
     }),
     bio: ImmutableMap({
-      html: '' + account.bio,
+      html: '' + account.note,
       plain: '' + plainBio,
       ɣaml: ImmutableMap({
         metadata: ImmutableList(ɣamlBio.metadata.map(
@@ -152,15 +152,13 @@ export default function account (state = initialState, action) {
     ]);
   case META_LOAD_COMPLETE:
     if (action.meta.hasOwnProperty('accounts')) {
-      return set(state, (
-        accounts => {
-          const list = [];
-          for (account in accounts) {
-            list.push(accounts[account]);
-          }
-          return list;
+      return set(state, function (accounts) {
+        const list = [];
+        for (account in accounts) {
+          list.push(accounts[account]);
         }
-      )(action.meta.accounts));
+        return list;
+      }(action.meta.accounts));
     }
     return state;
   case NOTIFICATION_FETCH_SUCCESS:
