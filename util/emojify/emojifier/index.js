@@ -108,12 +108,12 @@ export class Emojifier {
     }
 
     //  Iterates over our data lists.
-    for (let dataList in dataLists) {
-      dataList = [].concat(dataList);
+    for (let i = 0; i < dataLists.length; i++) {
+      dataList = [].concat(dataLists[i]);
 
       //  Iterates over each data object and makes an Emoji.
-      for (let i = 0; i < dataList.length; i++) {
-        const data = dataList[i];
+      for (let ii = 0; ii < dataList.length; ii++) {
+        const data = dataList[ii];
         const emojo = data instanceof Emoji ? data : new Emoji(data);
         all.push(emojo);
 
@@ -125,8 +125,8 @@ export class Emojifier {
 
         //  Aliases only overwrite other aliases, not names.
         if (emojo.aliases) {
-          for (let j = 0; j < emojo.aliases.length; j++) {
-            const alias = emojo.aliases[j];
+          for (let iii = 0; iii < emojo.aliases.length; iii++) {
+            const alias = emojo.aliases[iii];
             if (!emoji[alias] || emoji[alias].name !== alias) emoji[alias] = emojo;
           }
         }
