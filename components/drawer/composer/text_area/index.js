@@ -271,13 +271,13 @@ export default class DrawerComposerTextArea extends React.PureComponent {
 
     const className = classNames('MASTODON_GO--DRAWER--COMPOSER--TEXT_AREA', {
       empty: (
-        value.toLowerCase === '<br>' ||
         value === '\n' ||
         value === ''
       ),
     }, className);
 
     //  We store our result in an array.
+    let text = value;
     const result = [];
 
     //  We loop over each character in the string and look for a

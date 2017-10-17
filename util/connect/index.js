@@ -4,9 +4,27 @@
 |   =======                                                           |
 |                                                                     |
 |   `connect()` is a replacement function for the one with the same   |
-|   name in React-Redux.  It takes in a selector factory (making it   |
-|   actually more similar to `connectAdvanced()`) and calls it with   |
-|   a function named `go()`.                                          |
+|   name in React-Redux.  It generates a selector factory and calls   |
+|   it with a function named `go()`.                                  |
+|                                                                     |
+|   The `connect()` function                                          |
+|   ------------------------                                          |
+|                                                                     |
+|   The arguments to `connect()` are a `stater` and a `dispatcher`,   |
+|   which are selectors of the form `function(state, ownProps)` and   |
+|   `function(go, store, props, context)`, where `ownProps`/`props`   |
+|   are the passed component props, `store` is the resultant object   |
+|   of the `stater`, and `context` holds the `intl` prop taken from   |
+|   the `injectIntl()` function.  The return values of the `stater`   |
+|   and `dispatcher` are provided to the wrapped component via some   |
+|   emoji props.                                                      |
+|                                                                     |
+|   `reselect`'s `createStructuredSelector()` is a good tool to use   |
+|   when building `stater`s, and `dispatcher`s are typically normal   |
+|   functions.                                                        |
+|                                                                     |
+|   About `go()`                                                      |
+|   ------------                                                      |
 |                                                                     |
 |   `go()` is essentially a wrapper for `dispatch` which makes code   |
 |   like the following:                                               |
@@ -102,13 +120,15 @@ export default function connect (stater, dispatcher, ...args) {
   return function (component) {
 
     //  `selectorFactory()` takes `dispatch()` and uses it to construct a
-    //  `go()` function, which is then handed to our `factory`.
+    //  `go()` function, which is then handed to our `dispatcher`.
     const selectorFactory = dispatch => {
 
+      //  Generates our `go()` function.
       const go = dispatcher && dispatcher.length > args.length ?
         (fn, ...args) => dispatch(readyToGo(fn, ...args))
       : void 0;
 
+      //  This is the selector we will use.
       const selector = createSelector(
         [
           stater ? stater : () => null,
@@ -128,8 +148,11 @@ export default function connect (stater, dispatcher, ...args) {
         }
       );
 
+      //  This stores our last received props for this component.
       let props = null;
 
+      //  We use `shallowEqual()` from `react-redux` to mimic the
+      //  behaviour of their `connect()`.
       return function (store, ownProps) {
         let shouldUpdate = false;
         if (typeof component.shouldComponentUpdate === 'function') {
