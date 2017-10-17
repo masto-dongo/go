@@ -23,7 +23,7 @@ import ComposerWarning from './warning';
 import './style';
 
 //  Other imports.
-import { Emoji } from 'themes/mastodon-go/util/emoji';
+import { Emoji } from 'themes/mastodon-go/util/emojify';
 import uuid from 'themes/mastodon-go/util/uuid';
 
 const messages = defineMessages({

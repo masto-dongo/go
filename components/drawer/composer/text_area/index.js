@@ -26,7 +26,7 @@ import { ParseContainer } from 'themes/mastodon-go/components';
 import './style';
 
 //  Other imports.
-import { Emoji } from 'themes/mastodon-go/util/emoji';
+import { Emoji } from 'themes/mastodon-go/util/emojify';
 
 export default class DrawerComposerTextArea extends React.PureComponent {
 

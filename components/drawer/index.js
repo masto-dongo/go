@@ -22,6 +22,9 @@ import { CommonPaneller } from 'themes/mastodon-go/components';
 //  Stylesheet imports.
 import './style';
 
+//  Other imports.
+import { Emojifier } from 'themes/mastodon-go/util/emojify';
+
 //  * * * * * * *  //
 
 //  Initial setup
