@@ -60,7 +60,7 @@ export default function CommonPaneller ({
 }
 
 //  Props.
-CommonPane.propTypes = {
+CommonPaneller.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   menu: PropTypes.node,

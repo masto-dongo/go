@@ -14,7 +14,5 @@ const complete = meta => ({
 export default function loadMeta (go) {
   try {
     go(complete, JSON.parse(document.getElementById('initial-state').textContent));
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 }

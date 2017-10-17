@@ -69,11 +69,7 @@ export default class Profile extends React.PureComponent {
 
   //  Rendering.
   render () {
-    const {
-      handleFollow,
-      handleUnfollow,
-      handleSetHash,
-    } = this;
+    const { handleSetHash } = this;
     const {
       activeRoute,
       className,

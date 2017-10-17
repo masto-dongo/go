@@ -23,10 +23,7 @@ export class Emoji {
   }
 
   toImage (selector) {
-    const {
-      location,
-      selectors,
-    } = this;
+    const { selectors } = this;
     const variant = selectors ? selectors[selector] : null;
     if (!selectors || !variant) selector = '';
     const image = new Image;

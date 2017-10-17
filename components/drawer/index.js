@@ -5,7 +5,10 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { defineMessages } from 'react-intl';
+import {
+  defineMessages,
+  FormattedMessage,
+} from 'react-intl';
 
 //  Component imports.
 import DrawerComposer from './composer';
@@ -32,7 +35,7 @@ const messages = defineMessages({
   search: {
     defaultMessage: 'Search',
     id: 'drawer.search',
-  }
+  },
 });
 
 //  * * * * * * *  //

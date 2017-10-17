@@ -2,7 +2,10 @@ import classNames from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { defineMessages } from 'react-intl';
+import {
+  defineMessages,
+  FormattedMessage,
+} from 'react-intl';
 
 import { StatusContainer } from 'themes/mastodon-go/components';
 
@@ -128,13 +131,13 @@ export default class Timeline extends React.PureComponent {
             />
           }
           panel={
-            <TimelinePane
+            <TimelinePanel
               hash={computedHash}
               intl={intl}
               path={path}
             />
           }
-          title={title}
+          title={title || <FormattedMessage {...messages.timeline} />}
           {...rest}
         >
           <CommonList isLoading={isLoading}>

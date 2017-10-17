@@ -47,7 +47,7 @@ export default class CommonObservable extends React.PureComponent {
       observer,
     } = this.props;
     if (!observer && nextProps.observer) {
-      nextProps.observe(id, node, handleIntersection);
+      nextProps.observer.observe(id, node, handleIntersection);
       this.mounted = true;
     } else if (observer && !nextProps.observer) {
       observer.unobserve(id, node);

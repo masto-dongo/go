@@ -80,7 +80,6 @@ export default function Account ({
     displayName,
     href,
     me,
-    rainbow,
     relationship,
   },
   ...rest

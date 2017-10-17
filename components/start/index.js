@@ -149,6 +149,7 @@ export default class Start extends React.PureComponent {
           />
         }
         title={<FormattedMessage {...messages.start} />}
+        {...rest}
       >
         <div class='content'>
           {me ? (

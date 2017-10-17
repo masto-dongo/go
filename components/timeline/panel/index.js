@@ -4,8 +4,6 @@ import React from 'react';
 
 import TimelinePanelSettings from './settings';
 
-import { CommonPane } from 'themes/mastodon-go/components';
-
 export default function TimelinePanel ({
   className,
   hash,
@@ -19,6 +17,7 @@ export default function TimelinePanel ({
   case '#settings':
     return (
       <TimelinePanelSettings
+        className={computedClass}
         intl={intl}
         path={path}
         {...rest}

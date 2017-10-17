@@ -113,6 +113,7 @@ export default class Conversation extends React.PureComponent {
           />
         }
         title={<FormattedMessage {...messages.conversation} />}
+        {...rest}
       >
         <CommonList>
           {statuses ? statuses.reduce(

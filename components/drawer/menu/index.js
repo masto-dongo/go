@@ -5,6 +5,7 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { defineMessages } from 'react-intl';
 
 //  Common imports.
 import {
@@ -27,7 +28,7 @@ const messages = defineMessages({
   search: {
     defaultMessage: 'Search',
     id: 'drawer.search',
-  }
+  },
 });
 
 //  * * * * * * *  //
@@ -64,7 +65,10 @@ export default class DrawerMenu extends React.PureComponent {
 
   //  Rendering.
   render () {
-    const { handleStartClick } = this;
+    const {
+      handleDrawerClick,
+      handleSearchClick,
+    } = this;
     const {
       activeRoute,
       className,

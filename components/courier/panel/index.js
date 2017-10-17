@@ -48,7 +48,6 @@ export default function CourierPanel ({
   default:
     return null;
   }
-  );
 }
 
 //  Props.

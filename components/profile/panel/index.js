@@ -10,9 +10,6 @@ import React from 'react';
 import ProfilePanelCatalogue from './catalogue';
 import ProfilePanelTimeline from './timeline';
 
-//  Common imports.
-import { CommonPane } from 'themes/mastodon-go/components';
-
 //  Stylesheet imports.
 import './style';
 

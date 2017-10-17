@@ -24,7 +24,10 @@ import classNames from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { defineMessages } from 'react-intl';
+import {
+  defineMessages,
+  FormattedMessage,
+} from 'react-intl';
 
 //  Container imports.
 import { AccountContainer } from 'themes/mastodon-go/components';
@@ -164,7 +167,7 @@ export default class Catalogue extends React.PureComponent {
               title={title}
             />
           }
-          title={title}
+          title={title || <FormattedMessage {...messages.catalogue} />}
           {...rest}
         >
           <CommonList isLoading={isLoading}>
@@ -179,7 +182,7 @@ export default class Catalogue extends React.PureComponent {
             ) : null}
           </CommonList>
         </CommonPaneller>
-      )
+      );
     }
 
     return (

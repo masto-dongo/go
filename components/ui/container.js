@@ -9,9 +9,6 @@
 //  Imports
 //  -------
 
-//  Package imports.
-import { createStructuredSelector } from 'reselect';
-
 //  Request imports.
 import { loadMeta } from 'themes/mastodon-go/redux';
 
