@@ -80,7 +80,7 @@ export default class DrawerComposer extends React.PureComponent {
       ),
     });
   };
-  handleReplyCancel = () => {
+  handleClear = () => {
     this.setState({
       idempotency: uuid(),
       inReplyTo: null,
@@ -160,12 +160,11 @@ export default class DrawerComposer extends React.PureComponent {
 
   render () {
     const {
+      handleClear,
       handleLocalChange,
       handleMediaRemove,
-      handleReplyCancel,
       handleSensitiveChange,
       handleSpoiler,
-      handleSensitiveChange,
       handleSpoilableChange,
       handleSubmit,
       handleText,
@@ -214,7 +213,7 @@ export default class DrawerComposer extends React.PureComponent {
         />
         <ComposerReplyBox
           inReplyTo={inReplyTo}
-          onCancel={handleReplyCancel}
+          onCancel={handleClear}
         />
         <ComposerTextArea
           disabled={isSubmitting}
