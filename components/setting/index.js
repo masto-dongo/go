@@ -63,7 +63,7 @@ export default class Setting extends React.PureComponent {
       '🏪': { value },
       ...rest
     } = this.props;
-    const computedClass = classNames('MASTODON_GO--COMMON--TOGGLE', {
+    const computedClass = classNames('MASTODON_GO--SETTING', {
       active: value,
       disabled,
     }, className, type);
