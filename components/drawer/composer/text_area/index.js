@@ -19,6 +19,9 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+//  Container imports.
+import { ParseContainer } from 'themes/mastodon-go/components';
+
 //  Stylesheet imports.
 import './style';
 
@@ -280,8 +283,12 @@ export default class DrawerComposerTextArea extends React.PureComponent {
         aria-label={label}
         tabIndex='0'
         title={placeholder}
-        dangerouslySetInnerHTML={{ __html: value }}
-      />
+      >
+        <ParseContainer
+          text={value}
+          type='composer'
+        />
+      </div>
     );
   }
 

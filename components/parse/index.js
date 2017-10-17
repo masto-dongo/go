@@ -34,6 +34,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 
 //  Component imports.
 import ParseAccountBio from './account_bio';
+import ParseComposer from './composer';
 import ParseEmoji from './emoji';
 import ParseStatusContent from './status_content';
 
@@ -62,6 +63,7 @@ export default class Parse extends React.PureComponent {
     text: PropTypes.string,
     type: PropTypes.oneOf([
       'account',
+      'composer',
       'emoji',
       'status',
     ]),
@@ -109,6 +111,15 @@ export default class Parse extends React.PureComponent {
           metadata={metadata}
           text={text}
           {...rest}
+        />
+      );
+    case 'composer':
+      return (
+        <ParseComposer
+          className={computedClass}  //  Will be ignored
+          emojifier={emojifier}
+          text={text}
+          {...rest}  //  Will be ignored
         />
       );
     case 'emoji':

@@ -16,7 +16,6 @@
 
 //  Package imports.
 import classNames from 'classnames';
-import escape from 'escape-html';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -48,17 +47,14 @@ export default function ParseEmoji ({
   //  We store our result in an array.
   const result = [];
 
-  //  We don't allow HTML contents in `<ParseEmoji>`.
-  let escapedText = escape(text);
-
   //  We loop over each character in the string and look for a match
   //  with any one of the emoji.  We may have multiple matches if there
   //  are multiple emoji with the same starting character.
-  for (let i = 0; i < escapedText.length; i++) {
+  for (let i = 0; i < text.length; i++) {
     const matches = emoji.filter(
       emojo => {
         const emojiString = '' + emojo;
-        return escapedText.substr(i, emojiString.length) === emojiString;
+        return text.substr(i, emojiString.length) === emojiString;
       }
     );
 
@@ -80,7 +76,7 @@ export default function ParseEmoji ({
       //  If there was text prior to this emoji, we push it to our
       //  result.  Then we push the emoji image.
       if (i !== 0) {
-        result.push(escapedText.substr(0, i));
+        result.push(text.substr(0, i));
       }
       result.push(
         <img
@@ -95,15 +91,15 @@ export default function ParseEmoji ({
 
       //  We now trim the processed text off of our `text` string and
       //  reset the index to `0`.
-      escapedText = escapedText.substr(i + ('' + emoji).length);
+      text = text.substr(i + ('' + emoji).length);
       i = 0;
     }
   }
 
   //  If our `text` didn't end in an emoji, there will still be some
   //  leftover text to push.
-  if (escapedText) {
-    result.push(escapedText);
+  if (text) {
+    result.push(text);
   }
 
   //  We can now put our `result` in a `<span>` and return the result.
