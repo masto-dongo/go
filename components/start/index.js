@@ -151,7 +151,7 @@ export default class Start extends React.PureComponent {
         title={<FormattedMessage {...messages.start} />}
         {...rest}
       >
-        <div class='content'>
+        <div className='content'>
           {me ? (
             <AccountContainer
               history={history}

@@ -43,8 +43,8 @@ export default function CommonPaneller ({
       {menu}
       {
         title ? (
-          <header>
-            <h1>{React.cloneElement(title, { 'aria-hidden': panel })}</h1>
+          <header aria-hidden={!!panel}>
+            <h1>{title}</h1>
           </header>
         ) : null
       }
@@ -52,7 +52,7 @@ export default function CommonPaneller ({
       {
         React.Children.map(
           children,
-          child => React.cloneElement(child, { 'aria-hidden': panel })
+          child => React.cloneElement(child, { 'aria-hidden': !!panel })
         )
       }
     </div>
