@@ -28,5 +28,5 @@ import connect from 'themes/mastodon-go/util/connect';
 
 //  Building our store.
 export default connect(createStructuredSelector({
-  emoji: state => state.get('emoji'),
+  emojos: state => state.get('emoji'),
 }))(Parse);

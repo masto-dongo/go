@@ -5,6 +5,7 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import {
   defineMessages,
   FormattedMessage,
@@ -56,21 +57,32 @@ export default class Drawer extends React.PureComponent {
     '💪': PropTypes.objectOf(PropTypes.func),
     '🏪': PropTypes.shape({
       defaultVisibility: PropTypes.number,
+      emojos: ImmutablePropTypes.list.isRequired,
       me: PropTypes.string,
       results: PropTypes.map,
     }).isRequired,
   }
   state = { storedHash: '#' };
+  emoji = (
+    new Emojifier(this.props['🏪'].emojos && this.props['🏪'].emojos.toJS() || [])
+  ).emoji;
 
   //  If our component is suddenly no longer the active route, we need
-  //  to store its hash value before it disappears.
+  //  to store its hash value before it disappears.  We also check for
+  //  the unlikely event of changes to our `emojos`.
   componentWillReceiveProps (nextProps) {
     const {
       activeRoute,
       hash,
+      '🏪': { emojos },
     } = this.props;
     if (activeRoute && !nextProps.activeRoute) {
       this.setState({ storedHash: hash });
+    }
+    if (emojos !== nextProps['🏪'].emojos) {
+      this.emoji = (
+        new Emojifier(nextProps['🏪'].emojos && nextProps['🏪'].emojos.toJS() || [])
+      ).emoji;
     }
   }
 
@@ -132,6 +144,7 @@ export default class Drawer extends React.PureComponent {
       >
         <DrawerComposer
           defaultVisibility={defaultVisibility}
+          emoji={emoji}
           intl={intl}
           me={me}
           onSubmit={submit}

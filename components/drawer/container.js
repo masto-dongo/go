@@ -34,6 +34,7 @@ import connect from 'themes/mastodon-go/util/connect';
 export default connect(
   createStructuredSelector({
     defaultVisibility: state => state.getIn(['meta', 'visibility']),
+    emojos: state => state.get('emoji'),
     me: state => state.getIn(['meta', 'me']),
     results: state => state.get('search'),
   }),

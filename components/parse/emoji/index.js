@@ -23,7 +23,7 @@ import React from 'react';
 import './style';
 
 //  Other imports.
-import { Emojifier } from 'themes/mastodon-go/util/emojify';
+import { Emoji } from 'themes/mastodon-go/util/emojify';
 
 //  * * * * * * *  //
 
@@ -33,16 +33,11 @@ import { Emojifier } from 'themes/mastodon-go/util/emojify';
 //  Component definition.
 export default function ParseEmoji ({
   className,
-  emojifier,
+  emoji,
   text,
   ...rest
 }) {
   const computedClass = classNames('MASTODON_GO--PARSE--EMOJI', className);
-
-  //  We grab all of our emoji from the emojifier. This is a shallow
-  //  clone operation so it's a little expensive, but it is unlikely
-  //  that this component will ever need to re-render.
-  const emoji = emojifier.emoji;
 
   //  We store our result in an array.
   const result = [];
@@ -114,6 +109,6 @@ export default function ParseEmoji ({
 //  Props.
 ParseEmoji.propTypes = {
   className: PropTypes.string,
-  emojifier: PropTypes.instanceOf(Emojifier),
+  emoji: PropTypes.arrayOf(PropTypes.instanceOf(Emoji)).isRequired,
   text: PropTypes.string.isRequired,
 };

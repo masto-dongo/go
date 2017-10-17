@@ -67,16 +67,20 @@ export default class Parse extends React.PureComponent {
     ]),
     '🛄': PropTypes.shape({ intl: PropTypes.object }),
     '💪': PropTypes.objectOf(PropTypes.func),
-    '🏪': PropTypes.shape({ emoji: ImmutablePropTypes.list.isRequired }).isRequired,
+    '🏪': PropTypes.shape({ emojos: ImmutablePropTypes.list.isRequired }).isRequired,
   };
-  emojifier = this.props.type === 'emoji' ? new Emojifier(this.props['🏪'].emoji && this.props['🏪'].emoji.toJS() || []) : null;
+  emoji = this.props.type === 'emoji' ? (
+    new Emojifier(this.props['🏪'].emojos && this.props['🏪'].emojos.toJS() || [])
+  ).emoji : null;
 
-  //  If our `emoji` change, then we need to create a new `Emojifier`.
+  //  If our `emojos` change, then we need to create new `Emoji`.
   //  (We don't bother with this if our `type` isn't `'emoji'`.)
   componentWillReceiveProps (nextProps) {
-    const { '🏪': { emoji } } = this.props;
-    if (nextProps.type === 'emoji' && emoji !== nextProps['🏪'].emoji) {
-      this.emojifier = new Emojifier(emoji && emoji.toJS() || []);
+    const { '🏪': { emojos } } = this.props;
+    if (nextProps.type === 'emoji' && emojos !== nextProps['🏪'].emojos) {
+      this.emoji = (
+        new Emojifier(nextProps['🏪'].emojos && nextProps['🏪'].emojos.toJS() || [])
+      ).emoji;
     }
   }
 
@@ -115,7 +119,7 @@ export default class Parse extends React.PureComponent {
       return (
         <ParseEmoji
           className={computedClass}
-          emojifier={emojifier}
+          emoji={emoji}
           text={text}
           {...rest}
         />

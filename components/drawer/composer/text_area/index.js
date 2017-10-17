@@ -25,12 +25,16 @@ import { ParseContainer } from 'themes/mastodon-go/components';
 //  Stylesheet imports.
 import './style';
 
+//  Other imports.
+import { Emoji } from 'themes/mastodon-go/util/emoji';
+
 export default class DrawerComposerTextArea extends React.PureComponent {
 
   //  Props.
   static propTypes = {
     className: PropTypes.string,
     disabled: PropTypes.bool,
+    emoji: PropTypes.arrayOf(PropTypes.instanceOf(Emoji)).isRequired,
     label: PropTypes.string,
     onChange: PropTypes.func,
     onSubmit: PropTypes.func,
@@ -259,7 +263,7 @@ export default class DrawerComposerTextArea extends React.PureComponent {
     } = this;
     const {
       disabled,
-      emojifier,
+      emoji,
       label,
       placeholder,
       value,
@@ -272,10 +276,6 @@ export default class DrawerComposerTextArea extends React.PureComponent {
         value === ''
       ),
     }, className);
-
-    //  We grab all of our emoji from the emojifier. This is a shallow
-    //  clone operation so it's a little expensive.
-    const emoji = emojifier.emoji;
 
     //  We store our result in an array.
     const result = [];

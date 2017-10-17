@@ -23,6 +23,7 @@ import ComposerWarning from './warning';
 import './style';
 
 //  Other imports.
+import { Emoji } from 'themes/mastodon-go/util/emoji';
 import uuid from 'themes/mastodon-go/util/uuid';
 
 const messages = defineMessages({
@@ -50,6 +51,7 @@ export default class DrawerComposer extends React.PureComponent {
     className: PropTypes.string,
     defaultVisibility: PropTypes.number,
     disabled: PropTypes.bool,
+    emoji: PropTypes.arrayOf(PropTypes.instanceOf(Emoji)).isRequired,
     intl: PropTypes.object.isRequired,
     isSubmitting: PropTypes.bool,
     me: PropTypes.string,
@@ -174,6 +176,7 @@ export default class DrawerComposer extends React.PureComponent {
       className,
       defaultVisibility,
       disabled,
+      emoji,
       intl,
       isSubmitting,
       me,
@@ -215,6 +218,7 @@ export default class DrawerComposer extends React.PureComponent {
         />
         <ComposerTextArea
           disabled={isSubmitting}
+          emoji={emoji}
           onChange={handleText}
           onSubmit={handleSubmit}
           placeholder={intl.formatMessage(messages.placeholder)}
