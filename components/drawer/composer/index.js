@@ -193,8 +193,6 @@ export default class DrawerComposer extends React.PureComponent {
     } = this.state;
     const computedClass = classNames('MASTODON_GO--COMPOSER', className);
 
-    const text2HTML = txt => txt ? '<p>' + txt.split('\n\n').join('</p><p>').split('\n').join('<br>') + '</p>' : '\n';
-
     return (
       <div
         className={computedClass}
@@ -217,10 +215,10 @@ export default class DrawerComposer extends React.PureComponent {
         />
         <ComposerTextArea
           disabled={isSubmitting}
-          innerHTML={text2HTML(text)}
           onChange={handleText}
           onSubmit={handleSubmit}
           placeholder={intl.formatMessage(messages.placeholder)}
+          value={text}
         />
         <ComposerInput
           attachments={media}
