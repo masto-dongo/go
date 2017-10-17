@@ -14,95 +14,67 @@ frontend "Labcoat", but rewritten and improved for use with Mastodon.
 
 */
 
-//  Package imports
+//  Package imports.
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-//  Stylesheet imports
+//  Stylesheet imports.
 import './style';
 
-export default class DrawerComposerTextArea extends React.Component {  //  Impure bc sCU?
+export default class DrawerComposerTextArea extends React.PureComponent {
 
-/*
-
-###  Setting up our variables:
-
-`input` will
-hold a reference to the `<div>` element that serves as our text
-area, `caret` stores the current caret position, and `value`
-stores the (plain-text) value of the text area.
-
-*/
-
+  //  Props.
   static propTypes = {
     className: PropTypes.string,
     disabled: PropTypes.bool,
-    innerHTML: PropTypes.string.isRequired,
     label: PropTypes.string,
     onChange: PropTypes.func,
     onSubmit: PropTypes.func,
     placeholder: PropTypes.string,
+    value: PropTypes.string.isRequired,
   };
   input = null;
   caret = 0;
 
-/*
-
-###  Mounting our component
-
-When our component mounts, we immediately set its `value` using
-`getContents()`.
-
-*/
-
+  //  We get the value of the component on mounting.
   componentDidMount () {
     const { getContents } = this;
     const { onChange } = this.props;
     if (onChange) onChange(getContents());
   }
 
-/*
-
-###  Updating our component
-
-We will only update our component if the `innerHTML` we receive is
-different from that already used by our `input`. This prevents us from
-having to run the complicated code to update the caret position when
-it isn't necessary.
-
-*/
-
-  shouldComponentUpdate (nextProps) {
-    const { input } = this;
-    if (!input) {
-      return true;
-    }
-    return nextProps.innerHTML !== input.innerHTML;
-  }
-
-/*
-
-###  Retrieving text area contents
-
-This is a little more complicated than it would otherwise be since we
-have to account for `<br>`s. We walk the tree of our element and
-collect the content of every text node, additionally inserting a `'\n'`
-for each `<br>` we find. In essence, this is just a `<br>`-aware
-`Element.textContent`.
-
-*/
-
+  //  This gets the contents of the text area.  This is a little more
+  //  complicated than it would otherwise be since we have to account
+  //  for `<br>`s.  We walk the tree of our element and collect the
+  //  content of every text node, additionally inserting a `'\n'` for
+  //  each `<br>` we find.  In essence, this is just a `<br>`-aware
+  //  `Element.textContent`.
   getContents = () => {
     const { input } = this;
-    if (!input) return;
-    let wkr = document.createTreeWalker(input);
+    if (!input) {
+      return;
+    }
+    let wkr = document.createTreeWalker(input, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT, {
+      acceptNode (node) {
+        const nodeName = node.nodeName.toUpperCase();
+        switch (true) {
+        case node.nodeType === Node.TEXT_NODE:
+        case nodeName === 'BR':
+        case nodeName === 'IMG':
+          return NodeFilter.FILTER_ACCEPT;
+        default:
+          return NodeFilter.FILTER_SKIP;
+        }
+      },
+    });
     let nde = null;
     let out = '';
     while (wkr.nextNode()) {
       nde = wkr.currentNode;
-      if (nde.nodeType === Node.TEXT_NODE) out += nde.textContent;
-      else if (nde.nodeType === Node.ELEMENT_NODE) {
+      if (nde.nodeType === Node.TEXT_NODE) {
+        out += nde.textContent;
+      } else {
         switch (nde.tagName.toUpperCase()) {
         case 'BR':
           out += '\n';
@@ -110,57 +82,57 @@ for each `<br>` we find. In essence, this is just a `<br>`-aware
         case 'IMG':
           out += nde.alt;
           break;
+        default:
+          out += nde.textContent;
         }
       }
     }
-    if (out.length && out.slice(-1) !== '\n') out += '\n';
+    if (out.length && out.slice(-1) !== '\n') {
+      out += '\n';
+    }
+    return out;
   }
 
-/*
-
-###  Inserting content
-
-When inserting content, we insert it directly into the DOM of our text
-area, replacing any selection. But then we call `onChange()` to update
-our text area with properly formatted contents.
-
-*/
-
+  //  When inserting content, we insert it directly into the DOM of our
+  //  text area, replacing any selection.  But then we call
+  //  `onChange()` to update our text area with properly formatted
+  //  contents.
   insertContent = (content) => {
-    const { getContents } = this;
+    const {
+      getContents,
+      input,
+    } = this;
     const { onChange } = this.props;
     const node = content instanceof Node ? content : document.createTextNode(content);
     const sel = window.getSelection();
-    const rng = sel.getRangeAt(0);
-    rng.deleteContents();
-    rng.insertNode(node);
-    rng.setEndAfter(node);
-    rng.collapse(false);
-    sel.removeAllRanges();
-    sel.addRange(rng);
+    if (sel && sel.rangeCount) {
+      const rng = sel.getRangeAt(0);
+      rng.deleteContents();
+      rng.insertNode(node);
+      rng.setEndAfter(node);
+      rng.collapse(false);
+      sel.removeAllRanges();
+      sel.addRange(rng);
+    } else {
+      input.appendChild(node);
+    }
     if (onChange) onChange(getContents());
   }
 
-/*
-
-###  Event handling
-
-For the most part, we just call `getContents()` to update our value
-whenever something happens to our textbox. However, if the user types
-"enter" then we need to ensure that the result is just a simple `<br>`
-element and not some weird `<div>`-induced magic that browsers like
-Chrome (and now Firefox) like to pull.
-
-This is a somewhat complicated procedure which involves finding the
-caret position, deleting any selected contents, inserting a `<br>`
-element in their place, and then updating the caret to be positioned
-just after the `<br>`.
-
-*/
-
+//  For the most part, we just call `getContents()` to update our value
+//  whenever something happens to our textbox.  However, if the user
+//  types "enter" then we need to ensure that the result is just a
+//  simple `<br>` element and not some weird `<div>`-induced magic that
+//  browsers like Chrome (and now Firefox) like to pull.
   handleEvent = e => {
-    const { getContents, insertContent } = this;
-    const { onChange, onSubmit } = this.props;
+    const {
+      getContents,
+      insertContent,
+    } = this;
+    const {
+      onChange,
+      onSubmit,
+    } = this.props;
     if (e.type === 'keypress') {
       if (e.key === 'Enter' || e.keyCode === 0x0D) {
         e.preventDefault();
@@ -172,72 +144,38 @@ just after the `<br>`.
     if (onChange) onChange(getContents());
   }
 
-/*
-
-###  Storing the caret position
-
-This function gets our current caret position, so we can put it back
-after we insert our formatted text.
-
-*/
-
+  //  Storing our caret position.
   storeCaretPos = () => {
     this.caret = 0;
 
-/*
-
-We store the current selection with `sel` and the current range of the
-selection with `rng`.
-
-*/
-
+    //  We store the current selection with `sel` and the current range
+    //  of the selection with `rng`.
     const sel = window.getSelection();
+    if (!sel || !sel.rangeCount) {
+      return;
+    }
     const rng = sel.getRangeAt(0);
 
-/*
-
-`pre` is a range consisting of everything leading up to the end of
-`rng`. First we select our entire text area, and then we set the
-endpoint of the range to be the endpoint of our current selection.
-
-*/
-
+    //  `pre` is a range consisting of everything leading up to the end
+    //  of `rng`.  First we select our entire text area, and then we
+    //  set the endpoint of the range to be the endpoint of our current
+    //  selection.
     const pre = rng.cloneRange();
     pre.selectNodeContents(this.input);
     pre.setEnd(rng.endContainer, rng.endOffset);
 
-/*
-
-This next line tells us how many line breaks were in the selected
-range. This is a somewhat expensive operation as it involves cloning
-DOM nodes, but there isn't any faster way.
-
-*/
-
+    //  This next line tells us how many line breaks were in the
+    //  selected range.  This is a somewhat expensive operation as it
+    //  involves cloning DOM nodes, but there isn't any faster way.
     const brs = pre.cloneContents().querySelectorAll('br').length;
 
-/*
-
-We can now find the length of the selection by adding length of the
-text content to the number of line breaks.
-
-*/
-
+    //  We can now find the length of the selection by adding the
+    //  length of the text content to the number of line breaks.
     this.caret = pre.toString().length + brs;
   }
 
-/*
-
-###  Restoring the caret position
-
-This function sets the caret position to what we have stored. We will
-use a `TreeWalker` to walk the contents of our text area until we find
-the correct position to stick our caret.
-
-The `offset` argument can be used to adjust where to place the caret.
-
-*/
-
+  //  Restoring our caret position.  The `offset` argument can be used
+  //  to adjust where to place the caret.
   restoreCaretPos = (offset = 0) => {
     const { input, caret, value } = this;
     if (!input) return;
@@ -249,23 +187,13 @@ The `offset` argument can be used to adjust where to place the caret.
     let nde = null;
     let success = false;
 
-/*
-
-If our `caret` is as long as our `value`, we can cut straight to the
-chase and stick our caret at the end.
-
-*/
-
+    //  If our `caret` is as long as our `value`, we already know it
+    //  goes at the end.
     if (dst >= value.length - 1) success = true;
 
-/*
-
-This loop breaks when either we run out of nodes, or we find the text
-node that our caret belongs in. It will also break if we wind up in=
-between two `<br>`s, which is a possibility.
-
-*/
-
+    //  This loop breaks if we run out of nodes, or find the node that
+    //  our caret belongs in.  It properly handles the case where the
+    //  caret belongs between two `<br>`s.
     while (wkr.nextNode()) {
       nde = wkr.currentNode;
       if (nde.nodeType === Node.TEXT_NODE) {
@@ -284,15 +212,10 @@ between two `<br>`s, which is a possibility.
       }
     }
 
-/*
-
-If we were successfull, we set the end of our range to the point we
-found. If we weren't, we select the textbox's entire contents, save the
-final `<br>`, if present. Either way, we `collapse()` the range to its
-endpoint and move the caret there.
-
-*/
-
+    //  If we found the position of the caret, we set the end of our
+    //  range to that spot.  If not, we select the entire text area.
+    //  Then we `collapse()` the range to its endpoint and move the
+    //  caret there.
     if (success && nde) {
       if (nde.nodeType === Node.TEXT_NODE) rng.setEnd(nde, dst - idx);
       else rng.selectNodeContents(nde);
@@ -306,42 +229,25 @@ endpoint and move the caret there.
     sel.addRange(rng);
   }
 
-/*
-
-###  Mangaing caret position before and after updating
-
-We use `componentWillUpdate()` to grab the caret position right before
-updating, and `componentDidUpdate()` to set it right after.
-
-*/
-
-  componentWillUpdate () {
-    this.storeCaretPos();
+  //  We use `componentWillUpdate()` to grab the caret position before
+  //  updating, and `componentDidUpdate()` to set it afterwards.
+  componentWillUpdate (nextProps) {
+    const { value } = this.props;
+    if (nextProps.value !== value) {
+      this.storeCaretPos();
+    }
   }
-  componentDidUpdate () {
-    this.restoreCaretPos();
+  componentDidUpdate (prevProps) {
+    const { value } = this.props;
+    if (prevProps.value !== value) {
+      this.restoreCaretPos();
+    }
   }
 
-/*
+  //  Storing a reference to our input.
+  setRef = input => this.input = input;
 
-###  Storing a reference to the current node
-
-`setRef()` stores a reference to our `<div>` in `this.input`.
-
-*/
-
-  setRef = c => this.input = c;
-
-/*
-
-###  Rendering
-
-For all its complexity, `<ComposerTextArea>` is just a single `<div>`.
-We set the `empty` class if it is empty *or* consists of only a line=
-break, and set the contents to our passed `innerHTML`.
-
-*/
-
+  //  Rendering.
   render () {
     const {
       handleEvent,
@@ -356,11 +262,11 @@ break, and set the contents to our passed `innerHTML`.
 
     const className = classNames('MASTODON_GO--DRAWER--COMPOSER--TEXT_AREA', {
       empty: (
-        innerHTML.toLowerCase === '<br>' ||
-        innerHTML === '\n' ||
-        innerHTML === ''
+        value.toLowerCase === '<br>' ||
+        value === '\n' ||
+        value === ''
       ),
-    });
+    }, className);
 
     return (
       <div
@@ -373,7 +279,7 @@ break, and set the contents to our passed `innerHTML`.
         aria-label={label}
         tabIndex='0'
         title={placeholder}
-        dangerouslySetInnerHTML={{ __html: innerHTML }}
+        dangerouslySetInnerHTML={{ __html: value }}
       />
     );
   }
