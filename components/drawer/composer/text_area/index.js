@@ -255,9 +255,9 @@ export default class DrawerComposerTextArea extends React.PureComponent {
     } = this;
     const {
       disabled,
-      innerHTML,
       label,
       placeholder,
+      value,
     } = this.props;
 
     const className = classNames('MASTODON_GO--DRAWER--COMPOSER--TEXT_AREA', {
