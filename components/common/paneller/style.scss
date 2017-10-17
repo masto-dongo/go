@@ -61,7 +61,7 @@
     box-sizing: border-box;
     top: 0;
     bottom: 0;
-    left: -100%;
+    left: 0;
     margin: 0;
     border-style: none solid none none;
     border-color: transparent;
@@ -76,7 +76,7 @@
     transition: left (.45s * $mastodon_go_animation_speed) ease;
     z-index: 500;
 
-    &:empty { left: 0 }
+    &:empty { left: -100% }
   }
 
   &.navigable {
