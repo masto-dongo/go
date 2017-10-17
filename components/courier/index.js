@@ -158,7 +158,7 @@ export default class Courier extends React.PureComponent {
           panel={function () {
             switch (hash) {
             case '#settings':
-              return <CourierPanelSettings />;
+              return <CourierSettings />;
             default:
               return null;
             }

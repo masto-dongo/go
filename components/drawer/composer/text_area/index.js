@@ -19,9 +19,6 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-//  Container imports.
-import { ParseContainer } from 'themes/mastodon-go/components';
-
 //  Stylesheet imports.
 import './style';
 
@@ -60,7 +57,7 @@ export default class DrawerComposerTextArea extends React.PureComponent {
   getContents = () => {
     const { input } = this;
     if (!input) {
-      return;
+      return '\n';
     }
     let wkr = document.createTreeWalker(input, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT, {
       acceptNode (node) {
@@ -314,10 +311,6 @@ export default class DrawerComposerTextArea extends React.PureComponent {
         const emojo = matches.reduce(
           (longest, current) => longest && ('' + longest).length > ('' + current).length ? longest : current
         );
-        const {
-          name,
-          title,
-        } = emojo;
         const selector = '';  //  TK: Selector support forthcoming
 
         //  If there was text prior to this emoji, we push it to our

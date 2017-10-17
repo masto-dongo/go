@@ -70,7 +70,7 @@ const messages = defineMessages({
 //  -------------
 
 //  Component definition.
-export default function CourierPanelSettings ({
+export default function CourierSettings ({
   className,
   ...rest
 }) {

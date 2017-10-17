@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { defineMessages, FormattedMessage } from 'react-intl';
+import { defineMessages } from 'react-intl';
 import Redirect from 'react-router-dom/Redirect';
 import Switch from 'react-router-dom/Switch';
 import Route from 'react-router-dom/Route';

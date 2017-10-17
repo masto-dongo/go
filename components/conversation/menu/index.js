@@ -50,12 +50,13 @@ const messages = defineMessages({
 
 //  Component definition.
 export default function ConversationMenu ({
-    className,
-    history,
-    id,
-    intl,
-    statuses,
-    ...rest
+  activeRoute,
+  className,
+  history,
+  id,
+  intl,
+  statuses,
+  ...rest
 }) {
   const computedClass = classNames('MASTODON_GO--CONVERSATION--MENU', className);
 
@@ -86,6 +87,7 @@ export default function ConversationMenu ({
 
 //  Props.
 ConversationMenu.propTypes = {
+  activeRoute: PropTypes.bool,
   className: PropTypes.string,
   history: PropTypes.object,
   id: PropTypes.string.isRequired,

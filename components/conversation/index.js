@@ -106,6 +106,7 @@ export default class Conversation extends React.PureComponent {
         className={computedClass}
         menu={
           <ConversationMenu
+            activeRoute={activeRoute}
             history={history}
             id={id}
             intl={intl}

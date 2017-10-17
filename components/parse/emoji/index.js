@@ -93,7 +93,7 @@ export default function ParseEmoji ({
     }
 
     //  Otherwise, we increment our index and move on.
-    i++
+    i++;
   }
 
   //  If our `text` didn't end in an emoji, there will still be some
