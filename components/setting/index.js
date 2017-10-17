@@ -27,7 +27,7 @@ export default class Setting extends React.PureComponent {
     type: PropTypes.oneOf(['input', 'toggle']),
     '🛄': PropTypes.shape({}),
     '💪': PropTypes.objectOf(PropTypes.func).isRequired,
-    '🏪': PropTypes.shape({ value: PropTypes.oneOf([PropTypes.string, PropTypes.bool]) }).isRequired,
+    '🏪': PropTypes.shape({ value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]) }).isRequired,
   };
 
   //  How we handle a change depends on the type of toggle we are
@@ -79,13 +79,13 @@ export default class Setting extends React.PureComponent {
             placeholder={title}
             title={title}
             type='text'
-            value={value}
+            value={value || ''}
           />
         );
       case 'toggle':
         return (
           <Toggle
-            checked={value}
+            checked={!!value}
             disabled={disabled}
             onChange={handleChange}
             title={title}
