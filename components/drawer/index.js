@@ -99,7 +99,10 @@ export default class Drawer extends React.PureComponent {
 
   //  Rendering.
   render () {
-    const { handleSetHash } = this;
+    const {
+      emoji,
+      handleSetHash,
+    } = this;
     const {
       activeRoute,
       className,
