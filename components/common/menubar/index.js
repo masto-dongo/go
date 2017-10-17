@@ -48,7 +48,7 @@ export default function CommonMenubar ({
 }) {
   const computedClass = classNames('MASTODON_GO--COMMON--MENUBAR', { active_route: activeRoute && history && intl }, className);
   return (
-    <div
+    <nav
       className={computedClass}
       {...rest}
     >
@@ -63,7 +63,7 @@ export default function CommonMenubar ({
           />
         ) : null
       }
-    </div>
+    </nav>
   );
 }
 

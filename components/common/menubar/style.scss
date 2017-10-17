@@ -4,10 +4,6 @@
 
 .MASTODON_GO--COMMON--MENUBAR {
   display: block;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
   margin: 0;
   padding: 0;
   width: 3.5rem;
@@ -15,7 +11,6 @@
   background-color: $mastodon_go_menu_background;
   overflow-x: hidden;
   overflow-y: auto;
-  z-index: 100;
 
   & > .MASTODON_GO--COMMON--BUTTON {
     display: block;

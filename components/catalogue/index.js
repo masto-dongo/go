@@ -34,9 +34,8 @@ import CatalogueMenu from './menu';
 
 //  Common imports.
 import {
-  CommonHeader,
   CommonList,
-  CommonLoadbar,
+  CommonPaneller,
 } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
@@ -145,19 +144,16 @@ export default class Catalogue extends React.PureComponent {
       ...rest
     } = this.props;
     const { storedHash } = this.state;
-    const computedClass = classNames('MASTODON_GO--CATALOGUE', { column }, className);
+    const computedClass = classNames('MASTODON_GO--CATALOGUE', { list: !column }, className);
 
     //  We only use our internal hash if this isn't the active route.
     const computedHash = activeRoute ? hash : storedHash;
 
-    //  Putting everything together.
-    return (
-      <div
-        className={computedClass}
-        {...rest}
-      >
-        {
-          column ? (
+    if (column) {
+      return (
+        <CommonPaneller
+          className={computedClass}
+          menu={
             <CatalogueMenu
               activeRoute={activeRoute}
               hash={computedHash}
@@ -165,24 +161,43 @@ export default class Catalogue extends React.PureComponent {
               icon={icon}
               intl={intl}
               onSetHash={handleSetHash}
-              title={intl.formatMessage(messages.catalogue)}
+              title={title}
             />
-          ) : null
-        }
-        {column ? <CommonHeader title={title} /> : null}
-        <CommonList>
-          {accounts ? accounts.reduce(
-            (items, id) => items.push(
-              <AccountContainer
-                id={id}
-                key={id}
-              />
-            ),
-            []
-          ) : null}
-        </CommonList>
-        {isLoading ? <CommonLoadbar /> : null}
-      </div>
+          }
+          title={title}
+          {...rest}
+        >
+          <CommonList isLoading={isLoading}>
+            {accounts ? accounts.reduce(
+              (items, id) => items.push(
+                <AccountContainer
+                  id={id}
+                  key={id}
+                />
+              ),
+              []
+            ) : null}
+          </CommonList>
+        </CommonPaneller>
+      )
+    }
+
+    return (
+      <CommonList
+        className={computedClass}
+        isLoading={isLoading}
+        {...rest}
+      >
+        {accounts ? accounts.reduce(
+          (items, id) => items.push(
+            <AccountContainer
+              id={id}
+              key={id}
+            />
+          ),
+          []
+        ) : null}
+      </CommonList>
     );
   }
 

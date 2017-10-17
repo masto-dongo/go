@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
+//  Common imports.
+import { CommonPaneller } from 'themes/mastodon-go/components';
+
 //  Component imports.
 import ProfileContent from './content';
 import ProfileMenu from './menu';
-import ProfilePane from './pane';
+import ProfilePanel from './panel';
 
 export default class Profile extends React.PureComponent {
 
@@ -100,18 +103,27 @@ export default class Profile extends React.PureComponent {
 
     //  Putting everything together.
     return (
-      <div
+      <CommonPaneller
         className={computedClass}
+        menu={
+          <ProfileMenu
+            activeRoute={activeRoute}
+            hash={computedHash}
+            history={history}
+            intl={intl}
+            onSetHash={handleSetHash}
+            title={'@' + at}
+          />
+        }
+        panel={
+          <ProfilePanel
+            hash={computedHash}
+            id={id}
+          />
+        }
+        title={'@' + at}
         {...rest}
       >
-        <ProfileMenu
-          activeRoute={activeRoute}
-          hash={computedHash}
-          history={history}
-          intl={intl}
-          onSetHash={handleSetHash}
-          title={'@' + at}
-        />
         <ProfileContent
           activeRoute={activeRoute}
           bio={bio}
@@ -127,11 +139,7 @@ export default class Profile extends React.PureComponent {
           rainbow={rainbow}
           relationship={relationship}
         />
-        <ProfilePane
-          hash={computedHash}
-          id={id}
-        />
-      </div>
+      </CommonPaneller>
     );
   }
 

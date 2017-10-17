@@ -15,13 +15,28 @@ import {
 //  Stylesheet imports.
 import './style';
 
+//  Initial setup
+//  -------------
+
+//  Holds our localization messages.
+const messages = defineMessages({
+  drawer: {
+    defaultMessage: 'Compose',
+    id: 'drawer.drawer',
+  },
+  search: {
+    defaultMessage: 'Search',
+    id: 'drawer.search',
+  }
+});
+
 //  * * * * * * *  //
 
 //  The component
 //  -------------
 
 //  Component definition.
-export default class StartMenu extends React.PureComponent {
+export default class DrawerMenu extends React.PureComponent {
 
   //  Props.
   static propTypes = {
@@ -29,19 +44,23 @@ export default class StartMenu extends React.PureComponent {
     className: PropTypes.string,
     hash: PropTypes.string,
     history: PropTypes.object,
-    icon: PropTypes.string,
     intl: PropTypes.object.isRequired,
     onSetHash: PropTypes.func,
-    title: PropTypes.string,
   };
 
   //  Click handling.
-  handleStartClick = () => {
+  handleDrawerClick = () => {
     const { onSetHash } = this.props;
     if (onSetHash) {
       onSetHash('#');
     }
   };
+  handleSearchClick = () => {
+    const { onSetHash } = this.props;
+    if (onSetHash) {
+      onSetHash('#search');
+    }
+  }
 
   //  Rendering.
   render () {
@@ -53,7 +72,6 @@ export default class StartMenu extends React.PureComponent {
       history,
       intl,
       onSetHash,
-      title,
       ...rest
     } = this.props;
     const computedClass = classNames('MASTODON_GO--START--MENU', className);
@@ -68,9 +86,17 @@ export default class StartMenu extends React.PureComponent {
           active={!hash || hash === '#'}
           destination={activeRoute ? '#' : undefined}
           history={history}
-          icon='asterisk'
-          onClick={!activeRoute ? handleStartClick : undefined}
-          title={title}
+          icon='pencil-square'
+          onClick={!activeRoute ? handleDrawerClick : undefined}
+          title={intl.formatMessage(messages.drawer)}
+        />
+        <CommonButton
+          active={hash === '#search'}
+          destination={activeRoute ? '#search' : undefined}
+          history={history}
+          icon='search'
+          onClick={!activeRoute ? handleSearchClick : undefined}
+          title={intl.formatMessage(messages.search)}
         />
       </CommonMenubar>
     );

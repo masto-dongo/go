@@ -4,9 +4,36 @@
 
 .MASTODON_GO--COMMON--LIST {
   display: block;
+  position: relative;
   margin: 0;
   border: none;
   padding: 0;
   overflow-x: hidden;
   overflow-y: scroll;
+
+  &.loading::after {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    border: none;
+    padding: 0;
+    height: 4px;
+    background-image: linear-gradient(to right, $rainbow_cyan, $rainbow_blue, $rainbow_purple, $rainbow_magenta, $rainbow_red, $rainbow_yellow, $rainbow_green, $rainbow_teal, $rainbow_cyan);
+    background-attachment: scroll;
+    background-size: 23rem auto;
+    background-repeat: repeat-x;
+    animation: 2s mastodon_go_common_list_loading linear infinite;
+    content: "";
+
+    @keyframes mastodon_go_common_list_loading {
+      from {
+        background-position: 0 0;
+      }
+      to {
+        background-position: 23rem 0;
+      }
+    }
 }

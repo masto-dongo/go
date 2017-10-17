@@ -20,7 +20,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { defineMessages } from 'react-intl';
+import { defineMessages, FormattedMessage } from 'react-intl';
 
 //  Container imports.
 import { StatusContainer } from 'themes/mastodon-go/components';
@@ -30,9 +30,8 @@ import ConversationMenu from './menu';
 
 //  Common imports.
 import {
-  CommonHeader,
   CommonList,
-  CommonLoadbar,
+  CommonPaneller,
 } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
@@ -101,18 +100,20 @@ export default class Conversation extends React.PureComponent {
       ...rest
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONVERSATION', className);
+
     return (
-      <div
+      <CommonPaneller
         className={computedClass}
-        {...rest}
+        menu={
+          <ConversationMenu
+            history={history}
+            id={id}
+            intl={intl}
+            statuses={statuses}
+          />
+        }
+        title={<FormattedMessage {...messages.conversation} />}
       >
-        <ConversationMenu
-          history={history}
-          id={id}
-          intl={intl}
-          statuses={statuses}
-        />
-        <CommonHeader title={intl.formatMessage(messages.conversation)} />
         <CommonList>
           {statuses ? statuses.reduce(
             (items, statusId) => items.push(
@@ -125,8 +126,7 @@ export default class Conversation extends React.PureComponent {
             []
           ) : null}
         </CommonList>
-        {isLoading ? <CommonLoadbar /> : null}
-      </div>
+      </CommonPaneller>
     );
   }
 

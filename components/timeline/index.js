@@ -7,13 +7,12 @@ import { defineMessages } from 'react-intl';
 import { StatusContainer } from 'themes/mastodon-go/components';
 
 import {
-  CommonHeader,
   CommonList,
-  CommonLoadbar,
+  CommonPaneller,
 } from 'themes/mastodon-go/components';
 
 import TimelineMenu from './menu';
-import TimelinePane from './pane';
+import TimelinePanel from './panel';
 
 import './style';
 
@@ -110,16 +109,14 @@ export default class Timeline extends React.PureComponent {
       storedHash,
     } = this.state;
 
-    const computedClass = classNames('MASTODON_GO--TIMELINE', className);
+    const computedClass = classNames('MASTODON_GO--TIMELINE', { list: !column }, className);
     const computedHash = activeRoute ? hash : storedHash;
 
-    return (
-      <div
-        className={computedClass}
-        {...rest}
-      >
-        {
-          column ? (
+    if (column) {
+      return (
+        <CommonPaneller
+          className={computedClass}
+          menu={
             <TimelineMenu
               activeRoute={activeRoute}
               hash={computedHash}
@@ -127,39 +124,62 @@ export default class Timeline extends React.PureComponent {
               icon={icon}
               intl={intl}
               onSetHash={handleSetHash}
-              title={intl.formatMessage(messages.timeline)}
+              title={title}
             />
-          ) : null
-        }
-        {column ? <CommonHeader title={title} /> : null}
-        <CommonList>
-          {
-            statuses ? statuses.reduce(
-              (items, id) => items.push(
-                <StatusContainer
-                  detailed={currentDetail === id}
-                  filterRegex={settings.getIn(['regex', 'body'])}
-                  hideIf={(settings.getIn(['shows', 'reblog']) && POST_TYPE.IS_REBLOG) | (settings.getIn(['shows', 'reply']) && POST_TYPE.IS_MENTION)}
-                  id={id}
-                  key={id}
-                  setDetail={handleSetDetail}
-                />
-              ),
-              []
-            ) : null
           }
-        </CommonList>
-        {
-          column ? (
+          panel={
             <TimelinePane
               hash={computedHash}
               intl={intl}
               path={path}
             />
+          }
+          title={title}
+          {...rest}
+        >
+          <CommonList isLoading={isLoading}>
+            {
+              statuses ? statuses.reduce(
+                (items, id) => items.push(
+                  <StatusContainer
+                    detailed={currentDetail === id}
+                    filterRegex={settings.getIn(['regex', 'body'])}
+                    hideIf={(settings.getIn(['shows', 'reblog']) && POST_TYPE.IS_REBLOG) | (settings.getIn(['shows', 'reply']) && POST_TYPE.IS_MENTION)}
+                    id={id}
+                    key={id}
+                    setDetail={handleSetDetail}
+                  />
+                ),
+                []
+              ) : null
+            }
+          </CommonList>
+        </CommonPaneller>
+      );
+    }
+
+    return (
+      <CommonList
+        className={computedClass}
+        isLoading={isLoading}
+        {...rest}
+      >
+        {
+          statuses ? statuses.reduce(
+            (items, id) => items.push(
+              <StatusContainer
+                detailed={currentDetail === id}
+                filterRegex={settings.getIn(['regex', 'body'])}
+                hideIf={(settings.getIn(['shows', 'reblog']) && POST_TYPE.IS_REBLOG) | (settings.getIn(['shows', 'reply']) && POST_TYPE.IS_MENTION)}
+                id={id}
+                key={id}
+                setDetail={handleSetDetail}
+              />
+            ),
+            []
           ) : null
         }
-        {isLoading ? <CommonLoadbar /> : null}
-      </div>
+      </CommonList>
     );
   }
 

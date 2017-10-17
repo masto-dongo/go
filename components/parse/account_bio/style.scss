@@ -37,7 +37,9 @@
         & > th {
           display: table-cell;
           margin: 0;
-          border: 1px $mastodon_go_table_heading_border solid;
+          border-style: solid;
+          border-color: $mastodon_go_table_heading_border $mastodon_go_table_heading_border $mastodon_go_table_heading_border $mastodon_go_table_border;
+          border-width: 1px;
           padding: .625em 1em;
           width: 40%;
           max-width: 8em;

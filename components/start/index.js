@@ -16,7 +16,7 @@ import StartMenu from './menu';
 //  Common imports.
 import {
   CommonButton,
-  CommonHeader,
+  CommonPaneller,
 } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
@@ -135,21 +135,22 @@ export default class Start extends React.PureComponent {
     const computedHash = activeRoute ? hash : storedHash;
 
     return (
-      <div
+      <CommonPaneller
         className={computedClass}
-        {...rest}
+        menu={
+          <StartMenu
+            activeRoute={activeRoute}
+            hash={computedHash}
+            history={history}
+            icon='asterisk'
+            intl={intl}
+            onSetHash={handleSetHash}
+            title={intl.formatMessage(messages.start)}
+          />
+        }
+        title={<FormattedMessage {...messages.start} />}
       >
-        <StartMenu
-          activeRoute={activeRoute}
-          hash={computedHash}
-          history={history}
-          icon='asterisk'
-          intl={intl}
-          onSetHash={handleSetHash}
-          title={intl.formatMessage(messages.start)}
-        />
-        <CommonHeader title={intl.formatMessage(messages.start)} />
-        <div className='content'>
+        <div class='content'>
           {me ? (
             <AccountContainer
               history={history}
@@ -212,7 +213,7 @@ export default class Start extends React.PureComponent {
             />
           </nav>
         </div>
-      </div>
+      </CommonPaneller>
     );
   }
 

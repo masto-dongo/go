@@ -10,6 +10,7 @@ export default class CommonList extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
+    isLoading: PropTypes.bool,
     onScroll: PropTypes.func,
     onScrollToBottom: PropTypes.func,
     onScrollToTop: PropTypes.func,
@@ -155,13 +156,14 @@ export default class CommonList extends React.PureComponent {
     const {
       children,
       className,
+      isLoading,
       onScroll,
       onScrollToBottom,
       onScrollToTop,
       ...rest
     } = this.props;
 
-    const computedClass = classNames('MASTODON_GO--COMMON--LIST', className);
+    const computedClass = classNames('MASTODON_GO--COMMON--LIST', { loading: isLoading }, className);
 
     return (
       <div

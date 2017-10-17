@@ -86,6 +86,7 @@ export default class UIColumn extends React.PureComponent {
               return (
                 <StartContainer
                   activeRoute={activeRoute}
+                  className='column'
                   {...(activeRoute && hash ? { hash } : {})}
                   history={history}
                 />
@@ -100,6 +101,7 @@ export default class UIColumn extends React.PureComponent {
               return (
                 <CourierContainer
                   activeRoute={activeRoute}
+                  className='column'
                   column
                   {...(activeRoute && hash ? { hash } : {})}
                   history={history}
@@ -115,6 +117,7 @@ export default class UIColumn extends React.PureComponent {
               return (
                 <DrawerContainer
                   activeRoute={activeRoute}
+                  className='column'
                   {...(activeRoute && hash ? { hash } : {})}
                   history={history}
                 />
@@ -129,6 +132,7 @@ export default class UIColumn extends React.PureComponent {
               return (
                 <TimelineContainer
                   activeRoute={activeRoute}
+                  className='column'
                   column
                   {...(activeRoute && hash ? { hash } : {})}
                   history={history}
@@ -146,6 +150,7 @@ export default class UIColumn extends React.PureComponent {
               return (
                 <TimelineContainer
                   activeRoute={activeRoute}
+                  className='column'
                   column
                   {...(activeRoute && hash ? { hash } : {})}
                   history={history}
@@ -163,6 +168,7 @@ export default class UIColumn extends React.PureComponent {
               return (
                 <TimelineContainer
                   activeRoute={activeRoute}
+                  className='column'
                   column
                   {...(activeRoute && hash ? { hash } : {})}
                   history={history}
@@ -183,6 +189,7 @@ export default class UIColumn extends React.PureComponent {
               return (
                 <TimelineContainer
                   activeRoute={activeRoute}
+                  className='column'
                   column
                   {...(activeRoute && hash ? { hash } : {})}
                   history={history}
@@ -203,6 +210,7 @@ export default class UIColumn extends React.PureComponent {
               return (
                 <TimelineContainer
                   activeRoute={activeRoute}
+                  className='column'
                   column
                   {...(activeRoute && hash ? { hash } : {})}
                   history={history}
@@ -224,6 +232,7 @@ export default class UIColumn extends React.PureComponent {
               return (
                 <ProfileContainer
                   activeRoute={activeRoute}
+                  className='column'
                   {...(activeRoute && hash ? { hash } : {})}
                   history={history}
                   id={id}

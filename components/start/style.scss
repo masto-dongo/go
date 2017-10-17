@@ -3,7 +3,7 @@
 @import "themes/mastodon-go/variables";
 
 .MASTODON_GO--START {
-  & > .content {
+  & > *.content {
     display: block;
     margin: 0;
     border: none;

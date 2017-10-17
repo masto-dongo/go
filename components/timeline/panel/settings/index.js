@@ -31,13 +31,13 @@ const messages = defineMessages({
   },
 });
 
-export default function TimelinePaneSettings ({
+export default function TimelinePanelSettings ({
   className,
   intl,
   path,
   ...rest
 }) {
-  const computedClass = classNames('MASTODON_GO--TIMELINE--PANE--SETTINGS', className);
+  const computedClass = classNames('MASTODON_GO--TIMELINE--PANEL--SETTINGS', className);
 
   return (
     <div
@@ -70,7 +70,7 @@ export default function TimelinePaneSettings ({
   );
 };
 
-TimelinePaneSettings.propTypes = {
+TimelinePanelSettings.propTypes = {
   className: PropTypes.string,
   intl: PropTypes.object.isRequired,
   path: PropTypes.string.isRequired,

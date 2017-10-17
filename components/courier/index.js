@@ -27,13 +27,12 @@ import { NotificationContainer } from 'themes/mastodon-go/components';
 
 //  Component imports.
 import CourierMenu from './menu';
-import CourierPane from './pane';
+import CourierPanel from './panel';
 
 //  Common imports.
 import {
-  CommonHeader,
   CommonList,
-  CommonLoadbar,
+  CommonPaneller,
 } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
@@ -133,19 +132,17 @@ export default class Courier extends React.PureComponent {
       ...rest
     } = this.props;
     const { storedHash } = this.state;
-    const computedClass = classNames('MASTODON_GO--COURIER', className);
+    const computedClass = classNames('MASTODON_GO--COURIER', { list: !column }, className);
 
     //  We only use our internal hash if this isn't the active route.
     const computedHash = activeRoute ? hash : storedHash;
 
     //  Rendering.
-    return (
-      <div
-        className={computedClass}
-        {...rest}
-      >
-        {
-          column ? (
+    if (column) {
+      return (
+        <CommonPaneller
+          className={computedClass}
+          menu={
             <CourierMenu
               activeRoute={activeRoute}
               hash={computedHash}
@@ -154,24 +151,44 @@ export default class Courier extends React.PureComponent {
               onSetHash={handleSetHash}
               title={intl.formatMessage(messages.courier)}
             />
-          ) : null
-        }
-        {column ? <CommonHeader title={intl.formatMessage(messages.courier)} /> : null}
-        <CommonList>
-          {notifications ? notifications.reduce(
-            (items, id) => items.push(
-              <NotificationContainer
-                hideIf={(settings.getIn(['shows', 'favourite']) && POST_TYPE.IS_FAVOURITE) | (settings.getIn(['shows', 'reblog']) && POST_TYPE.IS_REBLOG) | (settings.getIn(['shows', 'mention']) && POST_TYPE.IS_MENTION) | (settings.getIn(['shows', 'follow']) && POST_TYPE.IS_FOLLOW)}
-                id={id}
-                key={id}
-              />
-            ),
-            []
-          ) : null}
-        </CommonList>
-        {column ? <CourierPane hash={computedHash} /> : null}
-        {isLoading ? <CommonLoadbar /> : null}
-      </div>
+          }
+          panel={<CourierPanel hash={computedHash} />}
+          title={<FormattedMessage {...messages.courier} />}
+          {...rest}
+        >
+          <CommonList isLoading={isLoading}>
+            {notifications ? notifications.reduce(
+              (items, id) => items.push(
+                <NotificationContainer
+                  hideIf={(settings.getIn(['shows', 'favourite']) && POST_TYPE.IS_FAVOURITE) | (settings.getIn(['shows', 'reblog']) && POST_TYPE.IS_REBLOG) | (settings.getIn(['shows', 'mention']) && POST_TYPE.IS_MENTION) | (settings.getIn(['shows', 'follow']) && POST_TYPE.IS_FOLLOW)}
+                  id={id}
+                  key={id}
+                />
+              ),
+              []
+            ) : null}
+          </CommonList>
+        </CommonPaneller>
+      );
+    }
+
+    return (
+      <CommonList
+        className={computedClass}
+        isLoading={isLoading}
+        {...rest}
+      >
+        {notifications ? notifications.reduce(
+          (items, id) => items.push(
+            <NotificationContainer
+              hideIf={(settings.getIn(['shows', 'favourite']) && POST_TYPE.IS_FAVOURITE) | (settings.getIn(['shows', 'reblog']) && POST_TYPE.IS_REBLOG) | (settings.getIn(['shows', 'mention']) && POST_TYPE.IS_MENTION) | (settings.getIn(['shows', 'follow']) && POST_TYPE.IS_FOLLOW)}
+              id={id}
+              key={id}
+            />
+          ),
+          []
+        ) : null}
+      </CommonList>
     );
   }
 

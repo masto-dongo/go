@@ -1,13 +1,16 @@
 //  `<DrawerComposer>`
 //  ==================
 
-//  Package imports
+//  Package imports.
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { defineMessages } from 'react-intl';
 
-//  Our imports
+//  Container imports.
+import { AccountContainer } from 'themes/mastodon-go/components';
+
+//  Component imports.
 import ComposerControls from './input';
 import ComposerInput from './input';
 import ComposerOptions from './options';
@@ -16,9 +19,10 @@ import ComposerSpoiler from './spoiler';
 import ComposerTextArea from './text_area';
 import ComposerWarning from './warning';
 
-//  Stylesheet imports
+//  Stylesheet imports.
 import './style';
 
+//  Other imports.
 import uuid from 'themes/mastodon-go/util/uuid';
 
 const messages = defineMessages({
@@ -48,6 +52,7 @@ export default class DrawerComposer extends React.PureComponent {
     disabled: PropTypes.bool,
     intl: PropTypes.object.isRequired,
     isSubmitting: PropTypes.bool,
+    me: PropTypes.string,
     onUpload: PropTypes.func,
     onSubmit: PropTypes.func,
   };
@@ -172,6 +177,7 @@ export default class DrawerComposer extends React.PureComponent {
       disabled,
       intl,
       isSubmitting,
+      me,
       onUpload,
       onSubmit,
       ...rest
@@ -188,13 +194,17 @@ export default class DrawerComposer extends React.PureComponent {
     } = this.state;
     const computedClass = classNames('MASTODON_GO--COMPOSER', className);
 
-    const text2HTML = text => text;
+    const text2HTML = text => '<p>' + text.split('\n\n').join('</p><p>').split('\n').join('<br>') + '</p>';
 
     return (
       <div
         className={computedClass}
         {...rest}
       >
+        <AccountContainer
+          id={me}
+          small
+        />
         <ComposerWarning />
         <ComposerSpoiler
           disabled={!spoilable}

@@ -1,9 +1,9 @@
 /*********************************************************************\
 |                                                                     |
-|   <CourierSettingsPane>                                             |
-|   =====================                                             |
+|   <CourierPanelSettings>                                            |
+|   ======================                                            |
 |                                                                     |
-|   This pane provides the various courier settings.                  |
+|   This panel provides the various courier settings.                 |
 |                                                                     |
 |                                             ~ @kibi@glitch.social   |
 |                                                                     |
@@ -70,11 +70,11 @@ const messages = defineMessages({
 //  -------------
 
 //  Component definition.
-export default function CourierPaneSettings ({
+export default function CourierPanelSettings ({
   className,
   ...rest
 }) {
-  const computedClass = classNames('MASTODON_GO--COURIER--PANE--SETTINGS', className);
+  const computedClass = classNames('MASTODON_GO--COURIER--PANEL--SETTINGS', className);
 
   //  Rendering.
   return (
@@ -171,4 +171,4 @@ export default function CourierPaneSettings ({
 };
 
 //  Props.
-CourierPaneSettings.propTypes = { className: PropTypes.string };
+CourierPanelSettings.propTypes = { className: PropTypes.string };
