@@ -11,6 +11,8 @@ import launch from './util/launch';
 
 import 'font-awesome/css/font-awesome';
 
+import './custom';
+
 if (process.env.NODE_ENV === 'production') {
   // avoid offline in dev mode because it's harder to debug
   OfflinePluginRuntime.install();
