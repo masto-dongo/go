@@ -168,6 +168,13 @@ export default class Start extends React.PureComponent {
               title={intl.formatMessage(messages.compose)}
             />
             <CommonButton
+              destination='/courier'
+              history={history}
+              icon='star-half-o'
+              showTitle
+              title={intl.formatMessage(messages.compose)}
+            />
+            <CommonButton
               href='/settings/preferences'
               icon='cog'
               showTitle

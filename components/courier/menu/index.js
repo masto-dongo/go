@@ -104,7 +104,7 @@ export default class CourierMenu extends React.PureComponent {
           active={!hash || hash === '#'}
           destination={activeRoute ? '#' : undefined}
           history={history}
-          icon='bell'
+          icon='star-half-o'
           onClick={!activeRoute ? handleCourierClick : undefined}
           title={title}
         />
