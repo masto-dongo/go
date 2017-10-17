@@ -10,13 +10,13 @@ import {
 const messages = defineMessages({
 });
 
-export default function DrawerPanelSearch ({
+export default function DrawerSearch ({
   className,
   intl,
   results,
   ...rest
 }) {
-  const computedClass = classNames('MASTODON_GO--DRAWER--PANEL--SEARCH', className);
+  const computedClass = classNames('MASTODON_GO--DRAWER--SEARCH', className);
 
   return (
     <div
@@ -27,7 +27,7 @@ export default function DrawerPanelSearch ({
   );
 };
 
-DrawerPanelSearch.propTypes = {
+DrawerSearch.propTypes = {
   className: PropTypes.string,
   intl: PropTypes.object.isRequired,
   results: ImmutablePropTypes.map,

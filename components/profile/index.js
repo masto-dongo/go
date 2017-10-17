@@ -8,8 +8,9 @@ import { CommonPaneller } from 'themes/mastodon-go/components';
 
 //  Component imports.
 import ProfileContent from './content';
+import ProfileCatalogue from './catalogue';
 import ProfileMenu from './menu';
-import ProfilePanel from './panel';
+import ProfileTimeline from './timeline';
 
 export default class Profile extends React.PureComponent {
 
@@ -111,12 +112,30 @@ export default class Profile extends React.PureComponent {
             title={'@' + at}
           />
         }
-        panel={
-          <ProfilePanel
-            hash={computedHash}
-            id={id}
-          />
-        }
+        panel={function () {
+          switch (hash) {
+          case '#followers':
+          case '#follows':
+            return (
+              <ProfileCatalogue
+                hash={hash}
+                id={id}
+              />
+            );
+          case '#all':
+          case '#media':
+          case '#pinned':
+          case '#posts':
+            return (
+              <ProfileTimeline
+                hash={hash}
+                id={id}
+              />
+            );
+          default:
+            return null;
+          }
+        }()}
         title={'@' + at}
         {...rest}
       >

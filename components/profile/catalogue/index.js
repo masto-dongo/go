@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 //  Container imports.
-import { TimelineContainer } from 'themes/mastodon-go/components';
+import { CatalogueContainer } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style';
@@ -18,30 +18,26 @@ import './style';
 //  -------------
 
 //  Component definition.
-export default function ProfilePanelTimeline ({
+export default function ProfileCatalogue ({
   className,
   hash,
   id,
   ...rest
 }) {
-  const computedClass = classNames('MASTODON_GO--PROFILE--PANEL--TIMELINE', className);
+  const computedClass = classNames('MASTODON_GO--PROFILE--CATALOGUE', className);
 
   const path = function () {
     switch (hash) {
-    case '#all':
-      return `/api/v1/accounts/${id}/statuses`;
-    case '#media':
-      return `/api/v1/accounts/${id}/statuses?only_media=true`;
-    case '#pinned':
-      return `/api/v1/accounts/${id}/statuses?pinned=true`;
+    case '#followers':
+      return `/api/v1/accounts/${id}/followers`;
     default:
-      return `/api/v1/accounts/${id}/statuses?exclude_replies=true`;
+      return `/api/v1/accounts/${id}/following`;
     }
   }();
 
   //  Rendering.
   return (
-    <TimelineContainer
+    <CatalogueContainer
       className={computedClass}
       path={path}
       {...rest}
@@ -50,7 +46,7 @@ export default function ProfilePanelTimeline ({
 };
 
 //  Props.
-ProfilePanelTimeline.propTypes = {
+ProfileCatalogue.propTypes = {
   className: PropTypes.string,
   hash: PropTypes.string,
   id: PropTypes.string.isRequired,

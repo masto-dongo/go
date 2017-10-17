@@ -74,7 +74,7 @@ export default function CourierPanelSettings ({
   className,
   ...rest
 }) {
-  const computedClass = classNames('MASTODON_GO--COURIER--PANEL--SETTINGS', className);
+  const computedClass = classNames('MASTODON_GO--COURIER--SETTINGS', className);
 
   //  Rendering.
   return (
@@ -171,4 +171,4 @@ export default function CourierPanelSettings ({
 };
 
 //  Props.
-CourierPanelSettings.propTypes = { className: PropTypes.string };
+CourierSettings.propTypes = { className: PropTypes.string };

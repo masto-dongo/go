@@ -14,7 +14,7 @@ import {
 //  Component imports.
 import DrawerComposer from './composer';
 import DrawerMenu from './menu';
-import DrawerPanel from './panel';
+import DrawerSearch from './search';
 
 //  Common imports.
 import { CommonPaneller } from 'themes/mastodon-go/components';
@@ -138,13 +138,19 @@ export default class Drawer extends React.PureComponent {
             onSetHash={handleSetHash}
           />
         }
-        panel={
-          <DrawerPanel
-            hash={computedHash}
-            intl={intl}
-            results={results}
-          />
-        }
+        panel={function () {
+          switch (hash) {
+          case '#settings':
+            return (
+              <DrawerSearch
+                intl={intl}
+                results={results}
+              />
+            );
+          default:
+            return null;
+          }
+        }()}
         title={<FormattedMessage {...messages.drawer} />}
         {...rest}
       >

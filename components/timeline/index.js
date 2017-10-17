@@ -15,7 +15,7 @@ import {
 } from 'themes/mastodon-go/components';
 
 import TimelineMenu from './menu';
-import TimelinePanel from './panel';
+import TimelineSettings from './settings';
 
 import './style';
 
@@ -130,13 +130,19 @@ export default class Timeline extends React.PureComponent {
               title={title}
             />
           }
-          panel={
-            <TimelinePanel
-              hash={computedHash}
-              intl={intl}
-              path={path}
-            />
-          }
+          panel={function () {
+            switch (hash) {
+            case '#settings':
+              return (
+                <TimelineSettings
+                  intl={intl}
+                  path={path}
+                />
+              );
+            default:
+              return null;
+            }
+          }()}
           title={title || <FormattedMessage {...messages.timeline} />}
           {...rest}
         >

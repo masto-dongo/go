@@ -30,7 +30,7 @@ import { NotificationContainer } from 'themes/mastodon-go/components';
 
 //  Component imports.
 import CourierMenu from './menu';
-import CourierPanel from './panel';
+import CourierSettings from './settings';
 
 //  Common imports.
 import {
@@ -155,7 +155,14 @@ export default class Courier extends React.PureComponent {
               title={intl.formatMessage(messages.courier)}
             />
           }
-          panel={<CourierPanel hash={computedHash} />}
+          panel={function () {
+            switch (hash) {
+            case '#settings':
+              return <CourierPanelSettings />;
+            default:
+              return null;
+            }
+          }()}
           title={<FormattedMessage {...messages.courier} />}
           {...rest}
         >
