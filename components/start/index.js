@@ -33,7 +33,7 @@ const messages = defineMessages({
     defaultMessage: 'About this instance',
     id: 'start.about',
   },
-  compose: {
+  drawer: {
     defaultMessage: 'Compose',
     id: 'start.drawer',
   },
