@@ -193,7 +193,7 @@ export default class DrawerComposer extends React.PureComponent {
     } = this.state;
     const computedClass = classNames('MASTODON_GO--COMPOSER', className);
 
-    const text2HTML = text => '<p>' + text.split('\n\n').join('</p><p>').split('\n').join('<br>') + '</p>';
+    const text2HTML = txt => txt ? '<p>' + txt.split('\n\n').join('</p><p>').split('\n').join('<br>') + '</p>' : '\n';
 
     return (
       <div

@@ -79,6 +79,6 @@
     }
   }
 
-  *.navigable { padding-left: 3.5rem }
-  *.titled { padding-top: 3.125rem }
+  &.navigable { padding-left: 3.5rem }
+  &.titled { padding-top: 3.125rem }
 }

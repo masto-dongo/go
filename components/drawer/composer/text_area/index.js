@@ -22,7 +22,7 @@ import React from 'react';
 //  Stylesheet imports
 import './style';
 
-export default class DrawerComposerTextArea extends React.PureComponent {
+export default class DrawerComposerTextArea extends React.Component {  //  Impure bc sCU?
 
 /*
 
@@ -373,7 +373,7 @@ break, and set the contents to our passed `innerHTML`.
         aria-label={label}
         tabIndex='0'
         title={placeholder}
-        dangerouslySetHTML={{ __html: innerHTML }}
+        dangerouslySetInnerHTML={{ __html: innerHTML }}
       />
     );
   }
