@@ -82,7 +82,7 @@ export default class TimelineMenu extends React.PureComponent {
           active={hash === '#settings'}
           destination={activeRoute ? '#settings' : undefined}
           history={history}
-          icon='toggles'
+          icon='sliders'
           onClick={!activeRoute ? handleSettingsClick : undefined}
           title={intl.formatMessage(messages.settings)}
         />

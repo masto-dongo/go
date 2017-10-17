@@ -35,7 +35,11 @@ const messages = defineMessages({
   },
   compose: {
     defaultMessage: 'Compose',
-    id: 'start.compose',
+    id: 'start.drawer',
+  },
+  compose: {
+    defaultMessage: 'Notifications',
+    id: 'start.courier',
   },
   global: {
     defaultMessage: 'Federated timeline',
@@ -163,16 +167,16 @@ export default class Start extends React.PureComponent {
             <CommonButton
               destination='/compose'
               history={history}
-              icon='pencil-square-o'
+              icon='pencil-square'
               showTitle
-              title={intl.formatMessage(messages.compose)}
+              title={intl.formatMessage(messages.drawer)}
             />
             <CommonButton
               destination='/courier'
               history={history}
               icon='star-half-o'
               showTitle
-              title={intl.formatMessage(messages.compose)}
+              title={intl.formatMessage(messages.courier)}
             />
             <CommonButton
               href='/settings/preferences'

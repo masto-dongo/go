@@ -52,7 +52,7 @@ import { POST_TYPE } from 'themes/mastodon-go/util/constants';
 //  Holds our localization messages.
 const messages = defineMessages({
   courier: {
-    defaultMessage: 'Courier',
+    defaultMessage: 'Notifications',
     id: 'courier.courier',
   },
 });

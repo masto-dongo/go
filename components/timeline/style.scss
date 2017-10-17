@@ -2,5 +2,9 @@
 
 @import "themes/mastodon-go/variables";
 
-.MASTODON_GO--TIMELINE {}
+.MASTODON_GO--TIMELINE {
+  & > .MASTODON_GO--COMMON--LIST {
+    height: 100%;
+  }
+}
 

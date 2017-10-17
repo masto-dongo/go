@@ -2,4 +2,8 @@
 
 @import "themes/mastodon-go/variables";
 
-.MASTODON_GO--CONVERSATION {}
+.MASTODON_GO--CONVERSATION {
+  & > .MASTODON_GO--COMMON--LIST {
+    height: 100%;
+  }
+}
