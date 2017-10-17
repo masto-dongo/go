@@ -122,11 +122,11 @@ export default class DrawerComposerTextArea extends React.PureComponent {
     if (onChange) onChange(getContents());
   }
 
-//  For the most part, we just call `getContents()` to update our value
-//  whenever something happens to our textbox.  However, if the user
-//  types "enter" then we need to ensure that the result is just a
-//  simple `<br>` element and not some weird `<div>`-induced magic that
-//  browsers like Chrome (and now Firefox) like to pull.
+  //  For the most part, we just call `getContents()` to update our
+  //  value whenever something happens to our textbox.  However, if the
+  //  user types "enter" then we need to ensure that the result is just
+  //  a simple `<br>` element and not some weird `<div>`-induced magic
+  //  that browsers like Chrome (and now Firefox) like to pull.
   handleEvent = e => {
     const {
       getContents,
@@ -259,6 +259,7 @@ export default class DrawerComposerTextArea extends React.PureComponent {
     } = this;
     const {
       disabled,
+      emojifier,
       label,
       placeholder,
       value,
@@ -272,23 +273,83 @@ export default class DrawerComposerTextArea extends React.PureComponent {
       ),
     }, className);
 
+    //  We grab all of our emoji from the emojifier. This is a shallow
+    //  clone operation so it's a little expensive.
+    const emoji = emojifier.emoji;
+
+    //  We store our result in an array.
+    const result = [];
+
+    //  We loop over each character in the string and look for a
+    //  parseäble substring.
+    for (let i = 0; i < text.length; i++) {
+
+      //  If our character is a line-break, we push a `<br>`.
+      if (text.charAt(i) === '\n') {
+        result.push(text.substr(0, i));
+        result.push('<br>');
+        text = text.substr(i + 1);
+        i = 0;
+        continue;
+      }
+
+      //  Otherwise, we look for matches with emoji.  There may
+      //  multiple.
+      const matches = emoji.filter(
+        emojo => {
+          const emojiString = '' + emojo;
+          return text.substr(i, emojiString.length) === emojiString;
+        }
+      );
+
+      //  If we have a match, then we need to process it.
+      if (matches.length) {
+
+        //  From our list of matches, we select the longest one. This will
+        //  be unique unless there are multiple emoji with the same string
+        //  value, iin which case we will select the first one.
+        const emojo = matches.reduce(
+          (longest, current) => longest && ('' + longest).length > ('' + current).length ? longest : current
+        );
+        const {
+          name,
+          title,
+        } = emojo;
+        const selector = '';  //  TK: Selector support forthcoming
+
+        //  If there was text prior to this emoji, we push it to our
+        //  result.  Then we push the emoji image.
+        if (i !== 0) {
+          result.push(text.substr(0, i));
+        }
+        result.push(emojo.toImage(selector).outerHTML || emojo + selector);
+
+        //  We now trim the processed text off of our `text` string and
+        //  reset the index to `0`.
+        text = text.substr(i + (emojo + selector).length);
+        i = 0;
+      }
+    }
+
+    //  If our `text` didn't end in a parseäble entity, there will
+    //  still be some leftover text to push.
+    if (text) {
+      result.push(text);
+    }
+
     return (
       <div
+        aria-label={label}
         className={className}
         contentEditable={!disabled}
+        dangerouslySetInnerHTML={{ __html: result.join('') }}
         onKeyPress={handleEvent}
         onInput={handleEvent}
         onBlur={handleEvent}
         ref={setRef}
-        aria-label={label}
         tabIndex='0'
         title={placeholder}
-      >
-        <ParseContainer
-          text={value}
-          type='composer'
-        />
-      </div>
+      />
     );
   }
 

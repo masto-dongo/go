@@ -1,8 +1,0 @@
-@charset "UTF-8";
-
-@import "themes/mastodon-go/variables";
-
-.MASTODON_GO--PARSE--COMPOSER {
-  //  <ParseComposer> creates a React fragment, not an element, so this
-  //  will never match anything.
-}

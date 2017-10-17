@@ -34,7 +34,6 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 
 //  Component imports.
 import ParseAccountBio from './account_bio';
-import ParseComposer from './composer';
 import ParseEmoji from './emoji';
 import ParseStatusContent from './status_content';
 
@@ -63,7 +62,6 @@ export default class Parse extends React.PureComponent {
     text: PropTypes.string,
     type: PropTypes.oneOf([
       'account',
-      'composer',
       'emoji',
       'status',
     ]),
@@ -71,14 +69,13 @@ export default class Parse extends React.PureComponent {
     '💪': PropTypes.objectOf(PropTypes.func),
     '🏪': PropTypes.shape({ emoji: ImmutablePropTypes.list.isRequired }).isRequired,
   };
-  emojifier = this.props.type === 'emoji' || this.props.type === 'composer' ? new Emojifier(this.props['🏪'].emoji && this.props['🏪'].emoji.toJS() || []) : null;
+  emojifier = this.props.type === 'emoji' ? new Emojifier(this.props['🏪'].emoji && this.props['🏪'].emoji.toJS() || []) : null;
 
   //  If our `emoji` change, then we need to create a new `Emojifier`.
-  //  (We don't bother with this if our `type` isn't `'emoji'` or
-  //  `composer`.)
+  //  (We don't bother with this if our `type` isn't `'emoji'`.)
   componentWillReceiveProps (nextProps) {
     const { '🏪': { emoji } } = this.props;
-    if ((nextProps.type === 'emoji' || nextProps.type === 'composer') && emoji !== nextProps['🏪'].emoji) {
+    if (nextProps.type === 'emoji' && emoji !== nextProps['🏪'].emoji) {
       this.emojifier = new Emojifier(emoji && emoji.toJS() || []);
     }
   }
@@ -112,15 +109,6 @@ export default class Parse extends React.PureComponent {
           metadata={metadata}
           text={text}
           {...rest}
-        />
-      );
-    case 'composer':
-      return (
-        <ParseComposer
-          className={computedClass}  //  Will be ignored
-          emojifier={emojifier}
-          text={text}
-          {...rest}  //  Will be ignored
         />
       );
     case 'emoji':
