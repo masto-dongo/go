@@ -177,7 +177,8 @@ export default class DrawerComposerTextArea extends React.PureComponent {
   //  Restoring our caret position.  The `offset` argument can be used
   //  to adjust where to place the caret.
   restoreCaretPos = (offset = 0) => {
-    const { input, caret, value } = this;
+    const { input, caret } = this;
+    const { value } = this.props;
     if (!input) return;
     const sel = window.getSelection();
     const rng = document.createRange();
