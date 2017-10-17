@@ -20,7 +20,7 @@ export default class Setting extends React.PureComponent {
     className: PropTypes.string,
     disabled: PropTypes.bool,
     global: PropTypes.bool,
-    settingKey: PropTypes.oneOf([PropTypes.string, PropTypes.array]).isRequired,
+    settingKey: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
     title: PropTypes.string,
     type: PropTypes.oneOf(['input', 'toggle']),
     '🛄': PropTypes.shape({}),

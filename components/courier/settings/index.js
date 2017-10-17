@@ -79,7 +79,7 @@ export default function CourierSettings ({
   //  Rendering.
   return (
     <div
-      class={computedClass}
+      className={computedClass}
       {...rest}
     >
       {
@@ -131,18 +131,18 @@ export default function CourierSettings ({
         <h2><FormattedMessage {...messages.mention} /></h2>
         <SettingContainer
           global
-          settingKey={['courier', 'alerts', 'follow']}
-          type='mention'
+          settingKey={['courier', 'alerts', 'mention']}
+          type='toggle'
         ><FormattedMessage {...messages.desktop} /></SettingContainer>
         <SettingContainer
           global
-          settingKey={['courier', 'shows', 'follow']}
-          type='mention'
+          settingKey={['courier', 'shows', 'mention']}
+          type='toggle'
         ><FormattedMessage {...messages.column} /></SettingContainer>
         <SettingContainer
           global
-          settingKey={['courier', 'sounds', 'follow']}
-          type='mention'
+          settingKey={['courier', 'sounds', 'mention']}
+          type='toggle'
         ><FormattedMessage {...messages.sound} /></SettingContainer>
       </section>
       {

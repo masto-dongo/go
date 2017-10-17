@@ -72,7 +72,6 @@ export default class Courier extends React.PureComponent {
     column: PropTypes.bool,
     hash: PropTypes.string,
     history: PropTypes.object,
-    path: PropTypes.string.isRequired,
     '🛄': PropTypes.shape({ intl: PropTypes.object.isRequired }).isRequired,
     '💪': PropTypes.objectOf(PropTypes.func).isRequired,
     '🏪': PropTypes.shape({
@@ -124,7 +123,6 @@ export default class Courier extends React.PureComponent {
       column,
       hash,
       history,
-      path,
       '🛄': { intl },
       '💪': handler,
       '🏪': {

@@ -2,5 +2,14 @@
 
 @import "themes/mastodon-go/variables";
 
-.MASTODON_GO--TIMELINE--SETTINGS {}
+.MASTODON_GO--TIMELINE--SETTINGS {
+  display: block;
+  margin: 0;
+  border: none;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 

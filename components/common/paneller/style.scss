@@ -61,7 +61,7 @@
     box-sizing: border-box;
     top: 0;
     bottom: 0;
-    left: 0;
+    left: -100%;
     margin: 0;
     border-style: none solid none none;
     border-color: transparent;
@@ -72,15 +72,17 @@
     color: $mastodon_go_content_color;
     background-color: $mastodon_go_content_background;
     background-clip: padding-box;
-    transition: border-width (.45s * $mastodon_go_animation_speed) ease, width (.45s * $mastodon_go_animation_speed) ease;
+    overflow: hidden;
+    transition: left (.45s * $mastodon_go_animation_speed) ease;
     z-index: 500;
 
-    &:empty {
-      border-width: 0;
-      width: 0;
-    }
+    &:empty { left: 0 }
   }
 
-  &.navigable { padding-left: 3.5rem }
+  &.navigable {
+    padding-left: 3.5rem;
+
+    & > aside { padding-left: 3.5rem }
+  }
   &.titled { padding-top: 3.125rem }
 }
