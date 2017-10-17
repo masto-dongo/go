@@ -41,11 +41,12 @@ export default function ParseEmoji ({
 
   //  We store our result in an array.
   const result = [];
+  let i = 0;
 
   //  We loop over each character in the string and look for a match
   //  with any one of the emoji.  We may have multiple matches if there
   //  are multiple emoji with the same starting character.
-  for (let i = 0; i < text.length; i++) {
+  while (i < text.length) {
     const matches = emoji.filter(
       emojo => {
         const emojiString = '' + emojo;
@@ -88,7 +89,11 @@ export default function ParseEmoji ({
       //  reset the index to `0`.
       text = text.substr(i + ('' + emoji).length);
       i = 0;
+      continue;
     }
+
+    //  Otherwise, we increment our index and move on.
+    i++
   }
 
   //  If our `text` didn't end in an emoji, there will still be some

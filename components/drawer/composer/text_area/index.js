@@ -279,14 +279,17 @@ export default class DrawerComposerTextArea extends React.PureComponent {
     //  We store our result in an array.
     let text = value;
     const result = [];
+    let i = 0;
 
     //  We loop over each character in the string and look for a
     //  parseäble substring.
-    for (let i = 0; i < text.length; i++) {
+    while (i < text.length) {
 
       //  If our character is a line-break, we push a `<br>`.
       if (text.charAt(i) === '\n') {
-        result.push(text.substr(0, i));
+        if (i !== 0) {
+          result.push(text.substr(0, i));
+        }
         result.push('<br>');
         text = text.substr(i + 1);
         i = 0;
@@ -328,7 +331,11 @@ export default class DrawerComposerTextArea extends React.PureComponent {
         //  reset the index to `0`.
         text = text.substr(i + (emojo + selector).length);
         i = 0;
+        continue;
       }
+
+      //  Otherwise, we increment our index and move on.
+      i++;
     }
 
     //  If our `text` didn't end in a parseäble entity, there will
