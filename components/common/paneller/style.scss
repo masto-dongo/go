@@ -23,6 +23,7 @@
     top: 0;
     left: 0;
     bottom: 0;
+    z-index: 1000;
   }
 
   & > header {
@@ -72,6 +73,7 @@
     background-color: $mastodon_go_content_background;
     background-clip: padding-box;
     transition: border-width (.45s * $mastodon_go_animation_speed) ease, width (.45s * $mastodon_go_animation_speed) ease;
+    z-index: 500;
 
     &:empty {
       border-width: 0;

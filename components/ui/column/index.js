@@ -138,7 +138,7 @@ export default class UIColumn extends React.PureComponent {
                   history={history}
                   icon='home'
                   path='/api/v1/timelines/home'
-                  title={<FormattedMessage {...messages.home} />}
+                  title={intl.formatMessage(messages.home)}
                 />
               );
             }}
@@ -156,7 +156,7 @@ export default class UIColumn extends React.PureComponent {
                   history={history}
                   icon='globe'
                   path='/api/v1/timelines/public'
-                  title={<FormattedMessage {...messages.global} />}
+                  title={intl.formatMessage(messages.global)}
                 />
               );
             }}
@@ -174,7 +174,7 @@ export default class UIColumn extends React.PureComponent {
                   history={history}
                   icon='users'
                   path='/api/v1/timelines/public?local=true'
-                  title={<FormattedMessage {...messages.local} />}
+                  title={intl.formatMessage(messages.local)}
                 />
               );
             }}
@@ -216,7 +216,7 @@ export default class UIColumn extends React.PureComponent {
                   history={history}
                   icon='hashtag'
                   path={`/api/v1/tag/${query}?local=true`}
-                  title={<FormattedMessage {...messages.localTag} values={{ query }} />}
+                  title={intl.formatMessage(messages.localTag, { query })}
                 />
               );
             }}
