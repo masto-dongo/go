@@ -37,7 +37,7 @@ const messages = defineMessages({
     defaultMessage: 'Compose',
     id: 'start.drawer',
   },
-  compose: {
+  courier: {
     defaultMessage: 'Notifications',
     id: 'start.courier',
   },
