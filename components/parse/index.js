@@ -86,7 +86,7 @@ export default class Parse extends React.PureComponent {
 
   //  Rendering.
   render () {
-    const { emojifier } = this;
+    const { emoji } = this;
     const {
       card,
       className,
