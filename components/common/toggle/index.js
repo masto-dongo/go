@@ -91,13 +91,13 @@ export default class CommonToggle extends React.PureComponent {
       case 'Right':
       case 'ArrowDown':
       case 'ArrowRight':
-        handleChange(false);
+        handleChange(true);
         break;
       case 'Left':
       case 'Up':
       case 'ArrowLeft':
       case 'ArrowUp':
-        handleChange(true);
+        handleChange(false);
         break;
     default:
       return;
@@ -115,13 +115,13 @@ export default class CommonToggle extends React.PureComponent {
     case 'Right':
     case 'ArrowDown':
     case 'ArrowRight':
-      handleChange(false);
+      handleChange(true);
       break;
     case 'Left':
     case 'Up':
     case 'ArrowLeft':
     case 'ArrowUp':
-      handleChange(true);
+      handleChange(false);
       break;
     default:
       return;

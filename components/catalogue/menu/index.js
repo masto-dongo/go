@@ -78,6 +78,7 @@ export default class CatalogueMenu extends React.PureComponent {
       <CommonMenubar
         activeRoute={activeRoute}
         className={computedClass}
+        hash={hash}
         history={history}
         intl={intl}
         {...rest}

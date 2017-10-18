@@ -96,6 +96,7 @@ export default class CourierMenu extends React.PureComponent {
       <CommonMenubar
         activeRoute={activeRoute}
         className={computedClass}
+        hash={hash}
         history={history}
         intl={intl}
         {...rest}

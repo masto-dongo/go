@@ -27,6 +27,10 @@ import './style';
 //  -------------
 
 const messages = defineMessages({
+  back: {
+    defaultMessage: 'Back',
+    id: 'menu.back',
+  },
   close: {
     defaultMessage: 'Close',
     id: 'menu.close',
@@ -42,8 +46,10 @@ export default function CommonMenubar ({
   activeRoute,
   children,
   className,
+  hash,
   history,
   intl,
+  start,
   ...rest
 }) {
   const computedClass = classNames('MASTODON_GO--COMMON--MENUBAR', { active_route: activeRoute && history && intl }, className);
@@ -53,16 +59,30 @@ export default function CommonMenubar ({
       {...rest}
     >
       {children}
-      {
-        activeRoute && history && intl ? (
-          <CommonButton
-            destination={'/start'}
-            history={history}
-            icon='times'
-            title={intl.formatMessage(messages.close)}
-          />
-        ) : null
-      }
+      {activeRoute && history && intl ? function () {
+        switch (true) {
+        case hash && hash !== '#':
+          return (
+            <CommonButton
+              destination={'#'}
+              history={history}
+              icon='arrow-left'
+              title={intl.formatMessage(messages.back)}
+            />
+          );
+        case !start:
+          return (
+            <CommonButton
+              destination={'/start'}
+              history={history}
+              icon='times'
+              title={intl.formatMessage(messages.close)}
+            />
+          );
+        default:
+          return null;
+        }
+      }() : null}
     </nav>
   );
 }
@@ -73,5 +93,7 @@ CommonMenubar.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   history: PropTypes.object,
+  hash: PropTypes.string,
   intl: PropTypes.object,
+  start: PropTypes.bool,
 };

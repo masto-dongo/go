@@ -115,6 +115,7 @@ export default class ProfileMenu extends React.PureComponent {
       <CommonMenubar
         activeRoute={activeRoute}
         className={computedClass}
+        hash={hash}
         history={history}
         intl={intl}
         {...rest}

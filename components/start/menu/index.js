@@ -61,7 +61,12 @@ export default class StartMenu extends React.PureComponent {
     //  Our menu is just a button in a menubar.
     return (
       <CommonMenubar
+        activeRoute={activeRoute}
         className={computedClass}
+        hash={hash}
+        history={history}
+        intl={intl}
+        start
         {...rest}
       >
         <CommonButton
