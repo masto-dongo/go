@@ -36,43 +36,44 @@ export default class CommonToggle extends React.PureComponent {
     }
   }
 
-  handleClick = () => {
+  handleChange = value => {
     const { onChange } = this.props;
     const { isActive } = this.state;
-    this.setState({ isActive: !isActive });
-    onChange(!isActive);
+    this.setState({ isActive: value !== void 0 ? value : !isActive });
+  }
+
+  handleClick = e => {
+    const { handleChange } = this;
+    handleChange();
+    e.stopPropagation();
   };
-  handleActivate = () => {
-    const { onChange } = this.props;
-    this.setState({ isActive: true });
-    onChange(true);
+  handleActivate = e => {
+    const { handleChange } = this;
+    handleChange(true);
+    e.stopPropagation();
   };
-  handleDeäctivate = () => {
-    const { onChange } = this.props;
-    this.setState({ isActive: false });
-    onChange(false);
+  handleDeäctivate = e => {
+    const { handleChange } = this;
+    handleChange(false);
+    e.stopPropagation();
   };
   handleKeyPress = (e) => {
-    const {
-      handleActivate,
-      handleClick,
-      handleDeäctivate,
-    } = this;
+    const { handleChange } = this;
     switch (e.key) {
       case ' ':
-        handleClick();
+        handleChange();
         break;
       case 'Down':
       case 'Right':
       case 'ArrowDown':
       case 'ArrowRight':
-        handleDeäctivate();
+        handleChange(false);
         break;
       case 'Left':
       case 'Up':
       case 'ArrowLeft':
       case 'ArrowUp':
-        handleActivate();
+        handleChange(true);
         break;
     default:
       return;
@@ -81,25 +82,22 @@ export default class CommonToggle extends React.PureComponent {
     e.preventDefault();
   };
   handleActiveKeyPress = (e) => {
-    const {
-      handleActivate,
-      handleDeäctivate,
-    } = this;
+    const { handleChange } = this;
     switch (e.key) {
       case ' ':
-        handleActivate();
+        handleChange(true);
         break;
       case 'Down':
       case 'Right':
       case 'ArrowDown':
       case 'ArrowRight':
-        handleDeäctivate();
+        handleChange(false);
         break;
       case 'Left':
       case 'Up':
       case 'ArrowLeft':
       case 'ArrowUp':
-        handleActivate();
+        handleChange(true);
         break;
     default:
       return;
@@ -108,25 +106,22 @@ export default class CommonToggle extends React.PureComponent {
     e.preventDefault();
   };
   handleInactiveKeyPress = (e) => {
-    const {
-      handleActivate,
-      handleDeäctivate,
-    } = this;
+    const { handleChange } = this;
     switch (e.key) {
     case ' ':
-      handleDeäctivate();
+      handleChange(false);
       break;
     case 'Down':
     case 'Right':
     case 'ArrowDown':
     case 'ArrowRight':
-      handleDeäctivate();
+      handleChange(false);
       break;
     case 'Left':
     case 'Up':
     case 'ArrowLeft':
     case 'ArrowUp':
-      handleActivate();
+      handleChange(true);
       break;
     default:
       return;
