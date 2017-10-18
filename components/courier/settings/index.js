@@ -35,31 +35,47 @@ import './style';
 //  Holds our localization messages.
 const messages = defineMessages({
   column: {
-    defaultMessage: 'Show in column',
+    defaultMessage: 'Show in column:',
     id: 'settings.column_notifs',
   },
   desktop: {
-    defaultMessage: 'Desktop notifications',
+    defaultMessage: 'Desktop notifications:',
     id: 'settings.desktop_notifs',
   },
-  favourite: {
-    defaultMessage: 'Favourites:',
-    id: 'settings.favourite_notifs',
+  favouriteOff: {
+    defaultMessage: 'Favourites Off',
+    id: 'settings.favourite_off',
   },
-  follow: {
-    defaultMessage: 'New followers:',
-    id: 'settings.follow_notifs',
+  favouriteOn: {
+    defaultMessage: 'Favourites On',
+    id: 'settings.favourite_on',
   },
-  mention: {
-    defaultMessage: 'Mentions:',
-    id: 'settings.mention_notifs',
+  followOff: {
+    defaultMessage: 'Follows Off',
+    id: 'settings.follow_off',
   },
-  reblog: {
-    defaultMessage: 'Boosts:',
-    id: 'settings.reblog_notifs',
+  followOn: {
+    defaultMessage: 'Follows On',
+    id: 'settings.follow_on',
+  },
+  mentionOff: {
+    defaultMessage: 'Mentions Off',
+    id: 'settings.mention_off',
+  },
+  mentionOn: {
+    defaultMessage: 'Mentions On',
+    id: 'settings.mention_on',
+  },
+  reblogOff: {
+    defaultMessage: 'Boosts Off',
+    id: 'settings.reblog_off',
+  },
+  reblogOn: {
+    defaultMessage: 'Boosts On',
+    id: 'settings.reblog_on',
   },
   sound: {
-    defaultMessage: 'Play sound',
+    defaultMessage: 'Sounds:',
     id: 'settings.sound_notifs',
   },
 });
@@ -83,89 +99,107 @@ export default function CourierSettings ({
       {...rest}
     >
       {
-        //  Follow notification settings.
+        //  Column settings
+        <section>
+          <h2><FormattedMessage {...messages.column} /></h2>
+          <SettingContainer
+            activeLabel={<FormattedMessage {...messages.followOn} />}
+            global
+            inactiveLabel={<FormattedMessage {...messages.followOff} />}
+            settingKey={['courier', 'shows', 'follow']}
+            type='toggle'
+          />
+          <SettingContainer
+            activeLabel={<FormattedMessage {...messages.favouriteOn} />}
+            global
+            inactiveLabel={<FormattedMessage {...messages.favouriteOff} />}
+            settingKey={['courier', 'shows', 'favourite']}
+            type='toggle'
+          />
+          <SettingContainer
+            activeLabel={<FormattedMessage {...messages.mentionOn} />}
+            global
+            inactiveLabel={<FormattedMessage {...messages.mentionOff} />}
+            settingKey={['courier', 'shows', 'mention']}
+            type='toggle'
+          />
+          <SettingContainer
+            activeLabel={<FormattedMessage {...messages.boostOn} />}
+            global
+            inactiveLabel={<FormattedMessage {...messages.boostOff} />}
+            settingKey={['courier', 'shows', 'boost']}
+            type='toggle'
+          />
+        </section>
       }
-      <section>
-        <h2><FormattedMessage {...messages.follow} /></h2>
-        <SettingContainer
-          global
-          settingKey={['courier', 'alerts', 'follow']}
-          type='toggle'
-        ><FormattedMessage {...messages.desktop} /></SettingContainer>
-        <SettingContainer
-          global
-          settingKey={['courier', 'shows', 'follow']}
-          type='toggle'
-        ><FormattedMessage {...messages.column} /></SettingContainer>
-        <SettingContainer
-          global
-          settingKey={['courier', 'sounds', 'follow']}
-          type='toggle'
-        ><FormattedMessage {...messages.sound} /></SettingContainer>
-      </section>
       {
-        //  Favourite notification settings.
+        //  Desktop settings
+        <section>
+          <h2><FormattedMessage {...messages.desktop} /></h2>
+          <SettingContainer
+            activeLabel={<FormattedMessage {...messages.followOn} />}
+            global
+            inactiveLabel={<FormattedMessage {...messages.followOff} />}
+            settingKey={['courier', 'alerts', 'follow']}
+            type='toggle'
+          />
+          <SettingContainer
+            activeLabel={<FormattedMessage {...messages.favouriteOn} />}
+            global
+            inactiveLabel={<FormattedMessage {...messages.favouriteOff} />}
+            settingKey={['courier', 'alerts', 'favourite']}
+            type='toggle'
+          />
+          <SettingContainer
+            activeLabel={<FormattedMessage {...messages.mentionOn} />}
+            global
+            inactiveLabel={<FormattedMessage {...messages.mentionOff} />}
+            settingKey={['courier', 'alerts', 'mention']}
+            type='toggle'
+          />
+          <SettingContainer
+            activeLabel={<FormattedMessage {...messages.boostOn} />}
+            global
+            inactiveLabel={<FormattedMessage {...messages.boostOff} />}
+            settingKey={['courier', 'alerts', 'boost']}
+            type='toggle'
+          />
+        </section>
       }
-      <section>
-        <h2><FormattedMessage {...messages.favourite} /></h2>
-        <SettingContainer
-          global
-          settingKey={['courier', 'alerts', 'favourite']}
-          type='toggle'
-        ><FormattedMessage {...messages.desktop} /></SettingContainer>
-        <SettingContainer
-          global
-          settingKey={['courier', 'shows', 'favourite']}
-          type='toggle'
-        ><FormattedMessage {...messages.column} /></SettingContainer>
-        <SettingContainer
-          global
-          settingKey={['courier', 'sounds', 'favourite']}
-          type='toggle'
-        ><FormattedMessage {...messages.sound} /></SettingContainer>
-      </section>
       {
-        //  Mention notification settings.
+        //  Sound settings
+        <section>
+          <h2><FormattedMessage {...messages.sound} /></h2>
+          <SettingContainer
+            activeLabel={<FormattedMessage {...messages.followOn} />}
+            global
+            inactiveLabel={<FormattedMessage {...messages.followOff} />}
+            settingKey={['courier', 'sounds', 'follow']}
+            type='toggle'
+          />
+          <SettingContainer
+            activeLabel={<FormattedMessage {...messages.favouriteOn} />}
+            global
+            inactiveLabel={<FormattedMessage {...messages.favouriteOff} />}
+            settingKey={['courier', 'sounds', 'favourite']}
+            type='toggle'
+          />
+          <SettingContainer
+            activeLabel={<FormattedMessage {...messages.mentionOn} />}
+            global
+            inactiveLabel={<FormattedMessage {...messages.mentionOff} />}
+            settingKey={['courier', 'sounds', 'mention']}
+            type='toggle'
+          />
+          <SettingContainer
+            activeLabel={<FormattedMessage {...messages.boostOn} />}
+            global
+            inactiveLabel={<FormattedMessage {...messages.boostOff} />}
+            settingKey={['courier', 'sounds', 'boost']}
+            type='toggle'
+          />
+        </section>
       }
-      <section>
-        <h2><FormattedMessage {...messages.mention} /></h2>
-        <SettingContainer
-          global
-          settingKey={['courier', 'alerts', 'mention']}
-          type='toggle'
-        ><FormattedMessage {...messages.desktop} /></SettingContainer>
-        <SettingContainer
-          global
-          settingKey={['courier', 'shows', 'mention']}
-          type='toggle'
-        ><FormattedMessage {...messages.column} /></SettingContainer>
-        <SettingContainer
-          global
-          settingKey={['courier', 'sounds', 'mention']}
-          type='toggle'
-        ><FormattedMessage {...messages.sound} /></SettingContainer>
-      </section>
-      {
-        //  Reblog notification settings.
-      }
-      <section>
-        <h2><FormattedMessage {...messages.reblog} /></h2>
-        <SettingContainer
-          global
-          settingKey={['courier', 'alerts', 'reblog']}
-          type='toggle'
-        ><FormattedMessage {...messages.desktop} /></SettingContainer>
-        <SettingContainer
-          global
-          settingKey={['courier', 'shows', 'reblog']}
-          type='toggle'
-        ><FormattedMessage {...messages.column} /></SettingContainer>
-        <SettingContainer
-          global
-          settingKey={['courier', 'sounds', 'reblog']}
-          type='toggle'
-        ><FormattedMessage {...messages.sound} /></SettingContainer>
-      </section>
     </div>
   );
 };

@@ -8,6 +8,8 @@ import {
 
 import { SettingContainer } from 'themes/mastodon-go/components';
 
+import './style';
+
 const messages = defineMessages({
   advanced: {
     defaultMessage: 'Advanced',
@@ -17,7 +19,11 @@ const messages = defineMessages({
     defaultMessage: 'Basic',
     id: 'settings.basic',
   },
-  reblogs: {
+  reblogsOff: {
+    defaultMessage: 'Hide boosts',
+    id: 'settings.hide_reblogs',
+  },
+  reblogsOn: {
     defaultMessage: 'Show boosts',
     id: 'settings.show_reblogs',
   },
@@ -25,7 +31,11 @@ const messages = defineMessages({
     defaultMessage: 'Filter out by regular expressions',
     id: 'settings.regex',
   },
-  replies: {
+  repliesOff: {
+    defaultMessage: 'Hide replies',
+    id: 'settings.hide_replies',
+  },
+  repliesOn: {
     defaultMessage: 'Show replies',
     id: 'settings.show_replies',
   },
@@ -47,15 +57,19 @@ export default function TimelineSettings ({
       <section>
         <h2><FormattedMessage {...messages.basic} /></h2>
         <SettingContainer
+          activeLabel={<FormattedMessage {...messages.reblogsOn} />}
           global
+          inactiveLabel={<FormattedMessage {...messages.reblogsOff} />}
           settingKey={['timeline', path, 'shows', 'reblog']}
           type='toggle'
-        ><FormattedMessage {...messages.reblogs} /></SettingContainer>
+        />
         <SettingContainer
+          activeLabel={<FormattedMessage {...messages.repliesOn} />}
           global
+          inactiveLabel={<FormattedMessage {...messages.repliesOff} />}
           settingKey={['timeline', path, 'shows', 'reply']}
           type='toggle'
-        ><FormattedMessage {...messages.replies} /></SettingContainer>
+        />
       </section>
       <section>
         <h2><FormattedMessage {...messages.advanced} /></h2>

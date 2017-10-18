@@ -1,0 +1,148 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--COMMON--TOGGLE {
+  display: inline-block;
+  position: relative;
+  margin: 0 .5em;
+  border: none;
+  padding: 0 1em;
+
+  & > [role="radio"] {
+    display: inline-block;
+    margin: 0;
+    border: none;
+    padding: 0;
+    width: 50%;
+    opacity: 1;
+    transition: opacity ($mastodon_go_animation_speed * .3s);
+
+    &[aria-checked="false"] { opacity: .4 }
+
+    &:focus {
+      outline: none;
+      text-decoration: underline;
+
+      &[aria-checked="false"] { opacity: .6 }
+    }
+
+    &:first-child {
+      margin: 0 1em 0 -1em;
+      text-align: left;
+    }
+
+    &:last-child {
+      margin: 0 -1em 0 1em;
+      text-align: right;
+    }
+  }
+
+  & > *.track {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border: 1px $mastodon_go_toggle_inactive_background solid;
+    border-radius: .5em;
+    padding: 0;
+    width: 2em;
+    height: 1em;
+    color: $mastodon_go_toggle_inactive_color;
+    background-color: $mastodon_go_toggle_inactive_background;
+    font-size: 1.2em;  //  Note this changes the `em` calculations above.
+    line-height: 1;
+    user-select: none;
+    transition: border-color ($mastodon_go_animation_speed * .3s) ease, background-color ($mastodon_go_animation_speed * .3s) ease;
+
+    & > .MASTODON_GO--COMMON--ICON {
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: .1875em;
+      margin: auto;
+      border: none;
+      padding: 0;
+      height: 1em;
+      font-size: .675em;  //  Note this changes the `em` calculations above.
+      line-height: 1;
+      opacity: 1;
+      transition: opacity ($mastodon_go_animation_speed * .3s) ease;
+
+      &:last-child {
+        right: .1875em;
+        opacity: 0;
+      }
+    }
+
+    & > *.thumb {
+      display: block;
+      position: absolute;
+      box-sizing: border-box;
+      top: 0;
+      left: 0;
+      margin: 0;
+      border: 1px $mastodon_go_toggle_border solid;
+      padding: 0;
+      width: 1em;
+      height: 1em;
+      background-color: $mastodon_go_toggle_inactive_color;
+      transition: left ($mastodon_go_animation_speed * .3s) ease;
+    }
+  }
+
+  &.active {
+    & > *.track {
+      & > .MASTODON_GO--COMMON--ICON {
+        opacity: 0;
+
+        &:last-child { opacity: 1 }
+      }
+
+      & > *.thumb { background-color: $mastodon_go_toggle_active_color }
+    }
+  }
+
+  &[aria-disabled="true"] {
+    cursor: not-allowed;
+
+    & > [role="radio"] {
+      opacity: .4;
+    }
+
+    & > *.track,
+    & > *.thumb {
+      border-color: $mastodon_go_toggle_border;
+      background-color: transparent;
+    }
+  }
+
+  &:not([aria-disabled="true"]) {
+    &.active {
+      & > *.track {
+        border-color: $mastodon_go_toggle_active_background;
+        color: $mastodon_go_toggle_active_color;
+        background-color: $mastodon_go_toggle_active_background;
+      }
+    }
+
+    &:hover,
+    &.focused {
+      & > *.track {
+        border-color: $mastodon_go_toggle_inactive_hover;
+        background-color: $mastodon_go_toggle_inactive_hover;
+      }
+
+      &.active {
+        & > *.track {
+          border-color: $mastodon_go_toggle_active_hover;
+          background-color: $mastodon_go_toggle_active_hover;
+        }
+      }
+    }
+  }
+}

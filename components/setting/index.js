@@ -5,7 +5,8 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Toggle from 'react-toggle';
+
+import { CommonToggle } from 'themes/mastodon-go/components';
 
 import './style';
 
@@ -18,10 +19,14 @@ import './style';
 export default class Setting extends React.PureComponent {
 
   static propTypes = {
+    activeIcon: PropTypes.string,
+    activeLabel: PropTypes.node,
     children: PropTypes.node,
     className: PropTypes.string,
     disabled: PropTypes.bool,
     global: PropTypes.bool,
+    inactiveIcon: PropTypes.string,
+    inactiveLabel: PropTypes.node,
     settingKey: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
     title: PropTypes.string,
     type: PropTypes.oneOf(['input', 'toggle']),
@@ -32,28 +37,26 @@ export default class Setting extends React.PureComponent {
 
   //  How we handle a change depends on the type of toggle we are
   //  using.
-  handleChange = ({ target: { value } }) => {
-    const {
-      '💪': { change },
-      type,
-    } = this.props;
-    switch (type) {
-    case 'input':
-      change('' + value);
-      break;
-    case 'toggle':
-      change(!!value);
-      break;
-    }
+  handleInput = ({ target: { value } }) => {
+    const { '💪': { change } } = this.props;
+    change('' + value);
+  }
+  handleToggle = value => {
+    const { '💪': { change } } = this.props;
+    change(!!value);
   }
 
   //  Rendering.
   render () {
     const { handleChange } = this;
     const {
+      activeIcon,
+      activeLabel,
       children,
       className,
       disabled,
+      inactiveIcon,
+      inactiveLabel,
       settingKey,
       global,
       title,
@@ -75,7 +78,7 @@ export default class Setting extends React.PureComponent {
         return (
           <input
             disabled={disabled}
-            onChange={handleChange}
+            onChange={handleInput}
             placeholder={title}
             title={title}
             type='text'
@@ -84,10 +87,14 @@ export default class Setting extends React.PureComponent {
         );
       case 'toggle':
         return (
-          <Toggle
-            checked={!!value}
+          <CommonToggle
+            active={!!value}
+            activeIcon={activeIcon}
+            activeLabel={activeLabel}
             disabled={disabled}
-            onChange={handleChange}
+            inactiveIcon={inactiveIcon}
+            inactiveLabel={inactiveLabel}
+            onChange={handleToggle}
             title={title}
           />
         );
@@ -101,9 +108,9 @@ export default class Setting extends React.PureComponent {
       return null;
     }
 
-    //  If we have children, we create a `<label>`. If not, we use
-    //  `<span>`.
-    return children ? (
+    //  If we have children and this is an `'input'`, we create a
+    //  `<label>`. If not, we use `<span>`.
+    return children && type === 'input' ? (
       <label
         className={computedClass}
         {...rest}
@@ -115,7 +122,10 @@ export default class Setting extends React.PureComponent {
       <span
         className={computedClass}
         {...rest}
-      >{component}</span>
+      >
+        {children}
+        {component}
+      </span>
     );
   };
 

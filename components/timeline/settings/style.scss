@@ -11,5 +11,11 @@
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
+
+  & > section {
+    & > .MASTODON_GO--SETTING {
+      display: block;
+    }
+  }
 }
 
