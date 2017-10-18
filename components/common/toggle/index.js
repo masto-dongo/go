@@ -39,7 +39,7 @@ export default class CommonToggle extends React.PureComponent {
   handleChange = value => {
     const { onChange } = this.props;
     const { isActive } = this.state;
-    this.setState({ isActive: value !== void 0 ? value : !isActive });
+    this.setState({ isActive: value !== void 0 ? !!value : !isActive });
   }
 
   handleClick = e => {
@@ -57,8 +57,9 @@ export default class CommonToggle extends React.PureComponent {
     handleChange(false);
     e.stopPropagation();
   };
-  handleKeyPress = (e) => {
+  handleKeyPress = e => {
     const { handleChange } = this;
+    console.log(e.key);
     switch (e.key) {
       case ' ':
         handleChange();
@@ -81,8 +82,9 @@ export default class CommonToggle extends React.PureComponent {
     e.stopPropagation();
     e.preventDefault();
   };
-  handleActiveKeyPress = (e) => {
+  handleActiveKeyPress = e => {
     const { handleChange } = this;
+    console.log(e.key);
     switch (e.key) {
       case ' ':
         handleChange(true);
@@ -105,8 +107,9 @@ export default class CommonToggle extends React.PureComponent {
     e.stopPropagation();
     e.preventDefault();
   };
-  handleInactiveKeyPress = (e) => {
+  handleInactiveKeyPress = e => {
     const { handleChange } = this;
+    console.log(e.key);
     switch (e.key) {
     case ' ':
       handleChange(false);
@@ -177,6 +180,7 @@ export default class CommonToggle extends React.PureComponent {
         onFocusIn={handleFocus}
         className={computedClass}
         role='radiogroup'
+        tabIndex='0'
         title={title}
         {...rest}
       >
