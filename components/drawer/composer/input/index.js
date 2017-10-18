@@ -12,8 +12,12 @@ import './style';
 export default class DrawerComposerInput extends React.PureComponent {
 
   static propTypes = {
+    attachments: PropTypes.array,
     className: PropTypes.string,
     intl: PropTypes.object.isRequired,
+    onRemove: PropTypes.func,
+    onSensitive: PropTypes.func,
+    onUpload: PropTypes.func,
   };
   state = {
     currentTab: 0,
@@ -26,8 +30,12 @@ export default class DrawerComposerInput extends React.PureComponent {
   render () {
     const { handleTab } = this;
     const {
+      attachments,
       className,
       intl,
+      onRemove,
+      onSensitive,
+      onUpload,
       ...rest
     } = this.props;
     const { currentTab } = this.state;

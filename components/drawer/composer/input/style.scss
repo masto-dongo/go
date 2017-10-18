@@ -6,9 +6,9 @@
   display: block;
   position: relative;
   margin: 0;
-  border: 3px $mastodon_go_input_border solid;
+  border: none;
   padding: 0 0 2.5em;
-  height: 5em;
+  height: 6.25em;
   color: $mastodon_go_input_color;
   background: $mastodon_go_input_background;
   transition: height (.3s * $mastodon_go_animation_speed) ease;

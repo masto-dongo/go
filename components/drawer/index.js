@@ -286,7 +286,6 @@ export default class Drawer extends React.PureComponent {
           sensitive={sensitive}
           spoiler={spoiler}
           text={text}
-          visibility={visibility}
         />
       </CommonPaneller>
     );

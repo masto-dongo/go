@@ -6,9 +6,9 @@
   display: block;
   position: relative;
   margin: 0;
-  border-style: solid solid none;
+  border-style: none solid;
   border-color: $mastodon_go_text_area_border;
-  border-width: 3px 3px 0;
+  border-width: 0 3px;
   padding: .625em .75em;
   color: $mastodon_go_text_area_color;
   background: $mastodon_go_text_area_background;

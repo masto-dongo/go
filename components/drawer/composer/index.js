@@ -49,7 +49,6 @@ export default class DrawerComposer extends React.PureComponent {
     sensitive: PropTypes.bool,
     spoiler: PropTypes.string,
     text: PropTypes.string.isRequired,
-    visibility: PropTypes.number,
   };
   textArea = null;
   node = null;
@@ -77,7 +76,6 @@ export default class DrawerComposer extends React.PureComponent {
       sensitive,
       spoiler,
       text,
-      visibility,
       ...rest
     } = this.props;
     const computedClass = classNames('MASTODON_GO--DRAWER--COMPOSER', className);
@@ -117,9 +115,12 @@ export default class DrawerComposer extends React.PureComponent {
           onUpload={onUpload}
         />
         <DrawerComposerControls
+          activeRoute={activeRoute}
+          attached={media.length}
+          history={history}
+          intl={intl}
+          onSetHash={onSetHash}
           onSubmit={onSubmit}
-          value={text}
-          visibility={visibility}
         />
       </div>
     );

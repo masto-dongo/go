@@ -1,0 +1,54 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--DRAWER--COMPOSER--CONTROLS {
+  display: block;
+  margin: 0;
+  border: none;
+  padding: .625em .75em;
+
+  & > .MASTODON_GO--COMMON--BUTTON {
+    display: inline-block;
+    box-sizing: border-box;
+    position: relative;
+    margin: 0;
+    border: none;
+    padding: .75em .6em;
+    width: 50%;
+    color: $mastodon_go_content_button_text;
+    background-color: $mastodon_go_content_button_color;
+    white-space: nowrap;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    transition: background-color ($mastodon_go_animation_speed * .15s) ease-in;
+
+    & > .attached {
+      display: block;
+      positon: absolute;
+      bottom: .125em;
+      right: .25em;
+      margin: 0;
+      border: none;
+      border-radius: .5em;
+      padding: 0;
+      min-width: 1em;
+      height: 1em;
+      color: $mastodon_go_attachment_count_color;
+      background-color: $mastodon_go_attachment_count_background;
+      font-size: .625em;  //  Affects the size of `em` above
+      line-height: 1;
+      text-align: center;
+    }
+
+    &:first-child { margin: 0 .25em 0 -.25em }
+    &:last-child { margin: 0 -.25em 0 .25em }
+
+    &:focus,
+    &:hover {
+      background-color: $mastodon_go_content_button_hover;
+      transition: background-color ($mastodon_go_animation_speed * .15s) ease-out;
+    }
+  }
+}
