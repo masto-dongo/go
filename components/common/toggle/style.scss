@@ -86,10 +86,9 @@
     & > *.thumb {
       display: block;
       position: absolute;
-      box-sizing: border-box;
       top: 0;
       left: 0;
-      margin: 0;
+      margin: -1px;
       border: 1px $mastodon_go_toggle_border solid;
       border-radius: .5em;
       padding: 0;

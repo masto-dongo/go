@@ -34,6 +34,7 @@ export default class CommonLink extends React.PureComponent {
     destination: PropTypes.string,
     history: PropTypes.object,
     href: PropTypes.string,
+    role: PropTypes.string,
   };
 
   //  We only reroute the link if it is an unadorned click, we have
@@ -48,8 +49,16 @@ export default class CommonLink extends React.PureComponent {
   //  Rendering.
   render () {
     const { handleClick } = this;
-    const { children, className, destination, history, href, ...others } = this.props;
-    const computedClass = classNames('MASTODON_GO--COMMON--LINK', className);
+    const {
+      children,
+      className,
+      destination,
+      history,
+      href,
+      role,
+      ...others
+    } = this.props;
+    const computedClass = classNames('MASTODON_GO--COMMON--LINK', className, role);
     const conditionalProps = {};
     if (href) {
       conditionalProps.href = href;
@@ -58,7 +67,11 @@ export default class CommonLink extends React.PureComponent {
       conditionalProps.onClick = handleClick;
       conditionalProps.role = 'link';
       conditionalProps.tabIndex = 0;
-    } else conditionalProps.role = 'presentation';
+    } else if (role) {
+      conditionalProps.role = role;
+    } else {
+      conditionalProps.role = 'presentation';
+    }
 
     return (
       <a

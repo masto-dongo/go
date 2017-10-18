@@ -6,11 +6,13 @@
   display: block;
   position: relative;
   margin: 0;
-  border: 3px $mastodon_go_text_area_border solid;
+  border-style: solid solid none;
+  border-color: $mastodon_go_text_area_border;
+  border-width: 3px 3px 0;
   padding: .625em .75em;
   color: $mastodon_go_text_area_color;
   background: $mastodon_go_text_area_background;
-  min-height: 7em;
+  min-height: 6.25em;
 
   &:focus {
     outline: none;

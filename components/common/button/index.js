@@ -44,6 +44,7 @@ export default class CommonButton extends React.PureComponent {
     iconColour: PropTypes.string,
     onClick: PropTypes.func,
     proportional: PropTypes.bool,
+    role: PropTypes.string,
     showTitle: PropTypes.bool,
     title: PropTypes.string,
   }
@@ -84,18 +85,19 @@ export default class CommonButton extends React.PureComponent {
       iconColour,
       onClick,
       proportional,
+      role,
       showTitle,
       title,
       ...rest
     } = this.props;
     const { loaded } = this.state;
-    const computedClass = classNames('MASTODON_GO--COMMON--BUTTON', className, {
+    const computedClass = classNames('MASTODON_GO--COMMON--BUTTON', {
       active: active,
       animated: animate && loaded,
       disabled,
       link: href,
       with_text: children || title && showTitle,
-    });
+    }, !href || role !== 'link' ? role : null, className);
     let conditionalProps = {};
 
     //  If href or destination is provided, we render a link.
@@ -114,6 +116,9 @@ export default class CommonButton extends React.PureComponent {
         else conditionalProps['aria-disabled'] = true;
         conditionalProps.role = 'button';
         conditionalProps.tabIndex = 0;
+      }
+      if (role) {
+        conditionalProps.role = role;
       }
       return (
         <CommonLink
@@ -134,7 +139,11 @@ export default class CommonButton extends React.PureComponent {
 
     //  Otherwise, we render a button.
     } else {
-      if (active !== void 0) conditionalProps['aria-pressed'] = active;
+      if ((role === 'tab' || role === 'radio' || role === 'menuitemradio') && active !== void 0) {
+        conditionalProps['aria-selected'] = active;
+      } else if (active !== void 0) {
+        conditionalProps['aria-pressed'] = active;
+      }
       if (title && !showTitle) {
         if (!children) conditionalProps.title = title;
         else conditionalProps['aria-label'] = title;

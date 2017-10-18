@@ -66,6 +66,7 @@ export default class TimelineMenu extends React.PureComponent {
       <CommonMenubar
         activeRoute={activeRoute}
         className={computedClass}
+        hash={hash}
         history={history}
         intl={intl}
         {...rest}
