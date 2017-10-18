@@ -137,6 +137,7 @@ export default class CommonToggle extends React.PureComponent {
       handleDeäctivate,
       handleFocus,
       handleInactiveKeyPress,
+      handleKeyPress,
     } = this;
     const {
       active,
