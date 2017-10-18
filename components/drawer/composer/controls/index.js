@@ -76,7 +76,7 @@ export default class DrawerComposerControls extends React.PureComponent {
           icon='paper-plane-o'
           title={intl.formatMessage(messages.quick)}
           showTitle
-        >{attached || true ? <span class='attached'>{attached}</span> : null}</CommonButton>
+        >{attached ? <span class='attached'>{attached}</span> : null}</CommonButton>
       </div>
     )
   }

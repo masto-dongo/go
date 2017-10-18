@@ -132,8 +132,8 @@ export default class CommonButton extends React.PureComponent {
             name={icon}
             proportional={proportional}
           />
-          {title && showTitle ? <span className='title'>{title}</span> : null}
           {children}
+          {title && showTitle ? <span className='title'>{title}</span> : null}
         </CommonLink>
       );
 
@@ -168,8 +168,8 @@ export default class CommonButton extends React.PureComponent {
             colour={iconColour}
             name={icon}
           />
-          {title && showTitle ? <span className='title'>{title}</span> : null}
           {children}
+          {title && showTitle ? <span className='title'>{title}</span> : null}
         </button>
       );
     }
