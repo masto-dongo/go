@@ -43,7 +43,7 @@ export default class DrawerComposerInput extends React.PureComponent {
           default:
             return null;
           }
-        }}
+        }()}
         <DrawerComposerInputMenu
           intl={intl}
           onChange={handleTab}

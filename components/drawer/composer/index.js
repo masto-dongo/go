@@ -110,6 +110,7 @@ export default class DrawerComposer extends React.PureComponent {
         />
         <DrawerComposerInput
           attachments={media}
+          intl={intl}
           sensitive={sensitive}
           onRemove={onMediaRemove}
           onSensitive={onSensitive}

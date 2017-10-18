@@ -56,6 +56,10 @@ export default class DrawerComposerInputMenu extends React.PureComponent {
 
   render () {
     const {
+      handleAttachClick,
+      handleEmojiClick,
+    } = this;
+    const {
       className,
       intl,
       onChange,
