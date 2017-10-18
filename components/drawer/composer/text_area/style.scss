@@ -1,3 +1,12 @@
-.glitch.composer__text-area {
+.MASTODON_GO--DRAWER--COMPOSER--TEXT_AREA {
+  display: block;
   position: relative;
+  margin: 0;
+  border: 1px $mastodon_go_text_area_border solid;
+  padding: .625em .75em;
+  color: $mastodon_go_text_area_color;
+  background: $mastodon_go_text_area_background;
+  min-height: 7em;
+
+  &:focus { border-color: $mastodon_go_text_area_active_border }
 }

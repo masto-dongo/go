@@ -33,10 +33,10 @@ import connect from 'themes/mastodon-go/util/connect';
 //  Selector factory.
 export default connect(
   createStructuredSelector({
+    defaultSpoiler: (state, { inReplyTo }) => inReplyTo ? state.getIn(['status', inReplyTo, 'spoiler']) : void 0,
     defaultVisibility: state => state.getIn(['meta', 'visibility']),
     emojos: state => state.get('emoji'),
     me: state => state.getIn(['meta', 'me']),
-    results: state => state.get('search'),
   }),
   go => ({
     // search: query => go(submitSearch, query),

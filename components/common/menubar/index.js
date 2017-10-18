@@ -52,7 +52,7 @@ export default function CommonMenubar ({
   start,
   ...rest
 }) {
-  const computedClass = classNames('MASTODON_GO--COMMON--MENUBAR', { active_route: activeRoute && history && intl }, className);
+  const computedClass = classNames('MASTODON_GO--COMMON--MENUBAR', className);
   return (
     <nav
       className={computedClass}
@@ -64,6 +64,7 @@ export default function CommonMenubar ({
         case hash && hash !== '#':
           return (
             <CommonButton
+              className='close'
               destination={'#'}
               history={history}
               icon='arrow-left'
@@ -73,6 +74,7 @@ export default function CommonMenubar ({
         case !start:
           return (
             <CommonButton
+              className='close'
               destination={'/start'}
               history={history}
               icon='times'

@@ -18,12 +18,20 @@ frontend "Labcoat", but rewritten and improved for use with Mastodon.
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { defineMessages } from 'react-intl';
 
 //  Stylesheet imports.
 import './style';
 
 //  Other imports.
 import { Emoji } from 'themes/mastodon-go/util/emojify';
+
+const messages = defineMessages({
+  label: {
+    defaultMessage: 'What\'s new?',
+    id: 'composer.label',
+  },
+});
 
 export default class DrawerComposerTextArea extends React.PureComponent {
 
@@ -32,10 +40,8 @@ export default class DrawerComposerTextArea extends React.PureComponent {
     className: PropTypes.string,
     disabled: PropTypes.bool,
     emoji: PropTypes.arrayOf(PropTypes.instanceOf(Emoji)).isRequired,
-    label: PropTypes.string,
     onChange: PropTypes.func,
     onSubmit: PropTypes.func,
-    placeholder: PropTypes.string,
     value: PropTypes.string.isRequired,
   };
   input = null;
@@ -259,14 +265,16 @@ export default class DrawerComposerTextArea extends React.PureComponent {
       setRef,
     } = this;
     const {
+      className,
       disabled,
       emoji,
-      label,
-      placeholder,
+      intl,
+      onChange,
       value,
+      {...rest}
     } = this.props;
 
-    const className = classNames('MASTODON_GO--DRAWER--COMPOSER--TEXT_AREA', {
+    const computedClass = classNames('MASTODON_GO--DRAWER--COMPOSER--TEXT_AREA', {
       empty: (
         value === '\n' ||
         value === ''
@@ -339,8 +347,8 @@ export default class DrawerComposerTextArea extends React.PureComponent {
 
     return (
       <div
-        aria-label={label}
-        className={className}
+        aria-label={intl.formatMessage(...messages.label)}
+        className={computedClass}
         contentEditable={!disabled}
         dangerouslySetInnerHTML={{ __html: result.join('') }}
         onKeyPress={handleEvent}
@@ -348,7 +356,6 @@ export default class DrawerComposerTextArea extends React.PureComponent {
         onBlur={handleEvent}
         ref={setRef}
         tabIndex='0'
-        title={placeholder}
       />
     );
   }

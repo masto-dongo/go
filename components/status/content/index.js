@@ -63,7 +63,6 @@ export default class StatusContent extends React.PureComponent {
     content: PropTypes.string,
     contentVisible: PropTypes.bool,
     detailed: PropTypes.bool,
-    handler: PropTypes.objectOf(PropTypes.func).isRequired,
     history: PropTypes.object,
     intl: PropTypes.object.isRequired,
     media: ImmutablePropTypes.list,
@@ -71,6 +70,7 @@ export default class StatusContent extends React.PureComponent {
     onClick: PropTypes.func,
     sensitive: PropTypes.bool,
     setExpansion: PropTypes.func,
+    small: PropTypes.bool,
     spoiler: PropTypes.string,
     tags: ImmutablePropTypes.list,
   }
@@ -142,7 +142,6 @@ export default class StatusContent extends React.PureComponent {
       content,
       contentVisible,
       detailed,
-      handler,
       history,
       intl,
       media,
@@ -150,16 +149,22 @@ export default class StatusContent extends React.PureComponent {
       onClick,
       sensitive,
       setExpansion,
+      small,
       spoiler,
       tags,
       ...rest
     } = this.props;
     const computedClass = classNames('MASTODON_GO--STATUS--CONTENT', {
       actionable: !detailed && onClick,
+      small,
       spoilered: !contentVisible,
     });
     const mediaElement = function () {
       switch (true) {
+
+      //  If we are `small`, we don't show media.
+      case !!small:
+        return null;
 
       //  If there aren't any media attachments, we try showing a card.
       case (!media || !media.size) && card:

@@ -2,6 +2,7 @@ import CommonButton from './button';
 import CommonDropdown from './dropdown';
 import CommonIcon from './icon';
 import CommonImage from './image';
+import CommonInput from './input';
 import CommonLink from './link';
 import CommonList from './list';
 import CommonMenubar from './menubar';
@@ -15,6 +16,7 @@ export {
   CommonDropdown,
   CommonIcon,
   CommonImage,
+  CommonInput,
   CommonLink,
   CommonList,
   CommonMenubar,

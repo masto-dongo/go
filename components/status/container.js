@@ -40,10 +40,16 @@ import { POST_TYPE } from 'themes/mastodon-go/util/constants';
 //  -----
 
 const getInStatus = (state, id, key) => {
+  if (!id) {
+    return void 0;
+  }
   id = state.getIn(['status', id, 'reblog']) || id;
   return state.getIn(['status', id, key]);
 };
 const getCard = (state, id) => {
+  if (!id) {
+    return void 0;
+  }
   id = state.getIn(['status', id, 'reblog']) || id;
   return state.getIn(['card', id]);
 };
@@ -62,7 +68,7 @@ export default connect(
       comrade,
       id,
     }) => {
-      if (!comrade && state.getIn(['status', id, 'reblog'])) {
+      if (!comrade && id && state.getIn(['status', id, 'reblog'])) {
         comrade = state.getIn(['status', id, 'account']);
       }
       return comrade || null;
@@ -80,20 +86,20 @@ export default connect(
     type: (state, {
       id,
       type,
-    }) => type | POST_TYPE.STATUS | (state.getIn(['status', id, 'reblog']) && POST_TYPE.IS_REBLOG) | (getInStatus(state, id, 'inReplyTo') && POST_TYPE.IS_MENTION),
+    }) => type | POST_TYPE.STATUS | (id && state.getIn(['status', id, 'reblog']) && POST_TYPE.IS_REBLOG) | (getInStatus(state, id, 'inReplyTo') && POST_TYPE.IS_MENTION),
     visibility: (state, { id }) => getInStatus(state, id, 'visibility'),
   }),
   (go, store, { id }) => ({
-    card: () => go(fetchCard, id),
-    delete: () => go(deleteStatus, id),
-    favourite: () => go(favouriteStatus, id),
-    fetch: () => go(fetchStatus, id),
-    mute: () => go(muteStatus, id),
-    pin: () => go(pinStatus, id),
-    reblog: () => go(reblogStatus, id),
-    unfavourite: () => go(unfavouriteStatus, id),
-    unmute: () => go(unmuteStatus, id),
-    unpin: () => go(unpinStatus, id),
-    unreblog: () => go(unreblogStatus, id),
+    card: (newId = id) => go(fetchCard, newId),
+    delete: (newId = id) => go(deleteStatus, newId),
+    favourite: (newId = id) => go(favouriteStatus, newId),
+    fetch: (newId = id, force = false) => go(fetchStatus, newId, force),
+    mute: (newId = id) => go(muteStatus, newId),
+    pin: (newId = id) => go(pinStatus, newId),
+    reblog: (newId = id) => go(reblogStatus, newId),
+    unfavourite: (newId = id) => go(unfavouriteStatus, newId),
+    unmute: (newId = id) => go(unmuteStatus, newId),
+    unpin: (newId = id) => go(unpinStatus, newId),
+    unreblog: (newId = id) => go(unreblogStatus, newId),
   })
 )(Status);

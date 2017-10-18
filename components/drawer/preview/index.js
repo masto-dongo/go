@@ -6,6 +6,7 @@ import React from 'react';
 //  Stylesheet imports
 import './style';
 
-export default function DrawerComposerWarning () {
+export default function DrawerPreview () {
   return null;
 }
+

@@ -40,7 +40,7 @@
   &.active_route {
     padding-bottom: 2.75rem;
 
-    & > .MASTODON_GO--COMMON--BUTTON:last-of-type {
+    & > *.close {
       position: absolute;
       bottom: 0;
       left: 0;

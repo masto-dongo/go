@@ -98,14 +98,6 @@ export default class DrawerMenu extends React.PureComponent {
           onClick={!activeRoute ? handleDrawerClick : undefined}
           title={intl.formatMessage(messages.drawer)}
         />
-        <CommonButton
-          active={hash === '#search'}
-          destination={activeRoute ? '#search' : undefined}
-          history={history}
-          icon='search'
-          onClick={!activeRoute ? handleSearchClick : undefined}
-          title={intl.formatMessage(messages.search)}
-        />
       </CommonMenubar>
     );
   }

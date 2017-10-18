@@ -55,6 +55,7 @@ export default class Status extends React.PureComponent {
     id: PropTypes.string.isRequired,
     observer: PropTypes.object,
     setDetail: PropTypes.func,
+    small: PropTypes.bool,
     '🛄': PropTypes.shape({ intl: PropTypes.object.isRequired }).isRequired,
     '💪': PropTypes.objectOf(PropTypes.func).isRequired,
     '🏪': PropTypes.shape({
@@ -83,13 +84,20 @@ export default class Status extends React.PureComponent {
 
   //  Prior to mounting, we fetch the status's card if this is a
   //  detailed status and we don't already have it.
-  componentWillMount () {
+  constructor () {
     const {
       detailed,
-      '💪': { card: handleCard },
+      id,
+      '💪': {
+        fetch,
+        card: handleCard
+      },
       '🏪': { card },
     } = this.props;
-    if (!card && detailed) {
+    if (id) {
+      fetch(id, detailed);
+    }
+    if (id && !card && detailed) {
       handleCard();
     }
   }
@@ -99,10 +107,17 @@ export default class Status extends React.PureComponent {
   componentWillUpdate (nextProps) {
     const {
       detailed,
-      '💪': { card: handleCard },
+      id,
+      '💪': {
+        fetch,
+        card: handleCard,
+      },
     } = this.props;
-    if (!nextProps['🏪'].card && nextProps.detailed && !detailed) {
-      handleCard();
+    if (nextProps.id && (nextProps.id !== id || nextProps.detailed && !detailed)) {
+      fetch(nextProps.id, nextProps.detailed);
+      if (!nextProps['🏪'].card) {
+        handleCard(nextProps.id);
+      }
     }
   }
 
@@ -158,6 +173,7 @@ export default class Status extends React.PureComponent {
       id,
       observer,
       setDetail,
+      small,
       '🛄': { intl },
       '💪': handler,
       '🏪': {
@@ -185,7 +201,8 @@ export default class Status extends React.PureComponent {
 
     const computedClass = classNames('MASTODON_GO--STATUS', {
       detailed,
-      direct: visibility === VISIBILITY.DIRECT,
+      direct: !(visibility & ~VISIBILITY.DIRECT),
+      small,
     }, className);
 
     const regex = function (exp) {
@@ -198,8 +215,41 @@ export default class Status extends React.PureComponent {
 
     const searchText = spoiler + '\n\n' + content.get('plain').replace(/\ufdd0([^]*)\ufdd1([^]*)\ufdd2/g, '$1');
 
-    if (hideIf & type || regex && account !== me && regex.test(searchText)) {
+    if (!id || hideIf & type || regex && account !== me && regex.test(searchText)) {
       return null;
+    }
+
+    if (small) {
+      return (
+        <CommonObservable
+          className={computedClass}
+          id={containerId || id}
+          observer={observer}
+          searchText={searchText}
+          {...rest}
+        >
+          <AccountContainer
+            comrade={comrade}
+            id={account}
+            small
+          />
+          <StatusContent
+            card={card}
+            content={content.get('plain')}
+            contentVisible={contentVisible}
+            history={history}
+            intl={intl}
+            media={media}
+            mentions={mentions}
+            onClick={handleClick}
+            sensitive={sensitive}
+            setExpansion={setExpansion}
+            small
+            spoiler={spoiler}
+            tags={tags}
+          />
+        </CommonObservable>
+      );
     }
 
     //  We can now render our status!
@@ -225,7 +275,6 @@ export default class Status extends React.PureComponent {
           content={content.get('plain')}
           contentVisible={contentVisible}
           detailed={detailed}
-          handler={handler}
           history={history}
           intl={intl}
           media={media}
