@@ -36,16 +36,22 @@ export default class CommonToggle extends React.PureComponent {
     }
   }
 
+  handleClick = () => {
+    const { onChange } = this.props;
+    const { isActive } = this.state;
+    this.setState({ isActive: !isActive });
+    onChange(!isActive);
+  };
   handleActivate = () => {
     const { onChange } = this.props;
     this.setState({ isActive: true });
     onChange(true);
-  }
+  };
   handleDeäctivate = () => {
     const { onChange } = this.props;
     this.setState({ isActive: false });
     onChange(false);
-  }
+  };
   handleActiveKeyPress = ({ key }) => {
     const {
       handleActivate,
@@ -68,7 +74,7 @@ export default class CommonToggle extends React.PureComponent {
         handleActivate();
         break;
     }
-  }
+  };
   handleInactiveKeyPress = ({ key }) => {
     const {
       handleActivate,
@@ -91,13 +97,13 @@ export default class CommonToggle extends React.PureComponent {
       handleActivate();
       break;
     }
-  }
-  handleFocus () {
-    this.setState({ focused: true });
-  }
-  handleBlur () {
-    this.setState({ focused: false });
-  }
+  };
+  handleFocus = () => {
+    this.setState({ isFocused: true });
+  };
+  handleBlur = () => {
+    this.setState({ isFocused: false });
+  };
 
   render () {
     const {
