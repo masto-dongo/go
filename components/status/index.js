@@ -52,14 +52,14 @@ export default class Status extends React.PureComponent {
     filterRegex: PropTypes.string,
     hideIf: PropTypes.number,
     history: PropTypes.object,
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string,
     observer: PropTypes.object,
     setDetail: PropTypes.func,
     small: PropTypes.bool,
     '🛄': PropTypes.shape({ intl: PropTypes.object.isRequired }).isRequired,
     '💪': PropTypes.objectOf(PropTypes.func).isRequired,
     '🏪': PropTypes.shape({
-      account: PropTypes.string.isRequired,
+      account: PropTypes.string,
       application: ImmutablePropTypes.map,
       card: ImmutablePropTypes.map,
       comrade: PropTypes.string,
@@ -214,9 +214,13 @@ export default class Status extends React.PureComponent {
       }
     }(filterRegex);
 
+    if (!id) {
+      return null;
+    }
+
     const searchText = spoiler + '\n\n' + content.get('plain').replace(/\ufdd0([^]*)\ufdd1([^]*)\ufdd2/g, '$1');
 
-    if (!id || hideIf & type || regex && account !== me && regex.test(searchText)) {
+    if (hideIf & type || regex && account !== me && regex.test(searchText)) {
       return null;
     }
 
