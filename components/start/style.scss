@@ -13,10 +13,11 @@
     overflow: auto;
 
     & > .MASTODON_GO--ACCOUNT {
-      color: $mastodon_go_aside_color;
+      color: $mastodon_go_content_button_text;
       background-color: $mastodon_go_content_button_color;
       transition: background-color ($mastodon_go_animation_speed * .15s) ease-in;
 
+      &:focus,
       &:hover {
         background-color: $mastodon_go_content_button_hover;
         transition: background-color ($mastodon_go_animation_speed * .15s) ease-out;

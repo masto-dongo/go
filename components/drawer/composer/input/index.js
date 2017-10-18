@@ -31,7 +31,7 @@ export default class DrawerComposerInput extends React.PureComponent {
       ...rest
     } = this.props;
     const { currentTab } = this.state;
-    const computedClass = classNames('MASTODON_GO--DRAWER--COMPOSER--INPUT', className);
+    const computedClass = classNames('MASTODON_GO--DRAWER--COMPOSER--INPUT', { closed: !currentTab }, className);
 
     return (
       <div

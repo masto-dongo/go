@@ -4,17 +4,27 @@
 
 .MASTODON_GO--DRAWER--COMPOSER {
   display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   margin: 0;
   border: none;
   padding: 1.25rem 1rem;
-  height: 100%;
+  width: auto;
+  height: auto;
   overflow: auto;
 
   & > .MASTODON_GO--ACCOUNT {
-    color: $mastodon_go_content_color;
-    background-color: $mastodon_go_aside_button_color;
+    color: $mastodon_go_content_button_text;
+    background-color: $mastodon_go_content_button_color;
+    transition: background-color ($mastodon_go_animation_speed * .15s) ease-in;
 
     &:focus,
-    &:hover { background-color: $mastodon_go_aside_button_hover }
+    &:hover {
+      background-color: $mastodon_go_content_button_hover;
+      transition: background-color ($mastodon_go_animation_speed * .15s) ease-out;
+    }
   }
 }

@@ -25,6 +25,10 @@ const messages = defineMessages({
     defaultMessage: 'Upload media',
     id: 'composer.attach',
   },
+  attach: {
+    defaultMessage: 'Close',
+    id: 'composer.close',
+  },
   emoji: {
     defaultMessage: 'Insert emoji',
     id: 'composer.emoji',
@@ -44,6 +48,7 @@ export default class DrawerComposerInputMenu extends React.PureComponent {
     onChange: PropTypes.func,
     value: PropTypes.number,
   };
+  state = { open: false };
 
   handleAttachClick = () => {
     const { onChange } = this.props;
@@ -66,7 +71,10 @@ export default class DrawerComposerInputMenu extends React.PureComponent {
       value,
       ...rest
     } = this.props;
-    const computedClass = classNames('MASTODON_GO--DRAWER--COMPOSER--INPUT--MENU', className);
+    const { open } = this.state;
+    const computedClass = classNames('MASTODON_GO--DRAWER--COMPOSER--INPUT--MENU', {
+      open,
+    }, className);
     return (
       <div
         className={computedClass}
@@ -75,6 +83,12 @@ export default class DrawerComposerInputMenu extends React.PureComponent {
       >
         <CommonButton
           active={value === 0}
+          icon='caret-square-o-up'
+          onClick={handleCloseClick}
+          title={intl.formatMessage(messages.close)}
+        />
+        <CommonButton
+          active={value === 1}
           aria-controls='mastodon-go.drawer.composer.input.attach'
           icon='paperclip'
           onClick={handleAttachClick}
@@ -82,7 +96,7 @@ export default class DrawerComposerInputMenu extends React.PureComponent {
           title={intl.formatMessage(messages.attach)}
         />
         <CommonButton
-          active={value === 1}
+          active={value === 2}
           aria-controls='mastodon-go.drawer.composer.input.emoji'
           icon='meh-o'
           onClick={handleEmojiClick}
