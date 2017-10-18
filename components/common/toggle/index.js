@@ -23,25 +23,25 @@ export default class CommonToggle extends React.PureComponent {
     inactiveIcon: 'times',
   };
   state = {
-    active: !!this.props.active,
-    focused: false,
+    isActive: !!this.props.active,
+    isFocused: false,
   };
 
   componentWillReceiveProps (nextProps) {
     const { active } = this.props;
     if (active !== nextProps.active) {
-      this.setState({ active: !!nextProps.active });
+      this.setState({ isActive: !!nextProps.active });
     }
   }
 
   handleActivate = () => {
     const { onChange } = this.props;
-    this.setState({ active: true });
+    this.setState({ isActive: true });
     onChange(true);
   }
   handleDeäctivate = () => {
     const { onChange } = this.props;
-    this.setState({ active: false });
+    this.setState({ isActive: false });
     onChange(false);
   }
   handleActiveKeyPress = ({ key }) => {
@@ -119,12 +119,12 @@ export default class CommonToggle extends React.PureComponent {
       ...rest
     } = this.props;
     const {
-      active,
-      focused,
+      isActive,
+      isFocused,
     } = this.state;
     const computedClass = classNames('MASTODON_GO--COMMON--TOGGLE', {
-      active,
-      focused,
+      active: isActive,
+      focused: isFocused,
     }, className);
 
     return (
@@ -136,7 +136,7 @@ export default class CommonToggle extends React.PureComponent {
         {...rest}
       >
         <span
-          aria-checked={!active}
+          aria-checked={!isActive}
           onBlur={handleBlur}
           onClick={!disabled ? handleDeäctivate : void 0}
           onKeyPress={!disabled ? handleInactiveKeyPress : void 0}
@@ -153,7 +153,7 @@ export default class CommonToggle extends React.PureComponent {
           <CommonIcon name={activeIcon} />
         </span>
         <span
-          aria-checked={!!active}
+          aria-checked={!!isActive}
           onBlur={handleBlur}
           onClick={!disabled ? handleActivate : void 0}
           onKeyPress={!disabled ? handleActiveKeyPress : void 0}
