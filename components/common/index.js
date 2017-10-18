@@ -8,6 +8,7 @@ import CommonMenubar from './menubar';
 import CommonObservable from './observable';
 import CommonPaneller from './paneller';
 import CommonSeparator from './separator';
+import CommonToggle from './toggle';
 
 export {
   CommonButton,
@@ -20,4 +21,5 @@ export {
   CommonObservable,
   CommonPaneller,
   CommonSeparator,
+  CommonToggle,
 };
