@@ -11,7 +11,7 @@
   background-color: transparent;
   outline: 1px transparent dotted;
   outline-offset: -1px;
-  font-size: inherit;
+  font: inherit;
   text-decoration: none;
   cursor: pointer;
   transition: color ($mastodon_go_animation_speed * .15s) ease-in, outline-color ($mastodon_go_animation_speed * .3s) ease-in-out;
@@ -93,20 +93,30 @@
     display: inline-block;
     border: none;
     padding: 0 .5em;
+    color: $mastodon_go_content_button_text;
+    background-color: $mastodon_go_content_button_color;
     font-size: .75em;
     font-weight: inherit;
     line-height: 1.6;
     cursor: pointer;
     vertical-align: baseline;
+    transition: background-color ($mastodon_go_animation_speed * .15s) ease-in;
 
     & > *.icon {
       display: inline-block;
       font-size: 1.25em;
+      line-height: 1;
       vertical-align: -.1em;
     }
 
     & > *:not(:first-child) {
       margin: 0 0 0 1ex;
+    }
+
+    &:focus,
+    &:hover {
+      background-color: $mastodon_go_content_button_hover;
+      transition: background-color ($mastodon_go_animation_speed * .15s) ease-out;
     }
   }
 }

@@ -12,27 +12,22 @@
     display: inline-block;
     box-sizing: border-box;
     position: relative;
-    margin: 0;
+    margin: 0;  //  But see `:first-child` and `:last-child`, below
     border: none;
     padding: .75em .6em;
     width: 50%;
-    color: $mastodon_go_content_button_text;
-    background-color: $mastodon_go_content_button_color;
     white-space: nowrap;
     text-align: center;
     text-overflow: ellipsis;
     overflow: hidden;
-    transition: background-color ($mastodon_go_animation_speed * .15s) ease-in;
+    vertical-align: bottom;
 
     & > .attached {
-      display: block;
-      positon: absolute;
-      bottom: .125em;
-      right: .25em;
-      margin: 0;
+      display: inline-block;
+      //  `margin` is set by `<CommonButton>`
       border: none;
-      border-radius: .5em;
-      padding: 0;
+      border-radius: .75em;
+      padding: .25em;
       min-width: 1em;
       height: 1em;
       color: $mastodon_go_attachment_count_color;
@@ -40,15 +35,10 @@
       font-size: .625em;  //  Affects the size of `em` above
       line-height: 1;
       text-align: center;
+      vertical-align: middle;
     }
 
-    &:first-child { margin: 0 .25em 0 -.25em }
-    &:last-child { margin: 0 -.25em 0 .25em }
-
-    &:focus,
-    &:hover {
-      background-color: $mastodon_go_content_button_hover;
-      transition: background-color ($mastodon_go_animation_speed * .15s) ease-out;
-    }
+    &:first-child { margin: 0 .75em 0 -.75em }
+    &:last-child { margin: 0 -.75em 0 .75em }
   }
 }

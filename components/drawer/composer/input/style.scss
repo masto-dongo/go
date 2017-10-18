@@ -6,7 +6,9 @@
   display: block;
   position: relative;
   margin: 0;
-  border: none;
+  border-style: none solid;
+  border-color: $mastodon_go_input_background;
+  border-width: none 3px;
   padding: 0 0 2.5em;
   height: 6.25em;
   color: $mastodon_go_input_color;
