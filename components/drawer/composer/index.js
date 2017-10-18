@@ -5,44 +5,25 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { defineMessages } from 'react-intl';
 
 //  Container imports.
-import { AccountContainer } from 'themes/mastodon-go/components';
+import {
+  AccountContainer,
+  StatusContainer,
+} from 'themes/mastodon-go/components';
 
 //  Component imports.
-import ComposerControls from './input';
-import ComposerInput from './input';
-import ComposerOptions from './options';
-import ComposerReplyBox from './reply_box';
-import ComposerSpoiler from './spoiler';
-import ComposerTextArea from './text_area';
-import ComposerWarning from './warning';
+import DrawerComposerControls from './controls';
+import DrawerComposerInput from './input';
+import DrawerComposerTextArea from './text_area';
+
+import { CommonInput } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style';
 
 //  Other imports.
 import { Emoji } from 'themes/mastodon-go/util/emojify';
-
-const messages = defineMessages({
-  placeholder: {
-    defaultMessage: 'What is on your mind?',
-    id: 'drawer.placeholder',
-  },
-  spoiler: {
-    defaultMessage: 'Content warning',
-    id: 'drawer.spoiler_placeholder',
-  },
-  publish: {
-    defaultMessage: 'Toot',
-    id: 'drawer.publish',
-  },
-  loudPublish: {
-    defaultMessage: '{publish}!',
-    id: 'drawer.publish_loud',
-  },
-});
 
 export default class DrawerComposer extends React.PureComponent {
 
@@ -120,22 +101,22 @@ export default class DrawerComposer extends React.PureComponent {
           id={inReplyTo}
           small
         />
-        <ComposerTextArea
+        <DrawerComposerTextArea
           disabled={isSubmitting}
           emoji={emoji}
           intl={intl}
           onChange={onText}
           value={text}
         />
-        <ComposerInput
+        <DrawerComposerInput
           attachments={media}
           sensitive={sensitive}
           onRemove={onMediaRemove}
           onSensitive={onSensitive}
           onUpload={onUpload}
         />
-        <ComposerControls
-          onSubmit={handleSubmit}
+        <DrawerComposerControls
+          onSubmit={onSubmit}
           value={text}
           visibility={visibility}
         />

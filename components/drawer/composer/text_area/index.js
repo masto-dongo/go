@@ -271,7 +271,7 @@ export default class DrawerComposerTextArea extends React.PureComponent {
       intl,
       onChange,
       value,
-      {...rest}
+      ...rest
     } = this.props;
 
     const computedClass = classNames('MASTODON_GO--DRAWER--COMPOSER--TEXT_AREA', {
@@ -356,6 +356,7 @@ export default class DrawerComposerTextArea extends React.PureComponent {
         onBlur={handleEvent}
         ref={setRef}
         tabIndex='0'
+        {...rest}
       />
     );
   }

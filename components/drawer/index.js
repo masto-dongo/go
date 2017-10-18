@@ -14,7 +14,7 @@ import {
 //  Component imports.
 import DrawerComposer from './composer';
 import DrawerMenu from './menu';
-import DrawerSearch from './search';
+import DrawerPreview from './preview';
 
 //  Common imports.
 import { CommonPaneller } from 'themes/mastodon-go/components';
@@ -71,10 +71,10 @@ export default class Drawer extends React.PureComponent {
   state = {
     idempotency: uuid(),
     media: [],
-    spoiler: this.props.defaultSpoiler || '',
+    spoiler: this.props['🏪'].defaultSpoiler || '',
     storedHash: '#',
     text: '\n',
-    visibility: this.props.defaultVisibility,
+    visibility: this.props['🏪'].defaultVisibility,
   };
   emoji = (
     new Emojifier(this.props['🏪'].emojos && this.props['🏪'].emojos.toJS() || [])
@@ -101,9 +101,11 @@ export default class Drawer extends React.PureComponent {
 
   handleClear = () => {
     const {
-      defaultSpoiler,
-      defaultVisibility,
       onClear,
+      '🏪' : {
+        defaultSpoiler,
+        defaultVisibility,
+      }
     } = this.props;
     this.setState({
       idempotency: uuid(),
@@ -114,7 +116,9 @@ export default class Drawer extends React.PureComponent {
       text: '\n',
       visibility: defaultVisibility,
     });
-    onClear();
+    if (onClear) {
+      onClear();
+    }
   }
 
   handleMediaRemove = id => {
@@ -139,8 +143,8 @@ export default class Drawer extends React.PureComponent {
       text,
       visibility,
     } = this.state;
-    if (onSubmit) {
-      onSubmit(text, {
+    if (submit) {
+      submit(text, {
         idempotency,
         inReplyTo,
         media,

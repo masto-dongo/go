@@ -56,12 +56,6 @@ export default class DrawerMenu extends React.PureComponent {
       onSetHash('#');
     }
   };
-  handleSearchClick = () => {
-    const { onSetHash } = this.props;
-    if (onSetHash) {
-      onSetHash('#search');
-    }
-  }
 
   //  Rendering.
   render () {

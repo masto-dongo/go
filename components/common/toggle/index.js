@@ -39,7 +39,9 @@ export default class CommonToggle extends React.PureComponent {
   handleChange = value => {
     const { onChange } = this.props;
     const { isActive } = this.state;
-    this.setState({ isActive: value !== void 0 ? !!value : !isActive });
+    const willBeActive = value !== void 0 ? !!value : !isActive;
+    this.setState({ isActive: willBeActive });
+    onChange(willBeActive);
   }
 
   handleClick = e => {
@@ -60,21 +62,21 @@ export default class CommonToggle extends React.PureComponent {
   handleKeyPress = e => {
     const { handleChange } = this;
     switch (e.key) {
-      case ' ':
-        handleChange();
-        break;
-      case 'Down':
-      case 'Right':
-      case 'ArrowDown':
-      case 'ArrowRight':
-        handleChange(false);
-        break;
-      case 'Left':
-      case 'Up':
-      case 'ArrowLeft':
-      case 'ArrowUp':
-        handleChange(true);
-        break;
+    case ' ':
+      handleChange();
+      break;
+    case 'Down':
+    case 'Right':
+    case 'ArrowDown':
+    case 'ArrowRight':
+      handleChange(false);
+      break;
+    case 'Left':
+    case 'Up':
+    case 'ArrowLeft':
+    case 'ArrowUp':
+      handleChange(true);
+      break;
     default:
       return;
     }
@@ -84,21 +86,21 @@ export default class CommonToggle extends React.PureComponent {
   handleActiveKeyPress = e => {
     const { handleChange } = this;
     switch (e.key) {
-      case ' ':
-        handleChange(true);
-        break;
-      case 'Down':
-      case 'Right':
-      case 'ArrowDown':
-      case 'ArrowRight':
-        handleChange(true);
-        break;
-      case 'Left':
-      case 'Up':
-      case 'ArrowLeft':
-      case 'ArrowUp':
-        handleChange(false);
-        break;
+    case ' ':
+      handleChange(true);
+      break;
+    case 'Down':
+    case 'Right':
+    case 'ArrowDown':
+    case 'ArrowRight':
+      handleChange(true);
+      break;
+    case 'Left':
+    case 'Up':
+    case 'ArrowLeft':
+    case 'ArrowUp':
+      handleChange(false);
+      break;
     default:
       return;
     }
