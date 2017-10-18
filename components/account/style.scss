@@ -43,7 +43,11 @@
     padding: .625em .75em;
     height: 3em;
 
-    & > .MASTODON_GO--AVATAR { margin-right: .6em }
+    & > .MASTODON_GO--AVATAR {
+      margin-right: .6em;
+      height: 3em;
+      width: 3em;
+    }
 
     & > *.info {
       padding: .625em 0 0;
