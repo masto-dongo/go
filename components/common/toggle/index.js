@@ -10,11 +10,11 @@ export default class CommonToggle extends React.PureComponent {
   static propTypes = {
     active: PropTypes.bool,
     activeIcon: PropTypes.string,
-    activeLabel: PropTypes.string.isRequired,
+    activeLabel: PropTypes.node.isRequired,
     className: PropTypes.string,
     disabled: PropTypes.bool,
     inactiveIcon: PropTypes.string,
-    inactiveLabel: PropTypes.string.isRequired,
+    inactiveLabel: PropTypes.node.isRequired,
     onChange: PropTypes.func,
     title: PropTypes.string,
   };

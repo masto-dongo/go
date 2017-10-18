@@ -124,9 +124,9 @@ export default function CourierSettings ({
             type='toggle'
           />
           <SettingContainer
-            activeLabel={<FormattedMessage {...messages.boostOn} />}
+            activeLabel={<FormattedMessage {...messages.reblogOn} />}
             global
-            inactiveLabel={<FormattedMessage {...messages.boostOff} />}
+            inactiveLabel={<FormattedMessage {...messages.reblogOff} />}
             settingKey={['courier', 'shows', 'boost']}
             type='toggle'
           />
@@ -158,9 +158,9 @@ export default function CourierSettings ({
             type='toggle'
           />
           <SettingContainer
-            activeLabel={<FormattedMessage {...messages.boostOn} />}
+            activeLabel={<FormattedMessage {...messages.reblogOn} />}
             global
-            inactiveLabel={<FormattedMessage {...messages.boostOff} />}
+            inactiveLabel={<FormattedMessage {...messages.reblogOff} />}
             settingKey={['courier', 'alerts', 'boost']}
             type='toggle'
           />
@@ -192,9 +192,9 @@ export default function CourierSettings ({
             type='toggle'
           />
           <SettingContainer
-            activeLabel={<FormattedMessage {...messages.boostOn} />}
+            activeLabel={<FormattedMessage {...messages.reblogOn} />}
             global
-            inactiveLabel={<FormattedMessage {...messages.boostOff} />}
+            inactiveLabel={<FormattedMessage {...messages.reblogOff} />}
             settingKey={['courier', 'sounds', 'boost']}
             type='toggle'
           />
