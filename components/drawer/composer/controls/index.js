@@ -2,6 +2,7 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { defineMessages } from 'react-intl';
 
 //  Common imports.
 import { CommonButton } from 'themes/mastodon-go/components';
