@@ -16,7 +16,7 @@
     display: block;
     margin: 0;
     border: none;
-    padding: .9375rem .75rem;
+    padding: .9375rem .75rem 2.75rem;
     width: 2rem;
     height: 1.25rem;
     color: $mastodon_go_menu_color;
@@ -35,12 +35,8 @@
       color: $mastodon_go_menu_active_color;
       background-color: $mastodon_go_menu_active_background;
     }
-  }
 
-  &.active_route {
-    padding-bottom: 2.75rem;
-
-    & > *.close {
+    &.close {
       position: absolute;
       bottom: 0;
       left: 0;
