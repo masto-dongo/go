@@ -3,7 +3,7 @@
 @import "themes/mastodon-go/variables";
 
 .MASTODON_GO--COMMON--TOGGLE {
-  display: inline-block;
+  display: block;
   position: relative;
   margin: 0;
   border: none;
@@ -23,6 +23,7 @@
     &:focus {
       outline: none;
       text-decoration: underline;
+      text-decoration-style: dotted;
 
       &[aria-checked="false"] { opacity: .6 }
     }
@@ -56,7 +57,7 @@
     font-size: 1.2em;  //  Note this changes the `em` calculations above.
     line-height: 1;
     user-select: none;
-    transition: border-color ($mastodon_go_animation_speed * .3s) ease, background-color ($mastodon_go_animation_speed * .3s) ease;
+    transition: background-color ($mastodon_go_animation_speed * .3s) ease;
 
     & > .MASTODON_GO--COMMON--ICON {
       display: block;
@@ -93,7 +94,7 @@
       padding: 0;
       width: 1em;
       height: 1em;
-      background-color: $mastodon_go_toggle_inactive_color;
+      background-color: currentColor;
       transition: left ($mastodon_go_animation_speed * .3s) ease;
     }
   }
@@ -106,10 +107,7 @@
         &:last-child { opacity: 1 }
       }
 
-      & > *.thumb {
-        left: 1em;
-        background-color: $mastodon_go_toggle_active_color;
-      }
+      & > *.thumb { left: 1em }
     }
   }
 
@@ -121,10 +119,7 @@
     }
 
     & > *.track,
-    & > *.thumb {
-      border-color: $mastodon_go_toggle_border;
-      background-color: transparent;
-    }
+    & > *.thumb { background-color: transparent }
   }
 
   &:not([aria-disabled="true"]) {
@@ -137,11 +132,12 @@
     }
 
     &:hover,
+    &:focus,
     &.focused {
-      & > *.track { background-color: $mastodon_go_toggle_inactive_hover }
+      & > *.track { color: $mastodon_go_toggle_inactive_hover }
 
       &.active {
-        & > *.track { background-color: $mastodon_go_toggle_active_hover }
+        & > *.track { color: $mastodon_go_toggle_active_hover }
       }
     }
   }
