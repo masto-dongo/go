@@ -25,7 +25,7 @@ const messages = defineMessages({
     defaultMessage: 'Upload media',
     id: 'composer.attach',
   },
-  attach: {
+  close: {
     defaultMessage: 'Close',
     id: 'composer.close',
   },
