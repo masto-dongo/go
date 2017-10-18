@@ -4,9 +4,10 @@
 
 .MASTODON_GO--ACCOUNT {
   display: block;
-  height: 3.15rem;
   margin: 0;
+  border: none;
   padding: .625rem .75rem;
+  height: 3.15rem;
 
   & > .MASTODON_GO--AVATAR {
     float: left;
@@ -37,25 +38,25 @@
   }
 
   &.small {
-    margin: 0 .75rem;
-    border-width: 0 0 1px;
-    padding: .625rem .75rem;
-    background-size: 100% 1px;
+    margin: 0;
+    border: none;
+    padding: .625em .75em;
+    height: 3em;
 
-    & > .MASTODON_GO--AVATAR { margin-right: .6rem }
+    & > .MASTODON_GO--AVATAR { margin-right: .6em }
 
     & > *.info {
-      padding: .9rem 0 0;
+      padding: .625em 0 0;
 
       & > b {
-        height: 1.25rem;
-        font-size: 1rem;
-        line-height: 1.25rem;
+        height: 1.25em;
+        font-size: 1em;
+        line-height: 1.25;
       }
       & > code {
-        height: 1rem;
-        font-size: .8rem;
-        line-height: 1rem;
+        height: 1.171875em;
+        font-size: .96em;  //  This changes the `em` value used for `height`
+        line-height: 1.171875;
       }
     }
   }
