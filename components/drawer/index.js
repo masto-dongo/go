@@ -105,7 +105,7 @@ export default class Drawer extends React.PureComponent {
       '🏪' : {
         defaultSpoiler,
         defaultVisibility,
-      }
+      },
     } = this.props;
     this.setState({
       idempotency: uuid(),

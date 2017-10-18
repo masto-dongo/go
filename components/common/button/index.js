@@ -139,7 +139,7 @@ export default class CommonButton extends React.PureComponent {
 
     //  Otherwise, we render a button.
     } else {
-      if ((role === 'tab' || role === 'radio' || role === 'menuitemradio') && active !== void 0) {
+      if (role === 'tab' && active !== void 0) {
         conditionalProps['aria-selected'] = active;
       } else if (active !== void 0) {
         conditionalProps['aria-pressed'] = active;

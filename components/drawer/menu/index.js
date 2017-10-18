@@ -25,10 +25,6 @@ const messages = defineMessages({
     defaultMessage: 'Compose',
     id: 'drawer.drawer',
   },
-  search: {
-    defaultMessage: 'Search',
-    id: 'drawer.search',
-  },
 });
 
 //  * * * * * * *  //
@@ -61,7 +57,6 @@ export default class DrawerMenu extends React.PureComponent {
   render () {
     const {
       handleDrawerClick,
-      handleSearchClick,
     } = this;
     const {
       activeRoute,

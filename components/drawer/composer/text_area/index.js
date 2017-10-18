@@ -40,6 +40,7 @@ export default class DrawerComposerTextArea extends React.PureComponent {
     className: PropTypes.string,
     disabled: PropTypes.bool,
     emoji: PropTypes.arrayOf(PropTypes.instanceOf(Emoji)).isRequired,
+    intl: PropTypes.object.isRequired,
     onChange: PropTypes.func,
     onSubmit: PropTypes.func,
     value: PropTypes.string.isRequired,

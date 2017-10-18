@@ -183,7 +183,7 @@ export default class CommonToggle extends React.PureComponent {
         {...rest}
       >
         <span
-          aria-selected={!isActive}
+          aria-checked={!isActive}
           onBlur={handleBlur}
           onClick={!disabled ? handleDeäctivate : void 0}
           onKeyDown={!disabled ? handleInactiveKeyPress : void 0}
@@ -200,7 +200,7 @@ export default class CommonToggle extends React.PureComponent {
           <CommonIcon name={activeIcon} />
         </span>
         <span
-          aria-selected={!!isActive}
+          aria-checked={!!isActive}
           onBlur={handleBlur}
           onClick={!disabled ? handleActivate : void 0}
           onKeyDown={!disabled ? handleActiveKeyPress : void 0}
