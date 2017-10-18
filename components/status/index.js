@@ -84,7 +84,8 @@ export default class Status extends React.PureComponent {
 
   //  Prior to mounting, we fetch the status's card if this is a
   //  detailed status and we don't already have it.
-  constructor () {
+  constructor (props) {
+    super(props);
     const {
       detailed,
       id,
