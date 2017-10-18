@@ -135,6 +135,8 @@
     &:hover,
     &:focus,
     &.focused {
+      outline: none;
+
       & > *.track { color: $mastodon_go_toggle_inactive_hover }
 
       &.active {

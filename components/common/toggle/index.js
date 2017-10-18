@@ -59,7 +59,6 @@ export default class CommonToggle extends React.PureComponent {
   };
   handleKeyPress = e => {
     const { handleChange } = this;
-    console.log(e.key);
     switch (e.key) {
       case ' ':
         handleChange();
@@ -84,7 +83,6 @@ export default class CommonToggle extends React.PureComponent {
   };
   handleActiveKeyPress = e => {
     const { handleChange } = this;
-    console.log(e.key);
     switch (e.key) {
       case ' ':
         handleChange(true);
@@ -109,7 +107,6 @@ export default class CommonToggle extends React.PureComponent {
   };
   handleInactiveKeyPress = e => {
     const { handleChange } = this;
-    console.log(e.key);
     switch (e.key) {
     case ' ':
       handleChange(false);
@@ -174,20 +171,21 @@ export default class CommonToggle extends React.PureComponent {
     return (
       <span
         aria-disabled={!!disabled}
-        onFocusOut={handleBlur}
+        onBlur={handleBlur}
         onClick={!disabled ? handleClick : void 0}
-        onKeyPress={!disabled ? handleKeyPress : void 0}
-        onFocusIn={handleFocus}
+        onKeyDown={!disabled ? handleKeyPress : void 0}
+        onFocus={handleFocus}
         className={computedClass}
         role='radiogroup'
-        tabIndex='0'
         title={title}
         {...rest}
       >
         <span
           aria-checked={!isActive}
+          onBlur={handleBlur}
           onClick={!disabled ? handleDeäctivate : void 0}
-          onKeyPress={!disabled ? handleInactiveKeyPress : void 0}
+          onKeyDown={!disabled ? handleInactiveKeyPress : void 0}
+          onFocus={handleFocus}
           role='radio'
           tabIndex='0'
         >{inactiveLabel}</span>
@@ -201,8 +199,10 @@ export default class CommonToggle extends React.PureComponent {
         </span>
         <span
           aria-checked={!!isActive}
+          onBlur={handleBlur}
           onClick={!disabled ? handleActivate : void 0}
-          onKeyPress={!disabled ? handleActiveKeyPress : void 0}
+          onKeyDown={!disabled ? handleActiveKeyPress : void 0}
+          onFocus={handleFocus}
           role='radio'
           tabIndex='0'
         >{activeLabel}</span>
