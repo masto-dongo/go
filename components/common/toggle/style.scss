@@ -7,7 +7,8 @@
   position: relative;
   margin: 0;
   border: none;
-  padding: 0 1.2em;
+  padding: 0 1.7em;
+  line-height: 1.5625em;
 
   & > [role="radio"] {
     display: inline-block;
@@ -29,12 +30,12 @@
     }
 
     &:first-child {
-      margin: 0 1.2em 0 -1.2em;
+      margin: 0 1.7em 0 -1.7em;
       text-align: right;
     }
 
     &:last-child {
-      margin: 0 -1.2em 0 1.2em;
+      margin: 0 -1.7em 0 1.7em;
       text-align: left;
     }
   }
@@ -54,7 +55,7 @@
     height: 1em;
     color: $mastodon_go_toggle_inactive_color;
     background-color: $mastodon_go_toggle_inactive_background;
-    font-size: 1.2em;  //  Note this changes the `em` calculations above.
+    font-size: 1.25em;  //  Note this changes the `em` calculations above.
     line-height: 1;
     user-select: none;
     transition: background-color ($mastodon_go_animation_speed * .3s) ease;

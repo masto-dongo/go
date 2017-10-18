@@ -42,21 +42,37 @@ const messages = defineMessages({
     defaultMessage: 'Desktop notifications:',
     id: 'settings.desktop_notifs',
   },
-  favourite: {
+  favouriteOff: {
+    defaultMessage: 'No Favourites',
+    id: 'settings.favourite_off',
+  },
+  favouriteOn: {
     defaultMessage: 'Favourites',
-    id: 'settings.favourite_notif',
+    id: 'settings.favourite_on',
   },
-  follow: {
+  followOff: {
+    defaultMessage: 'No Follows',
+    id: 'settings.follow_off',
+  },
+  followOn: {
     defaultMessage: 'Follows',
-    id: 'settings.follow_notif',
+    id: 'settings.follow_on',
   },
-  mention: {
+  mentionOff: {
+    defaultMessage: 'No Mentions',
+    id: 'settings.mention_off',
+  },
+  mentionOn: {
     defaultMessage: 'Mentions',
-    id: 'settings.mention_notif',
+    id: 'settings.mention_on',
   },
-  reblog: {
+  reblogOff: {
+    defaultMessage: 'No Boosts',
+    id: 'settings.reblog_off',
+  },
+  reblogOn: {
     defaultMessage: 'Boosts',
-    id: 'settings.reblog_notif',
+    id: 'settings.reblog_on',
   },
   sound: {
     defaultMessage: 'Sounds:',
@@ -87,30 +103,30 @@ export default function CourierSettings ({
         <section>
           <h2><FormattedMessage {...messages.column} /></h2>
           <SettingContainer
-            activeLabel={<FormattedMessage {...messages.follow} />}
+            activeLabel={<FormattedMessage {...messages.followOn} />}
             global
-            inactiveLabel={<s><FormattedMessage {...messages.follow} /></s>}
+            inactiveLabel={<FormattedMessage {...messages.followOff} />}
             settingKey={['courier', 'shows', 'follow']}
             type='toggle'
           />
           <SettingContainer
-            activeLabel={<FormattedMessage {...messages.favourite} />}
+            activeLabel={<FormattedMessage {...messages.favouriteOn} />}
             global
-            inactiveLabel={<s><FormattedMessage {...messages.favourite} /></s>}
+            inactiveLabel={<FormattedMessage {...messages.favouriteOff} />}
             settingKey={['courier', 'shows', 'favourite']}
             type='toggle'
           />
           <SettingContainer
-            activeLabel={<FormattedMessage {...messages.mention} />}
+            activeLabel={<FormattedMessage {...messages.mentionOn} />}
             global
-            inactiveLabel={<s><FormattedMessage {...messages.mention} /></s>}
+            inactiveLabel={<FormattedMessage {...messages.mentionOff} />}
             settingKey={['courier', 'shows', 'mention']}
             type='toggle'
           />
           <SettingContainer
-            activeLabel={<FormattedMessage {...messages.reblog} />}
+            activeLabel={<FormattedMessage {...messages.reblogOn} />}
             global
-            inactiveLabel={<s><FormattedMessage {...messages.reblog} /></s>}
+            inactiveLabel={<FormattedMessage {...messages.reblogOff} />}
             settingKey={['courier', 'shows', 'boost']}
             type='toggle'
           />
@@ -121,30 +137,30 @@ export default function CourierSettings ({
         <section>
           <h2><FormattedMessage {...messages.desktop} /></h2>
           <SettingContainer
-            activeLabel={<FormattedMessage {...messages.follow} />}
+            activeLabel={<FormattedMessage {...messages.followOn} />}
             global
-            inactiveLabel={<s><FormattedMessage {...messages.follow} /></s>}
+            inactiveLabel={<FormattedMessage {...messages.followOff} />}
             settingKey={['courier', 'alerts', 'follow']}
             type='toggle'
           />
           <SettingContainer
-            activeLabel={<FormattedMessage {...messages.favourite} />}
+            activeLabel={<FormattedMessage {...messages.favouriteOn} />}
             global
-            inactiveLabel={<s><FormattedMessage {...messages.favourite} /></s>}
+            inactiveLabel={<FormattedMessage {...messages.favouriteOff} />}
             settingKey={['courier', 'alerts', 'favourite']}
             type='toggle'
           />
           <SettingContainer
-            activeLabel={<FormattedMessage {...messages.mention} />}
+            activeLabel={<FormattedMessage {...messages.mentionOn} />}
             global
-            inactiveLabel={<s><FormattedMessage {...messages.mention} /></s>}
+            inactiveLabel={<FormattedMessage {...messages.mentionOff} />}
             settingKey={['courier', 'alerts', 'mention']}
             type='toggle'
           />
           <SettingContainer
-            activeLabel={<FormattedMessage {...messages.reblog} />}
+            activeLabel={<FormattedMessage {...messages.reblogOn} />}
             global
-            inactiveLabel={<s><FormattedMessage {...messages.reblog} /></s>}
+            inactiveLabel={<FormattedMessage {...messages.reblogOff} />}
             settingKey={['courier', 'alerts', 'boost']}
             type='toggle'
           />
@@ -155,30 +171,30 @@ export default function CourierSettings ({
         <section>
           <h2><FormattedMessage {...messages.sound} /></h2>
           <SettingContainer
-            activeLabel={<FormattedMessage {...messages.follow} />}
+            activeLabel={<FormattedMessage {...messages.followOn} />}
             global
-            inactiveLabel={<s><FormattedMessage {...messages.follow} /></s>}
+            inactiveLabel={<FormattedMessage {...messages.followOff} />}
             settingKey={['courier', 'sounds', 'follow']}
             type='toggle'
           />
           <SettingContainer
-            activeLabel={<FormattedMessage {...messages.favourite} />}
+            activeLabel={<FormattedMessage {...messages.favouriteOn} />}
             global
-            inactiveLabel={<s><FormattedMessage {...messages.favourite} /></s>}
+            inactiveLabel={<FormattedMessage {...messages.favouriteOff} />}
             settingKey={['courier', 'sounds', 'favourite']}
             type='toggle'
           />
           <SettingContainer
-            activeLabel={<FormattedMessage {...messages.mention} />}
+            activeLabel={<FormattedMessage {...messages.mentionOn} />}
             global
-            inactiveLabel={<s><FormattedMessage {...messages.mention} /></s>}
+            inactiveLabel={<FormattedMessage {...messages.mentionOff} />}
             settingKey={['courier', 'sounds', 'mention']}
             type='toggle'
           />
           <SettingContainer
-            activeLabel={<FormattedMessage {...messages.reblog} />}
+            activeLabel={<FormattedMessage {...messages.reblogOn} />}
             global
-            inactiveLabel={<s><FormattedMessage {...messages.reblog} /></s>}
+            inactiveLabel={<FormattedMessage {...messages.reblogOff} />}
             settingKey={['courier', 'sounds', 'boost']}
             type='toggle'
           />
