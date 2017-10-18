@@ -52,12 +52,13 @@ export default class CommonToggle extends React.PureComponent {
     this.setState({ isActive: false });
     onChange(false);
   };
-  handleKeyPress = ({ key }) => {
+  handleKeyPress = (e) => {
     const {
       handleActivate,
+      handleClick,
       handleDeäctivate,
     } = this;
-    switch (key) {
+    switch (e.key) {
       case ' ':
         handleClick();
         break;
@@ -73,14 +74,18 @@ export default class CommonToggle extends React.PureComponent {
       case 'ArrowUp':
         handleActivate();
         break;
+    default:
+      return;
     }
+    e.stopPropagation();
+    e.preventDefault();
   };
-  handleActiveKeyPress = ({ key }) => {
+  handleActiveKeyPress = (e) => {
     const {
       handleActivate,
       handleDeäctivate,
     } = this;
-    switch (key) {
+    switch (e.key) {
       case ' ':
         handleActivate();
         break;
@@ -96,14 +101,18 @@ export default class CommonToggle extends React.PureComponent {
       case 'ArrowUp':
         handleActivate();
         break;
+    default:
+      return;
     }
+    e.stopPropagation();
+    e.preventDefault();
   };
-  handleInactiveKeyPress = ({ key }) => {
+  handleInactiveKeyPress = (e) => {
     const {
       handleActivate,
       handleDeäctivate,
     } = this;
-    switch (key) {
+    switch (e.key) {
     case ' ':
       handleDeäctivate();
       break;
@@ -119,7 +128,11 @@ export default class CommonToggle extends React.PureComponent {
     case 'ArrowUp':
       handleActivate();
       break;
+    default:
+      return;
     }
+    e.stopPropagation();
+    e.preventDefault();
   };
   handleFocus = () => {
     this.setState({ isFocused: true });
