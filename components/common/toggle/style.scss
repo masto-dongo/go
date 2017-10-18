@@ -30,12 +30,12 @@
 
     &:first-child {
       margin: 0 1.2em 0 -1.2em;
-      text-align: left;
+      text-align: right;
     }
 
     &:last-child {
       margin: 0 -1.2em 0 1.2em;
-      text-align: right;
+      text-align: left;
     }
   }
 
@@ -64,8 +64,8 @@
       position: absolute;
       top: 0;
       bottom: 0;
-      left: .1875em;
-      right: auto;
+      left: auto;
+      right: .1875em;
       margin: auto;
       border: none;
       padding: 0;
@@ -76,8 +76,8 @@
       transition: opacity ($mastodon_go_animation_speed * .3s) ease;
 
       &:last-child {
-        left: auto;
-        right: .1875em;
+        left: .1875em;
+        right: auto;
         opacity: 0;
       }
     }
