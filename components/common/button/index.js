@@ -151,6 +151,9 @@ export default class CommonButton extends React.PureComponent {
       if (onClick && !disabled) {
         conditionalProps.onClick = handleClick;
       }
+      if (role) {
+        conditionalProps.role = role;
+      }
       return (
         <button
           className={computedClass}

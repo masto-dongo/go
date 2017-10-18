@@ -4,6 +4,7 @@
 
 .MASTODON_GO--COMMON--BUTTON {
   display: inline-block;
+  box-sizing: content-box;
   border: none;
   padding: 0;
   color: $mastodon_go_content_button_color;

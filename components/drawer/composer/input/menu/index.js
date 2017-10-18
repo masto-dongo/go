@@ -66,7 +66,7 @@ export default class DrawerComposerInputMenu extends React.PureComponent {
       value,
       ...rest
     } = this.props;
-    const computedClass = classNames('MASTODON_GO--COMMON--MENUBAR', className);
+    const computedClass = classNames('MASTODON_GO--DRAWER--COMPOSER--INPUT--MENU', className);
     return (
       <div
         className={computedClass}

@@ -7,8 +7,8 @@
   position: relative;
   margin: 0;
   border: 3px $mastodon_go_input_border solid;
-  padding: .625em .75em 0;
+  padding: 0 0 2.5em;
   color: $mastodon_go_input_color;
   background: $mastodon_go_input_background;
-  min-height: 6.25em;
+  min-height: 5em;
 }
