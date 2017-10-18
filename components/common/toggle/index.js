@@ -5,6 +5,8 @@ import React from 'react';
 
 import { CommonIcon } from 'themes/mastodon-go/components';
 
+import './style';
+
 export default class CommonToggle extends React.PureComponent {
 
   static propTypes = {
