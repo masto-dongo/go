@@ -48,8 +48,7 @@ export default class CommonToggle extends React.PureComponent {
     const {
       handleActivate,
       handleDeäctivate,
-    } = this.props;
-    const { onChange } = this.props;
+    } = this;
     switch (key) {
       case ' ':
         handleActivate();
@@ -72,24 +71,23 @@ export default class CommonToggle extends React.PureComponent {
     const {
       handleActivate,
       handleDeäctivate,
-    } = this.props;
-    const { onChange } = this.props;
+    } = this;
     switch (key) {
-      case ' ':
-        handleDeäctivate();
-        break;
-      case 'Down':
-      case 'Right':
-      case 'ArrowDown':
-      case 'ArrowRight':
-        handleDeäctivate();
-        break;
-      case 'Left':
-      case 'Up':
-      case 'ArrowLeft':
-      case 'ArrowUp':
-        handleActivate();
-        break;
+    case ' ':
+      handleDeäctivate();
+      break;
+    case 'Down':
+    case 'Right':
+    case 'ArrowDown':
+    case 'ArrowRight':
+      handleDeäctivate();
+      break;
+    case 'Left':
+    case 'Up':
+    case 'ArrowLeft':
+    case 'ArrowUp':
+      handleActivate();
+      break;
     }
   }
   handleFocus () {
@@ -127,7 +125,7 @@ export default class CommonToggle extends React.PureComponent {
     const computedClass = classNames('MASTODON_GO--COMMON--TOGGLE', {
       active,
       focused,
-    }, className)
+    }, className);
 
     return (
       <span

@@ -48,7 +48,10 @@ export default class Setting extends React.PureComponent {
 
   //  Rendering.
   render () {
-    const { handleChange } = this;
+    const {
+      handleInput,
+      handleToggle,
+    } = this;
     const {
       activeIcon,
       activeLabel,
