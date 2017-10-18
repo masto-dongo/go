@@ -347,7 +347,7 @@ export default class DrawerComposerTextArea extends React.PureComponent {
 
     return (
       <div
-        aria-label={intl.formatMessage(...messages.label)}
+        aria-label={intl.formatMessage(messages.label)}
         className={computedClass}
         contentEditable={!disabled}
         dangerouslySetInnerHTML={{ __html: result.join('') }}

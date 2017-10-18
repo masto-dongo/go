@@ -67,7 +67,7 @@ export default class Status extends React.PureComponent {
       datetime: PropTypes.instanceOf(Date),
       href: PropTypes.string,
       inReplyTo: PropTypes.map,
-      is: ImmutablePropTypes.map.isRequired,
+      is: ImmutablePropTypes.map,
       me: PropTypes.string,
       media: ImmutablePropTypes.list,
       mentions: ImmutablePropTypes.list,
@@ -75,7 +75,7 @@ export default class Status extends React.PureComponent {
       spoiler: PropTypes.string,
       tags: ImmutablePropTypes.list,
       type: PropTypes.number,
-      visibility: PropTypes.number.isRequired,
+      visibility: PropTypes.number,
     }).isRequired,
   }
   state = {
