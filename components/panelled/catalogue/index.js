@@ -6,7 +6,7 @@ import { defineMessages } from 'react-intl';
 
 //  Component imports.
 import {
-  ConnectedCourier,
+  ConnectedCatalogue,
   RawPaneller,
 } from 'themes/mastodon-go/components';
 
@@ -54,6 +54,6 @@ export default connect(
     backdrop: ConnectedCatalogue,
     className: 'MASTODON_GO--PANELLED--CATALOGUE',
     icon: ({ icon }) => icon,
-    title: ({ ℳ: { title }}) => title,
+    title: ({ ℳ }) => ℳ.title,
   }
 );

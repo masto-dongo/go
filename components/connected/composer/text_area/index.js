@@ -145,14 +145,10 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
       getContents,
       insertContent,
     } = this;
-    const {
-      onChange,
-      onSubmit,
-    } = this.props;
+    const { onChange } = this.props;
     if (e.type === 'keypress') {
       if (e.key === 'Enter' || e.keyCode === 0x0D) {
         e.preventDefault();
-        if (e.ctrlKey || e.metaKey) onSubmit();
         else insertContent(document.createElement('br'));
       }
       return;
@@ -364,7 +360,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         onKeyPress={handleEvent}
         onInput={handleEvent}
         onBlur={handleEvent}
-        ref={setRef}
+        ref={handleRef}
         tabIndex='0'
         {...rest}
       />
@@ -379,5 +375,5 @@ ConnectedComposerTextArea.propTypes = {
   emoji: PropTypes.arrayOf(PropTypes.instanceOf(Emoji)).isRequired,
   onChange: PropTypes.func,
   value: PropTypes.string.isRequired,
-  ℳ: PropTypes.func.isRequired
+  ℳ: PropTypes.func.isRequired,
 };

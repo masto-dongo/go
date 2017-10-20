@@ -115,12 +115,12 @@ export default connect(
     backdrop: ConnectedCourier,
     className: 'MASTODON_GO--PANELLED--COURIER',
     icon: 'star-half-o',
-    menu: ({ ℳ: { settings } }) => [{
+    menu: ({ ℳ }) => [{
       hash: '#settings',
       icon: 'sliders',
-      title: settings,
+      title: ℳ.settings,
     }],
     panels: { settings: PanelledCourierSettings },
-    title: ({ ℳ: { title }}) => title,
+    title: ({ ℳ }) => ℳ.title,
   }
 );

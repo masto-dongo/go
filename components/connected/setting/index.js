@@ -27,7 +27,7 @@ import connect from 'themes/mastodon-go/util/connect';
 class Setting extends React.PureComponent {
 
   constructor (props) {
-    super(this);
+    super(props);
 
     const {
       handleInput,

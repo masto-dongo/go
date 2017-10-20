@@ -121,7 +121,6 @@ class Parse extends React.PureComponent {
           card={card}
           className={computedClass}
           history={history}
-          intl={intl}
           mentions={mentions}
           tags={tags}
           text={text}

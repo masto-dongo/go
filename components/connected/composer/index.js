@@ -5,6 +5,7 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
@@ -21,17 +22,11 @@ import ConnectedComposerTextArea from './text_area';
 //  Stylesheet imports.
 import './style';
 
-//  Request imports.
-import {
-  submitAttachment,
-  submitStatus,
-} from 'themes/mastodon-go/redux';
-
 //  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
-import { Emoji } from 'themes/mastodon-go/util/emojify';
+import { Emojifier } from 'themes/mastodon-go/util/emojify';
 
-class ConnectedComposer extends React.PureComponent {
+class Composer extends React.PureComponent {
 
   constructor (props) {
     super(props);
@@ -60,16 +55,17 @@ class ConnectedComposer extends React.PureComponent {
       onClear,
       onMediaRemove,
       onSensitive,
-      onSetHash,
       onSpoiler,
       onSubmit,
       onText,
       onUpload,
+      onVisibility,
       path,
       rehash,
       sensitive,
       spoiler,
       text,
+      visibility,
       ℳ,
       '🏪': { me },
       '💪': handler,
@@ -82,7 +78,7 @@ class ConnectedComposer extends React.PureComponent {
         className={computedClass}
         {...rest}
       >
-        <AccountContainer
+        <ConnectedAccount
           history={history}
           id={me}
           small
@@ -93,7 +89,7 @@ class ConnectedComposer extends React.PureComponent {
           title={ℳ.spoiler}
           value={spoiler}
         />
-        <StatusContainer
+        <ConnectedStatus
           id={inReplyTo}
           small
         />
@@ -116,8 +112,8 @@ class ConnectedComposer extends React.PureComponent {
           activeRoute={activeRoute}
           attached={media.length}
           history={history}
-          onSetHash={onSetHash}
           onSubmit={onSubmit}
+          rehash={rehash}
           ℳ={ℳ}
         />
       </div>
@@ -127,7 +123,7 @@ class ConnectedComposer extends React.PureComponent {
 }
 
 //  Props.
-ConnectedComposer.propTypes = {
+Composer.propTypes = {
   activeRoute: PropTypes.bool,
   className: PropTypes.string,
   disabled: PropTypes.bool,
@@ -137,16 +133,17 @@ ConnectedComposer.propTypes = {
   onClear: PropTypes.func,
   onMediaRemove: PropTypes.func,
   onSensitive: PropTypes.func,
-  onSetHash: PropTypes.func,
   onSpoiler: PropTypes.func,
   onSubmit: PropTypes.func,
   onText: PropTypes.func,
   onUpload: PropTypes.func,
+  onVisibility: PropTypes.func,
   path: PropTypes.string.isRequired,
   rehash: PropTypes.func,
   sensitive: PropTypes.bool,
   spoiler: PropTypes.string,
   text: PropTypes.string.isRequired,
+  visibility: PropTypes.number,
   ℳ: PropTypes.func.isRequired,
   '🏪': PropTypes.shape({
     emojos: ImmutablePropTypes.list,

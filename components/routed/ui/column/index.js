@@ -248,7 +248,7 @@ export default class RoutedUIColumn extends React.PureComponent {
                   activeRoute={activeRoute}
                   {...(activeRoute && hash ? { hash } : {})}
                   history={history}
-                  intl={intl}
+                  ℳ={ℳ}
                 />
               );
             }}

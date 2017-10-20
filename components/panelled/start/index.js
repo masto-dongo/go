@@ -3,6 +3,7 @@
 
 //  Package imports.
 import { defineMessages } from 'react-intl';
+import { createStructuredSelector } from 'reselect';
 
 //  Component imports.
 import { RawPaneller } from 'themes/mastodon-go/components';
@@ -94,6 +95,6 @@ export default connect(
     backdrop: PanelledStartContents,
     className: 'MASTODON_GO--PANELLED--START',
     icon: 'asterisk',
-    title: ({ ℳ: { title }}) => title,
+    title: ({ ℳ }) => ℳ.title,
   }
 );

@@ -14,7 +14,7 @@ import {
 
 import './style';
 
-export default class Profile extends React.PureComponent {
+class Profile extends React.PureComponent {
 
   constructor (props) {
     super(props);

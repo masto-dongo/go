@@ -118,4 +118,4 @@ PanelledStartContents.propTypes = {
   ℳ: PropTypes.func.isRequired,
   '🏪': PropTypes.shape({ me: PropTypes.string }).isRequired,
   '💪': PropTypes.objectOf(PropTypes.func),
-}
+};

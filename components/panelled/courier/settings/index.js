@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 //  Component imports.
-import { ContainedSetting } from 'themes/mastodon-go/components';
+import { ConnectedSetting } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style';
@@ -32,28 +32,28 @@ export default function PanelledCourierSettings ({
         //  Column settings
         <section>
           <h2>{ℳ.columnNotifs}</h2>
-          <SettingContainer
+          <ConnectedSetting
             activeLabel={ℳ.followOn}
             global
             inactiveLabel={ℳ.followOff}
             settingKey={['courier', 'shows', 'follow']}
             type='toggle'
           />
-          <SettingContainer
+          <ConnectedSetting
             activeLabel={ℳ.favouriteOn}
             global
             inactiveLabel={ℳ.favouriteOff}
             settingKey={['courier', 'shows', 'favourite']}
             type='toggle'
           />
-          <SettingContainer
+          <ConnectedSetting
             activeLabel={ℳ.mentionOn}
             global
             inactiveLabel={ℳ.mentionOff}
             settingKey={['courier', 'shows', 'mention']}
             type='toggle'
           />
-          <SettingContainer
+          <ConnectedSetting
             activeLabel={ℳ.reblogOn}
             global
             inactiveLabel={ℳ.reblogOff}
@@ -65,28 +65,28 @@ export default function PanelledCourierSettings ({
         //  Desktop settings
         <section>
           <h2>{ℳ.desktopNotifs}</h2>
-          <SettingContainer
+          <ConnectedSetting
             activeLabel={ℳ.followOn}
             global
             inactiveLabel={ℳ.followOff}
             settingKey={['courier', 'alerts', 'follow']}
             type='toggle'
           />
-          <SettingContainer
+          <ConnectedSetting
             activeLabel={ℳ.favouriteOn}
             global
             inactiveLabel={ℳ.favouriteOff}
             settingKey={['courier', 'alerts', 'favourite']}
             type='toggle'
           />
-          <SettingContainer
+          <ConnectedSetting
             activeLabel={ℳ.mentionOn}
             global
             inactiveLabel={ℳ.mentionOff}
             settingKey={['courier', 'alerts', 'mention']}
             type='toggle'
           />
-          <SettingContainer
+          <ConnectedSetting
             activeLabel={ℳ.reblogOn}
             global
             inactiveLabel={ℳ.reblogOff}
@@ -98,28 +98,28 @@ export default function PanelledCourierSettings ({
         //  Sound settings
         <section>
           <h2>{ℳ.soundNotifs}</h2>
-          <SettingContainer
+          <ConnectedSetting
             activeLabel={ℳ.followOn}
             global
             inactiveLabel={ℳ.followOff}
             settingKey={['courier', 'sounds', 'follow']}
             type='toggle'
           />
-          <SettingContainer
+          <ConnectedSetting
             activeLabel={ℳ.favouriteOn}
             global
             inactiveLabel={ℳ.favouriteOff}
             settingKey={['courier', 'sounds', 'favourite']}
             type='toggle'
           />
-          <SettingContainer
+          <ConnectedSetting
             activeLabel={ℳ.mentionOn}
             global
             inactiveLabel={ℳ.mentionOff}
             settingKey={['courier', 'sounds', 'mention']}
             type='toggle'
           />
-          <SettingContainer
+          <ConnectedSetting
             activeLabel={ℳ.reblogOn}
             global
             inactiveLabel={ℳ.reblogOff}
@@ -133,7 +133,7 @@ export default function PanelledCourierSettings ({
 };
 
 //  Props.
-CourierSettings.propTypes = {
+PanelledCourierSettings.propTypes = {
   className: PropTypes.string,
   ℳ: PropTypes.func.isRequired,
 };

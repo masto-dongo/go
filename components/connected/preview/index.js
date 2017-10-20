@@ -10,4 +10,4 @@ function Preview () {
   return null;
 }
 
-export connect(Preview);
+export default connect(Preview);

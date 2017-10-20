@@ -82,10 +82,11 @@
 
 //  Package imports.
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import React from 'react';
 import {
   FormattedMessage,
-  injectIntl
+  injectIntl,
 } from 'react-intl';
 import { connectAdvanced as reduxConnect } from 'react-redux';
 import shallowEqual from 'react-redux/lib/utils/shallowEqual';
@@ -141,14 +142,14 @@ function makeMessages (intl, messager) {
         name,
         values,
       } = obj;
-      return name ? <FormattedMessage {...messager[name]} values={values}/> : null;
-    }
+      return name ? <FormattedMessage {...messager[name]} values={values} /> : null;
+    };
 
     //  `messages` props.
     ℳ.propTypes = {
       name: PropTypes.string.isRequired,
       values: PropTypes.object,
-    }
+    };
 
     //  This predefines our (simple) messages.  This will give us quick
     //  access to them later as well.
@@ -167,7 +168,7 @@ export default function connect (component, stater, messager, dispatcher, config
 
   //  If we don't have a `component`, we can't connect.
   if (!component) {
-    return;
+    throw new TypeError('connect: Cannot connect; no component was provided');
   }
 
   //  If we don't have a `stater` or a `dispatcher`, we can take a

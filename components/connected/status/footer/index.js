@@ -14,6 +14,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { FormattedDate } from 'react-intl';
 
 //  Component imports.
 import {

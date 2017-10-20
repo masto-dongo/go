@@ -69,13 +69,13 @@ export default function ConnectedParseAccountBio ({
               (data, index) => (
                 <tr key={index}>
                   <th scope='row'>
-                    <ParseAccountBioParagraph
+                    <ConnectedParseAccountBioParagraph
                       key={index}
                       text={data.get(0)}
                     />
                   </th>
                   <td>
-                    <ParseAccountBioParagraph
+                    <ConnectedParseAccountBioParagraph
                       key={index}
                       text={data.get(1)}
                     />

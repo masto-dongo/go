@@ -62,6 +62,7 @@ export default class CommonInput extends React.PureComponent {
         title={title}
         type='text'
         value={value || ''}
+        {...rest}
       />
     );
   }

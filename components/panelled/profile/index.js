@@ -96,14 +96,16 @@ export default connect(
       title: media,
     }],
     panels: {
+      /* eslint-disable react/prop-types */
       all: ({ id }) => <ConnectedTimeline path={`/api/v1/accounts/${id}/statuses`} />,
       followers: ({ id }) => <ConnectedCatalogue path={`/api/v1/accounts/${id}/followers`} />,
       follows: ({ id }) => <ConnectedCatalogue path={`/api/v1/accounts/${id}/following`} />,
       media: ({ id }) => <ConnectedTimeline path={`/api/v1/accounts/${id}/statuses?only_media=true`} />,
       pinned: ({ id }) => <ConnectedTimeline path={`/api/v1/accounts/${id}/statuses?pinned=true`} />,
       posts: ({ id }) => <ConnectedTimeline path={`/api/v1/accounts/${id}/statuses?exclude_replies=true`} />,
+      /* eslint-enable react/prop-types */
     },
     suppressTitle: true,
-    title: ({ '🏪': { at }}) => '@' + at,
+    title: ({ '🏪': { at } }) => '@' + at,
   }
 );

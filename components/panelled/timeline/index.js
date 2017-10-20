@@ -95,12 +95,12 @@ export default connect(
     backdrop: ConnectedTimeline,
     className: 'MASTODON_GO--PANELLED--TIMELINE',
     icon: ({ icon }) => icon,
-    menu: ({ ℳ: { settings } }) => [{
+    menu: ({ ℳ }) => [{
       hash: '#settings',
       icon: 'sliders',
-      title: settings,
+      title: ℳ.settings,
     }],
     panels: { settings: PanelledTimelineSettings },
-    title: ({ ℳ: { title }}) => title,
+    title: ({ ℳ }) => ℳ.title,
   }
 );

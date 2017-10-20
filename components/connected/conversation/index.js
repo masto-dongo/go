@@ -77,7 +77,10 @@ class Conversation extends React.PureComponent {
     const computedClass = classNames('MASTODON_GO--CONNECTED--CONVERSATION', className);
 
     return (
-      <CommonList>
+      <CommonList
+        className={computedClass}
+        ...rest
+      >
         {statuses ? statuses.reduce(
           (items, statusId) => items.push(
             <ConnectedStatus

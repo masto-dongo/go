@@ -94,7 +94,7 @@ class Status extends React.PureComponent {
       },
       '💪': {
         fetch,
-        card: handleCard
+        card: handleCard,
       },
     } = this.props;
 
@@ -369,7 +369,7 @@ Status.propTypes = {
     visibility: PropTypes.number,
   }).isRequired,
   '💪': PropTypes.objectOf(PropTypes.func).isRequired,
-}
+};
 
 //  * * * * * * *  //
 

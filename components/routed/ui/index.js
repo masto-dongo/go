@@ -21,6 +21,7 @@ import './style';
 
 //  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
+import uuid from 'themes/mastodon-go/util/uuid';
 
 class UI extends React.Component {  //  Impure
 
@@ -81,8 +82,8 @@ class UI extends React.Component {  //  Impure
       spoiler,
       text,
     } = this.state;
-    if (defaultVisibility !== nextProps.defaultVisibility && !media.length && !spoiler && (!text || text === '\n')) {
-      this.setState({ visibility: nextProps.defaultVisibility });
+    if (defaultVisibility !== nextProps['🏪'].defaultVisibility && !media.length && !spoiler && (!text || text === '\n')) {
+      this.setState({ visibility: nextProps['🏪'].defaultVisibility });
     }
   }
 
@@ -90,6 +91,7 @@ class UI extends React.Component {  //  Impure
     const { '🏪' : { defaultVisibility } } = this.props;
     this.setState({
       idempotency: uuid(),
+      inReplyTo: null,
       media: [],
       sensitive: false,
       spoiler: '',
@@ -109,12 +111,10 @@ class UI extends React.Component {  //  Impure
     });
   }
   handleSubmit () {
-    const {
-      inReplyTo,
-      '💪': { submit },
-    } = this.props;
+    const { '💪': { submit } } = this.props;
     const {
       idempotency,
+      inReplyTo,
       media,
       sensitive,
       spoiler,

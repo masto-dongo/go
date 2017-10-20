@@ -88,15 +88,15 @@ class Reference extends React.PureComponent {
       switch (mediaType) {
       case MEDIA_TYPE.GIFV:
       case MEDIA_TYPE.IMAGE:
-        defaultTitle = intl.formatMessage(messages.image);
+        defaultTitle = ℳ.image;
         icon = 'picture-o';
         break;
       case MEDIA_TYPE.VIDEO:
-        defaultTitle = intl.formatMessage(messages.video);
+        defaultTitle = ℳ.video;
         icon = 'video-camera';
         break;
       default:
-        defaultTitle = intl.formatMessage(messages.unknown);
+        defaultTitle = ℳ.unknown;
         icon = 'question';
         break;
       }
@@ -119,7 +119,7 @@ class Reference extends React.PureComponent {
           href={href}
           icon={'id-card-o'}
           style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : {}}
-          title={title || intl.formatMessage(messages.card)}
+          title={title || ℳ.card}
           {...rest}
         />
       );
@@ -152,7 +152,7 @@ class Reference extends React.PureComponent {
           destination={`/tagged/${tagName}`}
           history={history}
           href={href}
-          title={intl.formatMessage(messages.hashtag, { tagName })}
+          title={ℳ.hashtag.withValues({ tagName })}
           {...rest}
         >
           <b style={rainbow ? { color: rainbow.get('1') } : {}}>
@@ -268,22 +268,27 @@ export default connect(
   defineMessages({
     card: {
       defaultMessage: 'Card',
+      description: 'Used to label card references',
       id: 'reference.card',
     },
     hashtag: {
       defaultMessage: 'Hashtag #{tagName}',
+      description: 'Used to label hashtag references',
       id: 'reference.hashtag',
     },
     image: {
       defaultMessage: 'Image',
+      description: 'Used to label image references',
       id: 'reference.image',
     },
     unknown: {
       defaultMessage: 'Unknown attachment',
+      description: 'Used to label unknown references',
       id: 'reference.unknown',
     },
     video: {
       defaultMessage: 'Video',
+      description: 'Used to label video references',
       id: 'reference.video',
     },
   }),

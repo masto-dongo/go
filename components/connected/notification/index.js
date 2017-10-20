@@ -55,7 +55,7 @@ import { POST_TYPE } from 'themes/mastodon-go/util/constants';
 //  -------------
 
 //  Component definition.
-export default function Notification ({
+function Notification ({
   className,
   hideIf,
   id,

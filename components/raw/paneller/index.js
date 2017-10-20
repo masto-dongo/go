@@ -2,6 +2,8 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { CommonButton } from 'themes/mastodon-go/components';
+
 import './style';
 
 //  Component definition.
@@ -81,13 +83,13 @@ export default class RawPaneller extends React.Component {
     const {
       activeRoute,
       className,
-      component,
       hash,
       history,
       ℳ,
       '🎛': {
         backdrop,
         className: panellerClassName,
+        icon,
         menu,
         panels,
         suppressTitle,
@@ -129,7 +131,12 @@ export default class RawPaneller extends React.Component {
             (item, index) => (
               <CommonButton
                 active={item.active !== void 0 ? item.active : item.hash && computedHash === item.hash}
-                destination={item.destination ? item.destination : item.hash && activeRoute ? item.hash : null}
+                destination={function () {
+                  if (item.destination) {
+                    return item.destination;
+                  }
+                  return item.hash && activeRoute ? item.hash : null
+                }()}
                 history={history}
                 icon={item.icon}
                 key={index}
@@ -174,7 +181,7 @@ export default class RawPaneller extends React.Component {
           {React.createElement(panel, getPassableProps())}
         </div>
         <div aria-hidden={!!panel}>
-          {React.createElement(backdrop, getPassablePros()) || null}
+          {React.createElement(backdrop, getPassableProps()) || null}
         </div>
       </div>
     );
@@ -182,7 +189,7 @@ export default class RawPaneller extends React.Component {
 
 }
 
-CommonPaneller.propTypes = {
+RawPaneller.propTypes = {
   activeRoute: PropTypes.bool,
   className: PropTypes.string,
   hash: PropTypes.string,

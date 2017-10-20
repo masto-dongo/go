@@ -51,7 +51,7 @@ import { POST_TYPE } from 'themes/mastodon-go/util/constants';
 //  -------------
 
 //  Component definition.
-export default class Courier extends React.PureComponent {
+class Courier extends React.PureComponent {
 
   //  Constructor.  We go ahead and prefetch the notifications,
   //  forgetting about any previously-loaded ones.  There shouldn't

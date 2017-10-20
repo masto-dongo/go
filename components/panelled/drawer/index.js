@@ -56,6 +56,6 @@ export default connect(
     className: 'MASTODON_GO--PANELLED--DRAWER',
     icon: 'pencil-square',
     panels: { preview: ConnectedPreview },
-    title: ({ ℳ: { title }}) => title,
+    title: ({ ℳ }) => ℳ.title,
   }
 );

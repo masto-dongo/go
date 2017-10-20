@@ -34,7 +34,7 @@ import './style';
 export default class ConnectedAttachmentVideo extends React.PureComponent {
 
   constructor (props) {
-    super(props)
+    super(props);
 
     //  State.
     this.state = {
@@ -42,7 +42,7 @@ export default class ConnectedAttachmentVideo extends React.PureComponent {
       muted: true,
       previewVisible: !!this.props.autoplay,
       videoError: false,
-    }
+    };
 
     //  Function binding.
     const {
@@ -236,4 +236,4 @@ ConnectedAttachmentVideo.propTypes = {
   preview: ImmutablePropTypes.map,
   src: PropTypes.string,
   ℳ: PropTypes.func.isRequired,
-}
+};

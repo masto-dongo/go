@@ -26,19 +26,21 @@ export default class ConnectedComposerControls extends React.PureComponent {
     //  Function binding.
     const {
       handleEvent,
-      handlePreview
+      handlePreview,
     } = Object.getPrototypeOf(this);
     this.handleEvent = handleEvent.bind(this);
     this.handlePreview = handlePreview.bind(this);
   }
 
   componentWillMount () {
+    const { handleEvent } = this;
     DOMListen('mousemove', handleEvent);
     document.body.addEventListenr('keydown', handleEvent, false);
     document.body.addEventListenr('keyup', handleEvent, false);
   }
 
   componentWillUnmount () {
+    const { handleEvent } = this;
     DOMForget('mousemove', handleEvent);
     document.body.removeEventListener('keydown', handleEvent, false);
     document.body.removeEventListener('keyup', handleEvent, false);
@@ -53,9 +55,9 @@ export default class ConnectedComposerControls extends React.PureComponent {
   }
 
   handlePreview () {
-    const { onSetHash } = this.props;
-    if (onSetHash) {
-      onSetHash('#preview');
+    const { rehash } = this.props;
+    if (rehash) {
+      rehash('#preview');
     }
   }
 
@@ -66,7 +68,7 @@ export default class ConnectedComposerControls extends React.PureComponent {
       attached,
       className,
       history,
-      onSetHash,
+      rehash,
       onSubmit,
       ℳ,
       ...rest
@@ -80,13 +82,13 @@ export default class ConnectedComposerControls extends React.PureComponent {
         {...rest}
       >
         <CommonButton
-          onClick={onSubmit}
+          onClick={quickMode ? onSubmit : handlePreview}
           icon={quickMode ? 'paper-plane' : 'paper-plane-o'}
           title={quickMode ? ℳ.quick : ℳ.publish}
           showTitle
         >{attached ? <span class='attached'>{attached}</span> : null}</CommonButton>
       </div>
-    )
+    );
   }
 
 }
