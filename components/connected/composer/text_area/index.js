@@ -149,7 +149,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     if (e.type === 'keypress') {
       if (e.key === 'Enter' || e.keyCode === 0x0D) {
         e.preventDefault();
-        else insertContent(document.createElement('br'));
+        insertContent(document.createElement('br'));
       }
       return;
     }

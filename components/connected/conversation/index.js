@@ -79,7 +79,7 @@ class Conversation extends React.PureComponent {
     return (
       <CommonList
         className={computedClass}
-        ...rest
+        {...rest}
       >
         {statuses ? statuses.reduce(
           (items, statusId) => items.push(

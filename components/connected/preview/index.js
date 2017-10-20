@@ -6,6 +6,8 @@ import React from 'react';
 //  Stylesheet imports
 import './style';
 
+import connect from 'themes/mastodon-go/util/connect';
+
 function Preview () {
   return null;
 }

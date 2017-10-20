@@ -50,7 +50,7 @@ class UI extends React.Component {  //  Impure
       spoiler: '',
       text: '\n',
       visibility: defaultVisibility,
-    }
+    };
 
     //  Function binding.
     const {
@@ -79,6 +79,7 @@ class UI extends React.Component {  //  Impure
       '🏪': { defaultVisibility },
     } = this.props;
     const {
+      media,
       spoiler,
       text,
     } = this.state;

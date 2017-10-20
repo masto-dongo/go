@@ -135,7 +135,7 @@ export default class RawPaneller extends React.Component {
                   if (item.destination) {
                     return item.destination;
                   }
-                  return item.hash && activeRoute ? item.hash : null
+                  return item.hash && activeRoute ? item.hash : null;
                 }()}
                 history={history}
                 icon={item.icon}
@@ -191,6 +191,7 @@ export default class RawPaneller extends React.Component {
 
 RawPaneller.propTypes = {
   activeRoute: PropTypes.bool,
+  children: PropTypes.any,  //  …but it will be ignored
   className: PropTypes.string,
   hash: PropTypes.string,
   history: PropTypes.object,

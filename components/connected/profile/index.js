@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages } from 'react-intl';
+import { createStructuredSelector } from 'reselect';
+
+//  Request imports.
+import { fetchAccount } from 'themes/mastodon-go/redux';
 
 import {
   CommonButton,
@@ -14,17 +18,36 @@ import {
 
 import './style';
 
+import connect from 'themes/mastodon-go/util/connect';
+
 class Profile extends React.PureComponent {
 
   constructor (props) {
     super(props);
+    const {
+      rehash,
+      '💪': { fetch },
+    } = this.props;
 
     //  Function binding.
-    const { rehash } = this.props;
     if (rehash) {
       this.handleFollowersClick = rehash.bind(this, '#followers');
       this.handleFollowsClick = rehash.bind(this, '#follows');
       this.handlePostsClick = rehash.bind(this, '#posts');
+    }
+
+    //  Fetching.
+    fetch();
+  }
+
+  //  If our `id` is about to change, we need to fetch the new account.
+  componentWillReceiveProps (nextProps) {
+    const {
+      id,
+      '💪': { fetch },
+    } = this.props;
+    if (id !== nextProps.id) {
+      fetch(nextProps.id);
     }
   }
 
@@ -48,7 +71,6 @@ class Profile extends React.PureComponent {
         href,
         local,
         rainbow,
-        relationship,
       },
       '💪': handler,
       ...rest
@@ -191,13 +213,6 @@ export default connect(
 
   //  Handler.
   (go, store, { id }) => ({
-    block: () => go(blockRelationship, id),
     fetch: (newId = id) => go(fetchAccount, newId, true),
-    follow: () => go(followRelationship, id),
-    mute: () => go(muteRelationship, id),
-    unblock: () => go(unblockRelationship, id),
-    unfollow: () => go(unfollowRelationship, id),
-    unmute: () => go(unmuteRelationship, id),
-    update: info => go(updateAccount, info),
   })
-)
+);

@@ -26,9 +26,9 @@ export default class ConnectedComposerInputMenu extends React.PureComponent {
 
     //  Function binding.
     const { onChange } = this.props;
-    this.handleCloseClick = onClick.bind(this, 0);
-    this.handleAttachClick = onClick.bind(this, 1);
-    this.handleEmojiClick = onClick.bind(this, 2);
+    this.handleCloseClick = onChange.bind(this, 0);
+    this.handleAttachClick = onChange.bind(this, 1);
+    this.handleEmojiClick = onChange.bind(this, 2);
   }
 
   render () {

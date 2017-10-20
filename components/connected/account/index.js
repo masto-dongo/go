@@ -37,15 +37,6 @@ import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { createStructuredSelector } from 'reselect';
 
-//  Component imports.
-import {
-  CommonButton,
-  CommonLink,
-  CommonObservable,
-  ConnectedAvatar,
-  ConnectedParse,
-} from 'themes/mastodon-go/components';
-
 //  Request imports.
 import {
   authorizeRelationship,
@@ -57,6 +48,15 @@ import {
   unfollowRelationship,
   unmuteRelationship,
 } from 'themes/mastodon-go/redux';
+
+//  Component imports.
+import {
+  CommonButton,
+  CommonLink,
+  CommonObservable,
+  ConnectedAvatar,
+  ConnectedParse,
+} from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style';

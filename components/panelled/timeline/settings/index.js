@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { ConnectedSettingConnectedSetting } from 'themes/mastodon-go/components';
+import { ConnectedSetting } from 'themes/mastodon-go/components';
 
 import './style';
 
@@ -46,7 +46,7 @@ export default function PanelledTimelineSettings ({
   );
 };
 
-TimelineSettings.propTypes = {
+PanelledTimelineSettings.propTypes = {
   className: PropTypes.string,
   path: PropTypes.string.isRequired,
   ℳ: PropTypes.func.isRequired,

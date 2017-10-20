@@ -98,8 +98,8 @@ ConnectedComposerControls.propTypes = {
   attached: PropTypes.number,
   className: PropTypes.string,
   history: PropTypes.object,
-  onSetHash: PropTypes.func,
   onSubmit: PropTypes.func,
+  rehash: PropTypes.func,
   ℳ: PropTypes.func.isRequired,
 };
 

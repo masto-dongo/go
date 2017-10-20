@@ -60,24 +60,9 @@ class Courier extends React.PureComponent {
   constructor (props) {
     super(props);
 
-    //  State.
-    this.state = { storedHash: '#' };
-
     //  Notification fetching.
     const { '💪': { fetch } } = this.props;
     fetch();
-  }
-
-  //  If our component is suddenly no longer the active route, we need
-  //  to store its hash value before it disappears.
-  componentWillReceiveProps (nextProps) {
-    const {
-      activeRoute,
-      hash,
-    } = this.props;
-    if (activeRoute && !nextProps.activeRoute) {
-      this.setState({ storedHash: hash });
-    }
   }
 
   //  Rendering.
@@ -96,7 +81,6 @@ class Courier extends React.PureComponent {
       },
       ...rest
     } = this.props;
-    const { storedHash } = this.state;
     const computedClass = classNames('MASTODON_GO--CONNECTED--COURIER', className);
 
     return (
