@@ -19,24 +19,8 @@ import {
   Route,
 } from 'react-router-dom';
 
-//  Container imports.
-import AccountContainer from './account/container';
-import AttachmentContainer from './attachment/container';
-import AvatarContainer from './avatar/container';
-import CardContainer from './card/container';
-import CatalogueContainer from './catalogue/container';
-import ConversationContainer from './conversation/container';
-import CourierContainer from './courier/container';
-import DrawerContainer from './drawer/container';
-import NotificationContainer from './notification/container';
-import ParseContainer from './parse/container';
-import ProfileContainer from './profile/container';
-import ReferenceContainer from './reference/container';
-import SettingContainer from './setting/container';
-import StartContainer from './start/container';
-import StatusContainer from './status/container';
-import TimelineContainer from './timeline/container';
-import UIContainer from './ui/container';
+//  Routed imports.
+import RoutedUI from './routed';
 
 //  Stylesheet imports.
 import './style';
@@ -69,7 +53,7 @@ export default function MastodonGO ({
         <Provider store={store}>
           <BrowserRouter basename='/web'>
             <Route
-              component={UIContainer}
+              component={RoutedUI}
               path='/'
             />
           </BrowserRouter>
@@ -94,23 +78,14 @@ MastodonGO.propTypes = {
 //  Common exports.
 export * from './common';
 
-//  Container exports.
-export {
-  AccountContainer,
-  AttachmentContainer,
-  AvatarContainer,
-  CardContainer,
-  CatalogueContainer,
-  ConversationContainer,
-  CourierContainer,
-  DrawerContainer,
-  NotificationContainer,
-  ParseContainer,
-  ProfileContainer,
-  ReferenceContainer,
-  SettingContainer,
-  StartContainer,
-  StatusContainer,
-  TimelineContainer,
-  UIContainer,
-};
+//  Connected exports.
+export * from './connected';
+
+//  Panelled exports.
+export * from './panelled';
+
+//  Raw exports.
+export * from './raw';
+
+//  Routed exports.
+export * from './routed';

@@ -1,4 +1,4 @@
-import { Emoji } from 'themes/mastodon-go/util/emojify';
+import { Emoji } from '../emoji';
 
 export class Emojifier {
 

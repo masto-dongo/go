@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--CONNECTED--STATUS--ACTION_BAR {
+  display: block;
+  margin: 0;
+  border: none;
+  padding: 0;
+  height: 1.25rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+}

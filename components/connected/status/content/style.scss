@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--CONNECTED--STATUS--CONTENT {
+  display: block;
+  margin: 0;
+  border: none;
+  padding: 1.0125em .75em;
+  word-wrap: break-word;
+}

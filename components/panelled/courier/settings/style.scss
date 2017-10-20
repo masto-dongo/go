@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--PANELLED--COURIER--SETTINGS {
+  display: block;
+  margin: 0;
+  border: none;
+  padding: 0;
+
+  & > section {
+    display: block;
+    margin: 0;
+    border: none;
+    padding: 0;
+
+    & > .MASTODON_GO--SETTING { display: block }
+  }
+}

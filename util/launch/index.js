@@ -4,7 +4,7 @@ import { addLocaleData } from 'react-intl';
 
 import launchOnReady from './on_ready';
 
-export default function launch (rootId, Component, store, events, locale) {
+export default function launch (getRootElement, Component, store, locale) {
 
   //  Redirects non-`/web/` links to their proper location.
   if (history && history.replaceState) {
@@ -22,11 +22,8 @@ export default function launch (rootId, Component, store, events, locale) {
   launchOnReady(function () {
 
     //  Gets root element and props.
-    const root = document.getElementById(rootId) || document.body;
+    const root = getRootElement();
     const props = JSON.parse(root.getAttribute('data-props'));
-
-    //  Initializes events.
-    events(root);
 
     //  Renders.
     ReactDOM.render(

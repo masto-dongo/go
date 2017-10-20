@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--ROUTED--UI--COLUMN {
+  display: block;
+  position: relative;
+  margin: 0 auto;
+  border: none;
+  max-width: 23rem;
+  min-width: 17rem;
+  height: 100%;
+  color: $mastodon_go_column_color;
+  background-color: $mastodon_go_column_background;
+}

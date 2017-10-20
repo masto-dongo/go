@@ -5,7 +5,7 @@ import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 import { getLocale } from 'mastodon/locales';
 
 import MastodonGO from './components';
-import events from './events';
+import DOMRoot from './DOM';
 import redux from './redux';
 import launch from './util/launch';
 
@@ -18,4 +18,4 @@ if (process.env.NODE_ENV === 'production') {
   OfflinePluginRuntime.install();
 }
 
-launch('mastodon', MastodonGO, redux(), events, getLocale());
+launch(DOMRoot, MastodonGO, redux(), getLocale());

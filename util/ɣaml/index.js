@@ -346,7 +346,7 @@ export function readƔaml (content) {
   //  Otherwise, we query our `ɣaml` for each line and extract their
   //  keys and values.
   let metadata = null;
-  let query = new RegExp(FIND_ƔAML_LINE, 'g');
+  let query = new RegExp(rexstr(FIND_ƔAML_LINE), 'g');  //  Some browsers don't allow flags unless both args are strings
   while ((metadata = query.exec(ɣaml))) {
     result.metadata.push([
       processString(metadata[1]),

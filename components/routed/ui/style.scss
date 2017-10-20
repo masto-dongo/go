@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--ROUTED--UI {
+  display: block;
+  position: relative;
+  margin: 0;
+  border: none;
+  padding: 0;
+  height: 100%;
+  overflow: auto;
+}

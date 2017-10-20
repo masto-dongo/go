@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--CONNECTED--AVATAR {
+  display: inline-block;
+  position: relative;
+  margin: 0;
+  border: none;
+  padding: 0;
+
+  & > .MASTODON_GO--COMMON--IMAGE {
+    display: block;
+    position: static;
+    margin: 0;
+    border-radius: $mastodon_go_avatar_border_radius;
+    width: 100%;
+    height: 100%;
+
+    &.comrade {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 50%;
+      height: 50%;
+    }
+
+    &.main {
+      margin: 0 30% 30% 0;
+      width: 70%;
+      height: 70%;
+    }
+  }
+
+  &.circular {
+    & > .MASTODON_GO--COMMON--IMAGE {
+      transition: border-radius ($mastodon_go_animation_speed * .3s);
+    }
+
+    &:not(:hover) {
+      & > img {
+        border-radius: 50%;
+      }
+    }
+  }
+}
