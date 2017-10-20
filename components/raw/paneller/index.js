@@ -7,7 +7,7 @@ import { CommonButton } from 'themes/mastodon-go/components';
 import './style';
 
 //  Component definition.
-export default class RawPaneller extends React.Component {
+export default class RawPaneller extends React.Component {  //  Impure
 
   //  Our constructor.
   constructor (props) {

@@ -75,17 +75,21 @@ MastodonGO.propTypes = {
 //  Exports
 //  -------
 
-//  Common exports.
+//  Common exports.  Must not contain components which depend on raw
+//  exports.
 export * from './common';
 
-//  Connected exports.
+//  Connected exports.  Must not contain components which depend on raw
+//  exports.
 export * from './connected';
 
-//  Panelled exports.
-export * from './panelled';
-
-//  Raw exports.
+//  Raw exports.  These must be executed before the components which
+//  depend on them.
 export * from './raw';
 
-//  Routed exports.
+//  Panelled exports.  Depend on raw exports.
+export * from './panelled';
+
+//  Routed exports.  May contain components which depend on raw
+//  exports.
 export * from './routed';
