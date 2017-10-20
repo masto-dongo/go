@@ -20,7 +20,7 @@ import {
 } from 'react-router-dom';
 
 //  Routed imports.
-import RoutedUI from './routed';
+import { RoutedUI } from './routed';
 
 //  Stylesheet imports.
 import './style';

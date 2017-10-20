@@ -5,7 +5,7 @@ import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 import { getLocale } from 'mastodon/locales';
 
 import MastodonGO from './components';
-import DOMRoot from './DOM';
+import { DOMRoot } from './DOM';
 import redux from './redux';
 import launch from './util/launch';
 

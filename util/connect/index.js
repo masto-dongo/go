@@ -129,11 +129,11 @@ function makeMessages (intl, messager) {
   if (intl && messager) {
 
     //  This function gets our internationalization messages.
-    ℳ = function (obj, values) {
+    ℳ = function (obj, withValues) {
 
       //  If we are given a string, we return a string.
       if (obj instanceof String || typeof obj === 'string') {
-        return !values ? ℳ[obj] : intl.formatMessage(messager[obj], values);
+        return !values ? ℳ[obj] : ℳ[obj].withValues(values);
       }
 
       //  Otherwise, we assume that we're being called via JSX and
@@ -154,7 +154,8 @@ function makeMessages (intl, messager) {
     //  This predefines our (simple) messages.  This will give us quick
     //  access to them later as well.
     for (name in messager) {
-      Object.defineProperty(ℳ, name, { value: intl.formatMessage(messager[name]) });
+      Object.defineProperty(ℳ, name, { value: new String(intl.formatMessage(messager[name])) });
+      ℳ[name].withValues = intl.formatMessage.bind(intl, messager[name]);
     }
   }
 

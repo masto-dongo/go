@@ -161,7 +161,7 @@ Profile.propTypes = {
     relationship: PropTypes.number,
   }).isRequired,
   '💪': PropTypes.objectOf(PropTypes.func),
-}
+};
 
 //  * * * * * * *  //
 
