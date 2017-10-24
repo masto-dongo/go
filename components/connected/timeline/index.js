@@ -21,6 +21,7 @@ import './style';
 
 import connect from 'themes/mastodon-go/util/connect';
 import { POST_TYPE } from 'themes/mastodon-go/util/constants';
+import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 class Timeline extends React.PureComponent {
 
@@ -125,31 +126,37 @@ class Timeline extends React.PureComponent {
 //  Connecting
 //  ----------
 
-export default connect(
+var ConnectedTimeline;
 
-  //  Component.
-  Timeline,
+moduleOnReady(function () {
+  ConnectedTimeline = connect(
 
-  //  Store.
-  createStructuredSelector({
-    isLoading: (state, { path }) => state.getIn(['timeline', path, 'isLoading']),
-    settings: (state, { path }) => state.getIn([
-      'setting',
-      'global',
-      'timeline',
-      path,
-    ]),
-    statuses: (state, { path }) => state.getIn(['timeline', path, 'statuses']),
-  }),
+    //  Component.
+    Timeline,
 
-  //  Messages.
-  null,
+    //  Store.
+    createStructuredSelector({
+      isLoading: (state, { path }) => state.getIn(['timeline', path, 'isLoading']),
+      settings: (state, { path }) => state.getIn([
+        'setting',
+        'global',
+        'timeline',
+        path,
+      ]),
+      statuses: (state, { path }) => state.getIn(['timeline', path, 'statuses']),
+    }),
 
-  //  Handler.
-  (go, store, { path }) => ({
-    connect: (newPath = path) => go(connectTimeline, newPath),
-    expand: (newPath = path) => go(expandTimeline, newPath),
-    fetch: (newPath = path) => go(fetchTimeline, newPath),
-    refresh: (newPath = path) => go(refreshTimeline, newPath),
-  })
-);
+    //  Messages.
+    null,
+
+    //  Handler.
+    (go, store, { path }) => ({
+      connect: (newPath = path) => go(connectTimeline, newPath),
+      expand: (newPath = path) => go(expandTimeline, newPath),
+      fetch: (newPath = path) => go(fetchTimeline, newPath),
+      refresh: (newPath = path) => go(refreshTimeline, newPath),
+    })
+  );
+});
+
+export { ConnectedTimeline as default };

@@ -67,6 +67,7 @@ import {
   POST_TYPE,
   RELATIONSHIP,
 } from 'themes/mastodon-go/util/constants';
+import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 //  * * * * * * *  //
 
@@ -175,34 +176,39 @@ Account.propTypes = {
 //  Connecting
 //  ----------
 
+var ConnectedAccount;
+
 //  Building our store and handlers.
-export default connect(
+moduleOnReady(function () {
+  ConnectedAccount = connect(
 
-  //  Component
-  Account,
+    //  Component
+    Account,
 
-  //  Store
-  createStructuredSelector({
-    at: (state, { id }) => state.getIn(['account', id, 'at']),
-    displayName: (state, { id }) => state.getIn(['account', id, 'displayName']),
-    href: (state, { id }) => state.getIn(['account', id, 'href']),
-    me: state => state.getIn(['meta', 'me']),
-    relationship: (state, { id }) => state.getIn(['relationship', id]),
-  }),
+    //  Store
+    createStructuredSelector({
+      at: (state, { id }) => state.getIn(['account', id, 'at']),
+      displayName: (state, { id }) => state.getIn(['account', id, 'displayName']),
+      href: (state, { id }) => state.getIn(['account', id, 'href']),
+      me: state => state.getIn(['meta', 'me']),
+      relationship: (state, { id }) => state.getIn(['relationship', id]),
+    }),
 
-  //  Messages
-  null,
+    //  Messages
+    null,
 
-  //  Handler
-  (go, store, { id }) => ({
-    authorize: (newId = id) => go(authorizeRelationship, newId),
-    block: (newId = id) => go(blockRelationship, newId),
-    follow: (newId = id) => go(followRelationship, newId),
-    mute: (newId = id) => go(muteRelationship, newId),
-    reject: (newId = id) => go(rejectRelationship, newId),
-    unblock: (newId = id) => go(unblockRelationship, newId),
-    unfollow: (newId = id) => go(unfollowRelationship, newId),
-    unmute: (newId = id) => go(unmuteRelationship, newId),
-  })
-);
+    //  Handler
+    (go, store, { id }) => ({
+      authorize: (newId = id) => go(authorizeRelationship, newId),
+      block: (newId = id) => go(blockRelationship, newId),
+      follow: (newId = id) => go(followRelationship, newId),
+      mute: (newId = id) => go(muteRelationship, newId),
+      reject: (newId = id) => go(rejectRelationship, newId),
+      unblock: (newId = id) => go(unblockRelationship, newId),
+      unfollow: (newId = id) => go(unfollowRelationship, newId),
+      unmute: (newId = id) => go(unmuteRelationship, newId),
+    })
+  );
+});
 
+export { ConnectedAccount as default };

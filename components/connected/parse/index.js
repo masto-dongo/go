@@ -44,6 +44,7 @@ import './style';
 //  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
 import { Emojifier } from 'themes/mastodon-go/util/emojify';
+import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 //  * * * * * * *  //
 
@@ -158,14 +159,20 @@ Parse.propTypes = {
 //  Connecting
 //  ----------
 
+var ConnectedParse;
+
 //  Building our store.
-export default connect(
+moduleOnReady(function () {
+  ConnectedParse = connect(
 
-  //  Component.
-  Parse,
+    //  Component.
+    Parse,
 
-  //  Store.
-  createStructuredSelector({
-    emojos: state => state.get('emoji'),
-  })
-);
+    //  Store.
+    createStructuredSelector({
+      emojos: state => state.get('emoji'),
+    })
+  );
+});
+
+export { ConnectedParse as default };

@@ -17,6 +17,7 @@ import {
 import './style';
 
 import connect from 'themes/mastodon-go/util/connect';
+import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 //  * * * * * * *  //
 
@@ -157,28 +158,34 @@ Setting.propTypes = {
 //  Connecting
 //  ----------
 
+var ConnectedSetting;
+
 //  Selector factory.
-export default connect(
+moduleOnReady(function () {
+  ConnectedSetting = connect(
 
-  //  Component.
-  Setting,
+    //  Component.
+    Setting,
 
-  //  Store.
-  createStructuredSelector({
-    value: (state, {
+    //  Store.
+    createStructuredSelector({
+      value: (state, {
+        global,
+        settingKey,
+      }) => state.getIn(['setting', global ? 'global' : 'local'].concat(settingKey)),
+    }),
+
+    //  Messages.
+    null,
+
+    //  Result.
+    (go, store, {
       global,
       settingKey,
-    }) => state.getIn(['setting', global ? 'global' : 'local'].concat(settingKey)),
-  }),
+    }) => ({
+      change: value => go(changeSetting, settingKey, value, global),
+    })
+  );
+});
 
-  //  Messages.
-  null,
-
-  //  Result.
-  (go, store, {
-    global,
-    settingKey,
-  }) => ({
-    change: value => go(changeSetting, settingKey, value, global),
-  })
-);
+export { ConnectedSetting as default };

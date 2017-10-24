@@ -7,9 +7,16 @@ import React from 'react';
 import './style';
 
 import connect from 'themes/mastodon-go/util/connect';
+import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 function Preview () {
   return null;
 }
 
-export default connect(Preview);
+var ConnectedPreview;
+
+moduleOnReady(function () {
+  ConnectedPreview = connect(Preview);
+})
+
+export { ConnectedPreview as default };

@@ -44,6 +44,7 @@ import {
 
 //  Other imports
 import connect from 'themes/mastodon-go/util/connect';
+import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 //  * * * * * * *  //
 
@@ -147,25 +148,31 @@ Catalogue.propTypes = {
 //  Connecting
 //  ----------
 
+var ConnectedCatalogue;
+
 //  Building our store and handlers.
-export default connect(
+moduleOnReady(function () {
+  ConnectedCatalogue = connect(
 
-  //  Component.
-  Catalogue,
+    //  Component.
+    Catalogue,
 
-  //  Store.
-  createStructuredSelector({
-    accounts: (state, { path }) => state.getIn(['catalogue', path, 'accounts']),
-    isLoading: (state, { path }) => state.getIn(['catalogue', path, 'isLoading']),
-  }),
+    //  Store.
+    createStructuredSelector({
+      accounts: (state, { path }) => state.getIn(['catalogue', path, 'accounts']),
+      isLoading: (state, { path }) => state.getIn(['catalogue', path, 'isLoading']),
+    }),
 
-  //  Messages.
-  null,
+    //  Messages.
+    null,
 
-  //  Handlers.
-  (go, store, { path }) => ({
-    expand: (newPath = path) => go(expandCatalogue, newPath),
-    fetch: (newPath = path) => go(fetchCatalogue, newPath),
-    refresh: (newPath = path) => go(refreshCatalogue, newPath),
-  })
-);
+    //  Handlers.
+    (go, store, { path }) => ({
+      expand: (newPath = path) => go(expandCatalogue, newPath),
+      fetch: (newPath = path) => go(fetchCatalogue, newPath),
+      refresh: (newPath = path) => go(refreshCatalogue, newPath),
+    })
+  );
+});
+
+export { ConnectedCatalogue as default };

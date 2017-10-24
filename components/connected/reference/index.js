@@ -32,6 +32,7 @@ import './style';
 //  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
 import { MEDIA_TYPE } from 'themes/mastodon-go/util/constants';
+import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 //  * * * * * * *  //
 
@@ -194,119 +195,126 @@ Reference.propTypes = {
 //  Connecting
 //  ----------
 
+var ConnectedReference;
+
 //  Building our store and handlers.
-export default connect(
+moduleOnReady(function () {
+  ConnectedReference = connect(
 
-  //  Component.
-  Reference,
+    //  Component.
+    Reference,
 
-  //  Store.
-  createStructuredSelector({
-    at: (state, { mention }) => mention ? state.getIn(['account', mention, 'at']) : null,
-    href: (state, {
-      attachment,
-      card,
+    //  Store.
+    createStructuredSelector({
+      at: (state, { mention }) => mention ? state.getIn(['account', mention, 'at']) : null,
+      href: (state, {
+        attachment,
+        card,
+        mention,
+        tagName,
+      }) => {
+        switch (true) {
+        case !!attachment:
+          return state.getIn(['attachment', attachment, 'href']);
+        case !!card:
+          return state.getIn(['card', card, 'href']);
+        case !!mention:
+          return state.getIn(['account', mention, 'href']);
+        case !!tagName:
+          return state.getIn(['tag', tagName, 'href']);
+        default:
+          return void 0;
+        }
+      },
+      mediaType: (state, { attachment }) => attachment ? state.getIn(['attachment', attachment, 'type']) : null,
+      rainbow: (state, {
+        attachment,
+        card,
+        mention,
+        tagName,
+      }) => {
+        switch (true) {
+        case !!attachment:
+          return state.getIn(['attachment', attachment, 'rainbow']);
+        case !!card:
+          return state.getIn(['card', card, 'rainbow']);
+        case !!mention:
+          return state.getIn(['account', mention, 'rainbow']);
+        case !!tagName:
+          return state.getIn(['tag', `/api/v1/timelines/tag/${tagName}`, 'rainbow']);
+        default:
+          return void 0;
+        }
+      },
+      title: (state, {
+        attachment,
+        card,
+        mention,
+        tagName,
+      }) => {
+        switch (true) {
+        case !!attachment:
+          return state.getIn(['attachment', attachment, 'description']);
+        case !!card:
+          return state.getIn(['card', card, 'title']);
+        case !!mention:
+          return state.getIn(['account', mention, 'at']);
+        case !!tagName:
+          return tagName;
+        default:
+          return void 0;
+        }
+      },
+      username: (state, { mention }) => mention ? state.getIn(['account', mention, 'username']) : null,
+    }),
+
+    //  Messages.
+    defineMessages({
+      card: {
+        defaultMessage: 'Card',
+        description: 'Used to label card references',
+        id: 'reference.card',
+      },
+      hashtag: {
+        defaultMessage: 'Hashtag #{tagName}',
+        description: 'Used to label hashtag references',
+        id: 'reference.hashtag',
+      },
+      image: {
+        defaultMessage: 'Image',
+        description: 'Used to label image references',
+        id: 'reference.image',
+      },
+      unknown: {
+        defaultMessage: 'Unknown attachment',
+        description: 'Used to label unknown references',
+        id: 'reference.unknown',
+      },
+      video: {
+        defaultMessage: 'Video',
+        description: 'Used to label video references',
+        id: 'reference.video',
+      },
+    }),
+
+    //  Handler.
+    (go, store, {
       mention,
       tagName,
-    }) => {
-      switch (true) {
-      case !!attachment:
-        return state.getIn(['attachment', attachment, 'href']);
-      case !!card:
-        return state.getIn(['card', card, 'href']);
-      case !!mention:
-        return state.getIn(['account', mention, 'href']);
-      case !!tagName:
-        return state.getIn(['tag', tagName, 'href']);
-      default:
-        return void 0;
-      }
-    },
-    mediaType: (state, { attachment }) => attachment ? state.getIn(['attachment', attachment, 'type']) : null,
-    rainbow: (state, {
-      attachment,
-      card,
-      mention,
-      tagName,
-    }) => {
-      switch (true) {
-      case !!attachment:
-        return state.getIn(['attachment', attachment, 'rainbow']);
-      case !!card:
-        return state.getIn(['card', card, 'rainbow']);
-      case !!mention:
-        return state.getIn(['account', mention, 'rainbow']);
-      case !!tagName:
-        return state.getIn(['tag', `/api/v1/timelines/tag/${tagName}`, 'rainbow']);
-      default:
-        return void 0;
-      }
-    },
-    title: (state, {
-      attachment,
-      card,
-      mention,
-      tagName,
-    }) => {
-      switch (true) {
-      case !!attachment:
-        return state.getIn(['attachment', attachment, 'description']);
-      case !!card:
-        return state.getIn(['card', card, 'title']);
-      case !!mention:
-        return state.getIn(['account', mention, 'at']);
-      case !!tagName:
-        return tagName;
-      default:
-        return void 0;
-      }
-    },
-    username: (state, { mention }) => mention ? state.getIn(['account', mention, 'username']) : null,
-  }),
+    }) => ({
+      fetch () {
+        switch (true) {
+        case !!mention:
+          go(fetchAccount, mention, false);
+          break;
+        case !!tagName:
+          go(ensureTimeline, `/api/v1/timelines/tag/${tagName}`);
+          break;
+        }
+      },
+    }),
+  );
+};
 
-  //  Messages.
-  defineMessages({
-    card: {
-      defaultMessage: 'Card',
-      description: 'Used to label card references',
-      id: 'reference.card',
-    },
-    hashtag: {
-      defaultMessage: 'Hashtag #{tagName}',
-      description: 'Used to label hashtag references',
-      id: 'reference.hashtag',
-    },
-    image: {
-      defaultMessage: 'Image',
-      description: 'Used to label image references',
-      id: 'reference.image',
-    },
-    unknown: {
-      defaultMessage: 'Unknown attachment',
-      description: 'Used to label unknown references',
-      id: 'reference.unknown',
-    },
-    video: {
-      defaultMessage: 'Video',
-      description: 'Used to label video references',
-      id: 'reference.video',
-    },
-  }),
+export { ConnectedReference as default };
 
-  //  Handler.
-  (go, store, {
-    mention,
-    tagName,
-  }) => ({
-    fetch () {
-      switch (true) {
-      case !!mention:
-        go(fetchAccount, mention, false);
-        break;
-      case !!tagName:
-        go(ensureTimeline, `/api/v1/timelines/tag/${tagName}`);
-        break;
-      }
-    },
-  }),
-);

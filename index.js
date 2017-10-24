@@ -8,14 +8,17 @@ import MastodonGO from './components';
 import { DOMRoot } from './DOM';
 import redux from './redux';
 import launch from './util/launch';
+import { moduleReady } from './util/module';
 
 import 'font-awesome/css/font-awesome';
 
 import './custom';
+
+moduleReady();
 
 if (process.env.NODE_ENV === 'production') {
   // avoid offline in dev mode because it's harder to debug
   OfflinePluginRuntime.install();
 }
 
-launch(DOMRoot, MastodonGO, redux(), getLocale());
+launch(DOMRoot, MastodonGO, redux, getLocale());

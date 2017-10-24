@@ -30,6 +30,7 @@ import './style';
 
 //  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
+import moduleOnReady from 'themes/mastodon-go/util/module';
 
 //  * * * * * * *  //
 
@@ -116,18 +117,24 @@ Avatar.propTypes = {
 //  Connecting
 //  ----------
 
+var ConnectedAvatar;
+
 //  Building our store.
-export default connect(
+moduleOnReady(function () {
+  ConnectedAvatar = connect(
 
-  //  Component.
-  Avatar,
+    //  Component.
+    Avatar,
 
-  //  Store.
-  createStructuredSelector({
-    accountAt: (state, { account }) => state.getIn(['account', account, 'at']),
-    accountSrc: (state, { account }) => state.getIn(['account', account, 'avatar']),
-    autoplay: state => state.getIn(['meta', 'autoplay']),
-    comradeAt: (state, { comrade }) => comrade ? state.getIn(['account', comrade, 'at']) : null,
-    comradeSrc: (state, { comrade }) => comrade ? state.getIn(['account', comrade, 'avatar']) : null,
-  })
-);
+    //  Store.
+    createStructuredSelector({
+      accountAt: (state, { account }) => state.getIn(['account', account, 'at']),
+      accountSrc: (state, { account }) => state.getIn(['account', account, 'avatar']),
+      autoplay: state => state.getIn(['meta', 'autoplay']),
+      comradeAt: (state, { comrade }) => comrade ? state.getIn(['account', comrade, 'at']) : null,
+      comradeSrc: (state, { comrade }) => comrade ? state.getIn(['account', comrade, 'avatar']) : null,
+    })
+  );
+});
+
+export { ConnectedAvatar as default };

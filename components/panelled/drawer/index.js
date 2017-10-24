@@ -13,49 +13,56 @@ import {
 
 //  Other imports
 import connect from 'themes/mastodon-go/util/connect';
+import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 //  * * * * * * *  //
 
 //  Connecting
 //  ----------
 
+var PanelledDrawer;
+
 //  Building our store and handlers.
-export default connect(
+moduleOnReady(function () {
+  PanelledDrawer = connect(
 
-  //  Component.
-  RawPaneller,
+    //  Component.
+    RawPaneller,
 
-  //  Store.
-  null,
+    //  Store.
+    null,
 
-  //  Messages.
-  defineMessages({
-    title: {
-      defaultMessage: 'Compose',
-      description: 'Used as the title for the drawer (where the composer is)',
-      id: 'drawer.title',
-    },
-    '❌': {
-      defaultMessage: 'Close',
-      description: 'Used in the paneller menu to return to Start',
-      id: 'paneller.close',
-    },
-    '⬅': {
-      defaultMessage: 'Back',
-      description: 'Used in the paneller menu to close the current panel',
-      id: 'paneller.back',
-    },
-  }),
+    //  Messages.
+    defineMessages({
+      title: {
+        defaultMessage: 'Compose',
+        description: 'Used as the title for the drawer (where the composer is)',
+        id: 'drawer.title',
+      },
+      '❌': {
+        defaultMessage: 'Close',
+        description: 'Used in the paneller menu to return to Start',
+        id: 'paneller.close',
+      },
+      '⬅': {
+        defaultMessage: 'Back',
+        description: 'Used in the paneller menu to close the current panel',
+        id: 'paneller.back',
+      },
+    }),
 
-  //  Handlers.
-  null,
+    //  Handlers.
+    null,
 
-  //  Panelling.
-  {
-    backdrop: ConnectedComposer,
-    className: 'MASTODON_GO--PANELLED--DRAWER',
-    icon: 'pencil-square',
-    panels: { preview: ConnectedPreview },
-    title: ({ ℳ }) => ℳ.title,
-  }
-);
+    //  Panelling.
+    {
+      backdrop: ConnectedComposer,
+      className: 'MASTODON_GO--PANELLED--DRAWER',
+      icon: 'pencil-square',
+      panels: { preview: ConnectedPreview },
+      title: ({ ℳ }) => ℳ.title,
+    }
+  );
+});
+
+export { PanelledDrawer as default };

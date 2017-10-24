@@ -6,7 +6,7 @@ import { applyMiddleware, createStore } from 'redux';
 import { combineReducers } from 'redux-immutable';
 import thunk from 'redux-thunk';
 
-//  Imported reducers.
+//  Reducers.
 import account from './account';
 import attachment from './attachment';
 import card from './card';
@@ -24,9 +24,14 @@ import setting from './setting';
 import status from './status';
 import timeline from './timeline';
 
+//  Other imports.
+import { moduleOnReady } from 'themes/mastodon-go/util/module';
+
+var redux;
+
 //  Our store creator.
-export default function redux () {
-  return createStore(combineReducers({
+moduleOnReady(function () {
+  redux = createStore(combineReducers({
     account,
     attachment,
     card,
@@ -44,7 +49,9 @@ export default function redux () {
     status,
     timeline,
   }), applyMiddleware(thunk));
-}
+});
+
+export { redux as default };
 
 //  Our requests.
 export * from './account';

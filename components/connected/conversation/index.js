@@ -36,6 +36,7 @@ import { fetchConversation } from 'themes/mastodon-go/redux';
 
 //  Other imports
 import connect from 'themes/mastodon-go/util/connect';
+import { moduleOnReady } from 'themes/mastodon-go/util/connect';
 
 //  * * * * * * * //
 
@@ -114,22 +115,28 @@ Conversation.propTypes = {
 //  Connecting
 //  ----------
 
+var ConnectedConversation;
+
 //  Building our store and handlers.
-export default connect(
+moduleOnReady(function () {
+  ConnectedConversation = connect(
 
-  //  Component.
-  Conversation,
+    //  Component.
+    Conversation,
 
-  //  Store.
-  createStructuredSelector({
-    statuses: (state, { id }) => state.getIn(['conversation', id, 'statuses']),
-  }),
+    //  Store.
+    createStructuredSelector({
+      statuses: (state, { id }) => state.getIn(['conversation', id, 'statuses']),
+    }),
 
-  //  Messages.
-  null,
+    //  Messages.
+    null,
 
-  //  Handler.
-  (go, store, { id }) => ({
-    fetch: (newId = id) => go(fetchConversation, newId),
-  })
-);
+    //  Handler.
+    (go, store, { id }) => ({
+      fetch: (newId = id) => go(fetchConversation, newId),
+    })
+  );
+});
+
+export { ConnectedConversation as default };

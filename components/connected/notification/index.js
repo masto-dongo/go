@@ -48,6 +48,7 @@ import './style';
 //  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
 import { POST_TYPE } from 'themes/mastodon-go/util/constants';
+import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 //  * * * * * * *  //
 
@@ -126,17 +127,23 @@ Notification.propTypes = {
 //  Connecting
 //  ----------
 
+var ConnectedNotificaton;
+
 //  Building our store.
-export default connect(
+moduleOnReady(function () {
+  ConnectedNotificaton = connect(
 
-  //  Component.
-  Notification,
+    //  Component.
+    Notification,
 
-  //  Store.
-  createStructuredSelector({
-    account: (state, { id }) => state.getIn(['notification', id, 'account']),
-    datetime: (state, { id }) => state.getIn(['notification', id, 'datetime']),
-    status: (state, { id }) => state.getIn(['notification', id, 'status']),
-    type: (state, { id }) => state.getIn(['notification', id, 'type']),
-  })
-);
+    //  Store.
+    createStructuredSelector({
+      account: (state, { id }) => state.getIn(['notification', id, 'account']),
+      datetime: (state, { id }) => state.getIn(['notification', id, 'datetime']),
+      status: (state, { id }) => state.getIn(['notification', id, 'status']),
+      type: (state, { id }) => state.getIn(['notification', id, 'type']),
+    })
+  );
+});
+
+export { ConnectedNotificaton as default };

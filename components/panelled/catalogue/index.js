@@ -12,48 +12,55 @@ import {
 
 //  Other imports
 import connect from 'themes/mastodon-go/util/connect';
+import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 //  * * * * * * *  //
 
 //  Connecting
 //  ----------
 
+var PanelledCatalogue;
+
 //  Building our store and handlers.
-export default connect(
+moduleOnReady(function () {
+  PanelledCatalogue = connect(
 
-  //  Component.
-  RawPaneller,
+    //  Component.
+    RawPaneller,
 
-  //  Store.
-  null,
+    //  Store.
+    null,
 
-  //  Messages.
-  defineMessages({
-    title: {
-      defaultMessage: 'Catalogue',
-      description: 'Used as the fallback title for a catalogue',
-      id: 'catalogue.title',
-    },
-    '❌': {
-      defaultMessage: 'Close',
-      description: 'Used in the paneller menu to return to Start',
-      id: 'paneller.close',
-    },
-    '⬅': {
-      defaultMessage: 'Back',
-      description: 'Used in the paneller menu to close the current panel',
-      id: 'paneller.back',
-    },
-  }),
+    //  Messages.
+    defineMessages({
+      title: {
+        defaultMessage: 'Catalogue',
+        description: 'Used as the fallback title for a catalogue',
+        id: 'catalogue.title',
+      },
+      '❌': {
+        defaultMessage: 'Close',
+        description: 'Used in the paneller menu to return to Start',
+        id: 'paneller.close',
+      },
+      '⬅': {
+        defaultMessage: 'Back',
+        description: 'Used in the paneller menu to close the current panel',
+        id: 'paneller.back',
+      },
+    }),
 
-  //  Handlers.
-  null,
+    //  Handlers.
+    null,
 
-  //  Panelling.
-  {
-    backdrop: ConnectedCatalogue,
-    className: 'MASTODON_GO--PANELLED--CATALOGUE',
-    icon: ({ icon }) => icon,
-    title: ({ ℳ }) => ℳ.title,
-  }
-);
+    //  Panelling.
+    {
+      backdrop: ConnectedCatalogue,
+      className: 'MASTODON_GO--PANELLED--CATALOGUE',
+      icon: ({ icon }) => icon,
+      title: ({ ℳ }) => ℳ.title,
+    }
+  );
+});
+
+export { PanelledCatalogue as default };
