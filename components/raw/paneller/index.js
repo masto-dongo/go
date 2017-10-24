@@ -124,10 +124,10 @@ export default class RawPaneller extends React.Component {  //  Impure
               history={history}
               icon='arrow-left'
               onClick={!activeRoute ? clicks[0] : null}
-              title={title}
+              title={typeof title === 'function' ? title(getPassableProps()) : '' + title}
             />
           ) : null}
-          {menu ? menu.map(
+          {(typeof menu === 'function' ? menu(getPassableProps()) : menu || []).map(
             (item, index) => (
               <CommonButton
                 active={item.active !== void 0 ? item.active : item.hash && computedHash === item.hash}
@@ -178,10 +178,10 @@ export default class RawPaneller extends React.Component {  //  Impure
           </header>
         ) : null}
         <div class='panel'>
-          {React.createElement(panel, getPassableProps())}
+          {panel ? React.createElement(panel, getPassableProps()) : null}
         </div>
         <div aria-hidden={!!panel}>
-          {React.createElement(backdrop, getPassableProps()) || null}
+          {backdrop ? React.createElement(backdrop, getPassableProps()) : null}
         </div>
       </div>
     );
@@ -207,7 +207,7 @@ RawPaneller.propTypes = {
       icon: PropTypes.string.isRequired,
       title: PropTypes.string,
     })),
-    panels: PropTypes.objectOf(PropTypes.oneOfType(PropTypes.string, PropTypes.func)),
+    panels: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.func])),
     suppressTitle: PropTypes.bool,
     title: PropTypes.oneOfType(PropTypes.string, PropTypes.func),
   }).isRequired,

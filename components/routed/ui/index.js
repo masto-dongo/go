@@ -262,6 +262,7 @@ export default connect(
     },
     localTag: {
       defaultMessage: '{query} (local)',
+      defaultValues: { query: 'Hashtag' },
       description: 'Used as the title for local hashtag timelines',
       id: 'timeline.local_tag',
     },
