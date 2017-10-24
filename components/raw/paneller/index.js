@@ -97,7 +97,7 @@ export default class RawPaneller extends React.Component {  //  Impure
       },
     } = this.props;
     const { storedHash } = this.state;
-    const computedClass = classNames('CONNECT--PANELLER', panellerClassName, { titled: title && !suppressTitle }, className);
+    const computedClass = classNames('MASTODON_GO--RAW--PANELLER', panellerClassName, { titled: title && !suppressTitle }, className);
 
     const computedHash = activeRoute ? hash : storedHash;
 
@@ -177,7 +177,7 @@ export default class RawPaneller extends React.Component {  //  Impure
             <h1>{typeof title === 'function' ? title(getPassableProps()) : '' + title}</h1>
           </header>
         ) : null}
-        <div class='panel'>
+        <div className='panel'>
           {panel ? React.createElement(panel, getPassableProps()) : null}
         </div>
         <div aria-hidden={!!panel}>
@@ -197,16 +197,16 @@ RawPaneller.propTypes = {
   history: PropTypes.object,
   ℳ: PropTypes.func,
   '🎛': PropTypes.shape({
-    backdrop: PropTypes.oneOfType(PropTypes.string, PropTypes.func),
+    backdrop: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     className: PropTypes.string,
     icon: PropTypes.string,
-    menu: PropTypes.arrayOf(PropTypes.shape({
+    menu: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape({
       active: PropTypes.bool,
       destination: PropTypes.string,
       hash: PropTypes.string,
       icon: PropTypes.string.isRequired,
       title: PropTypes.string,
-    })),
+    })), PropTypes.func]),
     panels: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.func])),
     suppressTitle: PropTypes.bool,
     title: PropTypes.oneOfType(PropTypes.string, PropTypes.func),

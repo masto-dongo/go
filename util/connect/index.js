@@ -153,6 +153,7 @@ function makeMessages (intl, messager) {
 
     //  This predefines our (simple) messages.  This will give us quick
     //  access to them later as well.
+    let name;
     for (name in messager) {
       Object.defineProperty(ℳ, name, { value: new String(intl.formatMessage(messager[name], messager[name].defaultValues)) });
       ℳ[name].withValues = intl.formatMessage.bind(intl, messager[name]);
