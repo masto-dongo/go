@@ -10,7 +10,7 @@ import redux from './redux';
 import launch from './util/launch';
 import { moduleReady } from './util/module';
 
-import 'font-awesome/css/font-awesome.scss';
+import 'font-awesome/css/font-awesome.css';
 import './custom.scss';
 
 moduleReady();
