@@ -10,7 +10,7 @@ import React from 'react';
 import { ConnectedSetting } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
-import './style';
+import './style.scss';
 
 //  * * * * * * *  //
 

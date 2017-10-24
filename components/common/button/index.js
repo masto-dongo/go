@@ -22,7 +22,7 @@ import CommonLink from 'themes/mastodon-go/components/common/link';
 import CommonIcon from 'themes/mastodon-go/components/common/icon';
 
 //  Stylesheet imports.
-import './style';
+import './style.scss';
 
 //  * * * * * * *  //
 

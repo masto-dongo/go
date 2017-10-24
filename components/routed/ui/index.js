@@ -17,7 +17,7 @@ import RoutedUIColumn from './column';
 import RoutedUIModal from './modal';
 
 //  Stylesheet imports.
-import './style';
+import './style.scss';
 
 //  Other imports.
 import connect from 'themes/mastodon-go/util/connect';

@@ -29,7 +29,7 @@ import {
 } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
-import './style';
+import './style.scss';
 
 //  Request imports.
 import { fetchConversation } from 'themes/mastodon-go/redux';

@@ -28,7 +28,7 @@ const ConnectedStatusContentGallery = () => null;
 const ConnectedStatusContentUnknown = () => null;
 
 //  Stylesheet imports.
-import './style';
+import './style.scss';
 
 //  * * * * * * *  //
 

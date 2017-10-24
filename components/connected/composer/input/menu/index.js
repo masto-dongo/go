@@ -12,7 +12,7 @@ import React from 'react';
 import { CommonButton } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
-import './style';
+import './style.scss';
 
 //  * * * * * * *  //
 

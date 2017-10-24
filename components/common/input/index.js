@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 //  Stylesheet imports.
-import './style';
+import './style.scss';
 
 //  * * * * * * *  //
 

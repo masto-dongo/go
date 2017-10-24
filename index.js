@@ -1,5 +1,5 @@
 import 'intl';
-import 'intl/locale-data/jsonp/en.js';
+import 'intl/locale-data/jsonp/en';
 import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 
 import { getLocale } from 'mastodon/locales';
@@ -10,9 +10,8 @@ import redux from './redux';
 import launch from './util/launch';
 import { moduleReady } from './util/module';
 
-import 'font-awesome/css/font-awesome';
-
-import './custom';
+import 'font-awesome/css/font-awesome.scss';
+import './custom.scss';
 
 moduleReady();
 

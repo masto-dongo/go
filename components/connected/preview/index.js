@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 //  Stylesheet imports
-import './style';
+import './style.scss';
 
 import connect from 'themes/mastodon-go/util/connect';
 import { moduleOnReady } from 'themes/mastodon-go/util/module';

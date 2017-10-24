@@ -3,7 +3,7 @@ import { throttle } from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import './style';
+import './style.scss';
 
 import Observer from 'themes/mastodon-go/util/observer';
 

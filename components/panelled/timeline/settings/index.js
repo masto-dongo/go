@@ -4,7 +4,7 @@ import React from 'react';
 
 import { ConnectedSetting } from 'themes/mastodon-go/components';
 
-import './style';
+import './style.scss';
 
 export default function PanelledTimelineSettings ({
   className,

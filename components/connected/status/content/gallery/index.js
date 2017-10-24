@@ -26,7 +26,7 @@ import StatusContentGalleryPlayer from './player';
 import CommonButton from 'glitch/components/common/button';
 
 //  Stylesheet imports.
-import './style';
+import './style.scss';
 
 //  * * * * * * *  //
 

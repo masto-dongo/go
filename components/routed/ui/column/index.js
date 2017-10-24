@@ -20,7 +20,7 @@ import {
 const RoutedUIColumnUnknown = () => null;
 
 //  Stylesheet imports.
-import './style';
+import './style.scss';
 
 export default class RoutedUIColumn extends React.PureComponent {
 

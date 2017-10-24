@@ -24,7 +24,7 @@ import CommonIcon from 'glitch/components/common/icon';
 import CommonLink from 'glitch/components/common/link';
 
 //  Stylesheet imports.
-import './style';
+import './style.scss';
 
 //  * * * * * * *  //
 

@@ -13,7 +13,7 @@ import {
 } from 'themes/mastodon-go/DOM';
 
 //  Stylesheet imports.
-import './style';
+import './style.scss';
 
 export default class ConnectedComposerControls extends React.PureComponent {
 

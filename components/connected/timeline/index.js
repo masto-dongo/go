@@ -17,7 +17,7 @@ import {
   ConnectedStatus,
 } from 'themes/mastodon-go/components';
 
-import './style';
+import './style.scss';
 
 import connect from 'themes/mastodon-go/util/connect';
 import { POST_TYPE } from 'themes/mastodon-go/util/constants';

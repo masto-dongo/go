@@ -22,7 +22,7 @@ import { CommonButton } from 'themes/mastodon-go/components';
 import { VISIBILITY } from 'themes/mastodon-go/util/constants';
 
 //  Stylesheet imports.
-import './style';
+import './style.scss';
 
 //  * * * * * * *  //
 

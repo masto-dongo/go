@@ -14,7 +14,7 @@ import {
   CommonToggle,
 } from 'themes/mastodon-go/components';
 
-import './style';
+import './style.scss';
 
 import connect from 'themes/mastodon-go/util/connect';
 import { moduleOnReady } from 'themes/mastodon-go/util/module';

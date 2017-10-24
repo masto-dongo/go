@@ -28,7 +28,7 @@ import {
 } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
-import './style';
+import './style.scss';
 
 //  * * * * * * *  //
 

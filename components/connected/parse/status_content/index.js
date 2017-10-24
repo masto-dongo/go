@@ -28,7 +28,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import ConnectedParseStatusContentParagraph from './paragraph';
 
 //  Stylesheet imports.
-import './style';
+import './style.scss';
 
 //  * * * * * * *  //
 

@@ -7,7 +7,7 @@ import React from 'react';
 import ConnectedComposerInputMenu from './menu';
 
 //  Stylesheet imports
-import './style';
+import './style.scss';
 
 export default class ConnectedComposerInput extends React.PureComponent {
 

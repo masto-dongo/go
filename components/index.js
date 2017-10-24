@@ -23,7 +23,7 @@ import {
 import { RoutedUI } from './routed';
 
 //  Stylesheet imports.
-import './style';
+import './style.scss';
 
 //  * * * * * * *  //
 

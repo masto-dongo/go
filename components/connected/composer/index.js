@@ -20,7 +20,7 @@ import ConnectedComposerInput from './input';
 import ConnectedComposerTextArea from './text_area';
 
 //  Stylesheet imports.
-import './style';
+import './style.scss';
 
 //  Other imports.
 import connect from 'themes/mastodon-go/util/connect';

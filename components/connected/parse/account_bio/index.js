@@ -26,7 +26,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import ConnectedParseAccountBioParagraph from './paragraph';
 
 //  Stylesheet imports.
-import './style';
+import './style.scss';
 
 //  * * * * * * *  //
 

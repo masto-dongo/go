@@ -30,7 +30,7 @@ import AttachmentImage from './image';
 import AttachmentVideo from './video';
 
 //  Stylesheet imports.
-import './style';
+import './style.scss';
 
 //  Other imports.
 import connect from 'themes/mastodon-go/util/connect';

@@ -28,7 +28,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { CommonButton } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
-import './style';
+import './style.scss';
 
 //  * * * * * * *  //
 

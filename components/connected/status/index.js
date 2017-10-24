@@ -44,7 +44,7 @@ import ConnectedStatusNav from './nav';
 import ConnectedStatusPrepend from './prepend';
 
 //  Stylesheet imports.
-import './style';
+import './style.scss';
 
 //  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
