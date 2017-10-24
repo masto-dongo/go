@@ -144,7 +144,7 @@ export default class RawPaneller extends React.Component {  //  Impure
                 title={item.title}
               />
             )
-          ) : null}
+          )}
           {activeRoute ? function () {
             switch (true) {
             case computedHash && computedHash !== '#' && !!ℳ['⬅']:
