@@ -314,7 +314,7 @@ moduleOnReady(function () {
       },
     })
   );
-};
+});
 
 export { ConnectedReference as default };
 
