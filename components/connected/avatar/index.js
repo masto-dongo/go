@@ -30,7 +30,7 @@ import './style';
 
 //  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
-import moduleOnReady from 'themes/mastodon-go/util/module';
+import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 //  * * * * * * *  //
 
