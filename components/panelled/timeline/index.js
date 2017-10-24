@@ -24,7 +24,7 @@ var PanelledTimeline;
 
 //  Building our store and handlers.
 moduleOnReady(function () {
-  export default connect(
+  PanelledTimeline = connect(
 
     //  Component.
     RawPaneller,

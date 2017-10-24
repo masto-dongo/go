@@ -133,7 +133,7 @@ function makeMessages (intl, messager) {
 
       //  If we are given a string, we return a string.
       if (obj instanceof String || typeof obj === 'string') {
-        return !values ? ℳ[obj] : ℳ[obj].withValues(values);
+        return !values ? ℳ[obj] : ℳ[obj].withValues(withValues);
       }
 
       //  Otherwise, we assume that we're being called via JSX and

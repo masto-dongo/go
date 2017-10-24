@@ -312,7 +312,7 @@ moduleOnReady(function () {
           break;
         }
       },
-    }),
+    })
   );
 };
 

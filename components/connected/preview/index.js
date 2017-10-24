@@ -17,6 +17,6 @@ var ConnectedPreview;
 
 moduleOnReady(function () {
   ConnectedPreview = connect(Preview);
-})
+});
 
 export { ConnectedPreview as default };

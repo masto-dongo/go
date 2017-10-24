@@ -4,4 +4,4 @@ import moduleReady from './ready';
 export {
   moduleOnReady,
   moduleReady,
-}
+};
