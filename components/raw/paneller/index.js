@@ -202,7 +202,7 @@ RawPaneller.propTypes = {
   history: PropTypes.object,
   ℳ: PropTypes.func,
   '🎛': PropTypes.shape({
-    backdrop: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(PropTypes.string), PropTypes.func]),
+    backdrop: PropTypes.func,
     className: PropTypes.string,
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     menu: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape({
@@ -212,7 +212,7 @@ RawPaneller.propTypes = {
       icon: PropTypes.string.isRequired,
       title: PropTypes.PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(PropTypes.string)]),
     })), PropTypes.func]),
-    panels: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(PropTypes.string), PropTypes.func])),
+    panels: PropTypes.objectOf(PropTypes.func),
     suppressTitle: PropTypes.bool,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(PropTypes.string), PropTypes.func]),
   }).isRequired,

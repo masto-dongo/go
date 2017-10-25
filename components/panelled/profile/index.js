@@ -2,6 +2,7 @@
 //  -------
 
 //  Package imports.
+import React from 'react';
 import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
