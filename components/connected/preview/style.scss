@@ -2,4 +2,14 @@
 
 @import "themes/mastodon-go/variables";
 
-.MASTODON_GO--CONNECTED--PREVIEW {}
+.MASTODON_GO--CONNECTED--PREVIEW {
+  & > .status {
+    display: block;
+    margin: 0;
+    border: none;
+    padding: 0 .75em .625em;
+    cursor: default;
+
+    & > .MASTODON_GO--CONNECTED--ACCOUNT.small { margin: 0 -.75em }
+  }
+}

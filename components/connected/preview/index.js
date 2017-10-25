@@ -77,8 +77,8 @@ class Preview extends React.PureComponent {
     const computedClass = classNames('MASTODON_GO--CONNECTED--PREVIEW', className);
 
     return (
-      <div class={computedClass}>
-        <div class='status'>
+      <div className={computedClass}>
+        <div className='status'>
           <ConnectedAccount
             history={history}
             id={me}
@@ -151,6 +151,46 @@ var ConnectedPreview = connect(
 
   //  Messages.
   defineMessages({
+    directOff: {
+      defaultMessage: 'Non-direct',
+      description: 'Used to disable direct messaging',
+      id: 'composer.federated_off',
+    },
+    directOn: {
+      defaultMessage: 'Direct',
+      description: 'Used to enable direct messaging',
+      id: 'composer.federated_on',
+    },
+    federatedOff: {
+      defaultMessage: 'Local-only',
+      description: 'Used to disable federation',
+      id: 'composer.federated_off',
+    },
+    federatedOn: {
+      defaultMessage: 'Federated',
+      description: 'Used to enable federation',
+      id: 'composer.federated_on',
+    },
+    listedOff: {
+      defaultMessage: 'Unlisted',
+      description: 'Used to disable listing',
+      id: 'composer.federated_off',
+    },
+    listedOn: {
+      defaultMessage: 'Public',
+      description: 'Used to enable listing',
+      id: 'composer.federated_on',
+    },
+    rebloggableOff: {
+      defaultMessage: 'Private',
+      description: 'Used to disable reblogging',
+      id: 'composer.federated_off',
+    },
+    rebloggableOn: {
+      defaultMessage: 'Boostable',
+      description: 'Used to enable reblogging',
+      id: 'composer.federated_on',
+    },
     publish: {
       defaultMessage: 'Toot',
       description: 'Used to label the toot button',

@@ -79,8 +79,8 @@ export default class ConnectedComposerControls extends React.PureComponent {
     return (
       <div className={computedClass}>
         <CommonButton
+          destination={!quickMode && activeRoute ? '#preview' : null}
           history={history}
-          href={!quickMode && activeRoute ? '#preview' : null}
           icon={quickMode ? 'paper-plane' : 'paper-plane-o'}
           onClick={quickMode || !activeRoute ? handleClick : null}
           title={quickMode ? ℳ.quick : ℳ.preview}

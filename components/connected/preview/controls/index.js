@@ -44,8 +44,8 @@ export default class ConnectedPreviewControls extends React.PureComponent {
     return (
       <div className={computedClass}>
         <CommonButton
+          destination={activeRoute ? '#' : null}
           history={history}
-          href={activeRoute ? '#' : null}
           icon={'paper-plane'}
           onClick={handleSubmit}
           title={ℳ.publish}
