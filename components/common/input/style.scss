@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--COMMON--INPUT {
+  display: block;
+  margin: .625em .75em;
+  border-style: none none solid;
+  border-color: transparent transparent $mastodon_go_content_alternate;
+  border-width: 0 0 2px;
+  padding: 0;
+  width: auto;
+  height: auto;
+  color: inherit;
+  background: none;
+  font: inherit;
+
+  &:focus {
+    outline: none;
+    border-color: $mastodon_go_content_active;
+  }
+}

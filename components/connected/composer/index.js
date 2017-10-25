@@ -71,7 +71,7 @@ class Composer extends React.PureComponent {
       '💪': handler,
       ...rest
     } = this.props;
-    const computedClass = classNames('MASTODON_GO--CONNECTED--DRAWER--COMPOSER', className);
+    const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER', className);
 
     return (
       <div
@@ -83,12 +83,14 @@ class Composer extends React.PureComponent {
           id={me}
           small
         />
-        <CommonInput
-          disabled={disabled}
-          onChange={onSpoiler}
-          title={ℳ.spoiler}
-          value={spoiler}
-        />
+        <div className='spoiler'>
+          <CommonInput
+            disabled={disabled}
+            onChange={onSpoiler}
+            title={ℳ.spoiler}
+            value={spoiler}
+          />
+        </div>
         <ConnectedStatus
           id={inReplyTo}
           small

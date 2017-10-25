@@ -27,4 +27,22 @@
       transition: border-color ($mastodon_go_animation_speed * .15s) ease-out, background-color ($mastodon_go_animation_speed * .15s) ease-out;
     }
   }
+
+  & > .spoiler {
+    border-style: none solid;
+    border-color: $mastodon_go_content_button_color;
+    border-width: none 3px;
+    color: $mastodon_go_content_button_text;
+    background-color: $mastodon_go_content_button_color;
+
+    & > .MASTODON_GO--COMMON--INPUT {
+      margin: .625em .75em;
+      border-style: none none solid;
+      border-color: $mastodon_go_text_area_border;
+      border-width: 0 0 2px;
+      padding: 0;
+      color: $mastodon_go_text_area_color;
+      background: $mastodon_go_text_area_background;
+    }
+  }
 }
