@@ -154,12 +154,12 @@ var ConnectedPreview = connect(
     directOff: {
       defaultMessage: 'Non-direct',
       description: 'Used to disable direct messaging',
-      id: 'composer.federated_off',
+      id: 'composer.direct_off',
     },
     directOn: {
       defaultMessage: 'Direct',
       description: 'Used to enable direct messaging',
-      id: 'composer.federated_on',
+      id: 'composer.direct_on',
     },
     federatedOff: {
       defaultMessage: 'Local-only',
@@ -174,22 +174,22 @@ var ConnectedPreview = connect(
     listedOff: {
       defaultMessage: 'Unlisted',
       description: 'Used to disable listing',
-      id: 'composer.federated_off',
+      id: 'composer.listed_off',
     },
     listedOn: {
       defaultMessage: 'Public',
       description: 'Used to enable listing',
-      id: 'composer.federated_on',
+      id: 'composer.listed_on',
     },
     rebloggableOff: {
       defaultMessage: 'Private',
       description: 'Used to disable reblogging',
-      id: 'composer.federated_off',
+      id: 'composer.rebloggable_off',
     },
     rebloggableOn: {
       defaultMessage: 'Boostable',
       description: 'Used to enable reblogging',
-      id: 'composer.federated_on',
+      id: 'composer.rebloggable_on',
     },
     publish: {
       defaultMessage: 'Toot',
