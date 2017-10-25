@@ -43,7 +43,7 @@ export default class StatusFooter extends React.PureComponent {
     datetime: PropTypes.instanceOf(Date),
     detailed: PropTypes.bool,
     href: PropTypes.string,
-    visibility: PropTypes.string,
+    visibility: PropTypes.number,
     ℳ: PropTypes.func.isRequired,
   };
 

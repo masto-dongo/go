@@ -176,7 +176,7 @@ export default class StatusContent extends React.PureComponent {
     if (spoiler.length > 0) {
 
       //  This gets our list of mentions.
-      const mentionLinks = status.get('mentions').map(
+      const mentionLinks = mentions.map(
         mention => (
           <ConnectedReference
             mention={mention.get('id')}
