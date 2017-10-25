@@ -58,7 +58,7 @@ export default function ConnectedParseAccountBio ({
   }
 
   //  If we have `metadata`, then we need to process it.
-  if (metadata) {
+  if (metadata && metadata.length) {
     bio.push(
       <table key={bio.length}>
         <tbody>

@@ -28,22 +28,14 @@
     }
   }
 
-  & > .spoiler {
-    border-style: none solid;
-    border-color: transparent $mastodon_go_text_area_border;
-    border-width: none 3px;
-    color: $mastodon_go_content_button_text;
-    background-color: $mastodon_go_content_button_color;
+  & > .MASTODON_GO--COMMON--INPUT {
+    margin: 0;
+    border-style: none solid solid;
+    border-color: transparent $mastodon_go_text_area_border $mastodon_go_content_button_color;
+    border-width: 0 3px 2px;
+    color: $mastodon_go_text_area_color;
+    background: $mastodon_go_text_area_background;
 
-    &:focus { border-color: transparent $mastodon_go_text_area_active_border }
-
-    & > .MASTODON_GO--COMMON--INPUT {
-      margin: 0;
-      border-style: none none solid;
-      border-color: transparent transparent $mastodon_go_content_button_color;
-      border-width: 0 3px 2px;
-      color: $mastodon_go_text_area_color;
-      background: $mastodon_go_text_area_background;
-    }
+    &:focus { border-color: transparent $mastodon_go_text_area_active_border $mastodon_go_content_button_color }
   }
 }

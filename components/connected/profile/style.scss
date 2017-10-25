@@ -11,12 +11,13 @@
   & > header {
     display: block;
     position: relative;
-    margin: -3.125rem 0 0;
+    margin: 0;
     border: none;
     padding: 10rem 0 0;
     background-size: 100% 10rem;
     background-origin: padding-box;
     background-position: top left;
+    background-repeat: no-repeat;
 
     & > .MASTODON_GO--COMMON--IMAGE {
       display: block;
@@ -31,7 +32,7 @@
       height: 10rem;
     }
 
-    & > .MASTODON_GO--ACCOUNT {
+    & > .MASTODON_GO--CONNECTED--ACCOUNT {
       color: $mastodon_go_content_button_text;
       background-color: $mastodon_go_content_button_color;
     }

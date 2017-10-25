@@ -8,7 +8,7 @@
   border: none;
   padding: 0;
 
-  & > .MASTODON_GO--ACCOUNT {
+  & > .MASTODON_GO--CONNECTED--ACCOUNT {
     color: $mastodon_go_content_button_text;
     background-color: $mastodon_go_content_button_color;
     transition: background-color ($mastodon_go_animation_speed * .15s) ease-in;
@@ -41,7 +41,7 @@
       overflow: hidden;
     }
 
-    & > .MASTODON_GO--COMMON--BUTTON {
+    & > .MASTODON_GO--COMMON--BUTTON.with_text {
       display: block;
       margin: 0;
       border: none;

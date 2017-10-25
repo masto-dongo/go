@@ -83,14 +83,12 @@ class Composer extends React.PureComponent {
           id={me}
           small
         />
-        <div className='spoiler'>
-          <CommonInput
-            disabled={disabled}
-            onChange={onSpoiler}
-            title={ℳ.spoiler}
-            value={spoiler}
-          />
-        </div>
+        <CommonInput
+          disabled={disabled}
+          onChange={onSpoiler}
+          title={ℳ.spoiler}
+          value={spoiler}
+        />
         <ConnectedStatus
           id={inReplyTo}
           small
