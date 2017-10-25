@@ -283,7 +283,7 @@ class Status extends React.PureComponent {
         {...rest}
       >
         <ConnectedStatusPrepend
-          comrade={comrade || inReplyTo.account}
+          comrade={comrade || inReplyTo && inReplyTo.get('account')}
           type={POST_TYPE}
         />
         <ConnectedAccount
