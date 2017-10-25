@@ -22,9 +22,9 @@ export default class RawPaneller extends React.Component {  //  Impure
       getPassableProps,
       setHash,
     } = Object.getPrototypeOf(this);
-    this.clicks = [setHash.bind(this, '#')].concat(menu ? menu.map(
+    this.clicks = [setHash.bind(this, '#')].concat((typeof menu === 'function' ? menu(getPassableProps()) : menu || []).map(
       item => setHash.bind(this, item.hash)
-    ) : []);
+    );
     this.getPassableProps = getPassableProps.bind(this);
     this.setHash = setHash.bind(this);
   }
@@ -117,16 +117,21 @@ export default class RawPaneller extends React.Component {  //  Impure
     return (
       <div className={computedClass}>
         <nav>
-          {icon ? (
-            <CommonButton
-              active={!computedHash || computedHash === '#'}
-              destination={activeRoute ? '#' : null}
-              history={history}
-              icon='arrow-left'
-              onClick={!activeRoute ? clicks[0] : null}
-              title={typeof title === 'function' ? title(getPassableProps()) : '' + title}
-            />
-          ) : null}
+          {function () {
+            if (icon) {
+              return (
+                <CommonButton
+                  active={!computedHash || computedHash === '#'}
+                  destination={activeRoute ? '#' : null}
+                  history={history}
+                  icon={typeof icon === 'function' ? title(getPassableProps()) : '' + icon}
+                  onClick={!activeRoute ? clicks[0] : null}
+                  title={typeof title === 'function' ? title(getPassableProps()) : '' + title}
+                />
+              );
+            }
+            return null;
+          }()}
           {(typeof menu === 'function' ? menu(getPassableProps()) : menu || []).map(
             (item, index) => (
               <CommonButton
@@ -199,7 +204,7 @@ RawPaneller.propTypes = {
   '🎛': PropTypes.shape({
     backdrop: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(PropTypes.string), PropTypes.func]),
     className: PropTypes.string,
-    icon: PropTypes.string,
+    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     menu: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape({
       active: PropTypes.bool,
       destination: PropTypes.string,
