@@ -46,7 +46,7 @@ export default class CommonButton extends React.PureComponent {
     proportional: PropTypes.bool,
     role: PropTypes.string,
     showTitle: PropTypes.bool,
-    title: PropTypes.string,
+    title: PropTypes.oneOf([PropTypes.string, PropTypes.instanceOf(String)]),
   }
   state = {
     loaded: false,
