@@ -3,6 +3,7 @@
 
 //  Package imports.
 import { defineMessages } from 'react-intl';
+import { createStructuredSelector } from 'reselect';
 
 //  Component imports.
 import {
@@ -31,7 +32,9 @@ moduleOnReady(function () {
     RawPaneller,
 
     //  Store.
-    null,
+    createStructuredSelector({
+      at: (state, { id }) => state.getIn(['account', id, 'at']),
+    }),
 
     //  Messages.
     defineMessages({

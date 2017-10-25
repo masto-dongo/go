@@ -44,7 +44,7 @@ moduleOnReady(function () {
         description: 'Basic section heading in timeline settings',
         id: 'timeline.basic',
       },
-      hideBoosts: {
+      hideReblogs: {
         defaultMessage: 'Hide boosts',
         description: 'Option to turn off boosts in timeline settings',
         id: 'timeline.hide_reblogs',
@@ -64,7 +64,7 @@ moduleOnReady(function () {
         description: 'Used as the label for a settings panel in the paneller menu',
         id: 'paneller.settings',
       },
-      showBoosts: {
+      showReblogs: {
         defaultMessage: 'Show boosts',
         description: 'Option to turn on boosts in timeline settings',
         id: 'timeline.show_reblogs',
@@ -98,14 +98,17 @@ moduleOnReady(function () {
     {
       backdrop: ConnectedTimeline,
       className: 'MASTODON_GO--PANELLED--TIMELINE',
-      icon: ({ icon }) => icon,
+      icon: ({ icon }) => icon || 'question',
       menu: ({ ℳ }) => [{
         hash: '#settings',
         icon: 'sliders',
         title: ℳ.settings,
       }],
       panels: { settings: PanelledTimelineSettings },
-      title: ({ ℳ }) => ℳ.title,
+      title: ({
+        title,
+        ℳ,
+      }) => title || ℳ.title,
     }
   );
 });

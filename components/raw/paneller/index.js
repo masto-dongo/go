@@ -124,7 +124,7 @@ export default class RawPaneller extends React.Component {  //  Impure
                   active={!computedHash || computedHash === '#'}
                   destination={activeRoute ? '#' : null}
                   history={history}
-                  icon={typeof icon === 'function' ? title(getPassableProps()) : '' + icon}
+                  icon={typeof icon === 'function' ? icon(getPassableProps()) : '' + icon}
                   onClick={!activeRoute ? clicks[0] : null}
                   title={typeof title === 'function' ? title(getPassableProps()) : '' + title}
                 />
