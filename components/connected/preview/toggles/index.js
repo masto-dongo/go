@@ -57,7 +57,7 @@ export default class ConnectedPreviewToggles extends React.PureComponent {
     if (!onVisibility) {
       return;
     }
-    onVisibility(value ? visibility | VISIBILITY.NON_FOLLOWERS | VISIBILITY.REBLOGGABLE : visibility & ~VISIBILITY.NON_FOLLOWERS & ~VISIBILITY.REBLOGGABLE & ~VISIBILITY.LISTED);
+    onVisibility(value ? visibility | VISIBILITY.NON_FOLLOWERS | VISIBILITY.REBLOGGABLE : visibility & ~VISIBILITY.REBLOGGABLE & ~VISIBILITY.LISTED);
   }
   handleListed (value) {
     const {
