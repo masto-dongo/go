@@ -98,13 +98,12 @@ export default class StatusFooter extends React.PureComponent {
           proportional
           title={visibilityText}
         />
+        {' '}
         <CommonLink
           className='timestamp'
           href={href}
           title={ℳ.permalink}
-        >
-          {datetime.toISOString()}
-        </CommonLink>
+        >???</CommonLink>
       </footer>
     );
 

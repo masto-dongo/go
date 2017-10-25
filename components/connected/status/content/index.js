@@ -193,30 +193,28 @@ export default class StatusContent extends React.PureComponent {
           className={computedClass}
           {...rest}
         >
-          <div
+          <p
             className='spoiler'
             {...(onClick ? {
               onMouseDown: handleMouseDown,
               onMouseUp: handleMouseUp,
             } : {})}
           >
-            <p>
-              <ConnectedParse
-                text={spoiler}
-                type='emoji'
-              />
-              {' '}
-              <CommonButton
-                active={!!contentVisible}
-                className='showmore'
-                onClick={handleSpoilerClick}
-                showTitle={!contentVisible}
-                title={ℳ.showMore}
-              >
-                {contentVisible ? null : ℳ.showLess}
-              </CommonButton>
-            </p>
-          </div>
+            <ConnectedParse
+              text={spoiler}
+              type='emoji'
+            />
+            {' '}
+            <CommonButton
+              active={!!contentVisible}
+              className='showmore'
+              onClick={handleSpoilerClick}
+              showTitle={!contentVisible}
+              title={ℳ.showMore}
+            >
+              {contentVisible ? ℳ.showLess : null}
+            </CommonButton>
+          </p>
           {!contentVisible ? mentionLinks : null}
           <div className='contents' hidden={!contentVisible}>
             <div

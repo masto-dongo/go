@@ -39,7 +39,7 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
     history: PropTypes.object,
     is: ImmutablePropTypes.map.isRequired,
     me: PropTypes.number,
-    setDetail: PropTypes.func,
+    onDetail: PropTypes.func,
     visibility: PropTypes.number,
     ℳ: PropTypes.func.isRequired,
   };
@@ -60,13 +60,13 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
       history,
       is,
       me,
-      setDetail,
+      onDetail,
       visibility,
       ℳ,
       ...rest
     } = this.props;
 
-    const computedClass = classNames('MASTODON_GO--CONNECTED--STATUS--ACTION_BAR', className);
+    const computedClass = classNames('MASTODON_GO--CONNECTED--STATUS--ACTION_BAR', { detailed }, className);
     const rebloggable = VISIBILITY & VISIBILITY.BOOSTABLE;
     const reblogTitle = rebloggable ? ℳ.reblog : ℳ.noReblog;
     const anonymousAccess = !me;
@@ -110,12 +110,12 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
           onClick={handler.favourite}
         />
         {
-          setDetail ? (
+          onDetail ? (
             <CommonButton
               active={detailed}
               title={ℳ.expand}
               icon={detailed ? 'minus' : 'plus'}
-              onClick={setDetail}
+              onClick={onDetail}
             />
           ) : null
         }

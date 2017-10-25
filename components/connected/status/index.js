@@ -320,7 +320,7 @@ class Status extends React.PureComponent {
           history={history}
           is={is}
           me={me}
-          setDetail={setDetail}
+          onDetail={handleClick}
           visibility={visibility}
           ℳ={ℳ}
         />

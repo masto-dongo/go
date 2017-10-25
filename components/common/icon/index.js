@@ -55,5 +55,5 @@ CommonIcon.propTypes = {
   colour: PropTypes.string,
   name: PropTypes.string,
   proportional: PropTypes.bool,
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]),
 };

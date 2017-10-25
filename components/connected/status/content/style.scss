@@ -6,6 +6,14 @@
   display: block;
   margin: 0;
   border: none;
-  padding: 1.0125em .75em;
+  padding: .625em 0;
   word-wrap: break-word;
+
+  & > *.spoiler {
+    display: block;
+    margin: 0;
+    border: none;
+    padding: 0;
+    white-space: pre-wrap;
+  }
 }

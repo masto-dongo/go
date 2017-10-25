@@ -7,10 +7,28 @@
   margin: 0;
   border: none;
   padding: 0;
+  width: 100%;
   height: 1.25rem;
   font-size: 1.25rem;
   line-height: 1;
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
+
+  &.detailed {
+    display: table;
+    margin: .3125em 0;
+    border-collapse: collapse;
+
+    & > .MASTODON_GO--COMMON--BUTTON {
+      display: table-cell;
+      margin: 0;
+      border: none;
+      padding: .3125em .5em;
+
+      & + .MASTODON_GO--COMMON--BUTTON {
+        border-left: 1px $mastodon_go_content_border solid;
+      }
+    }
+  }
 }

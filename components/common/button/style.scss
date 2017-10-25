@@ -12,6 +12,7 @@
   outline: 1px transparent dotted;
   outline-offset: -1px;
   font: inherit;
+  text-align: center;
   text-decoration: none;
   cursor: pointer;
   transition: color ($mastodon_go_animation_speed * .15s) ease-in, outline-color ($mastodon_go_animation_speed * .3s) ease-in-out;
@@ -63,10 +64,9 @@
   //  For links, we consider them disabled if they don't have an `href`
   //  attribute (see JS).
   &.disabled {
-    opacity: $mastodon_go_content_disabled;
+    color: $mastodon_go_content_disabled;
     cursor: default;
   }
-
 
   //  This is confusing becuase of the names, but the `color .3 ease-out`
   //  transition is actually used when easing *in* to a hovering/active/
@@ -111,6 +111,14 @@
 
     & > *:not(:first-child) {
       margin: 0 0 0 1ex;
+    }
+
+    //  For links, we consider them disabled if they don't have an `href`
+    //  attribute (see JS).
+    &.disabled {
+      color: $mastodon_go_content_button_text;
+      background-color: $mastodon_go_content_disabled;
+      cursor: default;
     }
 
     &:focus,
