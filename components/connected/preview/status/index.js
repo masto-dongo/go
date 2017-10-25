@@ -5,7 +5,6 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import {
   CommonButton,
@@ -138,7 +137,7 @@ ConnectedPreviewStatus.propTypes = {
   content: PropTypes.string,
   contentVisible: PropTypes.bool,
   history: PropTypes.object,
-  media: ImmutablePropTypes.list,
+  media: PropTypes.array,
   sensitive: PropTypes.bool,
   setExpansion: PropTypes.func,
   spoiler: PropTypes.string,

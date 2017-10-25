@@ -43,7 +43,7 @@ export default class ConnectedPreviewToggles extends React.PureComponent {
     const {
       onVisibility,
       visibility,
-    } = this;
+    } = this.props;
     if (!onVisibility) {
       return;
     }
@@ -53,7 +53,7 @@ export default class ConnectedPreviewToggles extends React.PureComponent {
     const {
       onVisibility,
       visibility,
-    } = this;
+    } = this.props;
     if (!onVisibility) {
       return;
     }
@@ -63,7 +63,7 @@ export default class ConnectedPreviewToggles extends React.PureComponent {
     const {
       onVisibility,
       visibility,
-    } = this;
+    } = this.props;
     if (!onVisibility) {
       return;
     }
@@ -73,7 +73,7 @@ export default class ConnectedPreviewToggles extends React.PureComponent {
     const {
       onVisibility,
       visibility,
-    } = this;
+    } = this.props;
     if (!onVisibility) {
       return;
     }
@@ -98,7 +98,7 @@ export default class ConnectedPreviewToggles extends React.PureComponent {
     return (
       <div className={computedClass}>
         <CommonToggle
-          active={visibility & VISIBILITY.FEDERATED}
+          active={!!(visibility & VISIBILITY.FEDERATED)}
           activeIcon='globe'
           activeLabel={ℳ.federatedOn}
           inactiveIcon='users'
@@ -106,15 +106,15 @@ export default class ConnectedPreviewToggles extends React.PureComponent {
           onChange={handleFederated}
         />
         <CommonToggle
-          active={visibility & VISIBILITY.REBLOGGABLE}
+          active={!!(visibility & VISIBILITY.REBLOGGABLE)}
           activeIcon='unlock-alt'
-          activeLabel={ℳ.reblogOn}
+          activeLabel={ℳ.rebloggableOn}
           inactiveIcon='lock'
-          inactiveLabel={ℳ.reblogOff}
+          inactiveLabel={ℳ.rebloggableOff}
           onChange={handleRebloggable}
         />
         <CommonToggle
-          active={visibility & VISIBILITY.LISTED}
+          active={!!(visibility & VISIBILITY.LISTED)}
           activeIcon='newspaper-o'
           activeLabel={ℳ.listedOn}
           inactiveIcon='microphone-slash'

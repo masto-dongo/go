@@ -94,20 +94,20 @@ class Preview extends React.PureComponent {
             spoiler={spoiler}
             ℳ={ℳ}
           />
-          <ConnectedPreviewToggles
-            onSensitive={onSensitive}
-            onVisibility={onVisibility}
-            sensitive={sensitive}
-            visibility={visibility}
-            ℳ={ℳ}
-          />
-          <ConnectedPreviewControls
-            activeRoute={activeRoute}
-            onSubmit={onSubmit}
-            rehash={rehash}
-            ℳ={ℳ}
-          />
         </div>
+        <ConnectedPreviewToggles
+          onSensitive={onSensitive}
+          onVisibility={onVisibility}
+          sensitive={sensitive}
+          visibility={visibility}
+          ℳ={ℳ}
+        />
+        <ConnectedPreviewControls
+          activeRoute={activeRoute}
+          onSubmit={onSubmit}
+          rehash={rehash}
+          ℳ={ℳ}
+        />
       </div>
     );
   }
