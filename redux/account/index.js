@@ -55,7 +55,14 @@ import { readƔaml } from 'themes/mastodon-go/util/ɣaml';
 //  `normalize()` normalizes our account into an Immutable map.
 const normalize = (account, oldBio) => {
   const plainBio = oldBio && oldBio.get('html') === '' + account.note ? oldBio.get('plain') : deHTMLify(account.note);
-  const ɣamlBio = oldBio && oldBio.get('html') === '' + account.note ? oldBio.get('ɣaml') : readƔaml(plainBio);
+  const ɣamlBio = oldBio && oldBio.get('html') === '' + account.note ? oldBio.get('ɣaml') : function (ɣaml) {
+    return ImmutableMap({
+      metadata: ImmutableList((ɣaml.metadata || []).map(
+        keyVal => ImmutableList(keyVal),
+      )),
+      text: '' + ɣaml.text,
+    })
+  }(readƔaml(plainBio));
   return ImmutableMap({
     at: '' + account.acct,
     avatar: ImmutableMap({
@@ -65,12 +72,7 @@ const normalize = (account, oldBio) => {
     bio: ImmutableMap({
       html: '' + account.note,
       plain: '' + plainBio,
-      ɣaml: ImmutableMap({
-        metadata: ImmutableList(ɣamlBio.metadata.map(
-          keyVal => ImmutableList(keyVal),
-        )),
-        text: '' + ɣamlBio.text,
-      }),
+      ɣaml: ɣamlBio,
     }),
     counts: ImmutableMap({
       followers: +account.followers_count,
