@@ -22,7 +22,7 @@ export default class CommonInput extends React.PureComponent {
     className: PropTypes.string,
     disabled: PropTypes.bool,
     onChange: PropTypes.func,
-    title: PropTypes.string,
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]),
     value: PropTypes.string,
   };
   input = null;

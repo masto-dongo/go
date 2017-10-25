@@ -35,8 +35,8 @@ export default class ConnectedComposerControls extends React.PureComponent {
   componentWillMount () {
     const { handleEvent } = this;
     DOMListen('mousemove', handleEvent);
-    document.body.addEventListenr('keydown', handleEvent, false);
-    document.body.addEventListenr('keyup', handleEvent, false);
+    document.body.addEventListener('keydown', handleEvent, false);
+    document.body.addEventListener('keyup', handleEvent, false);
   }
 
   componentWillUnmount () {
