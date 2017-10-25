@@ -4,12 +4,13 @@
 
 .MASTODON_GO--COMMON--INPUT {
   display: block;
-  margin: .625em .75em;
+  box-sizing: border-box;
+  margin: 0;
   border-style: none none solid;
   border-color: transparent transparent $mastodon_go_content_alternate;
   border-width: 0 0 2px;
-  padding: 0;
-  width: auto;
+  padding: .3125em .75em;
+  width: 100%;
   height: auto;
   color: inherit;
   background: none;

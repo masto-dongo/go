@@ -7,7 +7,7 @@
   position: relative;
   margin: 0;
   border-style: none solid;
-  border-color: $mastodon_go_text_area_border;
+  border-color: transparent $mastodon_go_text_area_border;
   border-width: 0 3px;
   padding: .625em .75em;
   color: $mastodon_go_text_area_color;
@@ -16,6 +16,6 @@
 
   &:focus {
     outline: none;
-    border-color: $mastodon_go_text_area_active_border;
+    border-color: transparent $mastodon_go_text_area_active_border;
   }
 }
