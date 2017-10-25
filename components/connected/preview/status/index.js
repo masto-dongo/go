@@ -45,11 +45,10 @@ export default class ConnectedPreviewStatus extends React.PureComponent {
       history,
       media,
       sensitive,
-      setExpansion,
       spoiler,
       ℳ,
     } = this.props;
-    const computedClass = classNames('MASTODON_GO--CONNECTED--PREVIEW--STATUS', { spoilered: !contentVisible });
+    const computedClass = classNames('MASTODON_GO--CONNECTED--PREVIEW--STATUS', { spoilered: !contentVisible }, className);
 
     const mediaElement = function () {
       switch (true) {
@@ -60,6 +59,7 @@ export default class ConnectedPreviewStatus extends React.PureComponent {
         item => item.get('type') === 'unknown'
       )):
         //return <ConnectedStatusContentUnknown media={media} />;
+        return null;
 
       //  Otherwise, if there are attachments, we render them in a
       //  gallery.
@@ -70,6 +70,8 @@ export default class ConnectedPreviewStatus extends React.PureComponent {
         //    sensitive={sensitive}
         //  />
         //);
+        return null;
+
       default:
         return null;
       }
@@ -141,4 +143,4 @@ ConnectedPreviewStatus.propTypes = {
   setExpansion: PropTypes.func,
   spoiler: PropTypes.string,
   ℳ: PropTypes.func.isRequired,
-}
+};

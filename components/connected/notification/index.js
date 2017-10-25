@@ -60,13 +60,11 @@ function Notification ({
   hideIf,
   id,
   observer,
-  ℳ,
   '🏪': {
     account,
     status,
     type,
   },
-  '💪': handler,
 }) {
   const computedClass = classNames('MASTODON_GO--CONNECTED--NOTIFICATION', className);
 

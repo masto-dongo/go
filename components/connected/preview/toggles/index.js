@@ -90,7 +90,6 @@ export default class ConnectedPreviewToggles extends React.PureComponent {
     const {
       className,
       visibility,
-      onVisibility,
       ℳ,
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--PREVIEW--TOGGLES', className);
@@ -137,7 +136,7 @@ export default class ConnectedPreviewToggles extends React.PureComponent {
 }
 
 //  Props.
-PanelledCourierSettings.propTypes = {
+ConnectedPreviewToggles.propTypes = {
   className: PropTypes.string,
   onVisibility: PropTypes.func,
   visibility: PropTypes.number,

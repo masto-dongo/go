@@ -44,7 +44,6 @@ export default function ConnectedParseStatusContent ({
   mentions,
   tags,
   text,
-  ...rest
 }) {
   const computedClass = classNames('MASTODON_GO--CONNECTED--PARSE--STATUS_CONTENT', className);
 

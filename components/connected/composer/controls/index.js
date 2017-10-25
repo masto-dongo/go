@@ -29,7 +29,7 @@ export default class ConnectedComposerControls extends React.PureComponent {
       handleCtrl,
       handleSubmit,
     } = Object.getPrototypeOf(this);
-    this.handleCtrl = handleEvent.bind(this);
+    this.handleCtrl = handleCtrl.bind(this);
     this.handlePreview = rehash.bind(this, '#preview');
     this.handleSubmit = handleSubmit.bind(this);
   }
@@ -70,7 +70,6 @@ export default class ConnectedComposerControls extends React.PureComponent {
       className,
       history,
       onSubmit,
-      rehash,
       ℳ,
     } = this.props;
     const { quickMode } = this.state;

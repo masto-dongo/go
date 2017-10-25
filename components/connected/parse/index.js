@@ -87,9 +87,6 @@ class Parse extends React.PureComponent {
       tags,
       text,
       type,
-      ℳ,
-      '🏪': store,
-      '💪': handler,
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--PARSE', className);
 

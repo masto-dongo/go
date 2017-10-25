@@ -74,20 +74,12 @@ class Timeline extends React.PureComponent {
   render () {
     const { handleDetail } = this;
     const {
-      activeRoute,
       className,
-      history,
-      icon,
-      path,
-      rehash,
-      title,
-      ℳ,
       '🏪': {
         isLoading,
         settings,
         statuses,
       },
-      '💪': handler,
     } = this.props;
     const { currentDetail } = this.state;
     const computedClass = classNames('MASTODON_GO--CONNECTED--TIMELINE', className);

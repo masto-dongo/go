@@ -62,7 +62,6 @@ class Profile extends React.PureComponent {
       className,
       history,
       id,
-      rehash,
       ℳ,
       '🏪': {
         bio,
@@ -72,7 +71,6 @@ class Profile extends React.PureComponent {
         local,
         rainbow,
       },
-      '💪': handler,
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--PROFILE', className);
 

@@ -36,7 +36,6 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
     className: PropTypes.string,
     detailed: PropTypes.bool,
     handler: PropTypes.objectOf(PropTypes.func).isRequired,
-    history: PropTypes.object,
     is: ImmutablePropTypes.map.isRequired,
     me: PropTypes.number,
     onDetail: PropTypes.func,
@@ -57,7 +56,6 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
       className,
       detailed,
       handler,
-      history,
       is,
       me,
       onDetail,
@@ -66,7 +64,7 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
     } = this.props;
 
     const computedClass = classNames('MASTODON_GO--CONNECTED--STATUS--ACTION_BAR', { detailed }, className);
-    const rebloggable = VISIBILITY & VISIBILITY.BOOSTABLE;
+    const rebloggable = visibility & VISIBILITY.REBLOGGABLE;
     const reblogTitle = rebloggable ? ℳ.reblog : ℳ.noReblog;
     const anonymousAccess = !me;
     let replyIcon;

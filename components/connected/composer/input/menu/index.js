@@ -39,7 +39,6 @@ export default class ConnectedComposerInputMenu extends React.PureComponent {
     } = this;
     const {
       className,
-      onChange,
       value,
       ℳ,
     } = this.props;

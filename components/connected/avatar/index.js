@@ -38,11 +38,9 @@ import connect from 'themes/mastodon-go/util/connect';
 
 //  Component definition.
 function Avatar ({
-  account,
   className,
   circular,
   comrade,
-  ℳ,
   '🏪': {
     autoplay,
     accountAt,
@@ -50,7 +48,6 @@ function Avatar ({
     comradeAt,
     comradeSrc,
   },
-  '💪': handler,
 }) {
   const computedClass = classNames('MASTODON_GO--CONNECTED--AVATAR', {
     circular: circular,

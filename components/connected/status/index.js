@@ -188,7 +188,6 @@ class Status extends React.PureComponent {
       history,
       id,
       observer,
-      setDetail,
       small,
       ℳ,
       '🏪': {
@@ -315,7 +314,6 @@ class Status extends React.PureComponent {
         <ConnectedStatusActionBar
           detailed={detailed}
           handler={handler}
-          history={history}
           is={is}
           me={me}
           onDetail={handleClick}

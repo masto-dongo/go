@@ -128,7 +128,6 @@ export default class ConnectedStatusContent extends React.PureComponent {
       mentions,
       onClick,
       sensitive,
-      setExpansion,
       small,
       spoiler,
       tags,
@@ -138,7 +137,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
       actionable: !detailed && onClick,
       small,
       spoilered: !contentVisible,
-    });
+    }, className);
     const mediaElement = function () {
       switch (true) {
 
@@ -223,6 +222,8 @@ export default class ConnectedStatusContent extends React.PureComponent {
             >
               <ConnectedParse
                 history={history}
+                mentions={mentions}
+                tags={tags}
                 text={content}
                 type='status'
               />
@@ -246,6 +247,8 @@ export default class ConnectedStatusContent extends React.PureComponent {
             >
               <ConnectedParse
                 history={history}
+                mentions={mentions}
+                tags={tags}
                 text={content}
                 type='status'
               />

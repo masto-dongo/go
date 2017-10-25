@@ -62,12 +62,8 @@ class Setting extends React.PureComponent {
       disabled,
       inactiveIcon,
       inactiveLabel,
-      settingKey,
-      global,
       title,
       type,
-      ℳ,
-      '💪': handler,
       '🏪': { value },
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--SETTING', {

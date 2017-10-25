@@ -59,15 +59,12 @@ class Composer extends React.PureComponent {
       onSubmit,
       onText,
       onUpload,
-      onVisibility,
       rehash,
       sensitive,
       spoiler,
       text,
-      visibility,
       ℳ,
       '🏪': { me },
-      '💪': handler,
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER', className);
 

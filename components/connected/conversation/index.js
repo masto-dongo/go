@@ -64,14 +64,9 @@ class Conversation extends React.PureComponent {
   //  Rendering.
   render () {
     const {
-      activeRoute,
       className,
-      history,
-      icon,
       id,
-      ℳ,
       '🏪': { statuses },
-      '💪': handler,
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--CONVERSATION', className);
 

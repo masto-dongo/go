@@ -60,7 +60,7 @@ export default class ConnectedPreviewControls extends React.PureComponent {
 
 }
 
-ConnectedComposerControls.propTypes = {
+ConnectedPreviewControls.propTypes = {
   activeRoute: PropTypes.bool,
   attached: PropTypes.number,
   className: PropTypes.string,

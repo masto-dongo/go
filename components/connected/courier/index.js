@@ -68,12 +68,7 @@ class Courier extends React.PureComponent {
   //  Rendering.
   render () {
     const {
-      activeRoute,
       className,
-      history,
-      rehash,
-      ℳ,
-      '💪': handler,
       '🏪': {
         isLoading,
         notifications,
@@ -110,12 +105,12 @@ Courier.propTypes = {
   history: PropTypes.object,
   rehash: PropTypes.func,
   ℳ: PropTypes.func,
-  '💪': PropTypes.objectOf(PropTypes.func).isRequired,
   '🏪': PropTypes.shape({
     isLoading: PropTypes.bool,
     notifications: ImmutablePropTypes.list,
     settings: ImmutablePropTypes.map,
   }).isRequired,
+  '💪': PropTypes.objectOf(PropTypes.func).isRequired,
 };
 
 //  * * * * * * *  //

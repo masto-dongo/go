@@ -90,12 +90,8 @@ class Catalogue extends React.PureComponent {
   //  Rendering.
   render () {
     const {
-      activeRoute,
       className,
       history,
-      path,
-      rehash,
-      ℳ,
       '🏪': {
         accounts,
         isLoading,

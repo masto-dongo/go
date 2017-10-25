@@ -118,11 +118,17 @@ class Preview extends React.PureComponent {
 Preview.propTypes = {
   activeRoute: PropTypes.bool,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
   history: PropTypes.object,
   inReplyTo: PropTypes.string,
   media: PropTypes.array,
+  onClear: PropTypes.func,
+  onMediaRemove: PropTypes.func,
   onSensitive: PropTypes.func,
+  onSpoiler: PropTypes.func,
   onSubmit: PropTypes.func,
+  onText: PropTypes.func,
+  onUpload: PropTypes.func,
   onVisibility: PropTypes.func,
   rehash: PropTypes.func,
   sensitive: PropTypes.bool,
@@ -141,7 +147,7 @@ var ConnectedPreview = connect(
 
   //  Store.
   createStructuredSelector({
-    store => store.getIn(['meta', 'me']),
+    me: store => store.getIn(['meta', 'me']),
   }),
 
   //  Messages.

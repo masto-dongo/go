@@ -45,8 +45,6 @@ import { CARD_TYPE } from 'themes/mastodon-go/util/constants';
 //  Component definition.
 function Card ({
   className,
-  id,
-  ℳ,
   '🏪': {
     author,
     description,
@@ -57,7 +55,6 @@ function Card ({
     title,
     type,
   },
-  '💪': handler,
 }) {
   const computedClass = classNames('MASTODON_GO--CONNECTED--CARD', className);
 

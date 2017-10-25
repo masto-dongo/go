@@ -67,7 +67,6 @@ class Reference extends React.PureComponent {
         title,
         username,
       },
-      '💪': handler,
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--REFERENCE', {
       attachment,

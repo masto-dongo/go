@@ -274,7 +274,6 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
       className,
       disabled,
       emoji,
-      onChange,
       value,
       ℳ,
     } = this.props;
