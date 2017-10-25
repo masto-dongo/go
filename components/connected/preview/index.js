@@ -2,7 +2,6 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
@@ -23,6 +22,7 @@ class Preview extends React.PureComponent {
   //  Constructor.
   constructor (props) {
     super(props);
+    const { spoiler } = this.props;
 
     //  State.
     this.state = { contentVisible: !spoiler };
@@ -72,7 +72,6 @@ class Preview extends React.PureComponent {
       visibility,
       ℳ,
       '🏪': { me },
-      '💪': handler,
     } = this.props;
     const { contentVisible } = this.state;
     const computedClass = classNames('MASTODON_GO--CONNECTED--PREVIEW', className);

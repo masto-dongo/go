@@ -19,7 +19,7 @@ export default class ConnectedPreviewControls extends React.PureComponent {
     this.handleSubmit = handleSubmit.bind(this);
   }
 
-  handleSubmit (e) {
+  handleSubmit () {
     const {
       activeRoute,
       onSubmit,
@@ -35,11 +35,8 @@ export default class ConnectedPreviewControls extends React.PureComponent {
     const { handleSubmit } = this;
     const {
       activeRoute,
-      attached,
       className,
       history,
-      onSubmit,
-      rehash,
       ℳ,
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--PREVIEW--CONTROLS', className);
@@ -62,7 +59,6 @@ export default class ConnectedPreviewControls extends React.PureComponent {
 
 ConnectedPreviewControls.propTypes = {
   activeRoute: PropTypes.bool,
-  attached: PropTypes.number,
   className: PropTypes.string,
   history: PropTypes.object,
   onSubmit: PropTypes.func,

@@ -96,7 +96,6 @@ class Catalogue extends React.PureComponent {
         accounts,
         isLoading,
       },
-      '💪': handler,
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--CATALOGUE', className);
 
