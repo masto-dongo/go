@@ -24,7 +24,7 @@ export default class RawPaneller extends React.Component {  //  Impure
     } = Object.getPrototypeOf(this);
     this.getPassableProps = getPassableProps.bind(this);
     this.setHash = setHash.bind(this);
-    this.clicks = [setHash.bind(this, '#')].concat((typeof menu === 'function' ? menu(getPassableProps()) : menu || []).map(
+    this.clicks = [setHash.bind(this, '#')].concat((typeof menu === 'function' ? menu(getPassableProps.call(this)) : menu || []).map(
       item => setHash.bind(this, item.hash)
     ));
   }
