@@ -19,46 +19,47 @@ export default class ConnectedComposerControls extends React.PureComponent {
 
   constructor (props) {
     super(props);
+    const { rehash } = this.props;
 
     //  State.
     this.state = { quickMode: false };
 
     //  Function binding.
     const {
-      handleEvent,
-      handlePreview,
+      handleCtrl,
+      handleSubmit,
     } = Object.getPrototypeOf(this);
-    this.handleEvent = handleEvent.bind(this);
-    this.handlePreview = handlePreview.bind(this);
+    this.handleCtrl = handleEvent.bind(this);
+    this.handlePreview = rehash.bind(this, '#preview');
+    this.handleSubmit = handleSubmit.bind(this);
   }
 
   componentWillMount () {
-    const { handleEvent } = this;
-    DOMListen('mousemove', handleEvent);
-    document.body.addEventListener('keydown', handleEvent, false);
-    document.body.addEventListener('keyup', handleEvent, false);
+    const { handleCtrl } = this;
+    DOMListen('mousemove', handleCtrl);
+    document.body.addEventListener('keydown', handleCtrl, false);
+    document.body.addEventListener('keyup', handleCtrl, false);
   }
 
   componentWillUnmount () {
-    const { handleEvent } = this;
-    DOMForget('mousemove', handleEvent);
-    document.body.removeEventListener('keydown', handleEvent, false);
-    document.body.removeEventListener('keyup', handleEvent, false);
+    const { handleCtrl } = this;
+    DOMForget('mousemove', handleCtrl);
+    document.body.removeEventListener('keydown', handleCtrl, false);
+    document.body.removeEventListener('keyup', handleCtrl, false);
   }
 
-  handleEvent (e) {
-    if (e.shiftKey) {
+  handleCtrl (e) {
+    if (e.ctrlKey) {
       this.setState({ quickMode: true });
     } else {
       this.setState({ quickMode: false });
     }
   }
 
-  handlePreview () {
-    const { rehash } = this.props;
-    if (rehash) {
-      rehash('#preview');
-    }
+  handleSubmit (e) {
+    const { onSubmit } = this.props;
+    onSubmit();
+    e.preventDefault();  //  Important since this is a ctrl-click
   }
 
   render () {
@@ -68,23 +69,22 @@ export default class ConnectedComposerControls extends React.PureComponent {
       attached,
       className,
       history,
-      rehash,
       onSubmit,
+      rehash,
       ℳ,
-      ...rest
     } = this.props;
     const { quickMode } = this.state;
     const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER--CONTROLS', className);
+    const handleClick = quickMode ? onSubmit : handlePreview;
 
     return (
-      <div
-        className={computedClass}
-        {...rest}
-      >
+      <div className={computedClass}>
         <CommonButton
-          onClick={quickMode ? onSubmit : handlePreview}
+          history={history}
+          href={!quickMode && activeRoute ? '#preview' : null}
           icon={quickMode ? 'paper-plane' : 'paper-plane-o'}
-          title={quickMode ? ℳ.quick : ℳ.publish}
+          onClick={quickMode || !activeRoute ? handleClick : null}
+          title={quickMode ? ℳ.quick : ℳ.preview}
           showTitle
         >{attached ? <span class='attached'>{attached}</span> : null}</CommonButton>
       </div>

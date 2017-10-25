@@ -52,7 +52,10 @@
       line-height: 1;
       text-align: left;
 
-      &:hover { color: $mastodon_go_content_active }
+      &:hover:not(.disabled) {
+        color: $mastodon_go_content_active;
+        background: transparent;
+      }
     }
   }
 }

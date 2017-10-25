@@ -44,7 +44,6 @@ import {
 //  Other imports
 import connect from 'themes/mastodon-go/util/connect';
 import { POST_TYPE } from 'themes/mastodon-go/util/constants';
-import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 //  * * * * * * * //
 
@@ -80,7 +79,6 @@ class Courier extends React.PureComponent {
         notifications,
         settings,
       },
-      ...rest
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--COURIER', className);
 
@@ -88,7 +86,6 @@ class Courier extends React.PureComponent {
       <CommonList
         className={computedClass}
         isLoading={isLoading}
-        {...rest}
       >
         {notifications ? notifications.reduce(
           (items, id) => items.push(

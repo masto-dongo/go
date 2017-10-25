@@ -277,7 +277,6 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
       onChange,
       value,
       ℳ,
-      ...rest
     } = this.props;
 
     const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER--TEXT_AREA', {
@@ -362,7 +361,6 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         onBlur={handleEvent}
         ref={handleRef}
         tabIndex='0'
-        {...rest}
       />
     );
   }

@@ -46,7 +46,6 @@ export default function ConnectedAttachmentImage ({
   targetWidth,
   width,
   ℳ,
-  ...rest
 }) {
   const computedClass = classNames('MASTODON_GO--CONNECTED--ATTACHMENT--IMAGE', className);
   let srcSet;
@@ -69,7 +68,6 @@ export default function ConnectedAttachmentImage ({
       href={href || src}
       onClick={onClick}
       title={ℳ.imageExpand}
-      {...rest}
     >
       <img
         alt={description}

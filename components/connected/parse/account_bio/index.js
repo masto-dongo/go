@@ -38,7 +38,6 @@ export default function ConnectedParseAccountBio ({
   className,
   metadata,
   text,
-  ...rest
 }) {
   const computedClass = classNames('MASTODON_GO--CONNECTED--PARSE--ACCOUNT_BIO', className);
 
@@ -91,10 +90,7 @@ export default function ConnectedParseAccountBio ({
 
   //  Finally, we can render the bio.
   return (
-    <div
-      className={computedClass}
-      {...rest}
-    >{bio}</div>
+    <div className={computedClass}>{bio}</div>
   );
 };
 

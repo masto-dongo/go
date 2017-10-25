@@ -38,16 +38,12 @@ import './style.scss';
 export default function ConnectedParseAccountBioParagraph ({
   className,
   text,
-  ...rest
 }) {
   const computedClass = classNames('MASTODON_GO--CONNECTED--PARSE--ACCOUNT_BIO--PARAGRAPH', className);
 
   //  Rendering.
   return (
-    <p
-      className={computedClass}
-      {...rest}
-    >
+    <p className={computedClass}>
       {
         text.split('\n').reduce(
           (pContents, line, lineNº, lines) => {

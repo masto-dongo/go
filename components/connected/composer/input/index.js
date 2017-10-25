@@ -35,16 +35,12 @@ export default class ConnectedComposerInput extends React.PureComponent {
       onSensitive,
       onUpload,
       ℳ,
-      ...rest
     } = this.props;
     const { currentTab } = this.state;
     const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER--INPUT', { closed: !currentTab }, className);
 
     return (
-      <div
-        className={computedClass}
-        {...rest}
-      >
+      <div className={computedClass}>
         {function () {
           switch (currentTab) {
           default:

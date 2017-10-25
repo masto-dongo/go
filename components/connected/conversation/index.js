@@ -36,7 +36,6 @@ import { fetchConversation } from 'themes/mastodon-go/redux';
 
 //  Other imports
 import connect from 'themes/mastodon-go/util/connect';
-import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 //  * * * * * * * //
 
@@ -73,15 +72,11 @@ class Conversation extends React.PureComponent {
       ℳ,
       '🏪': { statuses },
       '💪': handler,
-      ...rest
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--CONVERSATION', className);
 
     return (
-      <CommonList
-        className={computedClass}
-        {...rest}
-      >
+      <CommonList className={computedClass}>
         {statuses ? statuses.reduce(
           (items, statusId) => items.push(
             <ConnectedStatus

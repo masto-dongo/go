@@ -148,7 +148,6 @@ export default class ConnectedAttachmentVideo extends React.PureComponent {
       preview,
       src,
       ℳ,
-      ...rest
     } = this.props;
     const {
       hasAudio,
@@ -191,10 +190,7 @@ export default class ConnectedAttachmentVideo extends React.PureComponent {
     //  button. This is okay wrt the video element because it doesn't
     //  have controls.
     return (
-      <div
-        className={computedClass}
-        {...rest}
-      >
+      <div className={computedClass}>
         <CommonButton
           href={href || src}
           key='box'

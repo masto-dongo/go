@@ -21,7 +21,6 @@ import './style.scss';
 
 import connect from 'themes/mastodon-go/util/connect';
 import { POST_TYPE } from 'themes/mastodon-go/util/constants';
-import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 class Timeline extends React.PureComponent {
 
@@ -89,7 +88,6 @@ class Timeline extends React.PureComponent {
         statuses,
       },
       '💪': handler,
-      ...rest
     } = this.props;
     const { currentDetail } = this.state;
     const computedClass = classNames('MASTODON_GO--CONNECTED--TIMELINE', className);
@@ -98,7 +96,6 @@ class Timeline extends React.PureComponent {
       <CommonList
         className={computedClass}
         isLoading={isLoading}
-        {...rest}
       >
         {
           statuses ? statuses.reduce(function (items, status) {

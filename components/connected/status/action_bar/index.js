@@ -63,7 +63,6 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
       onDetail,
       visibility,
       ℳ,
-      ...rest
     } = this.props;
 
     const computedClass = classNames('MASTODON_GO--CONNECTED--STATUS--ACTION_BAR', { detailed }, className);
@@ -84,10 +83,7 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
 
     //  Now we can render the component.
     return (
-      <div
-        className={computedClass}
-        {...rest}
-      >
+      <div className={computedClass}>
         <CommonButton
           disabled={anonymousAccess}
           title={replyTitle}

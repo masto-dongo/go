@@ -76,7 +76,6 @@ export default class ConnectedAttachmentGifv extends React.PureComponent {
       preview,
       src,
       ℳ,
-      ...rest
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--ATTACHMENT--GIFV', className);
 
@@ -89,7 +88,6 @@ export default class ConnectedAttachmentGifv extends React.PureComponent {
         href={href || src}
         onClick={onClick}
         title={ℳ.expand}
-        {...rest}
       >
         <video
           autoPlay={autoplay}

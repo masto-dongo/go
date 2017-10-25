@@ -25,7 +25,6 @@ import './style.scss';
 //  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
 import { Emojifier } from 'themes/mastodon-go/util/emojify';
-import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 class Composer extends React.PureComponent {
 
@@ -69,15 +68,11 @@ class Composer extends React.PureComponent {
       ℳ,
       '🏪': { me },
       '💪': handler,
-      ...rest
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER', className);
 
     return (
-      <div
-        className={computedClass}
-        {...rest}
-      >
+      <div className={computedClass}>
         <ConnectedAccount
           history={history}
           id={me}
@@ -189,10 +184,10 @@ var ConnectedComposer = connect(
       description: 'Label used for the composer text area',
       id: 'composer.label',
     },
-    publish: {
-      defaultMessage: 'Toot',
-      description: 'Used to label the toot button',
-      id: 'composer.publish',
+    preview: {
+      defaultMessage: 'Preview',
+      description: 'Used to label the toot preview button',
+      id: 'composer.preview',
     },
     quick: {
       defaultMessage: 'Quick toot',

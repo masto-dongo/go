@@ -32,7 +32,6 @@ import './style.scss';
 //  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
 import { MEDIA_TYPE } from 'themes/mastodon-go/util/constants';
-import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 //  * * * * * * *  //
 
@@ -69,7 +68,6 @@ class Reference extends React.PureComponent {
         username,
       },
       '💪': handler,
-      ...rest
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--REFERENCE', {
       attachment,
@@ -108,7 +106,6 @@ class Reference extends React.PureComponent {
           icon={icon}
           style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : {}}
           title={title || defaultTitle}
-          {...rest}
         />
       );
 
@@ -121,7 +118,6 @@ class Reference extends React.PureComponent {
           icon={'id-card-o'}
           style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : {}}
           title={title || ℳ.card}
-          {...rest}
         />
       );
 
@@ -135,7 +131,6 @@ class Reference extends React.PureComponent {
           history={history}
           href={href}
           title={title || '@' + at}
-          {...rest}
         >
           <code style={rainbow ? { color: rainbow.get('1') } : {}}>
             {showAt && username ? <span className='at'>@</span> : null}
@@ -154,7 +149,6 @@ class Reference extends React.PureComponent {
           history={history}
           href={href}
           title={ℳ.hashtag.withValues({ tagName })}
-          {...rest}
         >
           <b style={rainbow ? { color: rainbow.get('1') } : {}}>
             {showHash ? <span className='hash'>#</span> : null}
@@ -162,6 +156,8 @@ class Reference extends React.PureComponent {
           </b>
         </CommonLink>
       );
+
+    //  Otherwise, we don't return anything.
     default:
       return null;
     }

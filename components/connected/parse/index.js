@@ -44,7 +44,6 @@ import './style.scss';
 //  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
 import { Emojifier } from 'themes/mastodon-go/util/emojify';
-import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 //  * * * * * * *  //
 
@@ -91,7 +90,6 @@ class Parse extends React.PureComponent {
       ℳ,
       '🏪': store,
       '💪': handler,
-      ...rest
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--PARSE', className);
 
@@ -104,7 +102,6 @@ class Parse extends React.PureComponent {
           className={computedClass}
           metadata={metadata}
           text={text}
-          {...rest}
         />
       );
     case 'emoji':
@@ -113,7 +110,6 @@ class Parse extends React.PureComponent {
           className={computedClass}
           emoji={emoji}
           text={text}
-          {...rest}
         />
       );
     case 'status':
@@ -125,7 +121,6 @@ class Parse extends React.PureComponent {
           mentions={mentions}
           tags={tags}
           text={text}
-          {...rest}
         />
       );
     default:

@@ -44,7 +44,6 @@ import {
 
 //  Other imports
 import connect from 'themes/mastodon-go/util/connect';
-import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 //  * * * * * * *  //
 
@@ -102,7 +101,6 @@ class Catalogue extends React.PureComponent {
         isLoading,
       },
       '💪': handler,
-      ...rest
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--CATALOGUE', className);
 
@@ -110,7 +108,6 @@ class Catalogue extends React.PureComponent {
       <CommonList
         className={computedClass}
         isLoading={isLoading}
-        {...rest}
       >
         {accounts ? accounts.reduce(
           (items, id) => items.push(

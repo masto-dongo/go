@@ -110,6 +110,11 @@
       margin: 0 0 0 1ex;
     }
 
+    &.active {
+      color: $mastodon_go_content_button_text;
+      background-color: $mastodon_go_content_button_active;
+    }
+
     //  For links, we consider them disabled if they don't have an `href`
     //  attribute (see JS).
     &.disabled {
@@ -120,6 +125,7 @@
 
     &:focus:not(.disabled),
     &:hover:not(.disabled) {
+      color: $mastodon_go_content_button_text;
       background-color: $mastodon_go_content_button_hover;
       transition: background-color ($mastodon_go_animation_speed * .15s) ease-out;
     }

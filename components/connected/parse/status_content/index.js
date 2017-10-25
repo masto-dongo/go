@@ -51,24 +51,21 @@ export default function ConnectedParseStatusContent ({
   //  Most of our processing actually takes place in
   //  `<ParseStatusContentParagraph>`
   return (
-    <div
-      className={computedClass}
-      {...rest}
-    >{
-        text.split('\n\n').map(
-          (paragraph, index) => (
-            <ConnectedParseStatusContentParagraph
-              attachments={attachments}
-              card={card}
-              history={history}
-              key={index}
-              mentions={mentions}
-              tags={tags}
-              text={paragraph}
-            />
-          )
+    <div className={computedClass}>
+      {text.split('\n\n').map(
+        (paragraph, index) => (
+          <ConnectedParseStatusContentParagraph
+            attachments={attachments}
+            card={card}
+            history={history}
+            key={index}
+            mentions={mentions}
+            tags={tags}
+            text={paragraph}
+          />
         )
-     }</div>
+      )}
+    </div>
   );
 };
 

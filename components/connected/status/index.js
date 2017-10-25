@@ -52,7 +52,6 @@ import {
   POST_TYPE,
   VISIBILITY,
 } from 'themes/mastodon-go/util/constants';
-import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 //  * * * * * * *  //
 
@@ -212,7 +211,6 @@ class Status extends React.PureComponent {
         visibility,
       },
       '💪': handler,
-      ...rest
     } = this.props;
     const { contentVisible } = this.state;
 
@@ -247,10 +245,10 @@ class Status extends React.PureComponent {
           id={containerId || id}
           observer={observer}
           searchText={searchText}
-          {...rest}
         >
           <ConnectedAccount
             comrade={comrade}
+            history={history}
             id={account}
             small
           />
@@ -280,7 +278,6 @@ class Status extends React.PureComponent {
         id={containerId || id}
         observer={observer}
         searchText={searchText}
-        {...rest}
       >
         <ConnectedStatusPrepend
           comrade={comrade || inReplyTo && inReplyTo.get('account')}

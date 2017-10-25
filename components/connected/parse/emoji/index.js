@@ -35,7 +35,6 @@ export default function ConnectedParseEmoji ({
   className,
   emoji,
   text,
-  ...rest
 }) {
   const computedClass = classNames('MASTODON_GO--CONNECTED--PARSE--EMOJI', className);
 
@@ -104,10 +103,7 @@ export default function ConnectedParseEmoji ({
 
   //  We can now put our `result` in a `<span>` and return the result.
   return (
-    <span
-      className={computedClass}
-      {...rest}
-    >{result}</span>
+    <span className={computedClass}>{result}</span>
   );
 }
 

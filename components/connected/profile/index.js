@@ -19,7 +19,6 @@ import {
 import './style.scss';
 
 import connect from 'themes/mastodon-go/util/connect';
-import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 class Profile extends React.PureComponent {
 
@@ -74,15 +73,11 @@ class Profile extends React.PureComponent {
         rainbow,
       },
       '💪': handler,
-      ...rest
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--PROFILE', className);
 
     return (
-      <article
-        className={computedClass}
-        {...rest}
-      >
+      <article className={computedClass}>
         <header style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : {}}>
           {header ? (
             <CommonImage

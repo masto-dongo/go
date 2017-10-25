@@ -35,7 +35,7 @@ import './style.scss';
 //  The component
 //  -------------
 
-export default class StatusContent extends React.PureComponent {
+export default class ConnectedStatusContent extends React.PureComponent {
 
   //  Props and state.
   static propTypes = {
@@ -133,7 +133,6 @@ export default class StatusContent extends React.PureComponent {
       spoiler,
       tags,
       ℳ,
-      ...rest
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--STATUS--CONTENT', {
       actionable: !detailed && onClick,
@@ -190,10 +189,7 @@ export default class StatusContent extends React.PureComponent {
 
       //  Component rendering.
       return (
-        <div
-          className={computedClass}
-          {...rest}
-        >
+        <div className={computedClass}>
           <p
             className='spoiler'
             {...(onClick ? {
@@ -226,6 +222,7 @@ export default class StatusContent extends React.PureComponent {
               } : {})}
             >
               <ConnectedParse
+                history={history}
                 text={content}
                 type='status'
               />
@@ -238,10 +235,7 @@ export default class StatusContent extends React.PureComponent {
     //  Non-spoiler statuses.
     } else {
       return (
-        <div
-          className={computedClass}
-          {...rest}
-        >
+        <div className={computedClass}>
           <div className='contents'>
             <div
               className='text'

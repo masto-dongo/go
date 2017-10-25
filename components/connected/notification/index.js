@@ -48,7 +48,6 @@ import './style.scss';
 //  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
 import { POST_TYPE } from 'themes/mastodon-go/util/constants';
-import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 //  * * * * * * *  //
 
@@ -68,7 +67,6 @@ function Notification ({
     type,
   },
   '💪': handler,
-  ...rest
 }) {
   const computedClass = classNames('MASTODON_GO--CONNECTED--NOTIFICATION', className);
 
@@ -88,7 +86,6 @@ function Notification ({
         id={status}
         observer={observer}
         type={type}
-        {...rest}
       />
     );
   }
@@ -101,7 +98,6 @@ function Notification ({
       id={account}
       observer={observer}
       type={type}
-      {...rest}
     />
   );
 }

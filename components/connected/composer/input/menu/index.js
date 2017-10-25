@@ -42,14 +42,12 @@ export default class ConnectedComposerInputMenu extends React.PureComponent {
       onChange,
       value,
       ℳ,
-      ...rest
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER--INPUT--MENU', className);
     return (
       <div
         className={computedClass}
         role='tablist'
-        {...rest}
       >
         <CommonButton
           active={value === 0}

@@ -67,7 +67,6 @@ import {
   POST_TYPE,
   RELATIONSHIP,
 } from 'themes/mastodon-go/util/constants';
-import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 //  * * * * * * *  //
 
@@ -93,7 +92,6 @@ function Account ({
     relationship,
   },
   '💪': handler,
-  ...rest
 }) {
   const computedClass = classNames('MASTODON_GO--CONNECTED--ACCOUNT', { small }, className);
 
@@ -108,7 +106,6 @@ function Account ({
       id={containerId || id}
       observer={observer}
       searchText={displayName + '\n@' + at}
-      {...rest}
     >
       <ConnectedAvatar
         account={id}

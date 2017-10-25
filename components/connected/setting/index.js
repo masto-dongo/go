@@ -17,7 +17,6 @@ import {
 import './style.scss';
 
 import connect from 'themes/mastodon-go/util/connect';
-import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 //  * * * * * * *  //
 
@@ -70,7 +69,6 @@ class Setting extends React.PureComponent {
       ℳ,
       '💪': handler,
       '🏪': { value },
-      ...rest
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--SETTING', {
       active: value,
@@ -115,18 +113,12 @@ class Setting extends React.PureComponent {
     //  If we have children and this is an `'input'`, we create a
     //  `<label>`. If not, we use `<span>`.
     return children && type === 'input' ? (
-      <label
-        className={computedClass}
-        {...rest}
-      >
+      <label className={computedClass}>
         {component}
         {children}
       </label>
     ) : (
-      <span
-        className={computedClass}
-        {...rest}
-      >
+      <span className={computedClass}>
         {children}
         {component}
       </span>

@@ -9,11 +9,7 @@
   padding: 0 .75em .625em;
   cursor: default;
 
-  & > .MASTODON_GO--CONNECTED--ACCOUNT {
-    margin: 0 -.75em;
-  }
-
-  & + .MASTODON_GO--CONNECTED--STATUS {
-    border-top: 1px $mastodon_go_content_border solid;
-  }
+  &.detailed { background-color: $mastodon_go_content_highlight }
+  & > .MASTODON_GO--CONNECTED--ACCOUNT.small { margin: 0 -.75em }
+  & + .MASTODON_GO--CONNECTED--STATUS { border-top: 1px $mastodon_go_content_border solid }
 }

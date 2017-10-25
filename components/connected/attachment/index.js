@@ -35,7 +35,6 @@ import './style.scss';
 //  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
 import { MEDIA_TYPE } from 'themes/mastodon-go/util/constants';
-import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 //  * * * * * * *  //
 
@@ -75,7 +74,6 @@ class Attachment extends React.PureComponent {
         width,
       },
       '💪': handler,
-      ...rest
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--ATTACHMENT', className);
 
@@ -94,7 +92,6 @@ class Attachment extends React.PureComponent {
           targetWidth={targetWidth}
           width={width}
           ℳ={ℳ}
-          {...rest}
         />
       );
     case MEDIA_TYPE.GIFV:
@@ -107,7 +104,6 @@ class Attachment extends React.PureComponent {
           preview={preview}
           src={src}
           ℳ={ℳ}
-          {...rest}
         />
       );
     case MEDIA_TYPE.VIDEO:
@@ -120,7 +116,6 @@ class Attachment extends React.PureComponent {
           preview={preview}
           src={src}
           ℳ={ℳ}
-          {...rest}
         />
       );
     default:

@@ -36,7 +36,6 @@ import './style.scss';
 //  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
 import { CARD_TYPE } from 'themes/mastodon-go/util/constants';
-import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 //  * * * * * * *  //
 
@@ -59,7 +58,6 @@ function Card ({
     type,
   },
   '💪': handler,
-  ...rest
 }) {
   const computedClass = classNames('MASTODON_GO--CONNECTED--CARD', className);
 
@@ -154,10 +152,7 @@ function Card ({
 
   //  Putting the pieces together and returning.
   return (
-    <figure
-      className={computedClass}
-      {...rest}
-    >
+    <figure className={computedClass}>
       {media}
       {text}
       {caption}

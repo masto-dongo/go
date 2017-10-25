@@ -30,7 +30,6 @@ import './style.scss';
 
 //  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
-import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
 //  * * * * * * *  //
 
@@ -52,7 +51,6 @@ function Avatar ({
     comradeSrc,
   },
   '💪': handler,
-  ...rest
 }) {
   const computedClass = classNames('MASTODON_GO--CONNECTED--AVATAR', {
     circular: circular,
@@ -60,10 +58,7 @@ function Avatar ({
 
   //  Avatars are a straightforward div with image(s) inside.
   return comrade ? (
-    <div
-      className={computedClass}
-      {...rest}
-    >
+    <div className={computedClass}>
       <CommonImage
         autoplay={autoplay}
         animatedSrc={accountSrc.get('original')}
@@ -80,10 +75,7 @@ function Avatar ({
       />
     </div>
   ) : (
-    <div
-      className={computedClass}
-      {...rest}
-    >
+    <div className={computedClass}>
       <CommonImage
         autoplay={autoplay}
         animatedSrc={accountSrc.get('original')}
