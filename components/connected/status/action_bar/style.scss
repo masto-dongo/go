@@ -16,15 +16,16 @@
   white-space: nowrap;
 
   &.detailed {
-    display: table;
     margin: .3125em 0;
-    border-collapse: collapse;
+    height: auto;
 
     & > .MASTODON_GO--COMMON--BUTTON {
-      display: table-cell;
+      display: inline-block;
+      box-sizing: border-box;
       margin: 0;
       border: none;
       padding: .3125em .5em;
+      width: 25%;
 
       & + .MASTODON_GO--COMMON--BUTTON {
         border-left: 1px $mastodon_go_content_border solid;

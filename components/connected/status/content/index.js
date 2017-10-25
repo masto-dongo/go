@@ -179,6 +179,7 @@ export default class StatusContent extends React.PureComponent {
       const mentionLinks = mentions.map(
         mention => (
           <ConnectedReference
+            history={history}
             mention={mention.get('id')}
             showAt
           />
@@ -250,6 +251,7 @@ export default class StatusContent extends React.PureComponent {
               } : {})}
             >
               <ConnectedParse
+                history={history}
                 text={content}
                 type='status'
               />

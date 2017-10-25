@@ -288,6 +288,7 @@ class Status extends React.PureComponent {
         />
         <ConnectedAccount
           comrade={comrade}
+          history={history}
           id={account}
           small
         />

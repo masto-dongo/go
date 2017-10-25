@@ -12,9 +12,13 @@
   white-space: nowrap;
 
   & > .MASTODON_GO--COMMON--LINK {
-    &:hover {
+    &[href]:hover {
       text-decoration: underline;
     }
+  }
+
+  & > .MASTODON_GO--COMMMON--ICON {
+    color: $mastodon_go_content_alternate;
   }
 
   &:not(.detailed) {
