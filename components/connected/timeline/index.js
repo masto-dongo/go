@@ -105,8 +105,8 @@ class Timeline extends React.PureComponent {
             (items, id) => items.push(
               <ConnectedStatus
                 detailed={currentDetail === id}
-                filterRegex={settings.getIn(['regex', 'body'])}
-                hideIf={(settings.getIn(['shows', 'reblog']) && POST_TYPE.IS_REBLOG) | (settings.getIn(['shows', 'reply']) && POST_TYPE.IS_MENTION)}
+                filterRegex={settings ? settings.getIn(['regex', 'body']) : null}
+                hideIf={settings ? (settings.getIn(['shows', 'reblog']) && POST_TYPE.IS_REBLOG) | (settings.getIn(['shows', 'reply']) && POST_TYPE.IS_MENTION) : null}
                 id={id}
                 key={id}
                 setDetail={handleDetail}
