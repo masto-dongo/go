@@ -154,70 +154,65 @@ Attachment.propTypes = {
 //  Connecting
 //  ----------
 
-var ConnectedAttachment;
+var ConnectedAttachment = connect(
 
-//  Building our store.
-moduleOnReady(function () {
-  ConnectedAttachment = connect(
+  //  Component.
+  Attachment,
 
-    //  Component.
-    Attachment,
+  //  Store.
+  createStructuredSelector({
+    autoplay: state => state.getIn(['meta', 'autoplay']),
+    description: (state, { id }) => state.getIn(['attachment', id, 'description']),
+    height: (state, { id }) => state.getIn(['attachment', id, 'height']),
+    href: (state, { id }) => state.getIn([
+      'attachment', id, 'src', 'remote',
+    ]),
+    preview: (state, { id }) => state.getIn(['attachment', id, 'preview']),
+    src: (state, { id }) => state.getIn([
+      'attachment', id, 'src', 'local',
+    ]),
+    type: (state, { id }) => state.getIn(['attachment', id, 'type']),
+    width: (state, { id }) => state.getIn(['attachment', id, 'width']),
+  }),
 
-    //  Store.
-    createStructuredSelector({
-      autoplay: state => state.getIn(['meta', 'autoplay']),
-      description: (state, { id }) => state.getIn(['attachment', id, 'description']),
-      height: (state, { id }) => state.getIn(['attachment', id, 'height']),
-      href: (state, { id }) => state.getIn([
-        'attachment', id, 'src', 'remote',
-      ]),
-      preview: (state, { id }) => state.getIn(['attachment', id, 'preview']),
-      src: (state, { id }) => state.getIn([
-        'attachment', id, 'src', 'local',
-      ]),
-      type: (state, { id }) => state.getIn(['attachment', id, 'type']),
-      width: (state, { id }) => state.getIn(['attachment', id, 'width']),
-    }),
-
-    //  Messages.
-    defineMessages({
-      imageExpand: {
-        defaultMessage: 'Expand image',
-        description: 'Displayed as the label for an image or gifv',
-        id: 'attachment.expand',
-      },
-      videoError: {
-        defaultMessage: 'Video could not be played',
-        description: 'Displayed when there is an error loading a video',
-        id: 'attachment.video_error',
-      },
-      videoExpand: {
-        defaultMessage: 'Expand video',
-        description: 'Displayed as the label for a loaded video',
-        id: 'attachment.videoExpand',
-      },
-      videoMute: {
-        defaultMessage: 'Toggle sound',
-        description: 'Displayed as the label for the mute button',
-        id: 'attachment.videoMute',
-      },
-      videoOpen: {
-        defaultMessage: 'Open video',
-        description: 'Displayed as the label for an unloaded video',
-        id: 'attachment.videoOpen',
-      },
-      videoPause: {
-        defaultMessage: 'Pause video',
-        description: 'Displayed as the label for the pause button',
-        id: 'attachment.videoPause',
-      },
-      videoPlay: {
-        defaultMessage: 'Play video',
-        description: 'Displayed as the label for the play button',
-        id: 'attachment.videoPlay',
-      },
-    })
-  );
-});
+  //  Messages.
+  defineMessages({
+    imageExpand: {
+      defaultMessage: 'Expand image',
+      description: 'Displayed as the label for an image or gifv',
+      id: 'attachment.expand',
+    },
+    videoError: {
+      defaultMessage: 'Video could not be played',
+      description: 'Displayed when there is an error loading a video',
+      id: 'attachment.video_error',
+    },
+    videoExpand: {
+      defaultMessage: 'Expand video',
+      description: 'Displayed as the label for a loaded video',
+      id: 'attachment.videoExpand',
+    },
+    videoMute: {
+      defaultMessage: 'Toggle sound',
+      description: 'Displayed as the label for the mute button',
+      id: 'attachment.videoMute',
+    },
+    videoOpen: {
+      defaultMessage: 'Open video',
+      description: 'Displayed as the label for an unloaded video',
+      id: 'attachment.videoOpen',
+    },
+    videoPause: {
+      defaultMessage: 'Pause video',
+      description: 'Displayed as the label for the pause button',
+      id: 'attachment.videoPause',
+    },
+    videoPlay: {
+      defaultMessage: 'Play video',
+      description: 'Displayed as the label for the play button',
+      id: 'attachment.videoPlay',
+    },
+  })
+);
 
 export { ConnectedAttachment as default };

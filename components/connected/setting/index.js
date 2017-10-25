@@ -158,34 +158,29 @@ Setting.propTypes = {
 //  Connecting
 //  ----------
 
-var ConnectedSetting;
+var ConnectedSetting = connect(
 
-//  Selector factory.
-moduleOnReady(function () {
-  ConnectedSetting = connect(
+  //  Component.
+  Setting,
 
-    //  Component.
-    Setting,
-
-    //  Store.
-    createStructuredSelector({
-      value: (state, {
-        global,
-        settingKey,
-      }) => state.getIn(['setting', global ? 'global' : 'local'].concat(settingKey)),
-    }),
-
-    //  Messages.
-    null,
-
-    //  Result.
-    (go, store, {
+  //  Store.
+  createStructuredSelector({
+    value: (state, {
       global,
       settingKey,
-    }) => ({
-      change: value => go(changeSetting, settingKey, value, global),
-    })
-  );
-});
+    }) => state.getIn(['setting', global ? 'global' : 'local'].concat(settingKey)),
+  }),
+
+  //  Messages.
+  null,
+
+  //  Result.
+  (go, store, {
+    global,
+    settingKey,
+  }) => ({
+    change: value => go(changeSetting, settingKey, value, global),
+  })
+);
 
 export { ConnectedSetting as default };

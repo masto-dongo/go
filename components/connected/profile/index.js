@@ -166,60 +166,55 @@ Profile.propTypes = {
 
 //  * * * * * * *  //
 
-var ConnectedProfile;
+var ConnectedProfile = connect(
 
-//  Selector factory.
-moduleOnReady(function () {
-  ConnectedProfile = connect(
+  //  Component.
+  Profile,
 
-    //  Component.
-    Profile,
+  //  Store.
+  createStructuredSelector({
+    bio: (state, { id }) => state.getIn(['account', id, 'bio']),
+    counts: (state, { id }) => state.getIn(['account', id, 'counts']),
+    header: (state, { id }) => state.getIn(['account', id, 'header']),
+    href: (state, { id }) => state.getIn(['account', id, 'href']),
+    local: (state, { id }) => !state.getIn(['account', id, 'domain']),
+    rainbow: (state, { id }) => state.getIn(['account', id, 'rainbow']),
+    relationship: (state, { id }) => state.getIn(['relationship', id]),
+  }),
 
-    //  Store.
-    createStructuredSelector({
-      bio: (state, { id }) => state.getIn(['account', id, 'bio']),
-      counts: (state, { id }) => state.getIn(['account', id, 'counts']),
-      header: (state, { id }) => state.getIn(['account', id, 'header']),
-      href: (state, { id }) => state.getIn(['account', id, 'href']),
-      local: (state, { id }) => !state.getIn(['account', id, 'domain']),
-      rainbow: (state, { id }) => state.getIn(['account', id, 'rainbow']),
-      relationship: (state, { id }) => state.getIn(['relationship', id]),
-    }),
+  //  Messages.
+  defineMessages({
+    disclaimer: {
+      defaultMessage: 'Information below may reflect the user\'s profile incompletely.',
+      description: 'Shown when viewing a non-local account',
+      id: 'profile.disclaimer',
+    },
+    followers: {
+      defaultMessage: 'Followers',
+      description: 'Labels an account\'s followers count',
+      id: 'profile.followers',
+    },
+    follows: {
+      defaultMessage: 'Follows',
+      description: 'Labels an account\'s following count',
+      id: 'profile.follows',
+    },
+    posts: {
+      defaultMessage: 'Posts',
+      description: 'Labels an account\'s post count',
+      id: 'profile.posts',
+    },
+    view: {
+      defaultMessage: 'View full profile',
+      description: 'Labels a link for viewing a user\'s static profile page',
+      id: 'profile.view',
+    },
+  }),
 
-    //  Messages.
-    defineMessages({
-      disclaimer: {
-        defaultMessage: 'Information below may reflect the user\'s profile incompletely.',
-        description: 'Shown when viewing a non-local account',
-        id: 'profile.disclaimer',
-      },
-      followers: {
-        defaultMessage: 'Followers',
-        description: 'Labels an account\'s followers count',
-        id: 'profile.followers',
-      },
-      follows: {
-        defaultMessage: 'Follows',
-        description: 'Labels an account\'s following count',
-        id: 'profile.follows',
-      },
-      posts: {
-        defaultMessage: 'Posts',
-        description: 'Labels an account\'s post count',
-        id: 'profile.posts',
-      },
-      view: {
-        defaultMessage: 'View full profile',
-        description: 'Labels a link for viewing a user\'s static profile page',
-        id: 'profile.view',
-      },
-    }),
-
-    //  Handler.
-    (go, store, { id }) => ({
-      fetch: (newId = id) => go(fetchAccount, newId, true),
-    })
-  );
-});
+  //  Handler.
+  (go, store, { id }) => ({
+    fetch: (newId = id) => go(fetchAccount, newId, true),
+  })
+);
 
 export { ConnectedProfile as default };

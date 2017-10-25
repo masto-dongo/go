@@ -159,20 +159,15 @@ Parse.propTypes = {
 //  Connecting
 //  ----------
 
-var ConnectedParse;
+var ConnectedParse = connect(
 
-//  Building our store.
-moduleOnReady(function () {
-  ConnectedParse = connect(
+  //  Component.
+  Parse,
 
-    //  Component.
-    Parse,
-
-    //  Store.
-    createStructuredSelector({
-      emojos: state => state.get('emoji'),
-    })
-  );
-});
+  //  Store.
+  createStructuredSelector({
+    emojos: state => state.get('emoji'),
+  })
+);
 
 export { ConnectedParse as default };

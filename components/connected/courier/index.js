@@ -126,35 +126,30 @@ Courier.propTypes = {
 //  Connecting
 //  ----------
 
-var ConnectedCourier;
+var ConnectedCourier = connect(
 
-//  Building our store and handlers.
-moduleOnReady(function () {
-  ConnectedCourier = connect(
+  //  Component.
+  Courier,
 
-    //  Component.
-    Courier,
+  //  Store.
+  createStructuredSelector({
+    isLoading: state => state.getIn(['courier', 'isLoading']),
+    notifications: state => state.getIn(['courier', 'notifications']),
+    settings: (state, { column }) => column ? state.getIn(['setting', 'global', 'courier']) : null,
+  }),
 
-    //  Store.
-    createStructuredSelector({
-      isLoading: state => state.getIn(['courier', 'isLoading']),
-      notifications: state => state.getIn(['courier', 'notifications']),
-      settings: (state, { column }) => column ? state.getIn(['setting', 'global', 'courier']) : null,
-    }),
+  //  Messages.
+  null,
 
-    //  Messages.
-    null,
-
-    //  Handler.
-    go => ({
-      clear: () => go(clearNotification),
-      connect: () => go(connectCourier),
-      delete: ids => go(deleteNotification, ids),
-      expand: () => go(expandCourier),
-      fetch: () => go(fetchCourier),
-      refresh: () => go(refreshCourier),
-    })
-  );
-});
+  //  Handler.
+  go => ({
+    clear: () => go(clearNotification),
+    connect: () => go(connectCourier),
+    delete: ids => go(deleteNotification, ids),
+    expand: () => go(expandCourier),
+    fetch: () => go(fetchCourier),
+    refresh: () => go(refreshCourier),
+  })
+);
 
 export { ConnectedCourier as default };

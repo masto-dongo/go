@@ -115,28 +115,23 @@ Conversation.propTypes = {
 //  Connecting
 //  ----------
 
-var ConnectedConversation;
+var ConnectedConversation = connect(
 
-//  Building our store and handlers.
-moduleOnReady(function () {
-  ConnectedConversation = connect(
+  //  Component.
+  Conversation,
 
-    //  Component.
-    Conversation,
+  //  Store.
+  createStructuredSelector({
+    statuses: (state, { id }) => state.getIn(['conversation', id, 'statuses']),
+  }),
 
-    //  Store.
-    createStructuredSelector({
-      statuses: (state, { id }) => state.getIn(['conversation', id, 'statuses']),
-    }),
+  //  Messages.
+  null,
 
-    //  Messages.
-    null,
-
-    //  Handler.
-    (go, store, { id }) => ({
-      fetch: (newId = id) => go(fetchConversation, newId),
-    })
-  );
-});
+  //  Handler.
+  (go, store, { id }) => ({
+    fetch: (newId = id) => go(fetchConversation, newId),
+  })
+);
 
 export { ConnectedConversation as default };

@@ -158,60 +158,55 @@ Composer.propTypes = {
 //  Connecting
 //  ----------
 
-var ConnectedComposer;
+var ConnectedComposer = connect(
 
-//  Selector factory.
-moduleOnReady(function () {
-  ConnectedComposer = connect(
+  //  Component
+  Composer,
 
-    //  Component
-    Composer,
+  //  Store
+  createStructuredSelector({
+    emojos: state => state.get('emoji'),
+    me: state => state.getIn(['meta', 'me']),
+  }),
 
-    //  Store
-    createStructuredSelector({
-      emojos: state => state.get('emoji'),
-      me: state => state.getIn(['meta', 'me']),
-    }),
-
-    //  Messages
-    defineMessages({
-      attach: {
-        defaultMessage: 'Upload media',
-        description: 'Used to label the media input button',
-        id: 'composer.attach',
-      },
-      close: {
-        defaultMessage: 'Close',
-        description: 'Used to label the close button on the composer input section',
-        id: 'composer.close',
-      },
-      emoji: {
-        defaultMessage: 'Insert emoji',
-        description: 'Used to label the emoji input button',
-        id: 'composer.emoji',
-      },
-      label: {
-        defaultMessage: 'What\'s new?',
-        description: 'Label used for the composer text area',
-        id: 'composer.label',
-      },
-      publish: {
-        defaultMessage: 'Toot',
-        description: 'Used to label the toot button',
-        id: 'composer.publish',
-      },
-      quick: {
-        defaultMessage: 'Quick toot',
-        description: 'Used to label the toot button when quick tooting',
-        id: 'composer.quick',
-      },
-      spoiler: {
-        defaultMessage: 'Subject…',
-        description: 'Used as the placeholder for a spoiler',
-        id: 'composer.spoiler',
-      },
-    }),
-  );
-});
+  //  Messages
+  defineMessages({
+    attach: {
+      defaultMessage: 'Upload media',
+      description: 'Used to label the media input button',
+      id: 'composer.attach',
+    },
+    close: {
+      defaultMessage: 'Close',
+      description: 'Used to label the close button on the composer input section',
+      id: 'composer.close',
+    },
+    emoji: {
+      defaultMessage: 'Insert emoji',
+      description: 'Used to label the emoji input button',
+      id: 'composer.emoji',
+    },
+    label: {
+      defaultMessage: 'What\'s new?',
+      description: 'Label used for the composer text area',
+      id: 'composer.label',
+    },
+    publish: {
+      defaultMessage: 'Toot',
+      description: 'Used to label the toot button',
+      id: 'composer.publish',
+    },
+    quick: {
+      defaultMessage: 'Quick toot',
+      description: 'Used to label the toot button when quick tooting',
+      id: 'composer.quick',
+    },
+    spoiler: {
+      defaultMessage: 'Subject…',
+      description: 'Used as the placeholder for a spoiler',
+      id: 'composer.spoiler',
+    },
+  }),
+);
 
 export { ConnectedComposer as default };

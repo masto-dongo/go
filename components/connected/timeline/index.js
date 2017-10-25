@@ -126,37 +126,33 @@ class Timeline extends React.PureComponent {
 //  Connecting
 //  ----------
 
-var ConnectedTimeline;
+var ConnectedTimeline = connect(
 
-moduleOnReady(function () {
-  ConnectedTimeline = connect(
+  //  Component.
+  Timeline,
 
-    //  Component.
-    Timeline,
+  //  Store.
+  createStructuredSelector({
+    isLoading: (state, { path }) => state.getIn(['timeline', path, 'isLoading']),
+    settings: (state, { path }) => state.getIn([
+      'setting',
+      'global',
+      'timeline',
+      path,
+    ]),
+    statuses: (state, { path }) => state.getIn(['timeline', path, 'statuses']),
+  }),
 
-    //  Store.
-    createStructuredSelector({
-      isLoading: (state, { path }) => state.getIn(['timeline', path, 'isLoading']),
-      settings: (state, { path }) => state.getIn([
-        'setting',
-        'global',
-        'timeline',
-        path,
-      ]),
-      statuses: (state, { path }) => state.getIn(['timeline', path, 'statuses']),
-    }),
+  //  Messages.
+  null,
 
-    //  Messages.
-    null,
-
-    //  Handler.
-    (go, store, { path }) => ({
-      connect: (newPath = path) => go(connectTimeline, newPath),
-      expand: (newPath = path) => go(expandTimeline, newPath),
-      fetch: (newPath = path) => go(fetchTimeline, newPath),
-      refresh: (newPath = path) => go(refreshTimeline, newPath),
-    })
-  );
-});
+  //  Handler.
+  (go, store, { path }) => ({
+    connect: (newPath = path) => go(connectTimeline, newPath),
+    expand: (newPath = path) => go(expandTimeline, newPath),
+    fetch: (newPath = path) => go(fetchTimeline, newPath),
+    refresh: (newPath = path) => go(refreshTimeline, newPath),
+  })
+);
 
 export { ConnectedTimeline as default };

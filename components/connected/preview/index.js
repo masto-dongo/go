@@ -13,10 +13,6 @@ function Preview () {
   return null;
 }
 
-var ConnectedPreview;
-
-moduleOnReady(function () {
-  ConnectedPreview = connect(Preview);
-});
+var ConnectedPreview = connect(Preview);
 
 export { ConnectedPreview as default };

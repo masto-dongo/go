@@ -127,23 +127,18 @@ Notification.propTypes = {
 //  Connecting
 //  ----------
 
-var ConnectedNotificaton;
+var ConnectedNotificaton = connect(
 
-//  Building our store.
-moduleOnReady(function () {
-  ConnectedNotificaton = connect(
+  //  Component.
+  Notification,
 
-    //  Component.
-    Notification,
-
-    //  Store.
-    createStructuredSelector({
-      account: (state, { id }) => state.getIn(['notification', id, 'account']),
-      datetime: (state, { id }) => state.getIn(['notification', id, 'datetime']),
-      status: (state, { id }) => state.getIn(['notification', id, 'status']),
-      type: (state, { id }) => state.getIn(['notification', id, 'type']),
-    })
-  );
-});
+  //  Store.
+  createStructuredSelector({
+    account: (state, { id }) => state.getIn(['notification', id, 'account']),
+    datetime: (state, { id }) => state.getIn(['notification', id, 'datetime']),
+    status: (state, { id }) => state.getIn(['notification', id, 'status']),
+    type: (state, { id }) => state.getIn(['notification', id, 'type']),
+  })
+);
 
 export { ConnectedNotificaton as default };

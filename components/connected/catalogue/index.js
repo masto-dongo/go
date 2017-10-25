@@ -148,31 +148,26 @@ Catalogue.propTypes = {
 //  Connecting
 //  ----------
 
-var ConnectedCatalogue;
+var ConnectedCatalogue = connect(
 
-//  Building our store and handlers.
-moduleOnReady(function () {
-  ConnectedCatalogue = connect(
+  //  Component.
+  Catalogue,
 
-    //  Component.
-    Catalogue,
+  //  Store.
+  createStructuredSelector({
+    accounts: (state, { path }) => state.getIn(['catalogue', path, 'accounts']),
+    isLoading: (state, { path }) => state.getIn(['catalogue', path, 'isLoading']),
+  }),
 
-    //  Store.
-    createStructuredSelector({
-      accounts: (state, { path }) => state.getIn(['catalogue', path, 'accounts']),
-      isLoading: (state, { path }) => state.getIn(['catalogue', path, 'isLoading']),
-    }),
+  //  Messages.
+  null,
 
-    //  Messages.
-    null,
-
-    //  Handlers.
-    (go, store, { path }) => ({
-      expand: (newPath = path) => go(expandCatalogue, newPath),
-      fetch: (newPath = path) => go(fetchCatalogue, newPath),
-      refresh: (newPath = path) => go(refreshCatalogue, newPath),
-    })
-  );
-});
+  //  Handlers.
+  (go, store, { path }) => ({
+    expand: (newPath = path) => go(expandCatalogue, newPath),
+    fetch: (newPath = path) => go(fetchCatalogue, newPath),
+    refresh: (newPath = path) => go(refreshCatalogue, newPath),
+  })
+);
 
 export { ConnectedCatalogue as default };
