@@ -104,11 +104,11 @@ class Timeline extends React.PureComponent {
           statuses ? statuses.reduce(function (items, status) {
             items.push(
               <ConnectedStatus
-                detailed={currentDetail === status.get(['id'])}
+                detailed={currentDetail === status.get('id')}
                 filterRegex={settings ? settings.getIn(['regex', 'body']) : null}
                 hideIf={settings ? (settings.getIn(['shows', 'reblog']) && POST_TYPE.IS_REBLOG) | (settings.getIn(['shows', 'reply']) && POST_TYPE.IS_MENTION) : null}
-                id={status.get(['id'])}
-                key={status.get(['id'])}
+                id={status.get('id')}
+                key={status.get('id')}
                 setDetail={handleDetail}
               />
             );

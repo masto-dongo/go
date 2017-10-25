@@ -18,7 +18,7 @@ export default class CommonList extends React.PureComponent {
     onScrollToTop: PropTypes.func,
   };
 
-  observer = new Observer();
+  observer = new Observer;
   node = null;
   oldScrollPosition = 0;
 
@@ -89,9 +89,9 @@ export default class CommonList extends React.PureComponent {
 
   componentDidMount () {
     const {
-      observer,
       handleScroll,
       node,
+      observer,
     } = this;
     observer.connect({
       root: node,
@@ -140,9 +140,9 @@ export default class CommonList extends React.PureComponent {
 
   componentWillUnmount () {
     const {
-      observer,
       handleScroll,
       node,
+      observer,
     } = this;
     node.removeEventListener('scroll', handleScroll);
     observer.disconnect();
@@ -152,8 +152,8 @@ export default class CommonList extends React.PureComponent {
 
   render () {
     const {
-      Observer,
       handleKeyDown,
+      observer,
     } = this;
     const {
       children,
