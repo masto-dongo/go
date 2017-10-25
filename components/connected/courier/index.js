@@ -112,7 +112,7 @@ Courier.propTypes = {
   className: PropTypes.string,
   history: PropTypes.object,
   rehash: PropTypes.func,
-  ℳ: PropTypes.func.isRequired,
+  ℳ: PropTypes.func,
   '💪': PropTypes.objectOf(PropTypes.func).isRequired,
   '🏪': PropTypes.shape({
     isLoading: PropTypes.bool,

@@ -103,7 +103,6 @@ export default class RoutedUIColumn extends React.PureComponent {
               return (
                 <PanelledCourier
                   activeRoute={activeRoute}
-                  column
                   {...(activeRoute && hash ? { hash } : {})}
                   history={history}
                 />

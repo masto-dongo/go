@@ -117,7 +117,6 @@
       color: $mastodon_go_content_color;
       background-color: $mastodon_go_content_background;
       background-clip: padding-box;
-      overflow: hidden;
       transition: left (.45s * $mastodon_go_animation_speed) ease;
       z-index: 500;
 
