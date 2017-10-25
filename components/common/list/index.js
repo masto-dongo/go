@@ -18,7 +18,7 @@ export default class CommonList extends React.PureComponent {
     onScrollToTop: PropTypes.func,
   };
 
-  Observer = new Observer();
+  observer = new Observer();
   node = null;
   oldScrollPosition = 0;
 
@@ -89,11 +89,11 @@ export default class CommonList extends React.PureComponent {
 
   componentDidMount () {
     const {
-      Observer,
+      observer,
       handleScroll,
       node,
     } = this;
-    Observer.connect({
+    observer.connect({
       root: node,
       rootMargin: '300% 0px',
     });
@@ -140,12 +140,12 @@ export default class CommonList extends React.PureComponent {
 
   componentWillUnmount () {
     const {
-      Observer,
+      observer,
       handleScroll,
       node,
     } = this;
     node.removeEventListener('scroll', handleScroll);
-    Observer.disconnect();
+    observer.disconnect();
   }
 
   setRef = (c) => this.node = c;
@@ -178,7 +178,7 @@ export default class CommonList extends React.PureComponent {
         {
           React.Children.map(
             children,
-            child => child ? React.cloneElement(child, { observer: Observer }) : null
+            child => child ? React.cloneElement(child, { observer }) : null
           )
         }
       </div>

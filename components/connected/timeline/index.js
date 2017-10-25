@@ -101,8 +101,8 @@ class Timeline extends React.PureComponent {
         {...rest}
       >
         {
-          statuses ? statuses.reduce(
-            (items, status) => items.push(
+          statuses ? statuses.reduce(function (items, status) {
+            items.push(
               <ConnectedStatus
                 detailed={currentDetail === status.get(['id'])}
                 filterRegex={settings ? settings.getIn(['regex', 'body']) : null}
@@ -111,9 +111,9 @@ class Timeline extends React.PureComponent {
                 key={status.get(['id'])}
                 setDetail={handleDetail}
               />
-            ),
-            []
-          ) : null
+            );
+            return items;
+          }, []) : null
         }
       </CommonList>
     );
