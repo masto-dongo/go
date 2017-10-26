@@ -38,8 +38,23 @@
     }
   }
 
+  //  This is confusing becuase of the names, but the `color .3 ease-out`
+  //  transition is actually used when easing *in* to a hovering/active/
+  //  focusing state, and the default transition is used when leaving. Our
+  //  buttons are a little slower to glow than they are to fade.
+  &:focus,
+  &:hover {
+    color: $mastodon_go_content_button_hover;
+    transition: color ($mastodon_go_animation_speed * .3s) ease-out, outline-color ($mastodon_go_animation_speed * .15s) ease-in-out;
+  }
+
+  &:focus {
+    outline-color: currentColor;
+  }
+
   &.active {
     color: $mastodon_go_content_button_active;
+    transition: color ($mastodon_go_animation_speed * .3s) ease-out, outline-color ($mastodon_go_animation_speed * .15s) ease-in-out;
 
     &.animated > *.icon {
       animation-name: mastodon_go--common--button--activate;
@@ -68,25 +83,6 @@
     cursor: default;
   }
 
-  //  This is confusing becuase of the names, but the `color .3 ease-out`
-  //  transition is actually used when easing *in* to a hovering/active/
-  //  focusing state, and the default transition is used when leaving. Our
-  //  buttons are a little slower to glow than they are to fade.
-  &:focus:not(.disabled),
-  &:hover:not(.disabled) {
-    color: $mastodon_go_content_button_hover;
-    transition: color ($mastodon_go_animation_speed * .3s) ease-out, outline-color ($mastodon_go_animation_speed * .15s) ease-in-out;
-  }
-
-  &:focus:not(.disabled) {
-    outline-color: currentColor;
-  }
-
-  &:active {
-    color: $mastodon_go_content_button_active;
-    transition: color ($mastodon_go_animation_speed * .3s) ease-out, outline-color ($mastodon_go_animation_speed * .15s) ease-in-out;
-  }
-
   //  Buttons with text have a number of different styling rules and an
   //  overall different appearance.
   &.with_text {
@@ -113,6 +109,13 @@
       margin: 0 0 0 1ex;
     }
 
+    &:focus,
+    &:hover {
+      color: $mastodon_go_content_button_text;
+      background-color: $mastodon_go_content_button_hover;
+      transition: background-color ($mastodon_go_animation_speed * .15s) ease-out;
+    }
+
     &.active {
       color: $mastodon_go_content_button_text;
       background-color: $mastodon_go_content_button_active;
@@ -124,13 +127,6 @@
       color: $mastodon_go_content_button_text;
       background-color: $mastodon_go_content_disabled;
       cursor: default;
-    }
-
-    &:focus:not(.disabled),
-    &:hover:not(.disabled) {
-      color: $mastodon_go_content_button_text;
-      background-color: $mastodon_go_content_button_hover;
-      transition: background-color ($mastodon_go_animation_speed * .15s) ease-out;
     }
   }
 }

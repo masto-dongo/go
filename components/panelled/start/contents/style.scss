@@ -52,7 +52,8 @@
       line-height: 1;
       text-align: left;
 
-      &:hover:not(.disabled) {
+      &:focus,
+      &:hover {
         color: $mastodon_go_content_active;
         background: transparent;
       }

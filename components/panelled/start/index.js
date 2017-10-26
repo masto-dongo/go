@@ -38,9 +38,9 @@ moduleOnReady(function () {
         defaultMessage: 'About this instance',
         id: 'start.about',
       },
-      drawer: {
+      compose: {
         defaultMessage: 'Compose',
-        id: 'start.drawer',
+        id: 'start.compose',
       },
       courier: {
         defaultMessage: 'Notifications',
