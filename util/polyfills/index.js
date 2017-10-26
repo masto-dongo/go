@@ -1,5 +1,10 @@
 import 'intersection-observer';
 import 'requestidlecallback';
 
-export * from './CustomEvent';
-export * from './DOMParser';
+import CustomEvent from './CustomEvent';
+import DOMParser from './DOMParser';
+
+export {
+  CustomEvent,
+  DOMParser,
+};

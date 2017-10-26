@@ -49,7 +49,6 @@ class Composer extends React.PureComponent {
       activeRoute,
       className,
       disabled,
-      history,
       inReplyTo,
       media,
       onClear,
@@ -71,7 +70,6 @@ class Composer extends React.PureComponent {
     return (
       <div className={computedClass}>
         <ConnectedAccount
-          history={history}
           id={me}
           small
         />
@@ -103,7 +101,6 @@ class Composer extends React.PureComponent {
         <ConnectedComposerControls
           activeRoute={activeRoute}
           attached={media.length}
-          history={history}
           onSubmit={onSubmit}
           rehash={rehash}
           ℳ={ℳ}
@@ -116,10 +113,8 @@ class Composer extends React.PureComponent {
 
 //  Props.
 Composer.propTypes = {
-  activeRoute: PropTypes.bool,
   className: PropTypes.string,
   disabled: PropTypes.bool,
-  history: PropTypes.object,
   inReplyTo: PropTypes.string,
   media: PropTypes.array,
   onClear: PropTypes.func,

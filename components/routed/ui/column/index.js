@@ -27,7 +27,6 @@ export default class RoutedUIColumn extends React.PureComponent {
   static propTypes = {
     activeRoute: PropTypes.bool,
     className: PropTypes.string,
-    history: PropTypes.object,
     index: PropTypes.number.isRequired,
     location: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     media: PropTypes.array,
@@ -49,7 +48,6 @@ export default class RoutedUIColumn extends React.PureComponent {
     const {
       activeRoute,
       className,
-      history,
       index,
       location,
       media,
@@ -65,7 +63,6 @@ export default class RoutedUIColumn extends React.PureComponent {
       text,
       visibility,
       ℳ,
-      ...rest
     } = this.props;
 
     const computedClass = classNames('MASTODON_GO--ROUTED--UI--COLUMN', className);
@@ -89,8 +86,7 @@ export default class RoutedUIColumn extends React.PureComponent {
               return (
                 <PanelledStart
                   activeRoute={activeRoute}
-                  {...(activeRoute && hash ? { hash } : {})}
-                  history={history}
+                  hash={activeRoute ? hash : null}
                 />
               );
             }}
@@ -103,8 +99,7 @@ export default class RoutedUIColumn extends React.PureComponent {
               return (
                 <PanelledCourier
                   activeRoute={activeRoute}
-                  {...(activeRoute && hash ? { hash } : {})}
-                  history={history}
+                  hash={activeRoute ? hash : null}
                 />
               );
             }}
@@ -117,8 +112,7 @@ export default class RoutedUIColumn extends React.PureComponent {
               return (
                 <PanelledDrawer
                   activeRoute={activeRoute}
-                  {...(activeRoute && hash ? { hash } : {})}
-                  history={history}
+                  hash={activeRoute ? hash : null}
                   media={media}
                   onClear={onClear}
                   onMediaRemove={onMediaRemove}
@@ -142,8 +136,7 @@ export default class RoutedUIColumn extends React.PureComponent {
               return (
                 <PanelledTimeline
                   activeRoute={activeRoute}
-                  {...(activeRoute && hash ? { hash } : {})}
-                  history={history}
+                  hash={activeRoute ? hash : null}
                   icon='home'
                   path='/api/v1/timelines/home'
                   title={ℳ.home}
@@ -158,8 +151,7 @@ export default class RoutedUIColumn extends React.PureComponent {
               return (
                 <PanelledTimeline
                   activeRoute={activeRoute}
-                  {...(activeRoute && hash ? { hash } : {})}
-                  history={history}
+                  hash={activeRoute ? hash : null}
                   icon='globe'
                   path='/api/v1/timelines/public'
                   title={ℳ.global}
@@ -174,8 +166,7 @@ export default class RoutedUIColumn extends React.PureComponent {
               return (
                 <PanelledTimeline
                   activeRoute={activeRoute}
-                  {...(activeRoute && hash ? { hash } : {})}
-                  history={history}
+                  hash={activeRoute ? hash : null}
                   icon='users'
                   path='/api/v1/timelines/public?local=true'
                   title={ℳ.local}
@@ -193,8 +184,7 @@ export default class RoutedUIColumn extends React.PureComponent {
               return (
                 <PanelledTimeline
                   activeRoute={activeRoute}
-                  {...(activeRoute && hash ? { hash } : {})}
-                  history={history}
+                  hash={activeRoute ? hash : null}
                   icon='hashtag'
                   path={`/api/v1/tag/${query}`}
                   title={query}
@@ -212,8 +202,7 @@ export default class RoutedUIColumn extends React.PureComponent {
               return (
                 <PanelledTimeline
                   activeRoute={activeRoute}
-                  {...(activeRoute && hash ? { hash } : {})}
-                  history={history}
+                  hash={activeRoute ? hash : null}
                   icon='hashtag'
                   path={`/api/v1/tag/${query}?local=true`}
                   title={ℳ.localTag.withValues({ query })}
@@ -232,8 +221,7 @@ export default class RoutedUIColumn extends React.PureComponent {
               return (
                 <PanelledProfile
                   activeRoute={activeRoute}
-                  {...(activeRoute && hash ? { hash } : {})}
-                  history={history}
+                  hash={activeRoute ? hash : null}
                   id={id}
                 />
               );
@@ -245,8 +233,7 @@ export default class RoutedUIColumn extends React.PureComponent {
               return (
                 <RoutedUIColumnUnknown
                   activeRoute={activeRoute}
-                  {...(activeRoute && hash ? { hash } : {})}
-                  history={history}
+                  hash={activeRoute ? hash : null}
                   ℳ={ℳ}
                 />
               );

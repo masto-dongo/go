@@ -24,23 +24,6 @@ import { POST_TYPE } from 'themes/mastodon-go/util/constants';
 
 class Timeline extends React.PureComponent {
 
-  static propTypes = {
-    activeRoute: PropTypes.bool,
-    className: PropTypes.string,
-    history: PropTypes.object,
-    icon: PropTypes.string,
-    path: PropTypes.string.isRequired,
-    rehash: PropTypes.func,
-    title: PropTypes.node,
-    ℳ: PropTypes.func,
-    '🏪': PropTypes.shape({
-      isLoading: PropTypes.bool,
-      settings: ImmutablePropTypes.map,
-      statuses: ImmutablePropTypes.list,
-    }).isRequired,
-    '💪': PropTypes.objectOf(PropTypes.func).isRequired,
-  };
-
   constructor (props) {
     super(props);
     const { '💪': { fetch } } = this.props;
@@ -109,6 +92,22 @@ class Timeline extends React.PureComponent {
   }
 
 }
+
+//  Props.
+Timeline.propTypes = {
+  className: PropTypes.string,
+  icon: PropTypes.string,
+  path: PropTypes.string.isRequired,
+  rehash: PropTypes.func,
+  title: PropTypes.node,
+  ℳ: PropTypes.func,
+  '🏪': PropTypes.shape({
+    isLoading: PropTypes.bool,
+    settings: ImmutablePropTypes.map,
+    statuses: ImmutablePropTypes.list,
+  }).isRequired,
+  '💪': PropTypes.objectOf(PropTypes.func).isRequired,
+};
 
 //  * * * * * * *  //
 

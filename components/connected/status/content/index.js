@@ -44,7 +44,6 @@ export default class ConnectedStatusContent extends React.PureComponent {
     content: PropTypes.string,
     contentVisible: PropTypes.bool,
     detailed: PropTypes.bool,
-    history: PropTypes.object,
     media: ImmutablePropTypes.list,
     mentions: ImmutablePropTypes.list,
     onClick: PropTypes.func,
@@ -123,7 +122,6 @@ export default class ConnectedStatusContent extends React.PureComponent {
       content,
       contentVisible,
       detailed,
-      history,
       media,
       mentions,
       onClick,
@@ -177,7 +175,6 @@ export default class ConnectedStatusContent extends React.PureComponent {
       const mentionLinks = mentions.map(
         mention => (
           <ConnectedReference
-            history={history}
             mention={mention.get('id')}
             showAt
           />
@@ -221,7 +218,6 @@ export default class ConnectedStatusContent extends React.PureComponent {
               } : {})}
             >
               <ConnectedParse
-                history={history}
                 mentions={mentions}
                 tags={tags}
                 text={content}
@@ -246,7 +242,6 @@ export default class ConnectedStatusContent extends React.PureComponent {
               } : {})}
             >
               <ConnectedParse
-                history={history}
                 mentions={mentions}
                 tags={tags}
                 text={content}

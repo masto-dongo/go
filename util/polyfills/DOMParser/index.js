@@ -1,6 +1,6 @@
 //  Polyfills HTML DOM Parsing for older browsers which only support
 //  XML.
-export class DOMParser {
+export default class DOMParser {
 
   constructor () {
     this._parser = new window.DOMParser;

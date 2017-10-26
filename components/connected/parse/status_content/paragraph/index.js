@@ -40,7 +40,6 @@ export default function ConnectedParseStatusContentParagraph ({
   attachments,
   card,
   className,
-  history,
   mentions,
   text,
   tags,
@@ -90,7 +89,6 @@ export default function ConnectedParseStatusContentParagraph ({
                 return (
                   <ConnectedReference
                     card={card.get('id')}
-                    history={history}
                     key={pContents.length}
                   />
                 );
@@ -100,7 +98,6 @@ export default function ConnectedParseStatusContentParagraph ({
                 return (
                   <ConnectedReference
                     key={pContents.length}
-                    history={history}
                     mention={mention.get('id')}
                     showAt={content[0] === '@'}
                   />
@@ -111,7 +108,6 @@ export default function ConnectedParseStatusContentParagraph ({
                 return (
                   <ConnectedReference
                     attachment={attachment.get('id')}
-                    history={history}
                     key={pContents.length}
                   />
                 );
@@ -120,7 +116,6 @@ export default function ConnectedParseStatusContentParagraph ({
               case !!tag && (content.replace(/^#/, '') === tag.get('name')):
                 return (
                   <ConnectedReference
-                    history={history}
                     key={pContents.length}
                     tagName={tag.get('name')}
                     showHash={content[0] === '#'}
@@ -181,7 +176,6 @@ ConnectedParseStatusContentParagraph.propTypes = {
   attachments: ImmutablePropTypes.list,
   card: ImmutablePropTypes.map,
   className: PropTypes.string,
-  history: PropTypes.object,
   mentions: ImmutablePropTypes.list,
   tags: ImmutablePropTypes.list,
   text: PropTypes.string,

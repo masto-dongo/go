@@ -2,6 +2,8 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { DOMEventNavigate } from 'themes/mastodon-go/DOM';
+
 import { CommonButton } from 'themes/mastodon-go/components';
 
 import './style.scss';
@@ -25,8 +27,8 @@ export default class RawPaneller extends React.Component {  //  Impure
     this.getPassableProps = getPassableProps.bind(this);
     this.setHash = setHash.bind(this);
     this.clicks = [setHash.bind(this, '#')].concat((typeof menu === 'function' ? menu(getPassableProps.call(this)) : menu || []).map(
-      item => setHash.bind(this, item.hash)
-    ));
+      item => item.destination ? DOMEventNavigate(item.destination) : setHash.bind(this, item.hash)
+    ), DOMEventNavigate('/start'));
   }
 
   //  If our component is suddenly no longer the active route, we need
@@ -48,7 +50,6 @@ export default class RawPaneller extends React.Component {  //  Impure
       activeRoute,
       className,
       children,  //  Panelled components must not have children
-      hash,
       history,
       ℳ: messages,
       '🎛': config,
@@ -57,8 +58,6 @@ export default class RawPaneller extends React.Component {  //  Impure
       ...rest
     } = this.props;
     return {
-      activeRoute,
-      history,
       ...rest,
       rehash: setHash,
       ℳ: messages,
@@ -70,7 +69,9 @@ export default class RawPaneller extends React.Component {  //  Impure
   //  This is a tiny function to update our hash if needbe.
   setHash (hash) {
     const { activeRoute } = this.props;
-    if (!activeRoute) {
+    if (activeRoute) {
+      DOMEventNavigate(hash);
+    } else {
       this.setState({ storedHash: hash });
     }
   }
@@ -84,7 +85,6 @@ export default class RawPaneller extends React.Component {  //  Impure
       activeRoute,
       className,
       hash,
-      history,
       ℳ,
       '🎛': {
         backdrop,
@@ -122,10 +122,9 @@ export default class RawPaneller extends React.Component {  //  Impure
               return (
                 <CommonButton
                   active={!computedHash || computedHash === '#'}
-                  destination={activeRoute ? '#' : null}
-                  history={history}
                   icon={typeof icon === 'function' ? icon(getPassableProps()) : '' + icon}
-                  onClick={!activeRoute ? clicks[0] : null}
+                  onClick={clicks[0]}
+                  role='link'
                   title={typeof title === 'function' ? title(getPassableProps()) : '' + title}
                 />
               );
@@ -136,16 +135,10 @@ export default class RawPaneller extends React.Component {  //  Impure
             (item, index) => (
               <CommonButton
                 active={item.active !== void 0 ? item.active : item.hash && computedHash === item.hash}
-                destination={function () {
-                  if (item.destination) {
-                    return item.destination;
-                  }
-                  return item.hash && activeRoute ? item.hash : null;
-                }()}
-                history={history}
                 icon={item.icon}
                 key={index}
-                onClick={!item.destination && !activeRoute ? clicks[index + 1] : null}
+                onClick={clicks[index + 1]}
+                role='link'
                 title={item.title}
               />
             )
@@ -156,9 +149,9 @@ export default class RawPaneller extends React.Component {  //  Impure
               return (
                 <CommonButton
                   className='close'
-                  destination='#'
-                  history={history}
                   icon='arrow-left'
+                  onClick={clicks[0]}
+                  role='link'
                   title={ℳ['⬅']}
                 />
               );
@@ -166,9 +159,9 @@ export default class RawPaneller extends React.Component {  //  Impure
               return (
                 <CommonButton
                   className='close'
-                  destination='/start'
-                  history={history}
                   icon='times'
+                  onClick={clicks[clicks.length]}
+                  role='link'
                   title={ℳ['❌']}
                 />
               );
@@ -199,7 +192,6 @@ RawPaneller.propTypes = {
   children: PropTypes.any,  //  …but it will be ignored
   className: PropTypes.string,
   hash: PropTypes.string,
-  history: PropTypes.object,
   ℳ: PropTypes.func,
   '🎛': PropTypes.shape({
     backdrop: PropTypes.func,

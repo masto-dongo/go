@@ -40,7 +40,6 @@ export default function ConnectedParseStatusContent ({
   attachments,
   card,
   className,
-  history,
   mentions,
   tags,
   text,
@@ -56,7 +55,6 @@ export default function ConnectedParseStatusContent ({
           <ConnectedParseStatusContentParagraph
             attachments={attachments}
             card={card}
-            history={history}
             key={index}
             mentions={mentions}
             tags={tags}
@@ -73,7 +71,6 @@ ConnectedParseStatusContent.propTypes = {
   attachments: ImmutablePropTypes.list,
   card: ImmutablePropTypes.map,
   className: PropTypes.string,
-  history: PropTypes.object,
   mentions: ImmutablePropTypes.list,
   tags: ImmutablePropTypes.list,
   text: PropTypes.string.isRequired,

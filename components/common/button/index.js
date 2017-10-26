@@ -36,9 +36,7 @@ export default class CommonButton extends React.PureComponent {
     animate: PropTypes.bool,
     children: PropTypes.node,
     className: PropTypes.string,
-    destination: PropTypes.string,
     disabled: PropTypes.bool,
-    history: PropTypes.object,
     href: PropTypes.string,
     icon: PropTypes.string,
     iconColour: PropTypes.string,
@@ -64,7 +62,7 @@ export default class CommonButton extends React.PureComponent {
 
   handleClick = (e) => {
     const { onClick } = this.props;
-    if (!onClick) return;
+    if (!onClick || e.button || e.ctrlKey || e.shiftKey || e.altKey || e.metaKey) return;
     onClick(e);
     e.preventDefault();
   }
@@ -77,9 +75,7 @@ export default class CommonButton extends React.PureComponent {
       animate,
       children,
       className,
-      destination,
       disabled,
-      history,
       href,
       icon,
       iconColour,
@@ -101,21 +97,23 @@ export default class CommonButton extends React.PureComponent {
     let conditionalProps = {};
 
     //  If href or destination is provided, we render a link.
-    if (href || destination) {
-      if (!disabled && href) conditionalProps.href = href;
-      if (!disabled && destination) {
-        conditionalProps.history = history;
-        conditionalProps.destination = destination;
+    if (href || role === 'link') {
+      if (!disabled) {
+        conditionalProps.href = href;
       }
       if (title) {
-        if (!showTitle && !children) conditionalProps.title = title;
-        else conditionalProps['aria-label'] = title;
+        if (!showTitle && !children) {
+          conditionalProps.title = title;
+        } else {
+          conditionalProps['aria-label'] = title;
+        }
       }
       if (onClick) {
-        if (!disabled) conditionalProps.onClick = handleClick;
-        else conditionalProps['aria-disabled'] = true;
-        conditionalProps.role = 'button';
-        conditionalProps.tabIndex = 0;
+        if (!disabled) {
+          conditionalProps.onClick = onClick;
+        } else {
+          conditionalProps['aria-disabled'] = true;
+        }
       }
       if (role) {
         conditionalProps.role = role;
@@ -139,14 +137,17 @@ export default class CommonButton extends React.PureComponent {
 
     //  Otherwise, we render a button.
     } else {
-      if (role === 'tab' && active !== void 0) {
+      if (role === 'tab' && typeof active !== 'undefined') {
         conditionalProps['aria-selected'] = active;
-      } else if (active !== void 0) {
+      } else if (typeof active !== 'undefined') {
         conditionalProps['aria-pressed'] = active;
       }
       if (title && !showTitle) {
-        if (!children) conditionalProps.title = title;
-        else conditionalProps['aria-label'] = title;
+        if (!children) {
+          conditionalProps.title = title;
+        } else {
+          conditionalProps['aria-label'] = title;
+        }
       }
       if (onClick && !disabled) {
         conditionalProps.onClick = handleClick;

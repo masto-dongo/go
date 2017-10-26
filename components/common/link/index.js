@@ -31,18 +31,15 @@ export default class CommonLink extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
-    destination: PropTypes.string,
-    history: PropTypes.object,
     href: PropTypes.string,
+    onClick: PropTypes.func,
     role: PropTypes.string,
   };
 
-  //  We only reroute the link if it is an unadorned click, we have
-  //  access to the router, and there is somewhere to reroute it *to*.
   handleClick = (e) => {
-    const { destination, history } = this.props;
-    if (!history || !destination || e.button || e.ctrlKey || e.shiftKey || e.altKey || e.metaKey) return;
-    history.push(destination);
+    const { onClick } = this.props;
+    if (!onClick || e.button || e.ctrlKey || e.shiftKey || e.altKey || e.metaKey) return;
+    onClick(e);
     e.preventDefault();
   }
 
@@ -52,9 +49,8 @@ export default class CommonLink extends React.PureComponent {
     const {
       children,
       className,
-      destination,
-      history,
       href,
+      onClick,
       role,
       ...others
     } = this.props;
@@ -63,7 +59,7 @@ export default class CommonLink extends React.PureComponent {
     if (href) {
       conditionalProps.href = href;
       conditionalProps.onClick = handleClick;
-    } else if (destination) {
+    } else if (onClick) {
       conditionalProps.onClick = handleClick;
       conditionalProps.role = 'link';
       conditionalProps.tabIndex = 0;

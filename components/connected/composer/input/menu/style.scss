@@ -29,13 +29,13 @@
     line-height: 1;
     text-align: center;
 
-    &:focus,
-    &:hover {
+    &:focus:not(.disabled),
+    &:hover:not(.disabled) {
       color: $mastodon_go_menu_hover_color;
       background-color: $mastodon_go_menu_hover_background;
     }
 
-    &.active {
+    &.active:not(.disabled) {
       color: $mastodon_go_menu_active_color;
       background-color: $mastodon_go_menu_active_background;
     }

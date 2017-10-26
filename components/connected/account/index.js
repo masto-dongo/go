@@ -49,6 +49,9 @@ import {
   unmuteRelationship,
 } from 'themes/mastodon-go/redux';
 
+//  DOM imports.
+import { DOMEventNavigate } from 'themes/mastodon-go/DOM';
+
 //  Component imports.
 import {
   CommonButton,
@@ -74,76 +77,93 @@ import {
 //  -------------
 
 //  Component definition.
-function Account ({
-  className,
-  comrade,
-  containerId,
-  history,
-  id,
-  observer,
-  small,
-  type,
-  ℳ,
-  '🏪': {
-    at,
-    displayName,
-    href,
-    me,
-    relationship,
-  },
-  '💪': handler,
-}) {
-  const computedClass = classNames('MASTODON_GO--CONNECTED--ACCOUNT', { small }, className);
+class Account extends React.Component {  //  Impure
 
-  //  Rendering.
-  return (
+  constructor (props) {
+    super(props);
 
-    //  We render our component inside of a `<CommonObservable>` in
-    //  case it appears inside of a list.  If `observer` is `null` then
-    //  this won't do anything.
-    <CommonObservable
-      className={computedClass}
-      id={containerId || id}
-      observer={observer}
-      searchText={displayName + '\n@' + at}
-    >
-      <ConnectedAvatar
-        account={id}
-        comrade={comrade}
-      />
-      {
-        //  We don't bother with a `<Reference>` here because we
-        //  already have all of the account info and this lets us put
-        //  everything in one link.
-        <CommonLink
-          className='info'
-          destination={`/profile/${id}`}
-          history={history}
-          href={href}
-        >
-          <b>
-            <ConnectedParse
-              text={displayName || '———'}
-              type='emoji'
-            />
-          </b>
-          <code>@{at}</code>
-        </CommonLink>
-      }
-      {
-        //  This function gets our interaction button for use with the
-        //  account.  We don't show this on `small` accounts (which
-        //  appear in status headers) or if we aren't provided a `type`
-        //  and `relationship`.
-        !small && type && isFinite(relationship) && id !== me ? function () {
-          switch (type) {
-          default:
-            return null;
-          }
-        }() : null
-      }
-    </CommonObservable>
-  );
+    //  Function binding.
+    const { handleClick } = Object.getPrototypeOf(this);
+    this.handleClick = handleClick.bind(this);
+  }
+
+  handleClick () {
+    const { id } = this.props;
+    DOMEventNavigate(`/profile/${id}`);
+  }
+
+  render () {
+    const { handleClick } = this;
+    const {
+      className,
+      comrade,
+      containerId,
+      id,
+      observer,
+      small,
+      type,
+      ℳ,
+      '🏪': {
+        at,
+        displayName,
+        href,
+        me,
+        relationship,
+      },
+      '💪': handler,
+    } = this.props;
+    const computedClass = classNames('MASTODON_GO--CONNECTED--ACCOUNT', { small }, className);
+
+    //  Rendering.
+    return (
+
+      //  We render our component inside of a `<CommonObservable>` in
+      //  case it appears inside of a list.  If `observer` is `null` then
+      //  this won't do anything.
+      <CommonObservable
+        className={computedClass}
+        id={containerId || id}
+        observer={observer}
+        searchText={displayName + '\n@' + at}
+      >
+        <ConnectedAvatar
+          account={id}
+          comrade={comrade}
+        />
+        {
+          //  We don't bother with a `<Reference>` here because we
+          //  already have all of the account info and this lets us put
+          //  everything in one link.
+          <CommonLink
+            className='info'
+            href={href}
+            onClick={handleClick}
+          >
+            <b>
+              <ConnectedParse
+                text={displayName || '———'}
+                type='emoji'
+              />
+            </b>
+            <code>@{at}</code>
+          </CommonLink>
+        }
+        {
+          //  This function gets our interaction button for use with the
+          //  account.  We don't show this on `small` accounts (which
+          //  appear in status headers) or if we aren't provided a `type`
+          //  and `relationship`.
+          !small && type && isFinite(relationship) && id !== me ? function () {
+            switch (type) {
+            default:
+              return null;
+            }
+          }() : null
+        }
+      </CommonObservable>
+    );
+  }
+
 }
 
 //  Props.
@@ -151,7 +171,6 @@ Account.propTypes = {
   className: PropTypes.string,
   comrade: PropTypes.string,
   containerId: PropTypes.string,
-  history: PropTypes.object,
   id: PropTypes.string.isRequired,
   me: PropTypes.string,
   observer: PropTypes.object,

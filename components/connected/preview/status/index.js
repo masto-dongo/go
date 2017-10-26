@@ -41,7 +41,6 @@ export default class ConnectedPreviewStatus extends React.PureComponent {
       className,
       content,
       contentVisible,
-      history,
       media,
       sensitive,
       spoiler,
@@ -101,7 +100,6 @@ export default class ConnectedPreviewStatus extends React.PureComponent {
           <div className='contents' hidden={!contentVisible}>
             <div className='text'>
               <ConnectedParse
-                history={history}
                 text={content.trim().replace(/\n{2,}/g, '\n\n')}
                 type='status'
               />
@@ -118,7 +116,6 @@ export default class ConnectedPreviewStatus extends React.PureComponent {
           <div className='contents'>
             <div className='text'>
               <ConnectedParse
-                history={history}
                 text={content.trim().replace(/\n{2,}/g, '\n\n')}
                 type='status'
               />
@@ -136,7 +133,6 @@ ConnectedPreviewStatus.propTypes = {
   className: PropTypes.string,
   content: PropTypes.string,
   contentVisible: PropTypes.bool,
-  history: PropTypes.object,
   media: PropTypes.array,
   sensitive: PropTypes.bool,
   setExpansion: PropTypes.func,

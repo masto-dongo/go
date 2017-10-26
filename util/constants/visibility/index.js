@@ -26,3 +26,29 @@ export const DIRECT         = 0b00100000;
 export const PRIVATE        = 0b00100101;
 export const UNLISTED       = 0b00110111;
 export const PUBLIC         = 0b00111111;
+
+//  A convenience function which normalizes a visibility into the
+//  largest API-supported visibility which it completely encompasses.
+export function normalize (visibility) {
+  function doesVisibilityContain (otherVisibility) {
+    return otherVisibility === (otherVisibility & visibility);
+  }
+  switch (true) {
+    case doesVisibilityContain(PUBLIC):
+      return PUBLIC;
+    case doesVisibilityContain(UNLISTED):
+      return UNLISTED;
+    case doesVisibilityContain(PRIVATE):
+      return PRIVATE;
+    case doesVisibilityContain(DIRECT):
+      return DIRECT;
+    case doesVisibilityContain(LOCAL_PUBLIC):
+      return LOCAL_PUBLIC;
+    case doesVisibilityContain(LOCAL_UNLISTED):
+      return LOCAL_UNLISTED;
+    case doesVisibilityContain(LOCAL_PRIVATE):
+      return LOCAL_PRIVATE;
+    default:
+      return LOCAL_DIRECT;
+  }
+}

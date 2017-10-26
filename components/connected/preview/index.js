@@ -57,15 +57,12 @@ class Preview extends React.PureComponent {
   render () {
     const { setExpansion } = this;
     const {
-      activeRoute,
       className,
-      history,
       inReplyTo,
       media,
       onSensitive,
       onSubmit,
       onVisibility,
-      rehash,
       sensitive,
       spoiler,
       text,
@@ -87,7 +84,6 @@ class Preview extends React.PureComponent {
           <ConnectedPreviewStatus
             content={text}
             contentVisible={contentVisible}
-            history={history}
             media={media}
             sensitive={sensitive}
             setExpansion={setExpansion}
@@ -103,9 +99,7 @@ class Preview extends React.PureComponent {
           ℳ={ℳ}
         />
         <ConnectedPreviewControls
-          activeRoute={activeRoute}
           onSubmit={onSubmit}
-          rehash={rehash}
           ℳ={ℳ}
         />
       </div>
@@ -115,10 +109,8 @@ class Preview extends React.PureComponent {
 }
 
 Preview.propTypes = {
-  activeRoute: PropTypes.bool,
   className: PropTypes.string,
   disabled: PropTypes.bool,
-  history: PropTypes.object,
   inReplyTo: PropTypes.string,
   media: PropTypes.array,
   onClear: PropTypes.func,

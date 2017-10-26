@@ -91,7 +91,6 @@ class Catalogue extends React.PureComponent {
   render () {
     const {
       className,
-      history,
       '🏪': {
         accounts,
         isLoading,
@@ -107,7 +106,6 @@ class Catalogue extends React.PureComponent {
         {accounts ? accounts.reduce(
           (items, id) => items.push(
             <ConnectedAccount
-              history={history}
               id={id}
               key={id}
             />
@@ -122,9 +120,7 @@ class Catalogue extends React.PureComponent {
 
 //  Props.
 Catalogue.propTypes = {
-  activeRoute: PropTypes.bool,
   className: PropTypes.string,
-  history: PropTypes.object,
   path: PropTypes.string.isRequired,
   rehash: PropTypes.func,
   ℳ: PropTypes.func,

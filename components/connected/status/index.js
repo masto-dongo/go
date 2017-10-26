@@ -185,7 +185,6 @@ class Status extends React.PureComponent {
       detailed,
       filterRegex,
       hideIf,
-      history,
       id,
       observer,
       small,
@@ -247,7 +246,6 @@ class Status extends React.PureComponent {
         >
           <ConnectedAccount
             comrade={comrade}
-            history={history}
             id={account}
             small
           />
@@ -255,7 +253,6 @@ class Status extends React.PureComponent {
             card={card}
             content={content.get('plain')}
             contentVisible={contentVisible}
-            history={history}
             media={media}
             mentions={mentions}
             onClick={handleClick}
@@ -284,7 +281,6 @@ class Status extends React.PureComponent {
         />
         <ConnectedAccount
           comrade={comrade}
-          history={history}
           id={account}
           small
         />
@@ -293,7 +289,6 @@ class Status extends React.PureComponent {
           content={content.get('plain')}
           contentVisible={contentVisible}
           detailed={detailed}
-          history={history}
           media={media}
           mentions={mentions}
           onClick={handleClick}
@@ -340,7 +335,6 @@ Status.propTypes = {
   detailed: PropTypes.bool,
   filterRegex: PropTypes.string,
   hideIf: PropTypes.number,
-  history: PropTypes.object,
   id: PropTypes.string,
   observer: PropTypes.object,
   setDetail: PropTypes.func,

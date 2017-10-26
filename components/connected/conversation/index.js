@@ -90,9 +90,7 @@ class Conversation extends React.PureComponent {
 
 //  Props.
 Conversation.propTypes = {
-  activeRoute: PropTypes.bool,
   className: PropTypes.string,
-  history: PropTypes.object,
   icon: PropTypes.string,
   id: PropTypes.string.isRequired,
   ℳ: PropTypes.func,

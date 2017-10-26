@@ -7,12 +7,22 @@ import React from 'react';
 import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
+//  DOM imports.
+import {
+  DOMEventAttach,
+  DOMEventCompose,
+  DOMEventNavigate,
+  DOMForget,
+  DOMListen,
+} from 'themes/mastodon-go/DOM';
+
 //  Request imports.
 import {
   loadMeta,
   submitStatus,
 } from 'themes/mastodon-go/redux';
 
+//  Component imports.
 import RoutedUIColumn from './column';
 import RoutedUIModal from './modal';
 
@@ -21,6 +31,7 @@ import './style.scss';
 
 //  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
+import { VISIBILITY } from 'themes/mastodon-go/util/constants';
 import uuid from 'themes/mastodon-go/util/uuid';
 
 class UI extends React.Component {  //  Impure
@@ -54,16 +65,20 @@ class UI extends React.Component {  //  Impure
 
     //  Function binding.
     const {
-      handleClear,
+      handleAttach,
+      handleCompose,
       handleMediaRemove,
+      handleNavigate,
       handleSensitive,
       handleSpoiler,
       handleSubmit,
       handleText,
       handleVisibility,
     } = Object.getPrototypeOf(this);
-    this.handleClear = handleClear.bind(this);
+    this.handleAttach = handleAttach.bind(this);
+    this.handleCompose = handleCompose.bind(this);
     this.handleMediaRemove = handleMediaRemove.bind(this);
+    this.handleNavigate = handleNavigate.bind(this);
     this.handleSensitive = handleSensitive.bind(this);
     this.handleSpoiler = handleSpoiler.bind(this);
     this.handleSubmit = handleSubmit.bind(this);
@@ -88,18 +103,50 @@ class UI extends React.Component {  //  Impure
     }
   }
 
-  handleClear () {
+  componentWillMount () {
+    const {
+      handleAttach,
+      handleCompose,
+      handleNavigate
+    } = this;
+    DOMListen(DOMEventAttach, handleAttach);
+    DOMListen(DOMEventCompose, handleCompose);
+    DOMListen(DOMEventNavigate, handleNavigate);
+  }
+  componentWillUnmount () {
+    const {
+      handleAttach,
+      handleCompose,
+      handleNavigate
+    } = this;
+    DOMForget(DOMEventAttach, handleAttach);
+    DOMForget(DOMEventCompose, handleCompose);
+    DOMForget(DOMEventNavigate, handleNavigate);
+  }
+
+  handleAttach ({ detail: { id } }) {
+    const { media } = this.state;
+    if (media.length < 4) {
+      this.setState({
+        idempotency: uuid(),
+        media: media.concat('' + id),
+      });
+    }
+    DOMEventNavigate('/compose');
+  }
+
+  handleCompose ({ detail }) {
     const { '🏪' : { defaultVisibility } } = this.props;
     this.setState({
       idempotency: uuid(),
-      inReplyTo: null,
+      inReplyTo: '' + detail.inReplyTo || null,
       media: [],
       sensitive: false,
-      spoiler: '',
-      storedHash: '#',
-      text: '\n',
-      visibility: defaultVisibility,
+      spoiler: '' + detail.spoiler || '',
+      text: '' + detail.text || '\n',
+      visibility: VISIBILITY.normalize(detail.visibility & defaultVisibility),
     });
+    DOMEventNavigate('/compose');
   }
 
   handleMediaRemove (id) {
@@ -111,6 +158,31 @@ class UI extends React.Component {  //  Impure
       ),
     });
   }
+
+  handleNavigate ({ detail: { destination } }) {
+    const { history } = this.props;
+    //  Once we have multi-column support, we will need to check if
+    //  the column is already open before we try navigating there.
+    //  Note that this may be especially difficult for columns with
+    //  hashes (might just want to disallow those lol).
+    history.push(destination);
+  }
+
+  handleSensitive (value) {
+    const { sensitive } = this.state;
+    this.setState({
+      idempotency: uuid(),
+      sensitive: typeof value === 'undefined' ? !sensitive : !!value,
+    });
+  }
+
+  handleSpoiler (spoiler) {
+    this.setState({
+      idempotency: uuid(),
+      '' + spoiler,
+    });
+  }
+
   handleSubmit () {
     const { '💪': { submit } } = this.props;
     const {
@@ -129,33 +201,22 @@ class UI extends React.Component {  //  Impure
         media,
         sensitive,
         spoiler,
-        visibility,  //  TK: Handle this enum properly in the redux
+        visibility,
       });
     }
   }
-  handleSpoiler (spoiler) {
-    this.setState({
-      idempotency: uuid(),
-      spoiler,
-    });
-  }
+
   handleText (text) {
     this.setState({
       idempotency: uuid(),
-      text,
+      '' + text,
     });
   }
-  handleSensitive (value) {
-    const { sensitive } = this.state;
-    this.setState({
-      idempotency: uuid(),
-      sensitive: value === void 0 ? !sensitive : !!value,
-    });
-  }
+
   handleVisibility (value) {
     this.setState({
       idempotency: uuid(),
-      visibility: value,
+      visibility: VISIBILITY.normalize(value),
     });
   }
 
@@ -175,14 +236,10 @@ class UI extends React.Component {  //  Impure
     } = this;
     const {
       className,
-      history,
       location,
-      match,
-      staticContext,
       ℳ,
       '🏪': store,
       '💪': handler,
-      ...rest
     } = this.props;
     const {
       media,
@@ -201,14 +258,12 @@ class UI extends React.Component {  //  Impure
         className={computedClass}
         {...rest}
       >
-        <RoutedUIModal history={history} />
+        <RoutedUIModal />
         <RoutedUIColumn
           activeRoute
-          history={history}
           index={!singleColumn ? columns.size : 0}
           location={location}
           media={media}
-          onClear={handleClear}
           onMediaRemove={handleMediaRemove}
           onSensitive={handleSensitive}
           onSpoiler={handleSpoiler}

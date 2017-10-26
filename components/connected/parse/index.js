@@ -81,7 +81,6 @@ class Parse extends React.PureComponent {
     const {
       card,
       className,
-      history,
       mentions,
       metadata,
       tags,
@@ -114,7 +113,6 @@ class Parse extends React.PureComponent {
         <ConnectedParseStatusContent
           card={card}
           className={computedClass}
-          history={history}
           mentions={mentions}
           tags={tags}
           text={text}
@@ -131,7 +129,6 @@ class Parse extends React.PureComponent {
 Parse.propTypes = {
   card: ImmutablePropTypes.map,
   className: PropTypes.string,
-  history: PropTypes.object,
   mentions: ImmutablePropTypes.list,
   metadata: ImmutablePropTypes.list,
   tags: ImmutablePropTypes.list,

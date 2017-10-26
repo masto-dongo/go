@@ -58,9 +58,7 @@ class Profile extends React.PureComponent {
       handlePostsClick,
     } = this;
     const {
-      activeRoute,
       className,
-      history,
       id,
       ℳ,
       '🏪': {
@@ -106,25 +104,22 @@ class Profile extends React.PureComponent {
         />
         <footer>
           <CommonButton
-            destination={activeRoute ? '#posts' : void 0}
-            history={history}
-            onClick={!activeRoute ? handlePostsClick : undefined}
+            onClick={handlePostsClick}
+            role='link'
           >
             {ℳ.posts}
             <strong>{counts.get('statuses')}</strong>
           </CommonButton>
           <CommonButton
-            destination={activeRoute ? '#follows' : void 0}
-            history={history}
-            onClick={!activeRoute ? handleFollowsClick : undefined}
+            onClick={handleFollowsClick}
+            role='link'
           >
             {ℳ.follows}
             <strong>{counts.get('following')}</strong>
           </CommonButton>
           <CommonButton
-            destination={activeRoute ? '#followers' : void 0}
-            history={history}
-            onClick={!activeRoute ? handleFollowersClick : undefined}
+            onClick={handleFollowersClick}
+            role='link'
           >
             {ℳ.followers}
             <strong>{counts.get('followers')}</strong>
@@ -139,9 +134,7 @@ class Profile extends React.PureComponent {
 
 //  Props.
 Profile.propTypes = {
-  activeRoute: PropTypes.bool,
   className: PropTypes.string,
-  history: PropTypes.object,
   id: PropTypes.string,
   rehash: PropTypes.func,
   ℳ: PropTypes.func,

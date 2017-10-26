@@ -100,9 +100,7 @@ class Courier extends React.PureComponent {
 
 //  Props.
 Courier.propTypes = {
-  activeRoute: PropTypes.bool,
   className: PropTypes.string,
-  history: PropTypes.object,
   rehash: PropTypes.func,
   ℳ: PropTypes.func,
   '🏪': PropTypes.shape({

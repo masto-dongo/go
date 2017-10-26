@@ -74,9 +74,12 @@
   //  buttons are a little slower to glow than they are to fade.
   &:focus:not(.disabled),
   &:hover:not(.disabled) {
-    outline-color: currentColor;
     color: $mastodon_go_content_button_hover;
     transition: color ($mastodon_go_animation_speed * .3s) ease-out, outline-color ($mastodon_go_animation_speed * .15s) ease-in-out;
+  }
+
+  &:focus:not(.disabled) {
+    outline-color: currentColor;
   }
 
   &:active {

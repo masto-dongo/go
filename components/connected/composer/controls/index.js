@@ -8,6 +8,7 @@ import { CommonButton } from 'themes/mastodon-go/components';
 
 //  DOM imports.
 import {
+  DOMEventNavigate,
   DOMListen,
   DOMForget,
 } from 'themes/mastodon-go/DOM';
@@ -27,11 +28,10 @@ export default class ConnectedComposerControls extends React.PureComponent {
     //  Function binding.
     const {
       handleAlt,
-      handleSubmit,
+      handleClick,
     } = Object.getPrototypeOf(this);
     this.handleAlt = handleAlt.bind(this);
-    this.handlePreview = rehash.bind(this, '#preview');
-    this.handleSubmit = handleSubmit.bind(this);
+    this.handleClick = handleClick.bind(this);
   }
 
   componentWillMount () {
@@ -56,32 +56,36 @@ export default class ConnectedComposerControls extends React.PureComponent {
     }
   }
 
-  handleSubmit (e) {
-    const { onSubmit } = this.props;
-    onSubmit();
+  handleClick (e) {
+    const {
+      onSubmit,
+      rehash,
+    } = this.props;
+    const { quickMode } = this.state;
+    if (quickMode) {
+      onSubmit();
+    } else {
+      rehash('#preview');
+    }
   }
 
   render () {
-    const { handlePreview } = this;
+    const { handleClick } = this;
     const {
-      activeRoute,
       attached,
       className,
-      history,
       onSubmit,
       ℳ,
     } = this.props;
     const { quickMode } = this.state;
     const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER--CONTROLS', className);
-    const handleClick = quickMode ? onSubmit : handlePreview;
 
     return (
       <div className={computedClass}>
         <CommonButton
-          destination={!quickMode && activeRoute ? '#preview' : null}
-          history={history}
           icon={quickMode ? 'paper-plane' : 'paper-plane-o'}
-          onClick={quickMode || !activeRoute ? handleClick : null}
+          onClick={handleClick}
+          role={quickMode ? 'button' : 'link'}
           title={quickMode ? ℳ.quick : ℳ.preview}
           showTitle
         >{attached ? <span class='attached'>{attached}</span> : null}</CommonButton>
@@ -92,10 +96,8 @@ export default class ConnectedComposerControls extends React.PureComponent {
 }
 
 ConnectedComposerControls.propTypes = {
-  activeRoute: PropTypes.bool,
   attached: PropTypes.number,
   className: PropTypes.string,
-  history: PropTypes.object,
   onSubmit: PropTypes.func,
   rehash: PropTypes.func,
   ℳ: PropTypes.func.isRequired,

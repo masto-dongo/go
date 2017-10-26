@@ -14,6 +14,9 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
+//  DOM imports.
+import { DOMEventNavigate } from 'themes/mastodon-go/DOM';
+
 //  Requests.
 import {
   ensureTimeline,
@@ -44,16 +47,34 @@ class Reference extends React.PureComponent {
   constructor (props) {
     super(props);
     const { '💪': { fetch } } = props;
+
+    //  Function binding.
+    const { handleClick } = Object.getPrototypeOf(this);
+    this.handleClick = handleClick.bind(this);
+
+    //  Fetching our reference.
     fetch();
+  }
+
+  handleClick () {
+    const {
+      mention,
+      tagName
+    } = this.props;
+    if (mention) {
+      DOMEventNavigate(`/profile/${mention}`);
+    } else if (tagName) {
+      DOMEventNavigate(`/tagged/${tagName}`);
+    }
   }
 
   //  Rendering.
   render () {
+    const { handleClick } = this;
     const {
       attachment,
       card,
       className,
-      history,
       mention,
       showAt,
       showHash,
@@ -126,9 +147,8 @@ class Reference extends React.PureComponent {
       return (
         <CommonLink
           className={computedClass}
-          destination={`/profile/${mention}`}
-          history={history}
           href={href}
+          onClick={handleClick}
           title={title || '@' + at}
         >
           <code style={rainbow ? { color: rainbow.get('1') } : {}}>
@@ -144,9 +164,8 @@ class Reference extends React.PureComponent {
       return (
         <CommonLink
           className={computedClass}
-          destination={`/tagged/${tagName}`}
-          history={history}
           href={href}
+          onClick={handleClick}
           title={ℳ.hashtag.withValues({ tagName })}
         >
           <b style={rainbow ? { color: rainbow.get('1') } : {}}>
@@ -168,7 +187,6 @@ Reference.propTypes = {
   attachment: PropTypes.string,
   card: PropTypes.string,
   className: PropTypes.string,
-  history: PropTypes.object,
   mention: PropTypes.string,
   showAt: PropTypes.bool,
   showHash: PropTypes.bool,
