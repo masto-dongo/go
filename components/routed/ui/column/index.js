@@ -31,7 +31,6 @@ export default class RoutedUIColumn extends React.PureComponent {
       index,
       location,
       media,
-      onClear,
       onMediaRemove,
       onSensitive,
       onSpoiler,

@@ -209,7 +209,7 @@ class UI extends React.Component {  //  Impure
   handleText (text) {
     this.setState({
       idempotency: uuid(),
-      '' + text,
+      text: '' + text,
     });
   }
 

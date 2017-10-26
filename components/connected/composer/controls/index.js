@@ -72,7 +72,6 @@ export default class ConnectedComposerControls extends React.PureComponent {
     const {
       attached,
       className,
-      onSubmit,
       ℳ,
     } = this.props;
     const { quickMode } = this.state;
