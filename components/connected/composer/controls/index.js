@@ -26,30 +26,30 @@ export default class ConnectedComposerControls extends React.PureComponent {
 
     //  Function binding.
     const {
-      handleCtrl,
+      handleAlt,
       handleSubmit,
     } = Object.getPrototypeOf(this);
-    this.handleCtrl = handleCtrl.bind(this);
+    this.handleAlt = handleAlt.bind(this);
     this.handlePreview = rehash.bind(this, '#preview');
     this.handleSubmit = handleSubmit.bind(this);
   }
 
   componentWillMount () {
-    const { handleCtrl } = this;
-    DOMListen('mousemove', handleCtrl);
-    document.body.addEventListener('keydown', handleCtrl, false);
-    document.body.addEventListener('keyup', handleCtrl, false);
+    const { handleAlt } = this;
+    DOMListen('mousemove', handleAlt);
+    document.body.addEventListener('keydown', handleAlt, false);
+    document.body.addEventListener('keyup', handleAlt, false);
   }
 
   componentWillUnmount () {
-    const { handleCtrl } = this;
-    DOMForget('mousemove', handleCtrl);
-    document.body.removeEventListener('keydown', handleCtrl, false);
-    document.body.removeEventListener('keyup', handleCtrl, false);
+    const { handleAlt } = this;
+    DOMForget('mousemove', handleAlt);
+    document.body.removeEventListener('keydown', handleAlt, false);
+    document.body.removeEventListener('keyup', handleAlt, false);
   }
 
-  handleCtrl (e) {
-    if (e.ctrlKey) {
+  handleAlt (e) {
+    if (e.altKey) {
       this.setState({ quickMode: true });
     } else {
       this.setState({ quickMode: false });
@@ -59,7 +59,6 @@ export default class ConnectedComposerControls extends React.PureComponent {
   handleSubmit (e) {
     const { onSubmit } = this.props;
     onSubmit();
-    e.preventDefault();  //  Important since this is a ctrl-click
   }
 
   render () {

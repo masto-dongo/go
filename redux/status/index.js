@@ -97,7 +97,12 @@ const normalize = (status, oldContent) => {
       attachment => '' + attachment.id,
     )),
     mentions: ImmutableList(status.mentions.map(
-      mention => '' + mention.id,
+      mention => ImmutableMap({
+        at: '' + mention.account,
+        href: '' + mention.url,
+        id: '' + mention.id,
+        username: '' + mention.username,
+      }),
     )),
     reblog: status.reblog ? '' + status.reblog.id : null,
     sensitive: !!status.sensitive,
