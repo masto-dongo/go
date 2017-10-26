@@ -27,8 +27,8 @@ export default class RawPaneller extends React.Component {  //  Impure
     this.getPassableProps = getPassableProps.bind(this);
     this.setHash = setHash.bind(this);
     this.clicks = [setHash.bind(this, '#')].concat((typeof menu === 'function' ? menu(getPassableProps.call(this)) : menu || []).map(
-      item => item.destination ? DOMEventNavigate(item.destination) : setHash.bind(this, item.hash)
-    ), DOMEventNavigate('/start'));
+      item => item.destination ? DOMEventNavigate.bind(this, item.destination) : setHash.bind(this, item.hash)
+    ), DOMEventNavigate.bind(this, '/start'));
   }
 
   //  If our component is suddenly no longer the active route, we need
