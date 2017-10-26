@@ -46,11 +46,8 @@ export default class RoutedUIColumn extends React.PureComponent {
     const computedClass = classNames('MASTODON_GO--ROUTED--UI--COLUMN', className);
 
     return (
-      <section
-        className={computedClass}
-        {...rest}
-      >
-        <Switch {...(location ? { location } : {})}>
+      <section className={computedClass}>
+        <Switch location={location}>
           <Redirect
             exact
             from='/'

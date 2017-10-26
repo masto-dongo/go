@@ -253,10 +253,7 @@ class UI extends React.Component {  //  Impure
     const columns = { size: 0 };  //  for now
 
     return (
-      <div
-        className={computedClass}
-        {...rest}
-      >
+      <div className={computedClass}>
         <RoutedUIModal />
         <RoutedUIColumn
           activeRoute
