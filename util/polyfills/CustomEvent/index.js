@@ -1,5 +1,5 @@
 //  Polyfill for CustomEvent().
-export default function CustomEvent (CustomEvent) {
+export default (function CustomEvent (CustomEvent) {
   if (typeof CustomEvent === 'function') return CustomEvent;
   CustomEvent = function CustomEvent (typeArg, customEventInit = {}) {
     const bubbles = !!customEventInit.bubbles;
@@ -11,4 +11,4 @@ export default function CustomEvent (CustomEvent) {
   };
   CustomEvent.prototype = window.Event.prototype;
   return CustomEvent;
-}(window.CustomEvent);
+}(window.CustomEvent));
