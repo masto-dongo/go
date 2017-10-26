@@ -61,7 +61,7 @@ const normalize = (account, oldBio) => {
         keyVal => ImmutableList(keyVal),
       )),
       text: '' + ɣaml.text,
-    })
+    });
   }(readƔaml(plainBio));
   return ImmutableMap({
     at: '' + account.acct,

@@ -46,12 +46,10 @@ class Composer extends React.PureComponent {
   render () {
     const { emoji } = this;
     const {
-      activeRoute,
       className,
       disabled,
       inReplyTo,
       media,
-      onClear,
       onMediaRemove,
       onSensitive,
       onSpoiler,
@@ -99,7 +97,6 @@ class Composer extends React.PureComponent {
           ℳ={ℳ}
         />
         <ConnectedComposerControls
-          activeRoute={activeRoute}
           attached={media.length}
           onSubmit={onSubmit}
           rehash={rehash}
@@ -117,7 +114,6 @@ Composer.propTypes = {
   disabled: PropTypes.bool,
   inReplyTo: PropTypes.string,
   media: PropTypes.array,
-  onClear: PropTypes.func,
   onMediaRemove: PropTypes.func,
   onSensitive: PropTypes.func,
   onSpoiler: PropTypes.func,

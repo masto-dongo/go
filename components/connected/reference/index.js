@@ -59,7 +59,7 @@ class Reference extends React.PureComponent {
   handleClick () {
     const {
       mention,
-      tagName
+      tagName,
     } = this.props;
     if (mention) {
       DOMEventNavigate(`/profile/${mention}`);

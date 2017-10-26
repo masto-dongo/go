@@ -8,7 +8,6 @@ import { CommonButton } from 'themes/mastodon-go/components';
 
 //  DOM imports.
 import {
-  DOMEventNavigate,
   DOMListen,
   DOMForget,
 } from 'themes/mastodon-go/DOM';
@@ -20,7 +19,6 @@ export default class ConnectedComposerControls extends React.PureComponent {
 
   constructor (props) {
     super(props);
-    const { rehash } = this.props;
 
     //  State.
     this.state = { quickMode: false };
@@ -48,15 +46,15 @@ export default class ConnectedComposerControls extends React.PureComponent {
     document.body.removeEventListener('keyup', handleAlt, false);
   }
 
-  handleAlt (e) {
-    if (e.altKey) {
+  handleAlt ({ altKey }) {
+    if (altKey) {
       this.setState({ quickMode: true });
     } else {
       this.setState({ quickMode: false });
     }
   }
 
-  handleClick (e) {
+  handleClick () {
     const {
       onSubmit,
       rehash,

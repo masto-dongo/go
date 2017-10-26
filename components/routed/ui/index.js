@@ -179,7 +179,7 @@ class UI extends React.Component {  //  Impure
   handleSpoiler (spoiler) {
     this.setState({
       idempotency: uuid(),
-      '' + spoiler,
+      spoiler: '' + spoiler,
     });
   }
 
@@ -250,7 +250,6 @@ class UI extends React.Component {  //  Impure
 
     const computedClass = classNames('MASTODON_GO--ROUTED--UI', className);
 
-    const singleColumn = true;  //  for now
     const columns = { size: 0 };  //  for now
 
     return (
@@ -261,7 +260,7 @@ class UI extends React.Component {  //  Impure
         <RoutedUIModal />
         <RoutedUIColumn
           activeRoute
-          index={!singleColumn ? columns.size : 0}
+          index={columns.size}
           location={location}
           media={media}
           onMediaRemove={handleMediaRemove}
@@ -270,7 +269,6 @@ class UI extends React.Component {  //  Impure
           onSubmit={handleSubmit}
           onText={handleText}
           onVisibility={handleVisibility}
-          singleColumn={singleColumn}
           spoiler={spoiler}
           text={text}
           visibility={visibility}

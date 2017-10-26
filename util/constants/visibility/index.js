@@ -34,21 +34,21 @@ export function normalize (visibility) {
     return otherVisibility === (otherVisibility & visibility);
   }
   switch (true) {
-    case doesVisibilityContain(PUBLIC):
-      return PUBLIC;
-    case doesVisibilityContain(UNLISTED):
-      return UNLISTED;
-    case doesVisibilityContain(PRIVATE):
-      return PRIVATE;
-    case doesVisibilityContain(DIRECT):
-      return DIRECT;
-    case doesVisibilityContain(LOCAL_PUBLIC):
-      return LOCAL_PUBLIC;
-    case doesVisibilityContain(LOCAL_UNLISTED):
-      return LOCAL_UNLISTED;
-    case doesVisibilityContain(LOCAL_PRIVATE):
-      return LOCAL_PRIVATE;
-    default:
-      return LOCAL_DIRECT;
+  case doesVisibilityContain(PUBLIC):
+    return PUBLIC;
+  case doesVisibilityContain(UNLISTED):
+    return UNLISTED;
+  case doesVisibilityContain(PRIVATE):
+    return PRIVATE;
+  case doesVisibilityContain(DIRECT):
+    return DIRECT;
+  case doesVisibilityContain(LOCAL_PUBLIC):
+    return LOCAL_PUBLIC;
+  case doesVisibilityContain(LOCAL_UNLISTED):
+    return LOCAL_UNLISTED;
+  case doesVisibilityContain(LOCAL_PRIVATE):
+    return LOCAL_PRIVATE;
+  default:
+    return LOCAL_DIRECT;
   }
 }

@@ -50,7 +50,6 @@ export default class RawPaneller extends React.Component {  //  Impure
       activeRoute,
       className,
       children,  //  Panelled components must not have children
-      history,
       ℳ: messages,
       '🎛': config,
       '🏪': store,

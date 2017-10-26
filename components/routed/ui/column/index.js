@@ -24,26 +24,6 @@ import './style.scss';
 
 export default class RoutedUIColumn extends React.PureComponent {
 
-  static propTypes = {
-    activeRoute: PropTypes.bool,
-    className: PropTypes.string,
-    index: PropTypes.number.isRequired,
-    location: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-    media: PropTypes.array,
-    onClear: PropTypes.func,
-    onMediaRemove: PropTypes.func,
-    onSensitive: PropTypes.func,
-    onSpoiler: PropTypes.func,
-    onSubmit: PropTypes.func,
-    onText: PropTypes.func,
-    onVisibility: PropTypes.func,
-    singleColumn: PropTypes.bool.isRequired,
-    spoiler: PropTypes.string,
-    text: PropTypes.string,
-    visibility: PropTypes.number,
-    ℳ: PropTypes.func.isRequired,
-  }
-
   render () {
     const {
       activeRoute,
@@ -58,7 +38,6 @@ export default class RoutedUIColumn extends React.PureComponent {
       onSubmit,
       onText,
       onVisibility,
-      singleColumn,
       spoiler,
       text,
       visibility,
@@ -114,7 +93,6 @@ export default class RoutedUIColumn extends React.PureComponent {
                   activeRoute={activeRoute}
                   hash={activeRoute ? hash : null}
                   media={media}
-                  onClear={onClear}
                   onMediaRemove={onMediaRemove}
                   onSensitive={onSensitive}
                   onSpoiler={onSpoiler}
@@ -244,4 +222,22 @@ export default class RoutedUIColumn extends React.PureComponent {
     );
   }
 
+}
+
+RoutedUIColumn.propTypes = {
+  activeRoute: PropTypes.bool,
+  className: PropTypes.string,
+  index: PropTypes.number.isRequired,
+  location: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  media: PropTypes.array,
+  onMediaRemove: PropTypes.func,
+  onSensitive: PropTypes.func,
+  onSpoiler: PropTypes.func,
+  onSubmit: PropTypes.func,
+  onText: PropTypes.func,
+  onVisibility: PropTypes.func,
+  spoiler: PropTypes.string,
+  text: PropTypes.string,
+  visibility: PropTypes.number,
+  ℳ: PropTypes.func.isRequired,
 }

@@ -1,7 +1,7 @@
 import { DOMDispatch } from 'themes/mastodon-go/DOM';
 
 export default function DOMEventCompose (options = {}) {
-  DOMDispatch(DOMEventNavigate, {
+  DOMDispatch(DOMEventCompose, {
     inReplyTo: options.inReplyTo,
     spoiler: options.spoiler,
     text: options.text,

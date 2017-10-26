@@ -113,7 +113,6 @@ Preview.propTypes = {
   disabled: PropTypes.bool,
   inReplyTo: PropTypes.string,
   media: PropTypes.array,
-  onClear: PropTypes.func,
   onMediaRemove: PropTypes.func,
   onSensitive: PropTypes.func,
   onSpoiler: PropTypes.func,
