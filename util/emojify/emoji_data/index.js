@@ -1,4 +1,4 @@
-import { Emoji } from '../emoji';
+import Emoji from '../emoji';
 
 export default (function getText () {
 

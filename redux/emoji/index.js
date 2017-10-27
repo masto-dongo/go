@@ -14,7 +14,7 @@ import { META_LOAD_COMPLETE } from 'themes/mastodon-go/redux/meta/load';
 //  Other imports.
 import {
   Emoji,
-  TextEmojiData,
+  EmojiData,
 } from 'themes/mastodon-go/util/emojify';
 
 //  * * * * * * *  //
@@ -37,7 +37,7 @@ const normalize = emoji => emoji ? new Emoji({
 
 const initialState = ImmutableMap({
   custom: ImmutableList(),
-  global: ImmutableList(TextEmojiData),
+  global: ImmutableList(EmojiData),
 });
 
 const set = (state, emoji) => state.set('custom', ImmutableList(emoji ? [].concat(emoji).map(
