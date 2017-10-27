@@ -33,7 +33,6 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
   }
 
   render () {
-    const { clicks } = this;
     const {
       autoplay,
       caption,
@@ -58,7 +57,7 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
                     str,
                     title,
                   }, index) {
-                    if (index % 3 === i++) {
+                    if (index % 3 === i) {
                       return (
                         <td key={index}>
                           <CommonButton
@@ -81,6 +80,7 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
                   })}
                 </tr>
               );
+              i++;
             }
             return result;
           }()}

@@ -176,7 +176,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     }
   }
 
-  handleInsert ({ text }) {
+  handleInsert ({ detail: { text } }) {
     const { insertContent } = this;
     insertContent(text);
   }
