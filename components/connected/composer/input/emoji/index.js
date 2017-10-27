@@ -28,15 +28,15 @@ export default class ConnectedComposerInputEmoji extends React.PureComponent {
 
     //  Variables.
     this.emoji = {
-      'Smileys & People': emojifier['Smileys & People'],
-      'Animals & Nature': emojifier['Animals & Nature'],
-      'Food & Drink': emojifier['Food & Drink'],
-      'Travel & Places': emojifier['Travel & Places'],
-      Activities: emojifier.Activities,
-      Objects: emojifier.Objects,
-      Symbols: emojifier.Symbols,
-      Flags: emojifier.Flags,
-      Custom: emojifier.Custom,
+      'Smileys & People': emojifier.categories['Smileys & People'],
+      'Animals & Nature': emojifier.categories['Animals & Nature'],
+      'Food & Drink': emojifier.categories['Food & Drink'],
+      'Travel & Places': emojifier.categories['Travel & Places'],
+      Activities: emojifier.categories.Activities,
+      Objects: emojifier.categories.Objects,
+      Symbols: emojifier.categories.Symbols,
+      Flags: emojifier.categories.Flags,
+      Custom: emojifier.categories.Custom,
     };
   }
 
