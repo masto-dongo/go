@@ -1922,7 +1922,7 @@ export default (function getText () {
 
       //  Otherwise we check to see if this is a valid base character.
       for (i = 0; i < base.length; i++) {
-        if (typeof base[i] === 'number' && sequence === base[i] || sequence >= variation[i][0] && sequence <= variation[i][1]) {
+        if (typeof base[i] === 'number' && sequence === base[i] || sequence >= base[i][0] && sequence <= base[i][1]) {
 
           //  If it is, we push all the modified forms.
           for (character = 0x1F3FB; character <= 0x1F3FF; character++) {

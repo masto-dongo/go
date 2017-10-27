@@ -53,7 +53,7 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
           {function () {
             const result = [];
             let i = 0;
-            while (i++ < 4) {
+            while (i++ < 3) {
               result.push (
                 <tr key={i}>
                   {emoji.map(function ({
@@ -63,7 +63,7 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
                     str,
                     title,
                   }, index) {
-                    if (index % 4 === 0) {
+                    if (index % 3 === i) {
                       return (
                         <td key={index}>
                           <CommonButton onClick={clicks[index]}>
@@ -72,7 +72,7 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
                               alt={str || (name ? ':' + name + ':' : title)}
                               autoplay={autoplay}
                               className='emoji'
-                              description={title || name}
+                              description={title || name || null}
                               staticSrc={staticHref}
                             />
                           </CommonButton>
