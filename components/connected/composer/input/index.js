@@ -5,6 +5,10 @@ import React from 'react';
 
 //  Component imports
 import ConnectedComposerInputMenu from './menu';
+import ConnectedComposerInputEmoji from './emoji';
+
+//  Other imports.
+import { Emojifier } from 'themes/mastodon-go/util/emojify';
 
 //  Stylesheet imports
 import './style.scss';
@@ -29,8 +33,10 @@ export default class ConnectedComposerInput extends React.PureComponent {
   render () {
     const { handleTab } = this;
     const {
+      autoplay,
       attachments,
       className,
+      emojifier,
       onRemove,
       onSensitive,
       onUpload,
@@ -43,6 +49,14 @@ export default class ConnectedComposerInput extends React.PureComponent {
       <div className={computedClass}>
         {function () {
           switch (currentTab) {
+          case 2:
+            return (
+              <ConnectedComposerInputEmoji
+                autoplay={autoplay}
+                emojifier={emojifier}
+                ℳ={ℳ}
+              />
+            );
           default:
             return null;
           }
@@ -59,8 +73,10 @@ export default class ConnectedComposerInput extends React.PureComponent {
 }
 
 ConnectedComposerInput.propTypes = {
+  autoplay: PropTypes.bool,
   attachments: PropTypes.array,
   className: PropTypes.string,
+  emojifier: PropTypes.instanceOf(Emojifier),
   onRemove: PropTypes.func,
   onSensitive: PropTypes.func,
   onUpload: PropTypes.func,

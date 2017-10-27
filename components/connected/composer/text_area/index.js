@@ -19,6 +19,13 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+//  DOM imports.
+import {
+  DOMListen,
+  DOMForget,
+  DOMEventInsert,
+}
+
 //  Stylesheet imports.
 import './style.scss';
 
@@ -34,6 +41,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     const {
       getContents,
       handleEvent,
+      handleInsert,
       handleRef,
       insertContent,
       restoreCaretPos,
@@ -41,14 +49,24 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     } = Object.getPrototypeOf(this);
     this.getContents = getContents.bind(this);
     this.handleEvent = handleEvent.bind(this);
+    this.handleInsert = handleInsert.bind(this);
     this.handleRef = handleRef.bind(this);
     this.insertContent = insertContent.bind(this);
     this.restoreCaretPos = restoreCaretPos.bind(this);
     this.storeCaretPos = storeCaretPos.bind(this);
 
     //  Variables.
-    this.input = null;
     this.caret = 0;
+    this.input = null;
+  }
+
+  componentWillMount () {
+    const { handleInsert } = this;
+    DOMListen(DOMEventInsert, handleInsert);
+  }
+  componentWillUnmount () {
+    const { handleInsert } = this;
+    DOMForget(DOMEventInsert, handleInsert);
   }
 
   //  We get the value of the component on mounting.
@@ -158,9 +176,13 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     }
   }
 
+  handleInsert ({ text }) {
+    const { insertContent } = this;
+    insertContent(text);
+  }
+
   //  Storing our caret position.
   storeCaretPos () {
-    this.caret = 0;
 
     //  We store the current selection with `sel` and the current range
     //  of the selection with `rng`.

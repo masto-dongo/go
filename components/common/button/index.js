@@ -36,6 +36,7 @@ export default class CommonButton extends React.PureComponent {
     animate: PropTypes.bool,
     children: PropTypes.node,
     className: PropTypes.string,
+    data: PropTypes.object,
     disabled: PropTypes.bool,
     href: PropTypes.string,
     icon: PropTypes.string,
@@ -61,10 +62,12 @@ export default class CommonButton extends React.PureComponent {
   }
 
   handleClick = (e) => {
-    const { onClick } = this.props;
-    if (!onClick || e.button || e.ctrlKey || e.shiftKey || e.altKey || e.metaKey) return;
-    onClick(e);
-    e.preventDefault();
+    const {
+      data,
+      onClick,
+    } = this.props;
+    if (!onClick || e.button || e.ctrlKey || e.metaKey) return;
+    onClick(e, data);
   }
 
   //  Rendering the component.

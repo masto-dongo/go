@@ -31,23 +31,30 @@ class Composer extends React.PureComponent {
   constructor (props) {
     super(props);
 
-    const { '🏪': { emojos } } = this.props;
-    this.emoji = (new Emojifier(emojos && emojos.toJS() || [])).emoji;
-  }
-
-  //  If our `emojos` change, then we need to create new `Emoji`.
-  componentWillReceiveProps (nextProps) {
-    const { '🏪': { emojos } } = this.props;
-    if (emojos !== nextProps['🏪'].emojos) {
-      this.emoji = (new Emojifier(nextProps['🏪'].emojos && nextProps['🏪'].emojos.toJS() || [])).emoji;
-    }
+    const { '🏪': {
+      customEmoji,
+      globalEmoji,
+    } } = this.props;
+    const emoji = this.emoji = function () {
+      const emojos = [];
+      if (globalEmoji) {
+        emojos.push(globalEmoji.toJS());
+      }
+      if (customEmoji) {
+        emojos.push(customEmoji.toJS());
+      }
+      return Array.prototype.concat.apply([], emojos);
+    }();
+    this.emojifier = new Emojifier(emoji);
   }
 
   render () {
-    const { emoji } = this;
+    const {
+      emoji,
+      emojifier,
+    } = this;
     const {
       className,
-      disabled,
       inReplyTo,
       media,
       onMediaRemove,
@@ -64,6 +71,8 @@ class Composer extends React.PureComponent {
       '🏪': { me },
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER', className);
+
+    const disabled = false;  //  TK
 
     return (
       <div className={computedClass}>
@@ -90,10 +99,11 @@ class Composer extends React.PureComponent {
         />
         <ConnectedComposerInput
           attachments={media}
-          sensitive={sensitive}
+          emojifier={emojifier}
           onRemove={onMediaRemove}
           onSensitive={onSensitive}
           onUpload={onUpload}
+          sensitive={sensitive}
           ℳ={ℳ}
         />
         <ConnectedComposerControls
@@ -111,7 +121,6 @@ class Composer extends React.PureComponent {
 //  Props.
 Composer.propTypes = {
   className: PropTypes.string,
-  disabled: PropTypes.bool,
   inReplyTo: PropTypes.string,
   media: PropTypes.array,
   onMediaRemove: PropTypes.func,
@@ -128,7 +137,9 @@ Composer.propTypes = {
   visibility: PropTypes.number,
   ℳ: PropTypes.func.isRequired,
   '🏪': PropTypes.shape({
-    emojos: ImmutablePropTypes.list,
+    autoplay: PropTypes.bool,
+    customEmoji: ImmutablePropTypes.list,
+    globalEmoji: ImmutablePropTypes.list,
     me: PropTypes.string,
   }).isRequired,
   '💪': PropTypes.objectOf(PropTypes.func),
@@ -146,7 +157,9 @@ var ConnectedComposer = connect(
 
   //  Store
   createStructuredSelector({
-    emojos: state => state.get('emoji'),
+    autoplay: state => state.get(['meta', 'autoplay']),
+    customEmoji: state => state.get(['emoji', 'custom']),
+    globalEmoji: state => state.get(['emoji', 'global']),
     me: state => state.getIn(['meta', 'me']),
   }),
 
@@ -166,6 +179,51 @@ var ConnectedComposer = connect(
       defaultMessage: 'Insert emoji',
       description: 'Used to label the emoji input button',
       id: 'composer.emoji',
+    },
+    emojiActivities: {
+      defaultMessage: 'Activities',
+      description: 'Used to label the Activities field in the emoji input',
+      id: 'composer.emoji_activities',
+    },
+    emojiAnimals: {
+      defaultMessage: 'Animals',
+      description: 'Used to label the Animals field in the emoji input',
+      id: 'composer.emoji_animals',
+    },
+    emojiCustom: {
+      defaultMessage: 'Custom',
+      description: 'Used to label the Custom field in the emoji input',
+      id: 'composer.emoji_custom',
+    },
+    emojiFlags: {
+      defaultMessage: 'Flags',
+      description: 'Used to label the Flags field in the emoji input',
+      id: 'composer.emoji_flags',
+    },
+    emojiFood: {
+      defaultMessage: 'Food',
+      description: 'Used to label the Food field in the emoji input',
+      id: 'composer.emoji_food',
+    },
+    emojiObjects: {
+      defaultMessage: 'Objects',
+      description: 'Used to label the Objects field in the emoji input',
+      id: 'composer.emoji_objects',
+    },
+    emojiSmileys: {
+      defaultMessage: 'Smileys',
+      description: 'Used to label the Smileys field in the emoji input',
+      id: 'composer.emoji_smileys',
+    },
+    emojiSymbols: {
+      defaultMessage: 'Symbols',
+      description: 'Used to label the Symbols field in the emoji input',
+      id: 'composer.emoji_symbols',
+    },
+    emojiTravel: {
+      defaultMessage: 'Travel',
+      description: 'Used to label the Travel field in the emoji input',
+      id: 'composer.emoji_travel',
     },
     label: {
       defaultMessage: 'What\'s new?',

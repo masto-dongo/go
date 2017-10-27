@@ -13,6 +13,8 @@
   height: 6.25em;
   color: $mastodon_go_input_color;
   background: $mastodon_go_input_background;
+  overflow-x: auto;
+  overflow-y: hidden;
   transition: height (.3s * $mastodon_go_animation_speed) ease;
 
   &.closed { height: 0; }

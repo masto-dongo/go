@@ -19,6 +19,9 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+//  Component imports.
+import { CommonImage } from 'themes/mastodon-go/components';
+
 //  Stylesheet imports.
 import './style.scss';
 
@@ -32,15 +35,18 @@ import { Emoji } from 'themes/mastodon-go/util/emojify';
 
 //  Component definition.
 export default function ConnectedParseEmoji ({
+  autoplay,
   className,
   emoji,
-  text,
+  text: string,
 }) {
   const computedClass = classNames('MASTODON_GO--CONNECTED--PARSE--EMOJI', className);
 
   //  We store our result in an array.
   const result = [];
+  let text = '' + string;
   let i = 0;
+  let inWord = false;
 
   //  We loop over each character in the string and look for a match
   //  with any one of the emoji.  We may have multiple matches if there
@@ -49,7 +55,15 @@ export default function ConnectedParseEmoji ({
     const matches = emoji.filter(
       emojo => {
         const emojiString = '' + emojo;
-        return text.substr(i, emojiString.length) === emojiString;
+        const shortcodeString = emojo.name ? ':' + emojo.name + ':' : null;
+        switch (true) {
+        case emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(emojiString.length) !== '\ufe0e'):
+          return true;
+        case !inWord && shortcodeString && text.substr(i, shortcodeString.length) === shortcodeString && (!text.charAt(shortcodeString.length) || !/[\w:]/.test(text.charAt(shortcodeString.length))):
+          return true;
+        default:
+          return: false;
+        }
       }
     );
 
@@ -63,10 +77,12 @@ export default function ConnectedParseEmoji ({
         (longest, current) => longest && ('' + longest).length > ('' + current).length ? longest : current
       );
       const {
+        href,
         name,
         title,
+        static,
+        str,
       } = emojo;
-      const selector = '';  //  TK: Selector support forthcoming
 
       //  If there was text prior to this emoji, we push it to our
       //  result.  Then we push the emoji image.
@@ -74,24 +90,35 @@ export default function ConnectedParseEmoji ({
         result.push(text.substr(0, i));
       }
       result.push(
-        <img
-          alt={emojo + selector}
+        <CommonImage
+          animatedSrc={href}
+          alt={str || title || name}
+          autoplay={autoplay}
           className='emoji'
-          draggable='false'
+          description={title || name}
           key={result.length}
-          src={emojo.toLocation()}
-          title={title || name}
+          staticSrc={static}
         />
       );
 
+      if (text[str.length] === '\ufe0f' && str.charAt(str.length - 1) !== '\ufe0f') {
+        i++;
+      }
+
       //  We now trim the processed text off of our `text` string and
       //  reset the index to `0`.
-      text = text.substr(i + ('' + emoji).length);
+      text = text.substr(i + emojiString.length);
+      inWord = false;
       i = 0;
       continue;
     }
 
     //  Otherwise, we increment our index and move on.
+    if (/[\w:]/.test(text.charAt(i))) {
+      inWord = true;
+    } else {
+      inWord = false;
+    }
     i++;
   }
 
@@ -109,6 +136,7 @@ export default function ConnectedParseEmoji ({
 
 //  Props.
 ConnectedParseEmoji.propTypes = {
+  autoplay: PropTypes.bool,
   className: PropTypes.string,
   emoji: PropTypes.arrayOf(PropTypes.instanceOf(Emoji)).isRequired,
   text: PropTypes.string.isRequired,

@@ -1,6 +1,6 @@
 import { Emoji } from '../emoji';
 
-export class Emojifier {
+export default class Emojifier {
 
   constructor (...dataLists) {
     const all = [];
@@ -97,8 +97,10 @@ export class Emojifier {
         'country-flag': [],
         'subdivision-flag': [],
       },
+      'Custom': {  //  Not a real category
+        'other': [],
+      },
     };
-    const emoji = {};
 
     //  Makes references to subcategories on parent category object for convenience.
     for (let group in categories) {
@@ -119,17 +121,6 @@ export class Emojifier {
 
         //  Adds emoji to the appropriate category.
         if (categories[emojo.category] instanceof Array) categories.push(emojo);
-
-        //  Overwrites previous emoji with the same name.
-        if (emojo.name) emoji[emojo.name] = emojo;
-
-        //  Aliases only overwrite other aliases, not names.
-        if (emojo.aliases) {
-          for (let iii = 0; iii < emojo.aliases.length; iii++) {
-            const alias = emojo.aliases[iii];
-            if (!emoji[alias] || emoji[alias].name !== alias) emoji[alias] = emojo;
-          }
-        }
       }
     }
 
@@ -151,6 +142,7 @@ export class Emojifier {
           'Objects',
           'Symbols',
           'Flags',
+          'Custom',
         ].indexOf(category) === -1,
         get: function () {
           let subgroups;
@@ -257,12 +249,10 @@ export class Emojifier {
             ];
             break;
           case 'Flags':
-            subgroups = [
-              'flag',
-              'country-flag',
-              'subdivision-flag',
-            ];
+            subgroups = ['flag', 'country-flag', 'subdivision-flag'];
             break;
+          case 'Custom':
+            subgroups = ['other'];
           default:
             subgroups = [category];
             break;
@@ -279,29 +269,51 @@ export class Emojifier {
     }
   }
 
-  parse (string) {
-    string = '' + string;
+  parse (string, static = false) {
     const { emoji } = this;
     const result = document.createDocumentFragment();
-    for (let i = 0; i < string.length; i++) {
+    let text = '' + string;
+    let i = 0;
+    let inWord = false;
+    while (i < text.length) {
       const matches = emoji.filter(
         emojo => {
           const emojiString = '' + emojo;
-          return string.substr(i, emojiString.length) === emojiString;
+          const shortcodeString = emojo.name ? ':' + emojo.name + ':' : null;
+          switch (true) {
+          case emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(emojiString.length) !== '\ufe0e'):
+            return true;
+          case !inWord && shortcodeString && text.substr(i, shortcodeString.length) === shortcodeString && (!text.charAt(shortcodeString.length) || !/[\w:]/.test(text.charAt(shortcodeString.length))):
+            return true;
+          default:
+            return: false;
+          }
         }
       );
       if (matches.length) {
         const emojo = matches.reduce(
           (longest, current) => ('' + longest).length > ('' + current).length ? longest : current,
         0);
-        result.appendChild(document.createTextNode(string.substr(0, i)));
-        result.appendChild(emojo.toImage());
-        string = string.substr(i + ('' + emojo).length);
+        const emojiString = '' + emojo;
+        result.appendChild(document.createTextNode(text.substr(0, i)));
+        result.appendChild(emojo.toImage(static));
+        if (text[emojiString.length] === '\ufe0f' && emojiString.charAt(emojiString.length - 1) !== '\ufe0f') {
+          i++;
+        }
+        text = text.substr(i + emojiString.length);
+        inWord = false;
         i = 0;
+        continue;
       }
+      if (/[\w:]/.test(text.charAt(i))) {
+        inWord = true;
+      } else {
+        inWord = false;
+      }
+      i++;
     }
-    if (string) {
-      result.appendChild(document.createTextNode(string));
+    if (text) {
+      result.appendChild(document.createTextNode(text));
     }
     return result;
   }

@@ -26,7 +26,7 @@
     background-attachment: scroll;
     background-size: 23rem auto;
     background-repeat: repeat-x;
-    animation: 2s mastodon_go_common_list_loading linear infinite;
+    animation: mastodon_go_common_list_loading 2s linear infinite;
     content: "";
 
     @keyframes mastodon_go_common_list_loading {

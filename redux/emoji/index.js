@@ -4,14 +4,58 @@ import {
   Map as ImmutableMap,
 } from 'immutable';
 
+//  Requests.
+import fetchEmoji from './fetch';
 
+//  Action types.
+import { EMOJI_FETCH_SUCCESS } from 'themes/mastodon-go/redux/emoji/fetch';
+import { META_LOAD_COMPLETE } from 'themes/mastodon-go/redux/meta/load';
 
-const normalize = emoji => ImmutableMap({
-  name: '' + emoji.name,
+//  Other imports.
+import {
+  Emoji,
+  TextEmojiData,
+} from 'themes/mastodon-go/util/emojify';
+
+//  * * * * * * *  //
+
+//  Setup
+//  -----
+
+const normalize = emoji => emoji ? new Emoji({
+  category: 'other',
   href: '' + emoji.url,
+  name: '' + emoji.shortcode,
+  static: '' + emoji.static_url,
+  title: ':' + emoji.shortcode + ':'
+}) : new Emoji;
+
+//  * * * * * * *  //
+
+//  State
+//  -----
+
+const initialState = ImmutableMap({
+  custom: ImmutableList(),
+  global: ImmutableList(TextEmojiData),
 });
 
+const set = (state, emoji) => map.set('custom', ImmutableList(emoji ? [].concat(emoji).map(
+  emojo => normalize(emojo)
+) : []));
 
-export default function emoji (state = ImmutableList(), action) {
-  return state;
+export default function emoji (state = initialState, action) {
+  switch(action.type) {
+  case EMOJI_FETCH_SUCCESS:
+    return set(state, action.emoji, action.global);
+  case META_LOAD_COMPLETE:
+    if (action.meta.hasOwnProperty('custom_emojis')) {
+      return set(state, action.meta.custom_emojis);
+    }
+    return state;
+  default:
+    return state;
+  }
 }
+
+export { fetchEmoji };

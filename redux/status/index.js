@@ -81,6 +81,14 @@ const normalize = (status, oldContent) => {
       reblogs: +status.reblogs_count,
     }),
     datetime: new Date(status.created_at),
+    emoji: ImmutableList((status.emojis || []).map(
+      emoji => new Emoji({
+        name: '' + emoji.shortcode,
+        href: '' + emoji.url,
+        static: '' + emoji.static_url,
+        title: ':' + emoji.shortcode + ':'
+      })
+    )),
     href: '' + status.url,
     id: '' + status.id,
     inReplyTo: status.in_reply_to_id ? ImmutableMap({
@@ -93,10 +101,10 @@ const normalize = (status, oldContent) => {
       reblogged: !!status.reblogged,
       reply: !!status.in_reply_to_id,
     }),
-    media: ImmutableList(status.media_attachments.map(
+    media: ImmutableList((status.media_attachments || []).map(
       attachment => '' + attachment.id,
     )),
-    mentions: ImmutableList(status.mentions.map(
+    mentions: ImmutableList((status.mentions || []).map(
       mention => ImmutableMap({
         at: '' + mention.account,
         href: '' + mention.url,
@@ -107,7 +115,7 @@ const normalize = (status, oldContent) => {
     reblog: status.reblog ? '' + status.reblog.id : null,
     sensitive: !!status.sensitive,
     spoiler: '' + status.spoiler_text,
-    tags: ImmutableList(status.tags.map(
+    tags: ImmutableList((status.tags || []).map(
       tag => ImmutableMap({
         href: '' + tag.url,
         name: '' + tag.name,

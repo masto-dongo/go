@@ -55,24 +55,23 @@ class Parse extends React.PureComponent {
 
   constructor (props) {
     super(props);
+    const {
+      emoji,
+      type,
+      '🏪': { globalEmoji },
+    } = this.props;
 
     //  Variables.
-    const {
-      type,
-      '🏪': { emojos },
-    } = this.props;
-    this.emoji = type === 'emoji' ? (new Emojifier(emojos && emojos.toJS() || [])).emoji : null;
-  }
-
-  //  If our `emojos` change, then we need to create new `Emoji`.
-  //  (We don't bother with this if our `type` isn't `'emoji'`.)
-  componentWillReceiveProps (nextProps) {
-    const { '🏪': { emojos } } = this.props;
-    if (nextProps.type === 'emoji' && emojos !== nextProps['🏪'].emojos) {
-      this.emoji = (
-        new Emojifier(nextProps['🏪'].emojos && nextProps['🏪'].emojos.toJS() || [])
-      ).emoji;
-    }
+    this.emoji = type === 'emoji' ? function () {
+      const emojos = [];
+      if (emoji) {
+        emojos.push(emoji.toJS());
+      }
+      if (globalEmoji) {
+        emojos.push(globalEmoji.toJS());
+      }
+      return Array.prototype.concat.apply([], emojos);
+    }() : null;
   }
 
   //  Rendering.
@@ -86,6 +85,7 @@ class Parse extends React.PureComponent {
       tags,
       text,
       type,
+      '🏪': { autoplay }
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--PARSE', className);
 
@@ -103,6 +103,7 @@ class Parse extends React.PureComponent {
     case 'emoji':
       return (
         <ConnectedParseEmoji
+          autoplay={autoplay}
           className={computedClass}
           emoji={emoji}
           text={text}
@@ -129,6 +130,7 @@ class Parse extends React.PureComponent {
 Parse.propTypes = {
   card: ImmutablePropTypes.map,
   className: PropTypes.string,
+  emoji: ImmutablePropTypes.list,
   mentions: ImmutablePropTypes.list,
   metadata: ImmutablePropTypes.list,
   tags: ImmutablePropTypes.list,
@@ -139,7 +141,10 @@ Parse.propTypes = {
     'status',
   ]),
   ℳ: PropTypes.func,
-  '🏪': PropTypes.shape({ emojos: ImmutablePropTypes.list.isRequired }).isRequired,
+  '🏪': PropTypes.shape({
+    autoplay: ImmutablePropTypes.bool,
+    globalEmoji: ImmutablePropTypes.list.isRequired
+  }).isRequired,
   '💪': PropTypes.objectOf(PropTypes.func),
 };
 
@@ -155,7 +160,8 @@ var ConnectedParse = connect(
 
   //  Store.
   createStructuredSelector({
-    emojos: state => state.get('emoji'),
+    autoplay: state => state.getIn(['meta', 'autoplay']),
+    globalEmoji: state => state.getIn(['emoji', 'global']),
   })
 );
 
