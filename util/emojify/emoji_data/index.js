@@ -1913,7 +1913,7 @@ export default (function getText () {
       }
 
       //  Otherwise our emoji is fine as-is.
-      result.push([sequence]);
+      result = [[sequence]];
 
       //  If modified forms weren't requested, that's all we need.
       if (!getMods) {
