@@ -66,6 +66,15 @@ export default class CommonImage extends React.PureComponent {
     } = this.props;
     const { hovering } = this.state;
     const computedClass = classNames('MASTODON_GO--COMMON--IMAGE', className);
+    if (!staticSrc && !animatedSrc) {
+      return (
+        <span
+          className={computedClass}
+          title={title || description}
+          {...rest}
+        >{description}</span>
+      );
+    }
     return (
       <img
         alt={description}

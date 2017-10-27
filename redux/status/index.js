@@ -87,7 +87,7 @@ const normalize = (status, oldContent) => {
         name: '' + emoji.shortcode,
         href: '' + emoji.url,
         staticHref: '' + emoji.static_url,
-        title: ':' + emoji.shortcode + ':'
+        title: ':' + emoji.shortcode + ':',
       })
     )),
     href: '' + status.url,

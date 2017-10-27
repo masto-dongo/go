@@ -269,7 +269,7 @@ export default class Emojifier {
     }
   }
 
-  parse (string, static = false) {
+  parse (string, useStatic = false) {
     const { emoji } = this;
     const result = document.createDocumentFragment();
     let text = '' + string;
@@ -296,7 +296,7 @@ export default class Emojifier {
         0);
         const emojiString = '' + emojo;
         result.appendChild(document.createTextNode(text.substr(0, i)));
-        result.appendChild(emojo.toImage(static));
+        result.appendChild(emojo.toImage(useStatic));
         if (text[emojiString.length] === '\ufe0f' && emojiString.charAt(emojiString.length - 1) !== '\ufe0f') {
           i++;
         }

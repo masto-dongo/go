@@ -10,7 +10,10 @@ import React from 'react';
 import { DOMEventInsert } from 'themes/mastodon-go/DOM';
 
 //  Common imports.
-import { CommonButton } from 'themes/mastodon-go/components';
+import {
+  CommonButton,
+  CommonImage,
+} from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style.scss';
@@ -37,6 +40,7 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
   render () {
     const { clicks } = this;
     const {
+      autoplay,
       caption,
       className,
       emoji,
@@ -63,9 +67,9 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
                       return (
                         <td key={index}>
                           <CommonButton onClick={clicks[index]}>
-                            <img
+                            <CommonImage
                               animatedSrc={href}
-                              alt={str || title || name}
+                              alt={str || (name ? ':' + name + ':' : title)}
                               autoplay={autoplay}
                               className='emoji'
                               description={title || name}
@@ -90,7 +94,7 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
 }
 
 //  Props.
-ConnectedComposerInputEmoji.propTypes = {
+ConnectedComposerInputEmojiTable.propTypes = {
   autoplay: PropTypes.bool,
   caption: PropTypes.node,
   className: PropTypes.string,

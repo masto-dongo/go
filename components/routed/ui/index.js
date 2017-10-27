@@ -107,7 +107,7 @@ class UI extends React.Component {  //  Impure
     const {
       handleAttach,
       handleCompose,
-      handleNavigate
+      handleNavigate,
     } = this;
     DOMListen(DOMEventAttach, handleAttach);
     DOMListen(DOMEventCompose, handleCompose);
@@ -117,7 +117,7 @@ class UI extends React.Component {  //  Impure
     const {
       handleAttach,
       handleCompose,
-      handleNavigate
+      handleNavigate,
     } = this;
     DOMForget(DOMEventAttach, handleAttach);
     DOMForget(DOMEventCompose, handleCompose);
@@ -226,7 +226,6 @@ class UI extends React.Component {  //  Impure
 
   render () {
     const {
-      handleClear,
       handleMediaRemove,
       handleSensitive,
       handleSpoiler,
@@ -238,8 +237,6 @@ class UI extends React.Component {  //  Impure
       className,
       location,
       ℳ,
-      '🏪': store,
-      '💪': handler,
     } = this.props;
     const {
       media,

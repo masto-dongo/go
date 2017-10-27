@@ -2005,4 +2005,4 @@ export default (function getText () {
       })
     ));
   }
-})());
+})();

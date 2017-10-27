@@ -92,7 +92,7 @@ export default function ConnectedParseEmoji ({
       result.push(
         <CommonImage
           animatedSrc={href}
-          alt={str || title || name}
+          alt={str || (name ? ':' + name + ':' : title)}
           autoplay={autoplay}
           className='emoji'
           description={title || name}
@@ -107,7 +107,7 @@ export default function ConnectedParseEmoji ({
 
       //  We now trim the processed text off of our `text` string and
       //  reset the index to `0`.
-      text = text.substr(i + emojiString.length);
+      text = text.substr(i + str.length);
       inWord = false;
       i = 0;
       continue;

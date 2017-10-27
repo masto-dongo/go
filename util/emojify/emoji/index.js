@@ -33,7 +33,7 @@ export default class Emoji {
     Object.freeze(this);
   }
 
-  toImage (static = false) {
+  toImage (useStatic = false) {
     const {
       name,
       href,
@@ -41,12 +41,12 @@ export default class Emoji {
       str,
       title,
     } = this;
-    const src = staticHref ? staticHref : href || staticHref;
+    const src = useStatic ? staticHref : href || staticHref;
     if (src) {
       const image = new Image;
       image.class = 'EMOJI';
       image.draggable = false;
-      image.alt = '' + this || title || name;
+      image.alt = '' + this || (name ? ':' + name + ':' : title);
       image.src = src;
       image.title = title || name;
       return image;

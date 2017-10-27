@@ -43,7 +43,7 @@ export default class RoutedUIColumn extends React.PureComponent {
       ℳ,
     } = this.props;
 
-    const computedClass = classNames('MASTODON_GO--ROUTED--UI--COLUMN', className);
+    const computedClass = classNames('MASTODON_GO--ROUTED--UI--COLUMN', 'column-' + index, className);
 
     return (
       <section className={computedClass}>
@@ -236,4 +236,4 @@ RoutedUIColumn.propTypes = {
   text: PropTypes.string,
   visibility: PropTypes.number,
   ℳ: PropTypes.func.isRequired,
-}
+};
