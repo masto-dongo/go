@@ -4,7 +4,6 @@ export default class Emoji {
     category,
     codepoints,
     href,
-    keywords,
     name,
     staticHref,
     title,

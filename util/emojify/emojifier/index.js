@@ -253,6 +253,7 @@ export default class Emojifier {
             break;
           case 'Custom':
             subgroups = ['other'];
+            break;
           default:
             subgroups = [category];
             break;

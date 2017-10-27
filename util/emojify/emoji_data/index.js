@@ -1,3 +1,5 @@
+import { Emoji } from '../emoji';
+
 export default (function getText () {
 
   //  We store character data as ranges instead of with the individual
