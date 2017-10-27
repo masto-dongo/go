@@ -36,7 +36,7 @@ export default class CommonButton extends React.PureComponent {
     animate: PropTypes.bool,
     children: PropTypes.node,
     className: PropTypes.string,
-    data: PropTypes.object,
+    data: PropTypes.any,
     disabled: PropTypes.bool,
     href: PropTypes.string,
     icon: PropTypes.string,

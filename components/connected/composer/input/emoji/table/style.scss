@@ -4,6 +4,7 @@
 
 .MASTODON_GO--CONNECTED--COMPOSER--INPUT--EMOJI--TABLE {
   display: inline-table;
+  table-layout: fixed;
   margin: .75rem .6rem;
   border: none;
   border-collapse: separate;
@@ -17,7 +18,9 @@
     margin: 0;
     border: none;
     padding: 0;
-    height: 1em;
+    height: 1rem;
+    font-size: .75rem;
+    line-height: 1rem;
     text-align: left;
     text-transform: uppercase;
     white-space: nowrap;
@@ -45,6 +48,7 @@
         height: 1.25rem;
         vertical-align: middle;
         text-align: center;
+        overflow: hidden;
 
         & > .MASTODON_GO--COMMON--BUTTON {
           font: inherit;

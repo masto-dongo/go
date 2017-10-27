@@ -1941,7 +1941,7 @@ export default (function getText () {
 
       //  We only the modifiers for the codepoint if it is the first
       //  one.
-      character = getCodepoints(sequence[i], !i);
+      character = getCodepoints(sequence[i], !i && getMods);
 
       //  U+FE0F VARIATION SELECTOR-16 is *required* for emoji that
       //  support it when used in a sequence.
@@ -1999,13 +1999,14 @@ export default (function getText () {
 
     //  Now we get our codepoints and turn them into Emoji. The URL
     //  generation is the only thing that might differ across vendors.
-    Array.prototype.push.apply(emojos, getCodepoints(these).map(
+    Array.prototype.push.apply(emojos, getCodepoints(these, !(subgroup === 'family')).map(
       codepoints => new Emoji({
         category: subgroup,
         codepoints,
-        staticHref: '/emoji/' + (codepoints.length === 2 && codepoints[1] === 0xFE0F ? codepoints[0].toString(16) : codepoints.map(
-          codepoint => codepoint.toString(16)
-        ).join('-')) + '.svg',
+        staticHref: '/emoji/' + (codepoints.length === 2 && codepoints[1] === 0xFE0F ? codepoints[0].toString(16) : codepoints.map(function (codepoint) {
+          const string = codepoint.toString(16);
+          return Array(string.length < 4 ? 4 - string.length : 0).fill(0).join('') + string;
+        }).join('-')) + '.svg',
       })
     ));
   }

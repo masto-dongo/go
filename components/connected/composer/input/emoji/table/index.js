@@ -30,11 +30,6 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
 
   constructor (props) {
     super(props);
-    const { emoji } = this.props;
-
-    this.clicks = emoji.map(
-      ({ name, str }) => DOMEventInsert.bind(this, str || ':' + name + ':')
-    );
   }
 
   render () {
@@ -53,7 +48,7 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
           {function () {
             const result = [];
             let i = 0;
-            while (i++ < 3) {
+            while (i < 3) {
               result.push (
                 <tr key={i}>
                   {emoji.map(function ({
@@ -63,10 +58,13 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
                     str,
                     title,
                   }, index) {
-                    if (index % 3 === i) {
+                    if (index % 3 === i++) {
                       return (
                         <td key={index}>
-                          <CommonButton onClick={clicks[index]}>
+                          <CommonButton
+                            data={str || (name ? ':' + name + ':' : '')}
+                            onClick={DOMEventInsert}
+                          >
                             <CommonImage
                               animatedSrc={href}
                               alt={str || (name ? ':' + name + ':' : title)}
