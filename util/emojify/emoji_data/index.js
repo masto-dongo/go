@@ -2007,4 +2007,7 @@ export default (function getText () {
       })
     ));
   }
+
+  //  Finally, we return our emojos.
+  return emojos;
 })();
