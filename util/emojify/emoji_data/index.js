@@ -2003,7 +2003,9 @@ export default (function getText () {
       codepoints => new Emoji({
         category: subgroup,
         codepoints,
-        staticHref: '/emoji/' + (codepoints.length === 2 && codepoints[1] === 0xFE0F ? codepoints[0] : codepoints.join('-')) + '.svg',
+        staticHref: '/emoji/' + (codepoints.length === 2 && codepoints[1] === 0xFE0F ? codepoints[0].toString(16) : codepoints.map(
+          codepoint => codepoint.toString(16)
+        ).join('-')) + '.svg',
       })
     ));
   }
