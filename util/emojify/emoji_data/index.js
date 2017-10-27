@@ -1999,7 +1999,7 @@ export default (function getText () {
 
     //  Now we get our codepoints and turn them into Emoji. The URL
     //  generation is the only thing that might differ across vendors.
-    emojos.push(getCodepoints(these).map(
+    Array.prototype.push.apply(emojos, getCodepoints(these).map(
       codepoints => new Emoji({
         category: subgroup,
         codepoints,

@@ -67,8 +67,8 @@ export default class MastodonGO extends React.Component {
       'ARROWRIGHT',
       'ARROWLEFT',
       'ARROWRIGHT',
-      'A',
       'B',
+      'A',
     ][konami] || e.key.toUpperCase() === [
       'I',
       'I',
@@ -78,8 +78,8 @@ export default class MastodonGO extends React.Component {
       'L',
       'J',
       'L',
-      'X',
       'Z',
+      'X',
     ][konami]) {
       if (++this.konami >= 10) {
         this.setState({ konamiActive: !konamiActive });
@@ -98,8 +98,8 @@ export default class MastodonGO extends React.Component {
       store,
       ...rest
     } = this.props;
-    const { konami } = this.state;
-    const computedClass = classNames('MASTODON_GO', { konami }, className);
+    const { konamiActive } = this.state;
+    const computedClass = classNames('MASTODON_GO', { konami: konamiActive }, className);
 
     //  Rendering.
     return (
