@@ -120,7 +120,7 @@ export default class Emojifier {
         all.push(emojo);
 
         //  Adds emoji to the appropriate category.
-        if (categories[emojo.category] instanceof Array) categories.push(emojo);
+        if (categories[emojo.category] instanceof Array) categories[emojo.category].push(emojo);
       }
     }
 

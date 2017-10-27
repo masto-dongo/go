@@ -327,6 +327,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         continue;
       }
 
+      /*
       //  Otherwise, we look for matches with emoji.  There may
       //  multiple.
       const matches = emoji.filter(
@@ -360,6 +361,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         i = 0;
         continue;
       }
+      */
 
       //  Otherwise, we increment our index and move on.
       i++;
