@@ -53,7 +53,7 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
       str,
       title,
     }) {
-      if (!codepoints[1] || codepoints[1] >= 0x1F3FB && codepoints[1] <= 0x1F3FF) {
+      if (codepoints[1] && codepoints[1] >= 0x1F3FB && codepoints[1] <= 0x1F3FF) {
         return;  //  `index` is not incremented if we don't display
       }
       rows[++index % 3].push(

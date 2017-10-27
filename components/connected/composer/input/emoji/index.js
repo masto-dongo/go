@@ -24,27 +24,13 @@ export default class ConnectedComposerInputEmoji extends React.PureComponent {
 
   constructor (props) {
     super(props);
-    const { emojifier } = this.props;
-
-    //  Variables.
-    this.emoji = {
-      'Smileys & People': emojifier.categories['Smileys & People'],
-      'Animals & Nature': emojifier.categories['Animals & Nature'],
-      'Food & Drink': emojifier.categories['Food & Drink'],
-      'Travel & Places': emojifier.categories['Travel & Places'],
-      Activities: emojifier.categories.Activities,
-      Objects: emojifier.categories.Objects,
-      Symbols: emojifier.categories.Symbols,
-      Flags: emojifier.categories.Flags,
-      Custom: emojifier.categories.Custom,
-    };
   }
 
   render () {
-    const { emoji } = this;
     const {
       autoplay,
       className,
+      emojifier: { categories },
       ℳ,
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER--INPUT--EMOJI', className);
@@ -53,47 +39,47 @@ export default class ConnectedComposerInputEmoji extends React.PureComponent {
         <ConnectedComposerInputEmojiTable
           autoplay={autoplay}
           caption={ℳ.emojiCustom}
-          emoji={emoji.Custom}
+          emoji={categories.Custom}
         />
         <ConnectedComposerInputEmojiTable
           autoplay={autoplay}
           caption={ℳ.emojiSmileys}
-          emoji={emoji['Smileys & People']}
+          emoji={categories['Smileys & People']}
         />
         <ConnectedComposerInputEmojiTable
           autoplay={autoplay}
           caption={ℳ.emojiAnimals}
-          emoji={emoji['Animals & Nature']}
+          emoji={categories['Animals & Nature']}
         />
         <ConnectedComposerInputEmojiTable
           autoplay={autoplay}
           caption={ℳ.emojiFood}
-          emoji={emoji['Food & Drink']}
+          emoji={categories['Food & Drink']}
         />
         <ConnectedComposerInputEmojiTable
           autoplay={autoplay}
           caption={ℳ.emojiTravel}
-          emoji={emoji['Travel & Places']}
+          emoji={categories['Travel & Places']}
         />
         <ConnectedComposerInputEmojiTable
           autoplay={autoplay}
           caption={ℳ.emojiActivities}
-          emoji={emoji.Activities}
+          emoji={categories.Activities}
         />
         <ConnectedComposerInputEmojiTable
           autoplay={autoplay}
           caption={ℳ.emojiObjects}
-          emoji={emoji.Objects}
+          emoji={categories.Objects}
         />
         <ConnectedComposerInputEmojiTable
           autoplay={autoplay}
           caption={ℳ.emojiSymbols}
-          emoji={emoji.Symbols}
+          emoji={categories.Symbols}
         />
         <ConnectedComposerInputEmojiTable
           autoplay={autoplay}
           caption={ℳ.emojiFlags}
-          emoji={emoji.Flags}
+          emoji={categories.Flags}
         />
       </div>
     );
