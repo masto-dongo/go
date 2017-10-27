@@ -261,9 +261,9 @@ export default class Emojifier {
           return function () {
             const result = [];
             for (let i = 0; i < subgroups.length; i++) {
-              Array.prototype.push.apply(result, categories[subgroups[i]]);
+              result.push(categories[subgroups[i]]);
             }
-            return result;
+            return Array.prototype.concat.apply([], result);
           };
         }(),
       });

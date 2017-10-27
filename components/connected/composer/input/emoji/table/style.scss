@@ -10,8 +10,10 @@
   border-collapse: separate;
   border-spacing: 0;
   padding: 0;
-  font-size: 1em;
+  height: 4.5rem;
+  font-size: 1.25em;
   line-height: 1;
+  vertical-align: top;
 
   & > caption {
     display: table-caption;
@@ -23,6 +25,7 @@
     line-height: 1rem;
     text-align: left;
     text-transform: uppercase;
+    text-decoration: underline;
     white-space: nowrap;
   }
 
@@ -31,7 +34,6 @@
     margin: 0;
     border: none;
     padding: 0;
-    height: 3.75rem;
 
     & > tr {
       display: table-row;
@@ -45,9 +47,9 @@
         border: none;
         padding: 0;
         width: 1.5rem;
-        height: 1.25rem;
-        vertical-align: middle;
+        height: 1.5rem;
         text-align: center;
+        vertical-align: middle;
         overflow: hidden;
 
         & > .MASTODON_GO--COMMON--BUTTON {

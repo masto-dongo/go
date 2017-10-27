@@ -40,6 +40,9 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
       emoji,
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER--INPUT--EMOJI--TABLE', className);
+    if (!emoji.length) {
+      return null;
+    }
     return (
       <table className={computedClass}>
         <caption>{caption}</caption>
