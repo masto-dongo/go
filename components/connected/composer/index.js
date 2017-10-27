@@ -157,9 +157,9 @@ var ConnectedComposer = connect(
 
   //  Store
   createStructuredSelector({
-    autoplay: state => state.get(['meta', 'autoplay']),
-    customEmoji: state => state.get(['emoji', 'custom']),
-    globalEmoji: state => state.get(['emoji', 'global']),
+    autoplay: state => state.getIn(['meta', 'autoplay']),
+    customEmoji: state => state.getIn(['emoji', 'custom']),
+    globalEmoji: state => state.getIn(['emoji', 'global']),
     me: state => state.getIn(['meta', 'me']),
   }),
 
