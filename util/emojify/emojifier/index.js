@@ -125,9 +125,7 @@ export default class Emojifier {
     }
 
     //  Restricted access to all emoji.
-    Object.defineProperty(this, 'emoji', { get: (
-      () => [...all]
-    ) });
+    Object.defineProperty(this, 'emoji', { value: Object.freeze([...all]) });
 
     //  Provides restricted access to categories through getters.
     this.categories = {};
@@ -144,7 +142,7 @@ export default class Emojifier {
           'Flags',
           'Custom',
         ].indexOf(category) === -1,
-        get: function () {
+        value: function () {
           let subgroups;
           switch (category) {
           case 'Smileys & People':
@@ -258,13 +256,11 @@ export default class Emojifier {
             subgroups = [category];
             break;
           }
-          return function () {
-            const result = [];
-            for (let i = 0; i < subgroups.length; i++) {
-              result.push(categories[subgroups[i]]);
-            }
-            return Array.prototype.concat.apply([], result);
-          };
+          const result = [];
+          for (let i = 0; i < subgroups.length; i++) {
+            result.push(categories[subgroups[i]]);
+          }
+          return Object.freeze(Array.prototype.concat.apply([], result));
         }(),
       });
     }
