@@ -19,9 +19,6 @@ import {
   Route,
 } from 'react-router-dom';
 
-//  DOM imports.
-import { DOMListen } from 'themes/mastodon-go/DOM';
-
 //  Routed imports.
 import { RoutedUI } from './routed';
 
@@ -49,9 +46,11 @@ export default class MastodonGO extends React.Component {
   }
 
   componentWillMount () {
+    const { handleKeyDown } = this;
     document.body.addEventListener('keydown', handleKeyDown, true);
   }
   componentWillUnmount () {
+    const { handleKeyDown } = this;
     document.body.removeEventListener('keydown', handleKeyDown, true);
   }
 

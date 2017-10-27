@@ -30,7 +30,7 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
     const { emoji } = this.props;
 
     this.clicks = emoji.map(
-      { name, str } => DOMEventInsert.bind(this, name || ':' + str + ':')
+      ({ name, str }) => DOMEventInsert.bind(this, str || ':' + name + ':')
     );
   }
 
@@ -55,7 +55,7 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
                   {emoji.map(function ({
                     href,
                     name,
-                    static,
+                    staticHref,
                     str,
                     title,
                   }, index) {
@@ -69,7 +69,7 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
                               autoplay={autoplay}
                               className='emoji'
                               description={title || name}
-                              staticSrc={static}
+                              staticSrc={staticHref}
                             />
                           </CommonButton>
                         </td>

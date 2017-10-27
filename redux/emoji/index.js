@@ -26,8 +26,8 @@ const normalize = emoji => emoji ? new Emoji({
   category: 'other',
   href: '' + emoji.url,
   name: '' + emoji.shortcode,
-  static: '' + emoji.static_url,
-  title: ':' + emoji.shortcode + ':'
+  staticHref: '' + emoji.static_url,
+  title: ':' + emoji.shortcode + ':',
 }) : new Emoji;
 
 //  * * * * * * *  //
@@ -40,7 +40,7 @@ const initialState = ImmutableMap({
   global: ImmutableList(TextEmojiData),
 });
 
-const set = (state, emoji) => map.set('custom', ImmutableList(emoji ? [].concat(emoji).map(
+const set = (state, emoji) => state.set('custom', ImmutableList(emoji ? [].concat(emoji).map(
   emojo => normalize(emojo)
 ) : []));
 

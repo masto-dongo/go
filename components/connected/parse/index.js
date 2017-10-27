@@ -43,7 +43,6 @@ import './style.scss';
 
 //  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
-import { Emojifier } from 'themes/mastodon-go/util/emojify';
 
 //  * * * * * * *  //
 
@@ -85,7 +84,7 @@ class Parse extends React.PureComponent {
       tags,
       text,
       type,
-      '🏪': { autoplay }
+      '🏪': { autoplay },
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--PARSE', className);
 
@@ -143,7 +142,7 @@ Parse.propTypes = {
   ℳ: PropTypes.func,
   '🏪': PropTypes.shape({
     autoplay: ImmutablePropTypes.bool,
-    globalEmoji: ImmutablePropTypes.list.isRequired
+    globalEmoji: ImmutablePropTypes.list.isRequired,
   }).isRequired,
   '💪': PropTypes.objectOf(PropTypes.func),
 };

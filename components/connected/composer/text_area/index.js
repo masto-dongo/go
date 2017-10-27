@@ -24,7 +24,7 @@ import {
   DOMListen,
   DOMForget,
   DOMEventInsert,
-}
+} from 'themes/mastodon-go/DOM';
 
 //  Stylesheet imports.
 import './style.scss';

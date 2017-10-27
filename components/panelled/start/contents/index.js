@@ -47,14 +47,13 @@ export default class PanelledStartContents extends React.Component {  //  Impure
     const {
       className,
       ℳ,
-      '💪': handler,
       '🏪': { me },
     } = this.props;
     const computedClass = classNames('MASTODON_GO--START', className);
 
     return (
       <div className={computedClass}>
-        {me ? <ConnectedAccount id={me}/> : null}
+        {me ? <ConnectedAccount id={me} /> : null}
         <nav>
           <h2>{ℳ.personal}</h2>
           <CommonButton

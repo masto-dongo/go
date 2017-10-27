@@ -6,14 +6,14 @@ export default class Emoji {
     href,
     keywords,
     name,
-    static,
+    staticHref,
     title,
   }) {
     this.category = category ? '' + category : null;
     this.codepoints = codepoints ? [].concat(codepoints).map(n => +n) : [];
     this.href = href ? '' + href : null;
     this.name = name ? '' + name : '';
-    this.static = static ? '' + static : null;
+    this.staticHref = staticHref ? '' + staticHref : null;
     this.title = title ? '' + title : '';
     if (typeof String.fromCodePoint === 'function') {
       this.str = String.fromCodePoint.apply(String, codepoints);
@@ -37,11 +37,11 @@ export default class Emoji {
     const {
       name,
       href,
-      static: staticHref,
+      staticHref,
       str,
       title,
     } = this;
-    const src = static ? staticHref : href || staticHref;
+    const src = staticHref ? staticHref : href || staticHref;
     if (src) {
       const image = new Image;
       image.class = 'EMOJI';

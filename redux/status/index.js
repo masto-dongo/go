@@ -54,6 +54,7 @@ import { TIMELINE_UPDATE_RECEIVE } from 'themes/mastodon-go/redux/timeline/updat
 //  Other imports.
 import { VISIBILITY } from 'themes/mastodon-go/util/constants';
 import deHTMLify from 'themes/mastodon-go/util/deHTMLify';
+import { Emoji } from 'themes/mastodon-go/util/emojify';
 
 //  * * * * * * *  //
 
@@ -85,7 +86,7 @@ const normalize = (status, oldContent) => {
       emoji => new Emoji({
         name: '' + emoji.shortcode,
         href: '' + emoji.url,
-        static: '' + emoji.static_url,
+        staticHref: '' + emoji.static_url,
         title: ':' + emoji.shortcode + ':'
       })
     )),

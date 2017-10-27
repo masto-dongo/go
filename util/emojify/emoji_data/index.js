@@ -2001,8 +2001,8 @@ export default (function getText () {
       codepoints => new Emoji({
         category: subgroup,
         codepoints,
-        static: '/emoji/' + (codepoints.length === 2 && codepoints[1] === 0xFE0F ? codepoints[0] : codepoints.join('-')) + '.svg',
-      });
+        staticHref: '/emoji/' + (codepoints.length === 2 && codepoints[1] === 0xFE0F ? codepoints[0] : codepoints.join('-')) + '.svg',
+      })
     ));
   }
 })());

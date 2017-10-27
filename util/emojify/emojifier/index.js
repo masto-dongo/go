@@ -286,7 +286,7 @@ export default class Emojifier {
           case !inWord && shortcodeString && text.substr(i, shortcodeString.length) === shortcodeString && (!text.charAt(shortcodeString.length) || !/[\w:]/.test(text.charAt(shortcodeString.length))):
             return true;
           default:
-            return: false;
+            return false;
           }
         }
       );
