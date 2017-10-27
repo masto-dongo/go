@@ -67,7 +67,7 @@ export default class CommonButton extends React.PureComponent {
       onClick,
     } = this.props;
     if (!onClick || e.button || e.ctrlKey || e.metaKey) return;
-    onClick(e, data);
+    onClick(data);
   }
 
   //  Rendering the component.

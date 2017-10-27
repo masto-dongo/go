@@ -43,50 +43,44 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
     if (!emoji.length) {
       return null;
     }
+    const rows = [[], [], []];
+    let index = -1;
+    emoji.forEach(function ({
+      codepoints,
+      href,
+      name,
+      staticHref,
+      str,
+      title,
+    }) {
+      if (!codepoints[1] || codepoints[1] >= 0x1F3FB && codepoints[1] <= 0x1F3FF) {
+        return;  //  `index` is not incremented if we don't display
+      }
+      rows[++index % 3].push(
+        <td key={index}>
+          <CommonButton
+            data={str || (name ? ':' + name + ':' : '')}
+            onClick={DOMEventInsert}
+          >
+            <CommonImage
+              animatedSrc={href}
+              alt={str || (name ? ':' + name + ':' : title)}
+              autoplay={autoplay}
+              className='emoji'
+              description={title || name || null}
+              staticSrc={staticHref}
+            />
+          </CommonButton>
+        </td>
+      );
+    }))
     return (
       <table className={computedClass}>
         <caption>{caption}</caption>
         <tbody>
-          {function () {
-            const result = [];
-            let i = 0;
-            while (i < 3) {
-              result.push (
-                <tr key={i}>
-                  {emoji.map(function ({
-                    href,
-                    name,
-                    staticHref,
-                    str,
-                    title,
-                  }, index) {
-                    if (index % 3 === i) {
-                      return (
-                        <td key={index}>
-                          <CommonButton
-                            data={str || (name ? ':' + name + ':' : '')}
-                            onClick={DOMEventInsert}
-                          >
-                            <CommonImage
-                              animatedSrc={href}
-                              alt={str || (name ? ':' + name + ':' : title)}
-                              autoplay={autoplay}
-                              className='emoji'
-                              description={title || name || null}
-                              staticSrc={staticHref}
-                            />
-                          </CommonButton>
-                        </td>
-                      );
-                    }
-                    return null;
-                  })}
-                </tr>
-              );
-              i++;
-            }
-            return result;
-          }()}
+          {rows.map(
+            (row, index) => <tr key={index}>{row}</tr>
+          )}
         </tbody>
       </table>
     );
