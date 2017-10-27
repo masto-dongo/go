@@ -11,7 +11,7 @@
   border-spacing: 0;
   padding: 0;
   height: 4.5rem;
-  font-size: 1.25em;
+  font-size: 1rem;
   line-height: 1;
   vertical-align: top;
 
@@ -46,21 +46,22 @@
         margin: 0;
         border: none;
         padding: 0;
-        text-align: center;
         overflow: hidden;
 
         & > .MASTODON_GO--COMMON--BUTTON {
           display: block;
           margin: 0;
           border: none;
-          padding: .25rem 0;
-          width: 1.5rem;
-          height: 1rem;
+          padding: .375rem 0;
+          width: 2.25rem;
+          height: 1.5rem;
           font: inherit;
+          text-align: center;
 
           & > .MASTODON_GO--COMMON--IMAGE {
+            display: inline-block;
             width: auto;
-            height: 1em;
+            height: 1.5rem;
           }
         }
       }
