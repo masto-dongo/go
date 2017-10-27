@@ -73,7 +73,7 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
           </CommonButton>
         </td>
       );
-    }))
+    });
     return (
       <table className={computedClass}>
         <caption>{caption}</caption>
