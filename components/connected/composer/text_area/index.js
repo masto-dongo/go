@@ -59,7 +59,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     this.caret = 0;
     this.cache = [];
     this.input = null;
-    this.lastRenderedString = null;
+    this.lastRenderedString = '';
   }
 
   componentWillMount () {
