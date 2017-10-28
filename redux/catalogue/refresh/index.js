@@ -10,9 +10,11 @@ const request = path => ({
   path,
   type: CATALOGUE_REFRESH_REQUEST,
 });
-const success = (path, accounts) => ({
+const success = (path, accounts, prev, next) => ({
   accounts,
+  next,
   path,
+  prev,
   type: CATALOGUE_REFRESH_SUCCESS,
 });
 const failure = (path, error) => ({
@@ -30,22 +32,20 @@ export default function refreshCatalogue (path, go, current, api) {
     return;
   }
 
-  //  If our catalogue already has some accounts, this gets the most
-  //  recent one.
-  const ids = catalogue ? catalogue.get('accounts') : void 0;
-  const newestId = ids && ids.size > 0 ? ids.first() : void 0;
-
-  //  If we have an oldest id, then we can set it in our params.
-  const params = {};
-  if (newestId !== void 0) params.since_id = newestId;
+  //  If we were provided a link header in our last request, we can
+  //  use it.
+  const linkPath = catalogue && catalogue.get('prev');
 
   //  The request.
   go(request, path);
-  api.get(
-    path, { params }
-  ).then(
-    response => go(success, path, response.data)
-  ).catch(
-    error => go(failure, path, error)
-  );
+  api.get(linkPath || path).then(function ({
+    data,
+    headers: { link },
+  }) {
+    const next = (link.match(/<\s*([^,]*)\s*>\s*;(?:[^,]*[;\s])?rel="?next"?/) || [])[1];
+    const prev = (link.match(/<\s*([^,]*)\s*>\s*;(?:[^,]*[;\s])?rel="?prev(?:ious)?"?/) || [])[1];
+    go(success, path, data, prev, next);
+  }).catch(function (error) {
+    go(failure, path, error)
+  });
 }

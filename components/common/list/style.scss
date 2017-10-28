@@ -12,6 +12,22 @@
   overflow-x: hidden;
   overflow-y: scroll;
 
+  & > .MASTODON_GO--COMMON--BUTTON {
+    display: block;
+    margin: 0;
+    border: none;
+    padding: 0 .75em .625em;
+    color: $mastodon_go_content_color;
+    background-color: $mastodon_go_content_background;
+    font: inherit;
+    text-align: center;
+
+    &:not(:first-child) { border-top: 1px $mastodon_go_content_border solid }
+
+    &:focus,
+    &:hover { background-color: $mastodon_go_content_highlight }
+  }
+
   &.loading::after {
     display: block;
     position: absolute;

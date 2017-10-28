@@ -139,7 +139,7 @@ const normalize = (status, oldContent) => {
         value &= ~VISIBILITY.FEDERATED;
       }
       return value;
-    }(status.visiblity),
+    }(status.visibility),
   });
 };
 

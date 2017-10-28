@@ -18,10 +18,7 @@ import { createStructuredSelector } from 'reselect';
 import { DOMEventNavigate } from 'themes/mastodon-go/DOM';
 
 //  Requests.
-import {
-  ensureTimeline,
-  fetchAccount,
-} from 'themes/mastodon-go/redux';
+import { fetchAccount } from 'themes/mastodon-go/redux';
 
 //  Component imports.
 import {
@@ -84,7 +81,6 @@ class Reference extends React.PureComponent {
         at,
         href,
         mediaType,
-        rainbow,
         title,
         username,
       },
@@ -124,7 +120,6 @@ class Reference extends React.PureComponent {
           className={computedClass}
           href={href}
           icon={icon}
-          style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : {}}
           title={title || defaultTitle}
         />
       );
@@ -136,7 +131,6 @@ class Reference extends React.PureComponent {
           className={computedClass}
           href={href}
           icon={'id-card-o'}
-          style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : {}}
           title={title || ℳ.card}
         />
       );
@@ -151,7 +145,7 @@ class Reference extends React.PureComponent {
           onClick={handleClick}
           title={title || '@' + at}
         >
-          <code style={rainbow ? { color: rainbow.get('1') } : {}}>
+          <code>
             {showAt && username ? <span className='at'>@</span> : null}
             <span className='username'>{username || mention}</span>
           </code>
@@ -168,7 +162,7 @@ class Reference extends React.PureComponent {
           onClick={handleClick}
           title={ℳ.hashtag.withValues({ tagName })}
         >
-          <b style={rainbow ? { color: rainbow.get('1') } : {}}>
+          <b>
             {showHash ? <span className='hash'>#</span> : null}
             <span className='tagname'>{tagName}</span>
           </b>
@@ -196,7 +190,6 @@ Reference.propTypes = {
     at: PropTypes.string,
     href: PropTypes.string,
     mediaType: PropTypes.number,
-    rainbow: ImmutablePropTypes.map,
     title: PropTypes.string,
     username: PropTypes.string,
   }).isRequired,
@@ -236,25 +229,6 @@ var ConnectedReference = connect(
       }
     },
     mediaType: (state, { attachment }) => attachment ? state.getIn(['attachment', attachment, 'type']) : null,
-    rainbow: (state, {
-      attachment,
-      card,
-      mention,
-      tagName,
-    }) => {
-      switch (true) {
-      case !!attachment:
-        return state.getIn(['attachment', attachment, 'rainbow']);
-      case !!card:
-        return state.getIn(['card', card, 'rainbow']);
-      case !!mention:
-        return state.getIn(['account', mention, 'rainbow']);
-      case !!tagName:
-        return state.getIn(['tag', `/api/v1/timelines/tag/${tagName}`, 'rainbow']);
-      default:
-        return void 0;
-      }
-    },
     title: (state, {
       attachment,
       card,
@@ -315,9 +289,6 @@ var ConnectedReference = connect(
       switch (true) {
       case !!mention:
         go(fetchAccount, mention, false);
-        break;
-      case !!tagName:
-        go(ensureTimeline, `/api/v1/timelines/tag/${tagName}`);
         break;
       }
     },

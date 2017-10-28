@@ -11,5 +11,5 @@
 
   &.detailed { background-color: $mastodon_go_content_highlight }
   & > .MASTODON_GO--CONNECTED--ACCOUNT.small { margin: 0 -.75em }
-  & + .MASTODON_GO--CONNECTED--STATUS { border-top: 1px $mastodon_go_content_border solid }
+  &:not(:first-child) { border-top: 1px $mastodon_go_content_border solid }
 }

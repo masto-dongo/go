@@ -11,7 +11,10 @@ const request = path => ({
   path,
   type: TIMELINE_EXPAND_REQUEST,
 });
-const success = (path, statuses) => ({
+const success = (path, statuses, prev, next) => ({
+  next,
+  path,
+  prev,
   statuses,
   type: TIMELINE_EXPAND_SUCCESS,
 });
@@ -30,22 +33,20 @@ export default function expandTimeline (path, go, current, api) {
     return;
   }
 
-  //  If our timeline already has some statuses, this gets the oldest
-  //  one.
-  const ids = timeline ? timeline.get('statuses') : void 0;
-  const oldestId = ids && ids.size > 0 ? ids.last() : void 0;
-
-  //  If we have an oldest id, then we can set it in our params.
-  const params = { limit: 20 };
-  if (oldestId !== void 0) params.max_id = oldestId;
+  //  If we were provided a link header in our last request, we can
+  //  use it.
+  const linkPath = timeline && timeline.get('next');
 
   //  The request.
   go(request, path);
-  api.get(
-    path, { params }
-  ).then(
-    response => go(success, path, response.data)
-  ).catch(
-    error => go(failure, path, error)
-  );
+  api.get(linkPath || path).then(function ({
+    data,
+    headers: { link },
+  }) {
+    const next = (link.match(/<\s*([^,]*)\s*>\s*;(?:[^,]*[;\s])?rel="?next"?/) || [])[1];
+    const prev = (link.match(/<\s*([^,]*)\s*>\s*;(?:[^,]*[;\s])?rel="?prev(?:ious)?"?/) || [])[1];
+    go(success, path, data, prev, next);
+  }).catch(function (error) {
+    go(failure, path, error)
+  });
 }

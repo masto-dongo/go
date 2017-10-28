@@ -75,36 +75,44 @@ const initialState = ImmutableMap({
   connected: false,
   isLoading: false,
   notifications: ImmutableList(),
+  next: null,
+  prev: null,
 });
 
 //  `set()` just replaces our `notifications` with a new `normalized()`
 //  list.
-const set = (state, notifications) => state.withMutations(
+const set = (state, notifications, prev, next) => state.withMutations(
   map => {
     map.set('isLoading', false);
     map.set('notifications', normalize(notifications));
+    map.setIn('prev', '' + prev);
+    map.setIn('next', '' + next);
   }
 );
 
 //  `prepend()` prepends the given `notifications` to the state.
-const prepend = (state, notifications) => state.withMutations(
+const prepend = (state, notifications, prev, next) => state.withMutations(
   map => {
     map.set('isLoading', false);
     map.update(
       'notifications',
       list => normalize(notifications).concat(list)
     );
+    map.setIn('prev', '' + prev);
+    map.setIn('next', '' + next);
   }
 );
 
 //  `append()` appends the given `notifications` to the state.
-const append = (state, notifications) => state.withMutations(
+const append = (state, notifications, prev, next) => state.withMutations(
   map => {
     map.set('isLoading', false);
     map.update(
       'notifications',
       list => list.concat(normalize(notifications))
     );
+    map.setIn('prev', '' + prev);
+    map.setIn('next', '' + next);
   }
 );
 
@@ -161,19 +169,19 @@ export default function courier (state = initialState, action) {
   case COURIER_EXPAND_REQUEST:
     return state.set('isLoading', true);
   case COURIER_EXPAND_SUCCESS:
-    return append(state, action.notifications);
+    return append(state, action.notifications, action.prev, action.next);
   case COURIER_FETCH_FAILURE:
     return state.set('isLoading', false);
   case COURIER_FETCH_REQUEST:
     return state.set('isLoading', true);
   case COURIER_FETCH_SUCCESS:
-    return set(state, action.notifications);
+    return set(state, action.notifications, action.prev, action.next);
   case COURIER_REFRESH_FAILURE:
     return state.set('isLoading', false);
   case COURIER_REFRESH_REQUEST:
     return state.set('isLoading', true);
   case COURIER_REFRESH_SUCCESS:
-    return prepend(state, action.notifications);
+    return prepend(state, action.notifications, action.prev, action.next);
   case COURIER_UPDATE_RECEIVE:
     return prepend(state, action.notification);
   case NOTIFICATION_REMOVE_COMPLETE:

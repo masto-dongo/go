@@ -11,8 +11,10 @@ export const COURIER_REFRESH_FAILURE = 'COURIER_REFRESH_FAILURE';
 
 //  Action creators.
 const request = { type: COURIER_REFRESH_REQUEST };
-const success = notifications => ({
+const success = (notifications, prev, next) => ({
+  next,
   notifications,
+  prev,
   type: COURIER_REFRESH_SUCCESS,
 });
 const failure = error => ({
@@ -29,37 +31,33 @@ export default function refreshCourier (go, current, api) {
     return;
   }
 
-  //  If our courier already has some notifications, this gets the
-  //  latest one.
-  const ids = courier ? courier.get('notifications') : void 0;
-  const newestId = ids && ids.size > 0 ? ids.first() : void 0;
-
-  //  If we have a newest id, then we can set it in our params.
-  const params = {};
-  if (newestId !== void 0) params.since_id = newestId;
+  //  If we were provided a link header in our last request, we can
+  //  use it.
+  const linkPath = courier && courier.get('next');
 
   //  The request.
   go(request);
-  api.get(
-    '/api/v1/notifications', { params }
-  ).then(
-    response => {
+  api.get(linkPath || '/api/v1/notifications').then(function ({
+    data,
+    headers: { link },
+  }) {
+    const next = (link.match(/<\s*([^,]*)\s*>\s*;(?:[^,]*[;\s])?rel="?next"?/) || [])[1];
+    const prev = (link.match(/<\s*([^,]*)\s*>\s*;(?:[^,]*[;\s])?rel="?prev(?:ious)?"?/) || [])[1];
 
-      //  We fetch the relationships for any follow notifications.
-      const follows = [];
-      response.data.forEach(
-        notification => {
-          if (notification.type === 'follow') follows.push(notification.account.id);
-        }
-      );
-      if (follows.length) {
-        go(fetchRelationship, follows, false);
+    //  We fetch the relationships for any follow notifications.
+    const follows = [];
+    data.forEach(function (notification) {
+      if (notification.type === 'follow') {
+        follows.push(notification.account.id);
       }
-
-      //  Regardless, we dispatch our success.
-      go(success, response.data);
+    });
+    if (follows.length) {
+      go(fetchRelationship, follows, false);
     }
-  ).catch(
-    error => go(failure, error)
-  );
+
+    //  Regardless, we dispatch our success.
+    go(success, data, prev, next);
+  }).catch(function (error) {
+    go(failure, error)
+  });
 }

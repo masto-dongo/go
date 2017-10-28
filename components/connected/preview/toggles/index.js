@@ -93,7 +93,7 @@ export default class ConnectedPreviewToggles extends React.PureComponent {
       visibility,
       ℳ,
     } = this.props;
-    const computedClass = classNames('MASTODON_GO--CONNECTED--PREVIEW--TOGGLES', { disabled },  className);
+    const computedClass = classNames('MASTODON_GO--CONNECTED--PREVIEW--TOGGLES', { disabled }, className);
 
     //  Rendering.
     return (
@@ -109,7 +109,7 @@ export default class ConnectedPreviewToggles extends React.PureComponent {
         />
         <CommonToggle
           active={!!(visibility & VISIBILITY.REBLOGGABLE)}
-          activeIcon='unlock-alt'
+          activeIcon='unlock'
           activeLabel={ℳ.rebloggableOn}
           disabled={disabled}
           inactiveIcon='lock'
