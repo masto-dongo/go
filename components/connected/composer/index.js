@@ -56,6 +56,7 @@ class Composer extends React.PureComponent {
     } = this;
     const {
       className,
+      disabled,
       inReplyTo,
       media,
       onMediaRemove,
@@ -75,9 +76,7 @@ class Composer extends React.PureComponent {
         me,
       },
     } = this.props;
-    const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER', className);
-
-    const disabled = false;  //  TK
+    const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER', { disabled }, className);
 
     return (
       <div className={computedClass}>
@@ -106,6 +105,7 @@ class Composer extends React.PureComponent {
         <ConnectedComposerInput
           attachments={media}
           autoplay={autoplay}
+          disabled={disabled}
           emojifier={emojifier}
           onRemove={onMediaRemove}
           onSensitive={onSensitive}
@@ -115,6 +115,7 @@ class Composer extends React.PureComponent {
         />
         <ConnectedComposerControls
           attached={media.length}
+          disabled={disabled}
           local={!(visibility & VISIBILITY.FEDERATED)}
           onSubmit={onSubmit}
           rehash={rehash}
@@ -131,6 +132,7 @@ class Composer extends React.PureComponent {
 //  Props.
 Composer.propTypes = {
   className: PropTypes.string,
+  disabled: PropTypes.bool,
   inReplyTo: PropTypes.string,
   media: PropTypes.array,
   onMediaRemove: PropTypes.func,

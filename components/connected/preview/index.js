@@ -60,6 +60,7 @@ class Preview extends React.PureComponent {
     const { setExpansion } = this;
     const {
       className,
+      disabled,
       inReplyTo,
       media,
       onSensitive,
@@ -76,7 +77,7 @@ class Preview extends React.PureComponent {
       },
     } = this.props;
     const { contentVisible } = this.state;
-    const computedClass = classNames('MASTODON_GO--CONNECTED--PREVIEW', className);
+    const computedClass = classNames('MASTODON_GO--CONNECTED--PREVIEW', { disabled }, className);
 
     return (
       <div className={computedClass}>
@@ -98,6 +99,7 @@ class Preview extends React.PureComponent {
           />
         </div>
         <ConnectedPreviewToggles
+          disabled={disabled}
           onSensitive={onSensitive}
           onVisibility={onVisibility}
           sensitive={sensitive}
@@ -105,6 +107,7 @@ class Preview extends React.PureComponent {
           ℳ={ℳ}
         />
         <ConnectedPreviewControls
+          disabled={disabled}
           local={!(visibility & VISIBILITY.FEDERATED)}
           onSubmit={onSubmit}
           spoiler={spoiler}

@@ -89,10 +89,11 @@ export default class ConnectedPreviewToggles extends React.PureComponent {
     } = this;
     const {
       className,
+      disabled,
       visibility,
       ℳ,
     } = this.props;
-    const computedClass = classNames('MASTODON_GO--CONNECTED--PREVIEW--TOGGLES', className);
+    const computedClass = classNames('MASTODON_GO--CONNECTED--PREVIEW--TOGGLES', { disabled },  className);
 
     //  Rendering.
     return (
@@ -101,6 +102,7 @@ export default class ConnectedPreviewToggles extends React.PureComponent {
           active={!!(visibility & VISIBILITY.FEDERATED)}
           activeIcon='globe'
           activeLabel={ℳ.federatedOn}
+          disabled={disabled}
           inactiveIcon='users'
           inactiveLabel={ℳ.federatedOff}
           onChange={handleFederated}
@@ -109,6 +111,7 @@ export default class ConnectedPreviewToggles extends React.PureComponent {
           active={!!(visibility & VISIBILITY.REBLOGGABLE)}
           activeIcon='unlock-alt'
           activeLabel={ℳ.rebloggableOn}
+          disabled={disabled}
           inactiveIcon='lock'
           inactiveLabel={ℳ.rebloggableOff}
           onChange={handleRebloggable}
@@ -117,6 +120,7 @@ export default class ConnectedPreviewToggles extends React.PureComponent {
           active={!!(visibility & VISIBILITY.LISTED)}
           activeIcon='newspaper-o'
           activeLabel={ℳ.listedOn}
+          disabled={disabled}
           inactiveIcon='microphone-slash'
           inactiveLabel={ℳ.listedOff}
           onChange={handleListed}
@@ -125,6 +129,7 @@ export default class ConnectedPreviewToggles extends React.PureComponent {
           active={!(visibility & ~VISIBILITY.DIRECT)}
           activeIcon='envelope'
           activeLabel={ℳ.directOn}
+          disabled={disabled}
           inactiveIcon='envelope-open'
           inactiveLabel={ℳ.directOff}
           onChange={handleDirect}
@@ -138,6 +143,7 @@ export default class ConnectedPreviewToggles extends React.PureComponent {
 //  Props.
 ConnectedPreviewToggles.propTypes = {
   className: PropTypes.string,
+  disabled: PropTypes.bool,
   onVisibility: PropTypes.func,
   visibility: PropTypes.number,
   ℳ: PropTypes.func.isRequired,

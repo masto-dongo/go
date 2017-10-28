@@ -1,8 +1,14 @@
 //  COMPOSER:SUBMIT
 //  ===============
 
+//  DOM imports.
+import { DOMEventUpload } from 'themes/mastodon-go/DOM';
+
 //  Imported requests.
 import { updateTimeline } from 'themes/mastodon-go/redux/timeline';
+
+//  Other imports.
+import { VISIBILITY } from 'themes/mastodon-go/util/constants';
 
 //  Action types.
 export const COMPOSER_SUBMIT_REQUEST = 'COMPOSER_SUBMIT_REQUEST';
@@ -48,22 +54,39 @@ export default function submitStatus (text, options, go, current, api) {
     if ((item = options.spoiler)) {
       data.spoiler_text = item;
     }
-    data.status = options.local ? text + ' 👁️' : text;
-    if ((item = options.visibility)) {
-      data.privacy = item;
+    if ((item = +options.visibility) === options.visibility) {
+      if (!(item & VISIBILITY.FEDERATED)) {
+        text += ' 👁️';
+      }
+      data.privacy = function (visibility) {
+        switch (visibility) {
+        case VISIBILITY.PUBLIC:
+          return 'public';
+        case VISIBILITY.UNLISTED:
+          return 'unlisted';
+        case VISIBLITY.PRIVATE:
+          return 'private';
+        default:
+          return 'direct';
+        }
+      }(VISIBILITY.normalize(item & VISIBILITY.FEDERATED))
     }
-  } else {
-    data.status = text;
   }
+  data.status = text;
   const headers = options ? { 'Idempotency-Key': options.idempotency } : {};
 
   //  The request.
   go(request, text, options);
+  DOMEventUpload({ completed: false });
   api.post(
     '/api/v1/statuses', data, { headers }
   ).then(
     response => {
       go(success, response.data);
+      DOMEventUpload({
+        completed: true,
+        withSuccess: true,
+      });
 
       //  After posting our status, we add it to our home timeline.
       go(updateTimeline, '/api/v1/home', response.data);
@@ -76,6 +99,12 @@ export default function submitStatus (text, options, go, current, api) {
       }
     }
   ).catch(
-    error => go(failure, text, options, error)
+    error => {
+      go(failure, text, options, error);
+      DOMEventUpload({
+        completed: true,
+        withSuccess: false,
+      });
+    }
   );
 }

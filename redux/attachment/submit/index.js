@@ -1,6 +1,9 @@
 //  ATTACHMENT:SUBMIT
 //  =================
 
+//  DOM imports.
+import { DOMEventUpload } from 'themes/mastodon-go/DOM';
+
 //  Action types.
 export const ATTACHMENT_SUBMIT_REQUEST = 'ATTACHMENT_SUBMIT_REQUEST';
 export const ATTACHMENT_SUBMIT_SUCCESS = 'ATTACHMENT_SUBMIT_SUCCESS';
@@ -30,13 +33,29 @@ export default function uploadComposer (file, go, current, api) {
 
   //  The request.
   go(request, file);
+  DOMEventUpload({ completed: false });
   api.post(
     '/api/v1/media', data, {
-      onUploadProgress: e => {},  //  TODO
+      onUploadProgress: e => DOMEventUpload({
+        completed: false,
+        progress: e.loaded / e.total,
+      }),
     }
   ).then(
-    response => go(success, response.data)
+    response => {
+      go(success, response.data);
+      DOMEventUpload({
+        completed: true,
+        withSuccess: true,
+      });
+    }
   ).catch(
-    error =>  go(failure, file, error)
+    error => {
+      go(failure, file, error);
+      DOMEventUpload({
+        completed: true,
+        withSuccess: false,
+      });
+    }
   );
 }

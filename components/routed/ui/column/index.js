@@ -39,6 +39,7 @@ export default class RoutedUIColumn extends React.PureComponent {
       onVisibility,
       spoiler,
       text,
+      uploading,
       visibility,
       ℳ,
     } = this.props;
@@ -87,6 +88,7 @@ export default class RoutedUIColumn extends React.PureComponent {
               return (
                 <PanelledDrawer
                   activeRoute={activeRoute}
+                  disabled={uploading}
                   hash={activeRoute ? hash : null}
                   media={media}
                   onMediaRemove={onMediaRemove}
@@ -234,6 +236,7 @@ RoutedUIColumn.propTypes = {
   onVisibility: PropTypes.func,
   spoiler: PropTypes.string,
   text: PropTypes.string,
+  uploading: PropTypes.bool,
   visibility: PropTypes.number,
   ℳ: PropTypes.func.isRequired,
 };

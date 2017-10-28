@@ -61,7 +61,8 @@
     &.disabled {
       & > *.filler {
         background-color: transparent;
-        border: 3px $mastodon_go_content_active solid;
+        left: -1px;
+        border-right: 2px $mastodon_go_content_active solid;
       }
     }
   }

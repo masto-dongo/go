@@ -291,6 +291,7 @@ class Status extends React.PureComponent {
           content={content.get('plain')}
           contentVisible={contentVisible}
           detailed={detailed}
+          emoji={emoji}
           media={media}
           mentions={mentions}
           onClick={handleClick}

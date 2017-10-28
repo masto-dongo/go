@@ -12,6 +12,7 @@ import {
   DOMEventAttach,
   DOMEventCompose,
   DOMEventNavigate,
+  DOMEventUpload,
   DOMForget,
   DOMListen,
 } from 'themes/mastodon-go/DOM';
@@ -36,17 +37,6 @@ import uuid from 'themes/mastodon-go/util/uuid';
 
 class UI extends React.Component {  //  Impure
 
-  static propTypes = {
-    className: PropTypes.string,
-    history: PropTypes.object,
-    location: PropTypes.object,
-    match: PropTypes.object,
-    staticContext: PropTypes.object,  //  Unused
-    ℳ: PropTypes.func.isRequired,
-    '🏪': PropTypes.shape({ defaultVisibility: PropTypes.number }).isRequired,
-    '💪': PropTypes.objectOf(PropTypes.func).isRequired,
-  };
-
   constructor (props) {
     super(props);
     const {
@@ -60,6 +50,7 @@ class UI extends React.Component {  //  Impure
       media: [],
       spoiler: '',
       text: '\n',
+      uploading: false,
       visibility: defaultVisibility,
     };
 
@@ -73,6 +64,7 @@ class UI extends React.Component {  //  Impure
       handleSpoiler,
       handleSubmit,
       handleText,
+      handleUpload,
       handleVisibility,
     } = Object.getPrototypeOf(this);
     this.handleAttach = handleAttach.bind(this);
@@ -83,6 +75,7 @@ class UI extends React.Component {  //  Impure
     this.handleSpoiler = handleSpoiler.bind(this);
     this.handleSubmit = handleSubmit.bind(this);
     this.handleText = handleText.bind(this);
+    this.handleUpload = handleUpload.bind(this);
     this.handleVisibility = handleVisibility.bind(this);
 
     //  Fetching.
@@ -213,6 +206,13 @@ class UI extends React.Component {  //  Impure
     });
   }
 
+  handleUpload ({ completed }) {
+    const { uploading } = this.state;
+    if (completed === uploading) {
+      this.setState({ uploading: !complete });
+    }
+  }
+
   handleVisibility (value) {
     this.setState({
       idempotency: uuid(),
@@ -242,6 +242,7 @@ class UI extends React.Component {  //  Impure
       media,
       spoiler,
       text,
+      uploading,
       visibility,
     } = this.state;
 
@@ -265,6 +266,7 @@ class UI extends React.Component {  //  Impure
           onVisibility={handleVisibility}
           spoiler={spoiler}
           text={text}
+          uploading={uploading}
           visibility={visibility}
           ℳ={ℳ}
         />
@@ -273,6 +275,18 @@ class UI extends React.Component {  //  Impure
   }
 
 }
+
+//  Props.
+UI.propTypes = {
+  className: PropTypes.string,
+  history: PropTypes.object,
+  location: PropTypes.object,
+  match: PropTypes.object,
+  staticContext: PropTypes.object,  //  Unused
+  ℳ: PropTypes.func.isRequired,
+  '🏪': PropTypes.shape({ defaultVisibility: PropTypes.number }).isRequired,
+  '💪': PropTypes.objectOf(PropTypes.func).isRequired,
+};
 
 //  * * * * * * *  //
 
@@ -287,7 +301,7 @@ export default connect(
 
   //  Store.
   createStructuredSelector({
-    defaultVisibility: state => state.getIn(['meta', 'defaultVisibility']),
+    defaultVisibility: state => state.getIn(['meta', 'visibility']),
   }),
 
   //  Messages.

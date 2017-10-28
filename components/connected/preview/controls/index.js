@@ -33,14 +33,14 @@ export default class ConnectedPreviewControls extends React.PureComponent {
       text,
       ℳ,
     } = this.props;
-    const computedClass = classNames('MASTODON_GO--CONNECTED--PREVIEW--CONTROLS', className);
+    const computedClass = classNames('MASTODON_GO--CONNECTED--PREVIEW--CONTROLS', { disabled }, className);
 
     const size = ((local ? text + ' 👁' : text) + (spoiler || '')).trim().replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, '_').length;
 
     return (
       <div className={computedClass}>
         <CommonButton
-          disabled={!(size && size <= 500)}
+          disabled={disabled || !(size && size <= 500)}
           icon={'paper-plane'}
           onClick={handleSubmit}
           title={ℳ.publish}
@@ -54,6 +54,7 @@ export default class ConnectedPreviewControls extends React.PureComponent {
 
 ConnectedPreviewControls.propTypes = {
   className: PropTypes.string,
+  disabled: PropTypes.bool,
   local: PropTypes.bool,
   onSubmit: PropTypes.func,
   rehash: PropTypes.func,

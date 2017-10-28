@@ -36,6 +36,7 @@ export default class ConnectedComposerInput extends React.PureComponent {
       autoplay,
       attachments,
       className,
+      disabled,
       emojifier,
       onRemove,
       onSensitive,
@@ -43,7 +44,10 @@ export default class ConnectedComposerInput extends React.PureComponent {
       ℳ,
     } = this.props;
     const { currentTab } = this.state;
-    const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER--INPUT', { closed: !currentTab }, className);
+    const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER--INPUT', {
+      closed: !currentTab,
+      disabled,
+    }, className);
 
     return (
       <div className={computedClass}>
@@ -53,6 +57,7 @@ export default class ConnectedComposerInput extends React.PureComponent {
             return (
               <ConnectedComposerInputEmoji
                 autoplay={autoplay}
+                disabled={disabled}
                 emojifier={emojifier}
                 ℳ={ℳ}
               />
@@ -76,6 +81,7 @@ ConnectedComposerInput.propTypes = {
   autoplay: PropTypes.bool,
   attachments: PropTypes.array,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
   emojifier: PropTypes.instanceOf(Emojifier),
   onRemove: PropTypes.func,
   onSensitive: PropTypes.func,

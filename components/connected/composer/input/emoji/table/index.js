@@ -37,9 +37,10 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
       autoplay,
       caption,
       className,
+      disabled,
       emoji,
     } = this.props;
-    const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER--INPUT--EMOJI--TABLE', className);
+    const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER--INPUT--EMOJI--TABLE', { disabled }, className);
     if (!emoji.length) {
       return null;
     }
@@ -60,6 +61,7 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
         <td key={index}>
           <CommonButton
             data={str || (name ? ':' + name + ':' : '')}
+            disabled={disabled}
             onClick={DOMEventInsert}
             passive
           >
@@ -94,5 +96,6 @@ ConnectedComposerInputEmojiTable.propTypes = {
   autoplay: PropTypes.bool,
   caption: PropTypes.node,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
   emoji: PropTypes.arrayOf(PropTypes.instanceOf(Emoji)),
 };

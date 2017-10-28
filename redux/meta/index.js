@@ -89,20 +89,18 @@ const set = (state, meta) => state.withMutations(
         map.set('sensitive', !!data.default_sensitive);
       }
       if (data.hasOwnProperty('default_privacy')) {
-        map.set('visibility', (
-          visibility => {
-            switch (visibility) {
-            case 'direct':
-              return VISIBILITY.DIRECT;
-            case 'public':
-              return VISIBILITY.PUBLIC;
-            case 'unlisted':
-              return VISIBILITY.UNLISTED;
-            default:
-              return VISIBILITY.PRIVATE;
-            }
+        map.set('visibility', function (visibility) {
+          switch (visibility) {
+          case 'direct':
+            return VISIBILITY.DIRECT;
+          case 'public':
+            return VISIBILITY.PUBLIC;
+          case 'unlisted':
+            return VISIBILITY.UNLISTED;
+          default:
+            return VISIBILITY.PRIVATE;
           }
-        )(data.default_privacy));
+        }(data.default_privacy));
       }
     }
     if (meta.hasOwnProperty('media_attachments') && (data = meta.media_attachments)) {
