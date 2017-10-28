@@ -212,7 +212,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
             if (img && img.tagName.toUpperCase() === 'IMG') {
               e.preventDefault();
               rng.setEndAfter(img);
-              nde = document.createTextNode(img.alt.substr(0, img.alt.length - 1));
+              nde = document.createTextNode(img.alt.substr(1, img.alt.length - 1));
               rng.deleteContents();
               rng.insertNode(nde);
               rng.setStartBefore(nde);
