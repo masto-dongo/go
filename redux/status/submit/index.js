@@ -2,7 +2,10 @@
 //  ===============
 
 //  DOM imports.
-import { DOMEventUpload } from 'themes/mastodon-go/DOM';
+import {
+  DOMEventCompose,
+  DOMEventUpload,
+} from 'themes/mastodon-go/DOM';
 
 //  Imported requests.
 import { updateTimeline } from 'themes/mastodon-go/redux/timeline';
@@ -87,6 +90,7 @@ export default function submitStatus (text, options, go, current, api) {
         completed: true,
         withSuccess: true,
       });
+      DOMEventCompose();
 
       //  After posting our status, we add it to our home timeline.
       go(updateTimeline, '/api/v1/home', response.data);
