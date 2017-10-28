@@ -59,6 +59,13 @@ import {
 //  -------------
 
 //  These functions are used in our connector, below.
+const getInAccount = (state, id, key) => {
+  if (!id) {
+    return void 0;
+  }
+  id = state.getIn(['status', id, 'reblog']) || id;
+  return state.getIn(['account', state.getIn(['status', id, 'account']), key]);
+};
 const getInStatus = (state, id, key) => {
   if (!id) {
     return void 0;
@@ -209,7 +216,10 @@ class Status extends React.PureComponent {
         type,
         visibility,
       },
-      '💪': handler,
+      '💪': {
+        favourite,
+        reblog,
+      },
     } = this.props;
     const { contentVisible } = this.state;
 
@@ -310,11 +320,14 @@ class Status extends React.PureComponent {
           ℳ={ℳ}
         />
         <ConnectedStatusActionBar
+          at={at}
           detailed={detailed}
-          handler={handler}
+          id={id}
           is={is}
-          me={me}
           onDetail={handleClick}
+          onFavourite={favourite}
+          onReblog={reblog}
+          spoiler={spoiler}
           visibility={visibility}
           ℳ={ℳ}
         />
@@ -344,6 +357,7 @@ Status.propTypes = {
   small: PropTypes.bool,
   ℳ: PropTypes.func,
   '🏪': PropTypes.shape({
+    at: PropTypes.string,
     account: PropTypes.string,
     application: ImmutablePropTypes.map,
     card: ImmutablePropTypes.map,
@@ -378,6 +392,7 @@ var ConnectedStatus = connect(
 
   //  Store.
   createStructuredSelector({
+    at: (state, { id }) => getInAccount(state, id, 'at'),
     account: (state, { id }) => getInStatus(state, id, 'account'),
     application: (state, { id }) => getInStatus(state, id, 'application'),
     card: (state, { id }) => getCard(state, id),

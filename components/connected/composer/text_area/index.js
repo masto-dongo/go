@@ -364,6 +364,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
   render () {
     const {
       cache,
+      composing,
       handleEvent,
       handleRef,
       lastRenderedString,
@@ -378,6 +379,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     } = this.props;
 
     const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER--TEXT_AREA', {
+      composing,
       disabled,
       empty: (
         value === '\n' ||

@@ -58,11 +58,13 @@ class Timeline extends React.PureComponent {
     const { handleDetail } = this;
     const {
       className,
+      ℳ,
       '🏪': {
         isLoading,
         settings,
         statuses,
       },
+      '💪': { expand },
     } = this.props;
     const { currentDetail } = this.state;
     const computedClass = classNames('MASTODON_GO--CONNECTED--TIMELINE', className);
@@ -72,21 +74,26 @@ class Timeline extends React.PureComponent {
         className={computedClass}
         isLoading={isLoading}
       >
-        {
-          statuses ? statuses.reduce(function (items, status) {
-            items.push(
-              <ConnectedStatus
-                detailed={currentDetail === status.get('id')}
-                filterRegex={settings ? settings.getIn(['regex', 'body']) : null}
-                hideIf={settings ? (settings.getIn(['shows', 'reblog']) && POST_TYPE.IS_REBLOG) | (settings.getIn(['shows', 'reply']) && POST_TYPE.IS_MENTION) : null}
-                id={status.get('id')}
-                key={status.get('id')}
-                setDetail={handleDetail}
-              />
-            );
-            return items;
-          }, []) : null
-        }
+        {statuses ? statuses.reduce(function (items, status) {
+          items.push(
+            <ConnectedStatus
+              detailed={currentDetail === status.get('id')}
+              filterRegex={settings ? settings.getIn(['regex', 'body']) : null}
+              hideIf={settings ? (settings.getIn(['shows', 'reblog']) && POST_TYPE.IS_REBLOG) | (settings.getIn(['shows', 'reply']) && POST_TYPE.IS_MENTION) : null}
+              id={status.get('id')}
+              key={status.get('id')}
+              setDetail={handleDetail}
+            />
+          );
+          return items;
+        }, []).concat(
+          <CommonButton
+            disabled={isLoading}
+            onClick={expand}
+            showTitle
+            title={ℳ.loadMore}
+          />
+        ) : null}
       </CommonList>
     );
   }
@@ -100,7 +107,7 @@ Timeline.propTypes = {
   path: PropTypes.string.isRequired,
   rehash: PropTypes.func,
   title: PropTypes.node,
-  ℳ: PropTypes.func,
+  ℳ: PropTypes.func.isRequired,
   '🏪': PropTypes.shape({
     isLoading: PropTypes.bool,
     settings: ImmutablePropTypes.map,
@@ -132,7 +139,13 @@ var ConnectedTimeline = connect(
   }),
 
   //  Messages.
-  null,
+  defineMessages({
+    loadMore: {
+      defaultMessage: 'Load more',
+      description: 'Label for the "load more" button on timelines',
+      id: 'timeline.load_more',
+    },
+  }),
 
   //  Handler.
   (go, store, { path }) => ({

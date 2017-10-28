@@ -18,14 +18,13 @@
     margin: .3125em 0;
     width: 100%;
     height: auto;
+    font-size: 1.5rem;
 
     & > .MASTODON_GO--COMMON--BUTTON {
       display: inline-block;
-      box-sizing: border-box;
       margin: 0;
       border: none;
-      padding: .3125em .5em;
-      width: 25%;
+      padding: .5em;
 
       & + .MASTODON_GO--COMMON--BUTTON {
         border-left: 1px $mastodon_go_content_border solid;

@@ -74,6 +74,7 @@ class Courier extends React.PureComponent {
         notifications,
         settings,
       },
+      '💪': { expand },
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--COURIER', className);
 
@@ -82,15 +83,21 @@ class Courier extends React.PureComponent {
         className={computedClass}
         isLoading={isLoading}
       >
-        {notifications ? notifications.reduce(
-          (items, id) => items.push(
+        {notifications ? notifications.reduce(function (items, id) {
+          return items.push(
             <ConnectedNotification
               hideIf={(settings.getIn(['shows', 'favourite']) && POST_TYPE.IS_FAVOURITE) | (settings.getIn(['shows', 'reblog']) && POST_TYPE.IS_REBLOG) | (settings.getIn(['shows', 'mention']) && POST_TYPE.IS_MENTION) | (settings.getIn(['shows', 'follow']) && POST_TYPE.IS_FOLLOW)}
               id={id}
               key={id}
             />
           ),
-          []
+        }, []).concat(
+          <CommonButton
+            disabled={isLoading}
+            onClick={expand}
+            showTitle
+            title={ℳ.loadMore}
+          />
         ) : null}
       </CommonList>
     );
@@ -129,7 +136,13 @@ var ConnectedCourier = connect(
   }),
 
   //  Messages.
-  null,
+  defineMessages({
+    loadMore: {
+      defaultMessage: 'Load more',
+      description: 'Label for the "load more" button on couriers',
+      id: 'courier.load_more',
+    },
+  }),
 
   //  Handler.
   go => ({

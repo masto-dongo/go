@@ -95,6 +95,7 @@ class Catalogue extends React.PureComponent {
         accounts,
         isLoading,
       },
+      '💪': { expand },
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--CATALOGUE', className);
 
@@ -103,14 +104,20 @@ class Catalogue extends React.PureComponent {
         className={computedClass}
         isLoading={isLoading}
       >
-        {accounts ? accounts.reduce(
-          (items, id) => items.push(
+        {accounts ? accounts.reduce(function (items, id) {
+          return items.push(
             <ConnectedAccount
               id={id}
               key={id}
             />
-          ),
-          []
+          );
+        }, []).concat(
+          <CommonButton
+            disabled={isLoading}
+            onClick={expand}
+            showTitle
+            title={ℳ.loadMore}
+          />
         ) : null}
       </CommonList>
     );
@@ -148,7 +155,13 @@ var ConnectedCatalogue = connect(
   }),
 
   //  Messages.
-  null,
+  defineMessages({
+    loadMore: {
+      defaultMessage: 'Load more',
+      description: 'Label for the "load more" button on catalogues',
+      id: 'catalogue.load_more',
+    },
+  }),
 
   //  Handlers.
   (go, store, { path }) => ({

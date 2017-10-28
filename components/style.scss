@@ -31,4 +31,6 @@
       to { background-color: $rainbow_cyan }
     }
   }
+
+  @media (max-width: 23rem) { padding: 0 }
 }

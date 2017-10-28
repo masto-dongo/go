@@ -15,6 +15,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
+//  DOM imports.
+import { DOMEventCompose } from 'themes/mastodon-go/DOM';
+
 //  Component imports.
 import { CommonButton } from 'themes/mastodon-go/components';
 
@@ -31,33 +34,32 @@ import './style.scss';
 
 export default class ConnectedStatusActionBar extends React.PureComponent {
 
-  //  Props.
-  static propTypes = {
-    className: PropTypes.string,
-    detailed: PropTypes.bool,
-    handler: PropTypes.objectOf(PropTypes.func).isRequired,
-    is: ImmutablePropTypes.map.isRequired,
-    me: PropTypes.number,
-    onDetail: PropTypes.func,
-    visibility: PropTypes.number,
-    ℳ: PropTypes.func.isRequired,
-  };
+  constructor (props) {
+    super(props);
+    const {
+      at,
+      id,
+      spoiler,
+      visibility,
+    } = this.props;
 
-  //  These handle all of our actions.
-  handleReplyClick = () => {
-  };
-  handleMentionClick = () => {
-  };
+    //  Function binding.
+    this.handleReply = DOMEventCompose.bind(this, {
+      inReplyTo: id,
+      spoiler,
+      text: '@' + at,
+      visibility,
+    });
+  }
 
   //  Renders our component.
   render () {
-    const { handleReplyClick } = this;
+    const { handleReply } = this;
     const {
       className,
       detailed,
       handler,
       is,
-      me,
       onDetail,
       visibility,
       ℳ,
@@ -66,7 +68,6 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
     const computedClass = classNames('MASTODON_GO--CONNECTED--STATUS--ACTION_BAR', { detailed }, className);
     const rebloggable = visibility & VISIBILITY.REBLOGGABLE;
     const reblogTitle = rebloggable ? ℳ.reblog : ℳ.noReblog;
-    const anonymousAccess = !me;
     let replyIcon;
     let replyTitle;
 
@@ -83,25 +84,23 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
     return (
       <div className={computedClass}>
         <CommonButton
-          disabled={anonymousAccess}
           title={replyTitle}
           icon={replyIcon}
-          onClick={handleReplyClick}
+          onClick={handleReply}
         />
         <CommonButton
-          disabled={anonymousAccess || !rebloggable}
           active={is.get('reblogged')}
-          title={reblogTitle}
+          disabled={!rebloggable}
           icon='retweet'
-          onClick={handler.reblog}
+          onClick={onReblog}
+          title={reblogTitle}
         />
         <CommonButton
-          disabled={anonymousAccess}
-          animate
           active={is.get('favourited')}
-          title={ℳ.favourite}
+          animate
           icon='star'
-          onClick={handler.favourite}
+          onClick={onFavourite}
+          title={ℳ.favourite}
         />
         {
           onDetail ? (
@@ -118,3 +117,17 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
   }
 
 }
+
+ConnectedStatusActionBar.propTypes = {
+  at: PropTypes.string,
+  className: PropTypes.string,
+  detailed: PropTypes.bool,
+  id: PropTypes.string,
+  is: ImmutablePropTypes.map.isRequired,
+  onDetail: PropTypes.func,
+  onFavourite: PropTypes.func,
+  onReblog: PropTypes.func,
+  spoiler: PropTypes.string,
+  visibility: PropTypes.number,
+  ℳ: PropTypes.func.isRequired,
+};
