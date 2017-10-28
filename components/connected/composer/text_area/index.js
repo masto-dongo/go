@@ -58,6 +58,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     //  Variables.
     this.caret = 0;
     this.cache = [];
+    this.composing = false;
     this.input = null;
     this.lastRenderedString = '';
   }
@@ -166,12 +167,20 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
   //  that browsers like Chrome (and now Firefox) like to pull.
   handleEvent (e) {
     const {
+      composing,
       getContents,
       input,
       insertContent,
     } = this;
     const { onChange } = this.props;
-    if (e.type === 'keydown') {
+    switch (e.type) {
+    case 'compositionstart':
+      this.composing = true;
+      return;
+    case 'compositionend':
+      this.composing = false;
+      return;
+    case 'keydown':
       let img, nde, rng, sel;
       switch (e.key) {
       case 'Enter':
@@ -230,7 +239,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         return;
       }
     }
-    if (onChange) {
+    if (!composing && onChange) {
       onChange(getContents());
     }
   }
@@ -575,6 +584,8 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         dangerouslySetInnerHTML={{ __html: result.map(
           item => item.value
         ).join('') }}
+        onCompositionStart={handleEvent}
+        onCompositionEnd={handleEvent}
         onKeyDown={handleEvent}
         onInput={handleEvent}
         onBlur={handleEvent}
