@@ -289,7 +289,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
           break;
         }
       } else if (nde.tagName.toUpperCase() === 'IMG') {
-        if ((idx += nde.alt) >= dst) {
+        if ((idx += nde.alt.length) >= dst) {
           success = true;
           break;
         }
@@ -411,7 +411,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         if (i !== 0) {
           result.push(text.substr(0, i));
         }
-        result.push(emojo.toImage(autoplay).outerHTML || match);
+        result.push(emojo.toImage(autoplay).outerHTML ? '<span class="emoji" contenteditable="false">' + emojo.toImage(autoplay).outerHTML + '</span>' || match);
 
         //  We gobble any following U+FE0F characters if our match
         //  doesn't end with one.

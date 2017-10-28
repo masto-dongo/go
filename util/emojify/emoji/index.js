@@ -43,11 +43,13 @@ export default class Emoji {
     const src = useStatic ? staticHref : href || staticHref;
     if (src) {
       const image = new Image;
-      image.class = 'EMOJI';
+      image.className = 'EMOJI';
       image.draggable = false;
       image.alt = '' + this || (name ? ':' + name + ':' : title);
       image.src = src;
-      image.title = title || name;
+      if (title || name) {
+        image.title = title || ':' + name + ':';
+      }
       return image;
     }
     return document.createTextNode(str);
