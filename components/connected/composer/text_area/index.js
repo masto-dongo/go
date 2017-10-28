@@ -261,6 +261,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     const { input, caret } = this;
     const { value } = this.props;
     if (!input) return;
+    console.log(caret, offset, value.length);
     const sel = window.getSelection();
     const rng = document.createRange();
     const wkr = document.createTreeWalker(input);
