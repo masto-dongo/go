@@ -226,6 +226,8 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
           }
         }
         return;
+      default:
+        return;
       }
     }
     if (onChange) {
@@ -426,10 +428,6 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
       endPosition += cache[--index].size;
     }
 
-    console.log(`cache size: ${cache.length}`);
-    console.log(`start: ${diffStart}; end: ${diffEnd}`);
-    console.log(`startPos: ${position}; endPos: ${endPosition}`);
-
     //  Next, we process the text in-between our two diffs.
     let i = 0;
     let text = value.substring(position, value.length - endPosition);
@@ -521,7 +519,10 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
 
       //  If we've processed 0x16 or more characters, we go ahead and
       //  push them.  This helps to keep our diffs small.  Note that
-      //  0x16 = ⌊√0x1F4⌋ = ⌊√500⌋.
+      //  there is no guarantee that these chunks will stay this size.
+      //  (So long as no boundary point changes, they can shrink
+      //  without consequence.  If they try to grow, they will split in
+      //  two.)
       if (i >= 0x15) {  //  Because our first character is 0
         result.push({
           position,
