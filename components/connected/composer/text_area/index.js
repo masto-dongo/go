@@ -181,7 +181,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         if (sel && sel.rangeCount) {
           const rng = sel.getRangeAt(0);
           const img = rng.startContainer.previousSibling;
-          if (rng.collapsed && input.contains(rng.startContainer) && rng.startOffset = 0 && img.tagName.toUpperCase() === 'IMG') {
+          if (rng.collapsed && input.contains(rng.startContainer) && rng.startOffset === 0 && img.tagName.toUpperCase() === 'IMG') {
             e.preventDefault();
             rng.setStartBefore(img);
             const nde = document.createTextNode(img.alt.substr(0, img.alt.length - 1));
@@ -201,7 +201,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         if (sel && sel.rangeCount) {
           const rng = sel.getRangeAt(0);
           const img = rng.endContainer.nextSibling;
-          if (rng.collapsed && input.contains(rng.endContainer) && rng.endOffset = 0 && img.tagName.toUpperCase() === 'IMG') {
+          if (rng.collapsed && input.contains(rng.endContainer) && rng.endOffset === 0 && img.tagName.toUpperCase() === 'IMG') {
             e.preventDefault();
             rng.setEndAfter(img);
             const nde = document.createTextNode(img.alt.substr(0, img.alt.length - 1));
