@@ -73,6 +73,7 @@ export default class ConnectedComposerControls extends React.PureComponent {
       attached,
       className,
       local,
+      spoiler,
       text,
       ℳ,
     } = this.props;

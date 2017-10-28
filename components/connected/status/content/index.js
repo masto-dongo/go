@@ -44,6 +44,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
     content: PropTypes.string,
     contentVisible: PropTypes.bool,
     detailed: PropTypes.bool,
+    emoji: ImmutablePropTypes.list,
     media: ImmutablePropTypes.list,
     mentions: ImmutablePropTypes.list,
     onClick: PropTypes.func,
@@ -121,6 +122,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
       content,
       contentVisible,
       detailed,
+      emoji,
       media,
       mentions,
       onClick,
@@ -193,6 +195,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
             } : {})}
           >
             <ConnectedParse
+              emoji={emoji}
               text={spoiler}
               type='emoji'
             />
@@ -217,6 +220,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
               } : {})}
             >
               <ConnectedParse
+                emoji={emoji}
                 mentions={mentions}
                 tags={tags}
                 text={content}
@@ -241,6 +245,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
               } : {})}
             >
               <ConnectedParse
+                emoji={emoji}
                 mentions={mentions}
                 tags={tags}
                 text={content}

@@ -196,6 +196,7 @@ class Status extends React.PureComponent {
         comrade,
         content,
         datetime,
+        emoji,
         href,
         inReplyTo,
         is,
@@ -253,6 +254,7 @@ class Status extends React.PureComponent {
             card={card}
             content={content.get('plain')}
             contentVisible={contentVisible}
+            emoji={emoji}
             media={media}
             mentions={mentions}
             onClick={handleClick}
@@ -347,6 +349,7 @@ Status.propTypes = {
     comrade: PropTypes.string,
     content: ImmutablePropTypes.map,
     datetime: PropTypes.instanceOf(Date),
+    emoji: ImmutablePropTypes.list,
     href: PropTypes.string,
     inReplyTo: PropTypes.map,
     is: ImmutablePropTypes.map,
@@ -388,6 +391,7 @@ var ConnectedStatus = connect(
     },
     content: (state, { id }) => getInStatus(state, id, 'content'),
     datetime: (state, { id }) => getInStatus(state, id, 'datetime'),
+    emoji: (state, { id }) => getInStatus(state, id, 'emoji'),
     href: (state, { id }) => getInStatus(state, id, 'href'),
     inReplyTo: (state, { id }) => getInStatus(state, id, 'inReplyTo'),
     is: (state, { id }) => getInStatus(state, id, 'is'),
