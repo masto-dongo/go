@@ -103,7 +103,6 @@ export default class ConnectedStatusContent extends React.PureComponent {
   //  This expands and collapses our spoiler.
   handleSpoilerClick = (e) => {
     const { setExpansion } = this.props;
-    e.preventDefault();
     if (setExpansion) {
       setExpansion();  //  Calling with no argument toggles
     }

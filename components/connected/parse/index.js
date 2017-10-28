@@ -79,6 +79,7 @@ class Parse extends React.PureComponent {
     const {
       card,
       className,
+      emoji: immutableEmoji,
       mentions,
       metadata,
       tags,
@@ -113,6 +114,7 @@ class Parse extends React.PureComponent {
         <ConnectedParseStatusContent
           card={card}
           className={computedClass}
+          emoji={immutableEmoji}
           mentions={mentions}
           tags={tags}
           text={text}
@@ -142,7 +144,7 @@ Parse.propTypes = {
   ℳ: PropTypes.func,
   '🏪': PropTypes.shape({
     autoplay: ImmutablePropTypes.bool,
-    globalEmoji: ImmutablePropTypes.list.isRequired,
+    globalEmoji: ImmutablePropTypes.list,
   }).isRequired,
   '💪': PropTypes.objectOf(PropTypes.func),
 };

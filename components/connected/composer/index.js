@@ -24,6 +24,7 @@ import './style.scss';
 
 //  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
+import { VISIBILITY } from 'themes/mastodon-go/util/constants';
 import { Emojifier } from 'themes/mastodon-go/util/emojify';
 
 class Composer extends React.PureComponent {
@@ -67,6 +68,7 @@ class Composer extends React.PureComponent {
       sensitive,
       spoiler,
       text,
+      visibility,
       ℳ,
       '🏪': {
         autoplay,
@@ -113,8 +115,10 @@ class Composer extends React.PureComponent {
         />
         <ConnectedComposerControls
           attached={media.length}
+          local={!(visibility & VISIBILITY.FEDERATED)}
           onSubmit={onSubmit}
           rehash={rehash}
+          text={text}
           ℳ={ℳ}
         />
       </div>

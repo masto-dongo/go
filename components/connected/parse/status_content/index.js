@@ -55,6 +55,7 @@ export default function ConnectedParseStatusContent ({
           <ConnectedParseStatusContentParagraph
             attachments={attachments}
             card={card}
+            emoji={emoji}
             key={index}
             mentions={mentions}
             tags={tags}
@@ -71,6 +72,7 @@ ConnectedParseStatusContent.propTypes = {
   attachments: ImmutablePropTypes.list,
   card: ImmutablePropTypes.map,
   className: PropTypes.string,
+  emoji: ImmutablePropTypes.list,
   mentions: ImmutablePropTypes.list,
   tags: ImmutablePropTypes.list,
   text: PropTypes.string.isRequired,

@@ -61,6 +61,7 @@ export default class ConnectedComposerInputEmojiTable extends React.PureComponen
           <CommonButton
             data={str || (name ? ':' + name + ':' : '')}
             onClick={DOMEventInsert}
+            passive
           >
             <CommonImage
               animatedSrc={href}

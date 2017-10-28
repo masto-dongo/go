@@ -5,6 +5,7 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import {
   CommonButton,
@@ -26,9 +27,8 @@ export default class ConnectedPreviewStatus extends React.PureComponent {
   }
 
   //  This expands and collapses our spoiler.
-  handleSpoilerClick = (e) => {
+  function handleSpoilerClick () {
     const { setExpansion } = this.props;
-    e.preventDefault();
     if (setExpansion) {
       setExpansion();  //  Calling with no argument toggles
     }
@@ -41,6 +41,7 @@ export default class ConnectedPreviewStatus extends React.PureComponent {
       className,
       content,
       contentVisible,
+      emoji,
       media,
       sensitive,
       spoiler,
@@ -83,6 +84,7 @@ export default class ConnectedPreviewStatus extends React.PureComponent {
         <div className={computedClass}>
           <p className='spoiler'>
             <ConnectedParse
+              emoji={emoji}
               text={spoiler}
               type='emoji'
             />
@@ -100,6 +102,7 @@ export default class ConnectedPreviewStatus extends React.PureComponent {
           <div className='contents' hidden={!contentVisible}>
             <div className='text'>
               <ConnectedParse
+                emoji={emoji}
                 text={content.trim().replace(/\n{2,}/g, '\n\n')}
                 type='status'
               />
@@ -116,6 +119,7 @@ export default class ConnectedPreviewStatus extends React.PureComponent {
           <div className='contents'>
             <div className='text'>
               <ConnectedParse
+                emoji={emoji}
                 text={content.trim().replace(/\n{2,}/g, '\n\n')}
                 type='status'
               />
@@ -133,6 +137,7 @@ ConnectedPreviewStatus.propTypes = {
   className: PropTypes.string,
   content: PropTypes.string,
   contentVisible: PropTypes.bool,
+  emoji: ImmutablePropTypes.list,
   media: PropTypes.array,
   sensitive: PropTypes.bool,
   setExpansion: PropTypes.func,

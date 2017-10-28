@@ -2,6 +2,7 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
@@ -16,6 +17,7 @@ import './style.scss';
 
 //  Other imports
 import connect from 'themes/mastodon-go/util/connect';
+import { VISIBILITY } from 'themes/mastodon-go/util/constants';
 
 class Preview extends React.PureComponent {
 
@@ -68,7 +70,10 @@ class Preview extends React.PureComponent {
       text,
       visibility,
       ℳ,
-      '🏪': { me },
+      '🏪': {
+        customEmoji,
+        me,
+      },
     } = this.props;
     const { contentVisible } = this.state;
     const computedClass = classNames('MASTODON_GO--CONNECTED--PREVIEW', className);
@@ -84,6 +89,7 @@ class Preview extends React.PureComponent {
           <ConnectedPreviewStatus
             content={text}
             contentVisible={contentVisible}
+            emoji={customEmoji}
             media={media}
             sensitive={sensitive}
             setExpansion={setExpansion}
@@ -99,7 +105,9 @@ class Preview extends React.PureComponent {
           ℳ={ℳ}
         />
         <ConnectedPreviewControls
+          local={!(visibility & VISIBILITY.FEDERATED)}
           onSubmit={onSubmit}
+          text={text}
           ℳ={ℳ}
         />
       </div>
@@ -126,7 +134,10 @@ Preview.propTypes = {
   text: PropTypes.string.isRequired,
   visibility: PropTypes.number,
   ℳ: PropTypes.func.isRequired,
-  '🏪': PropTypes.shape({ me: PropTypes.string }).isRequired,
+  '🏪': PropTypes.shape({
+    customEmoji: ImmutablePropTypes.list,
+    me: PropTypes.string,
+  }).isRequired,
   '💪': PropTypes.objectOf(PropTypes.func),
 };
 
@@ -137,6 +148,7 @@ var ConnectedPreview = connect(
 
   //  Store.
   createStructuredSelector({
+    customEmoji: store => store.getIn(['emoji', 'custom']),
     me: store => store.getIn(['meta', 'me']),
   }),
 

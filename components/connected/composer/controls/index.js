@@ -72,20 +72,32 @@ export default class ConnectedComposerControls extends React.PureComponent {
     const {
       attached,
       className,
+      local,
+      text,
       ℳ,
     } = this.props;
     const { quickMode } = this.state;
     const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER--CONTROLS', className);
 
+    const size = (local ? text + ' 👁' : text).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, '_').length;
+
     return (
       <div className={computedClass}>
         <CommonButton
+          disabled={size > 500}
           icon={quickMode ? 'paper-plane' : 'paper-plane-o'}
           onClick={handleClick}
           role={quickMode ? 'button' : 'link'}
           title={quickMode ? ℳ.quick : ℳ.preview}
           showTitle
-        >{attached ? <span class='attached'>{attached}</span> : null}</CommonButton>
+        >
+          {attached ? <span class='attached'>{attached}</span> : null}
+          <span
+            aria-hidden='true'
+            className='filler'
+            style={{ width: size > 500 ? '100%' : '' + (100 * size / 500) + '%' }}
+          />
+        </CommonButton>
       </div>
     );
   }
@@ -95,8 +107,10 @@ export default class ConnectedComposerControls extends React.PureComponent {
 ConnectedComposerControls.propTypes = {
   attached: PropTypes.number,
   className: PropTypes.string,
+  local: PropTypes.bool,
   onSubmit: PropTypes.func,
   rehash: PropTypes.func,
+  text: PropTypes.string,
   ℳ: PropTypes.func.isRequired,
 };
 

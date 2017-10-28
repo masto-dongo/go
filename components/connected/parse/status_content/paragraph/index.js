@@ -60,6 +60,7 @@ export default function ConnectedParseStatusContentParagraph ({
             if (linkMatch[1]) {
               pContents.push(
                 <ConnectedParse
+                  emoji={emoji}
                   key={pContents.length}
                   text={linkMatch[1]}
                   type='emoji'
@@ -135,6 +136,7 @@ export default function ConnectedParseStatusContentParagraph ({
                     title={href}
                   >
                     <ConnectedParse
+                      emoji={emoji}
                       text={content}
                       type='emoji'
                     />
@@ -151,6 +153,7 @@ export default function ConnectedParseStatusContentParagraph ({
           if (line) {
             pContents.push(
               <ConnectedParse
+                emoji={emoji}
                 key={pContents.length}
                 text={line}
                 type='emoji'
@@ -176,6 +179,7 @@ ConnectedParseStatusContentParagraph.propTypes = {
   attachments: ImmutablePropTypes.list,
   card: ImmutablePropTypes.map,
   className: PropTypes.string,
+  emoji: ImmutablePropTypes.list,
   mentions: ImmutablePropTypes.list,
   tags: ImmutablePropTypes.list,
   text: PropTypes.string,

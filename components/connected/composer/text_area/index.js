@@ -147,10 +147,10 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         sel.removeAllRanges();
         sel.addRange(rng);
       } else {
-        input.appendChild(node);
+        input.insertBefore(node, input.lastChild);
       }
     } else {
-      input.appendChild(node);
+      input.insertBefore(node, input.lastChild);
     }
     if (onChange) {
       onChange(getContents());

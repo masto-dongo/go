@@ -42,6 +42,7 @@ export default class CommonButton extends React.PureComponent {
     icon: PropTypes.string,
     iconColour: PropTypes.string,
     onClick: PropTypes.func,
+    passive: PropTypes.bool,
     proportional: PropTypes.bool,
     role: PropTypes.string,
     showTitle: PropTypes.bool,
@@ -65,9 +66,13 @@ export default class CommonButton extends React.PureComponent {
     const {
       data,
       onClick,
+      passive,
     } = this.props;
     if (!onClick || e.button || e.ctrlKey || e.metaKey) return;
     onClick(data);
+    if (passive) {
+      e.preventDefault();
+    }
   }
 
   //  Rendering the component.
@@ -83,6 +88,7 @@ export default class CommonButton extends React.PureComponent {
       icon,
       iconColour,
       onClick,
+      passive,
       proportional,
       role,
       showTitle,
@@ -95,6 +101,7 @@ export default class CommonButton extends React.PureComponent {
       animated: animate && loaded,
       disabled,
       link: href,
+      passive,
       with_text: children || title && showTitle,
     }, !href || role !== 'link' ? role : null, className);
     let conditionalProps = {};
@@ -154,6 +161,9 @@ export default class CommonButton extends React.PureComponent {
       }
       if (onClick && !disabled) {
         conditionalProps.onClick = handleClick;
+        if (passive) {
+          conditionalProps.onMouseDown = handlePassive;
+        }
       }
       if (role) {
         conditionalProps.role = role;

@@ -4,4 +4,10 @@
 
 .MASTODON_GO--CONNECTED--PARSE--EMOJI {
   display: inline;
+
+  & > *.emoji {
+    display: inline-block;
+    height: 1.15em;
+    vertical-align: -.1em;
+  }
 }
