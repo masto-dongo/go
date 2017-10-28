@@ -162,20 +162,19 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
   //  user types "enter" then we need to ensure that the result is just
   //  a simple `<br>` element and not some weird `<div>`-induced magic
   //  that browsers like Chrome (and now Firefox) like to pull.
-  handleEvent ({
-    key,
-    type,
-  }) {
+  handleEvent (e) {
     const {
       getContents,
+      input,
       insertContent,
     } = this;
     const { onChange } = this.props;
-    if (type === 'keypress') {
-      switch (key) {
+    if (e.type === 'keypress') {
+      switch (e.key) {
       case 'Enter':
         e.preventDefault();
         insertContent(document.createElement('br'));
+        return;
       case 'Backspace':
         const sel = window.getSelection();
         if (sel && sel.rangeCount) {
@@ -187,15 +186,14 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
             const nde = document.createTextNode(img.alt.substr(0, img.alt.length - 1));
             rng.deleteContents();
             rng.insertNode(nde);
-            rng.setEndAfter(node);
+            rng.setEndAfter(nde);
             rng.collapse(false);
             sel.removeAllRanges();
             sel.addRange(rng);
-            if (onChange) {
-              onChange(getContents());
-            }
+            break;
           }
         }
+        return;
       case 'Delete':
         const sel = window.getSelection();
         if (sel && sel.rangeCount) {
@@ -207,17 +205,15 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
             const nde = document.createTextNode(img.alt.substr(0, img.alt.length - 1));
             rng.deleteContents();
             rng.insertNode(nde);
-            rng.setEndBefore(node);
+            rng.setEndBefore(nde);
             rng.collapse(false);
             sel.removeAllRanges();
             sel.addRange(rng);
-            if (onChange) {
-              onChange(getContents());
-            }
+            break;
           }
         }
+        return;
       }
-      return;
     }
     if (onChange) {
       onChange(getContents());
