@@ -24,6 +24,10 @@ export default class ConnectedPreviewStatus extends React.PureComponent {
 
   constructor (props) {
     super(props);
+
+    //  Function binding.
+    const { handleSpoilerClick } = Object.getPrototypeOf(this);
+    this.handleSpoilerClick = handleSpoilerClick.bind(this);
   }
 
   //  This expands and collapses our spoiler.
