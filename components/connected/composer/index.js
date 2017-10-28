@@ -118,6 +118,7 @@ class Composer extends React.PureComponent {
           local={!(visibility & VISIBILITY.FEDERATED)}
           onSubmit={onSubmit}
           rehash={rehash}
+          spoiler={spoiler}
           text={text}
           ℳ={ℳ}
         />

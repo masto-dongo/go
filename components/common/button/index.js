@@ -75,9 +75,19 @@ export default class CommonButton extends React.PureComponent {
     }
   }
 
+  handlePassive = (e) => {
+    const { passive } = this.props;
+    if (passive) {
+      e.preventDefault();
+    }
+  }
+
   //  Rendering the component.
   render () {
-    const { handleClick } = this;
+    const {
+      handleClick,
+      handlePassive,
+    } = this;
     const {
       active,
       animate,

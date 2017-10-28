@@ -167,7 +167,7 @@ class Status extends React.PureComponent {
       id,
       setDetail,
     } = this.props;
-    if (setDetail && !(e.button || e.ctrlKey || e.shiftKey || e.altKey || e.metaKey)) {
+    if (setDetail && !(e && (e.button || e.ctrlKey || e.shiftKey || e.altKey || e.metaKey))) {
       setDetail(detailed ? null : id);
       e.preventDefault();
     }

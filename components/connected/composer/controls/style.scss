@@ -22,7 +22,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
 
-    & > .attached {
+    & > *.attached {
       display: inline-block;
       float: right;
       //  `margin` is set by `<CommonButton>`
@@ -39,9 +39,10 @@
       vertical-align: middle;
     }
 
-    & > .filler {
+    & > *.filler {
       display: block;
       position: absolute;
+      box-sizing: border-box;
       top: 0;
       left: 0;
       bottom: 0;
@@ -53,7 +54,15 @@
     }
 
     & > *:not(.filler) {
+      position: relative;
       z-index: 1;
+    }
+
+    &.disabled {
+      & > *.filler {
+        background-color: transparent;
+        border: 3px $mastodon_go_content_active solid;
+      }
     }
   }
 }

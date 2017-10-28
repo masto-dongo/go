@@ -107,6 +107,7 @@ class Preview extends React.PureComponent {
         <ConnectedPreviewControls
           local={!(visibility & VISIBILITY.FEDERATED)}
           onSubmit={onSubmit}
+          spoiler={spoiler}
           text={text}
           ℳ={ℳ}
         />
