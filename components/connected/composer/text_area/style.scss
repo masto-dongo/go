@@ -27,11 +27,12 @@
     height: 1.25em;
     color: $mastodon_go_text_area_placeholder;
     opacity: 0;
+    visibility: hidden;
     text-align: center;
     text-overflow: ellipsis;
     overflow: hidden;
     content: attr(aria-label);
-    transition: opacity (.3s * $mastodon_go_animation_speed) ease-in-out;
+    transition: opacity (.3s * $mastodon_go_animation_speed) ease-in-out, visibility (.3s * $mastodon_go_animation_speed) ease-in-out;
   }
 
   & > img {
@@ -48,6 +49,7 @@
   &.empty:not(:focus) {
     &::before {
       opacity: 1;
+      visibility: visible;
     }
   }
 }

@@ -101,7 +101,7 @@ export default class ConnectedComposerInputEmoji extends React.PureComponent {
 ConnectedComposerInputEmoji.propTypes = {
   autoplay: PropTypes.bool,
   className: PropTypes.string,
-  disabled: PropTypes.disabled,
+  disabled: PropTypes.bool,
   emojifier: PropTypes.instanceOf(Emojifier),
   ℳ: PropTypes.func.isRequired,
 };

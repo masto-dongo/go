@@ -132,16 +132,21 @@ class UI extends React.Component {  //  Impure
     DOMEventNavigate('/compose');
   }
 
-  handleCompose ({ detail }) {
+  handleCompose ({ detail: {
+    inReplyTo,
+    spoiler,
+    text,
+    visibility,
+  } }) {
     const { '🏪' : { defaultVisibility } } = this.props;
     this.setState({
       idempotency: uuid(),
-      inReplyTo: '' + detail.inReplyTo || null,
+      inReplyTo: inReplyTo ? '' + inReplyTo : null,
       media: [],
       sensitive: false,
-      spoiler: '' + detail.spoiler || '',
-      text: '' + detail.text || '\n',
-      visibility: VISIBILITY.normalize(detail.visibility & defaultVisibility),
+      spoiler: spoiler ? '' + spoiler : '',
+      text: text ? '' + text.trim() + '\n' : '\n',
+      visibility: visibility === +visibility ? VISIBILITY.normalize(visibility & defaultVisibility) : defaultVisibility,
     });
     DOMEventNavigate('/compose');
   }
@@ -210,7 +215,7 @@ class UI extends React.Component {  //  Impure
     });
   }
 
-  handleUpload ({ completed }) {
+  handleUpload ({ detail: { completed } }) {
     const { uploading } = this.state;
     if (completed === uploading) {
       this.setState({ uploading: !completed });
