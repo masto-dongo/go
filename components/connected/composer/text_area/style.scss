@@ -14,7 +14,7 @@
   background: $mastodon_go_text_area_background;
   min-height: 6.25em;
 
-  & > *.emoji > img {
+  & > img {
     display: inline-block;
     height: 1.15em;
     vertical-align: -.1em;

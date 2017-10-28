@@ -411,7 +411,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         if (i !== 0) {
           result.push(text.substr(0, i));
         }
-        result.push(emojo.toImage(autoplay).outerHTML ? '<span class="emoji" contenteditable="false">' + emojo.toImage(autoplay).outerHTML + '</span>' : match);
+        result.push(emojo.toImage(autoplay).outerHTML || match);
 
         //  We gobble any following U+FE0F characters if our match
         //  doesn't end with one.

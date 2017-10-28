@@ -159,7 +159,7 @@ export default class RawPaneller extends React.Component {  //  Impure
                 <CommonButton
                   className='close'
                   icon='times'
-                  onClick={clicks[clicks.length]}
+                  onClick={clicks[clicks.length - 1]}
                   role='link'
                   title={ℳ['❌']}
                 />
