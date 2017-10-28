@@ -185,7 +185,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
             } else if (rng.startContainer === input) {
               img = input.childNodes.item(rng.startOffset - 1);
             }
-            if (img && img.tagName.toUpperCase() === 'IMG') {
+            if (img && img.nodeName.toUpperCase() === 'IMG') {
               e.preventDefault();
               rng.setStartBefore(img);
               nde = document.createTextNode(img.alt.substr(0, img.alt.length - 1));
@@ -209,7 +209,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
             } else if (rng.endContainer === input) {
               img = input.childNodes.item(rng.endOffset);
             }
-            if (img && img.tagName.toUpperCase() === 'IMG') {
+            if (img && img.nodeName.toUpperCase() === 'IMG') {
               e.preventDefault();
               rng.setEndAfter(img);
               nde = document.createTextNode(img.alt.substr(1, img.alt.length - 1));

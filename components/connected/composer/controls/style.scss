@@ -45,8 +45,15 @@
       top: 0;
       left: 0;
       bottom: 0;
-      background-color: $mastodon_go_content_button_active;
-      z-index: -1;
+      margin: 0;
+      border: none;
+      padding: 0;
+      background-color: $mastodon_go_content_active;
+      z-index: 0;
+    }
+
+    & > *:not(.filler) {
+      z-index: 1;
     }
   }
 }
