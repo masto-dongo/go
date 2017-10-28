@@ -179,34 +179,48 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
       case 'Backspace':
         if ((sel = window.getSelection()) && sel.rangeCount) {
           rng = sel.getRangeAt(0);
-          if (rng.collapsed && input.contains(rng.startContainer) && rng.startOffset === 0 && (img = rng.startContainer.previousSibling) && img.tagName.toUpperCase() === 'IMG') {
-            e.preventDefault();
-            rng.setStartBefore(img);
-            nde = document.createTextNode(img.alt.substr(0, img.alt.length - 1));
-            rng.deleteContents();
-            rng.insertNode(nde);
-            rng.setEndAfter(nde);
-            rng.collapse(false);
-            sel.removeAllRanges();
-            sel.addRange(rng);
-            break;
+          if (rng.collapsed && input.contains(rng.startContainer)) {
+            if (rng.startContainer !== input && rng.startOffset === 0) {
+              img = rng.startContainer.previousSibling;
+            } else if (rng.startContainer === input) {
+              img = input.childNodes.item(rng.startOffset);
+            }
+            if (img && img.tagName.toUpperCase() === 'IMG') {
+              e.preventDefault();
+              rng.setStartBefore(img);
+              nde = document.createTextNode(img.alt.substr(0, img.alt.length - 1));
+              rng.deleteContents();
+              rng.insertNode(nde);
+              rng.setEndAfter(nde);
+              rng.collapse(false);
+              sel.removeAllRanges();
+              sel.addRange(rng);
+              break;
+            }
           }
         }
         return;
       case 'Delete':
         if ((sel = window.getSelection()) && sel.rangeCount) {
           rng = sel.getRangeAt(0);
-          if (rng.collapsed && input.contains(rng.endContainer) && rng.endOffset === 0 && (img = rng.endContainer.nextSibling) && img.tagName.toUpperCase() === 'IMG') {
-            e.preventDefault();
-            rng.setEndAfter(img);
-            nde = document.createTextNode(img.alt.substr(0, img.alt.length - 1));
-            rng.deleteContents();
-            rng.insertNode(nde);
-            rng.setEndBefore(nde);
-            rng.collapse(false);
-            sel.removeAllRanges();
-            sel.addRange(rng);
-            break;
+          if (rng.collapsed && input.contains(rng.endContainer)) {
+            if (rng.endContainer !== input && rng.endOffset === (rng.nodeType === Node.TEXT_NODE ? rng.endContainer.textContent : rng.endContainer.childNodes).length) {
+              img = rng.endContainer.nextSibling;
+            } else if (rng.endContainer === input) {
+              img = input.childNodes.item(rng.endOffset + 1);
+            }
+            if (img && img.tagName.toUpperCase() === 'IMG') {
+              e.preventDefault();
+              rng.setEndAfter(img);
+              nde = document.createTextNode(img.alt.substr(0, img.alt.length - 1));
+              rng.deleteContents();
+              rng.insertNode(nde);
+              rng.setStartBefore(nde);
+              rng.collapse(true);
+              sel.removeAllRanges();
+              sel.addRange(rng);
+              break;
+            }
           }
         }
         return;
