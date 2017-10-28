@@ -1,5 +1,4 @@
 import CommonButton from './button';
-import CommonDropdown from './dropdown';
 import CommonIcon from './icon';
 import CommonImage from './image';
 import CommonInput from './input';
@@ -11,7 +10,6 @@ import CommonToggle from './toggle';
 
 export {
   CommonButton,
-  CommonDropdown,
   CommonIcon,
   CommonImage,
   CommonInput,

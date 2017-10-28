@@ -24,6 +24,7 @@ import { createStructuredSelector } from 'reselect';
 
 //  Component imports.
 import {
+  CommonButton,
   CommonList,
   ConnectedNotification,
 } from 'themes/mastodon-go/components';
@@ -69,6 +70,7 @@ class Courier extends React.PureComponent {
   render () {
     const {
       className,
+      ℳ,
       '🏪': {
         isLoading,
         notifications,
@@ -90,7 +92,7 @@ class Courier extends React.PureComponent {
               id={id}
               key={id}
             />
-          ),
+          );
         }, []).concat(
           <CommonButton
             disabled={isLoading}
@@ -109,7 +111,7 @@ class Courier extends React.PureComponent {
 Courier.propTypes = {
   className: PropTypes.string,
   rehash: PropTypes.func,
-  ℳ: PropTypes.func,
+  ℳ: PropTypes.func.isRequired,
   '🏪': PropTypes.shape({
     isLoading: PropTypes.bool,
     notifications: ImmutablePropTypes.list,

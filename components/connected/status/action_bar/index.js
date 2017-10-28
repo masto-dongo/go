@@ -58,9 +58,10 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
     const {
       className,
       detailed,
-      handler,
       is,
       onDetail,
+      onFavourite,
+      onReblog,
       visibility,
       ℳ,
     } = this.props;

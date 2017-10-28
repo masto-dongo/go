@@ -28,6 +28,7 @@ import { createStructuredSelector } from 'reselect';
 
 //  Component imports.
 import {
+  CommonButton,
   CommonList,
   ConnectedAccount,
 } from 'themes/mastodon-go/components';
@@ -91,6 +92,7 @@ class Catalogue extends React.PureComponent {
   render () {
     const {
       className,
+      ℳ,
       '🏪': {
         accounts,
         isLoading,
@@ -130,7 +132,7 @@ Catalogue.propTypes = {
   className: PropTypes.string,
   path: PropTypes.string.isRequired,
   rehash: PropTypes.func,
-  ℳ: PropTypes.func,
+  ℳ: PropTypes.func.isRequired,
   '🏪': PropTypes.shape({
     accounts: ImmutablePropTypes.list,
     isLoading: PropTypes.bool,

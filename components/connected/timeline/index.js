@@ -13,6 +13,7 @@ import {
 } from 'themes/mastodon-go/redux';
 
 import {
+  CommonButton,
   CommonList,
   ConnectedStatus,
 } from 'themes/mastodon-go/components';
