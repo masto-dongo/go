@@ -40,6 +40,7 @@ export default function ConnectedParseStatusContent ({
   attachments,
   card,
   className,
+  emoji,
   mentions,
   tags,
   text,
