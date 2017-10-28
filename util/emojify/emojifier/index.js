@@ -292,7 +292,7 @@ export default class Emojifier {
           (longest, current) => ('' + longest).length > ('' + current).length ? longest : current,
         0);
         const emojiString = '' + emojo;
-        const match = emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(emojiString.length) !== '\ufe0e' ? emojiString : ':' + emojo.name + ':';
+        const match = emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(emojiString.length) !== '\ufe0e') ? emojiString : ':' + emojo.name + ':';
         result.appendChild(document.createTextNode(text.substr(0, i)));
         result.appendChild(emojo.toImage(useStatic));
         if (text[match.length] === '\ufe0f' && match.charAt(match.length - 1) !== '\ufe0f') {

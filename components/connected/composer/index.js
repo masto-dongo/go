@@ -68,7 +68,10 @@ class Composer extends React.PureComponent {
       spoiler,
       text,
       ℳ,
-      '🏪': { me },
+      '🏪': {
+        autoplay,
+        me,
+      },
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER', className);
 
@@ -81,6 +84,7 @@ class Composer extends React.PureComponent {
           small
         />
         <CommonInput
+          autoplay={autoplay}
           disabled={disabled}
           onChange={onSpoiler}
           title={ℳ.spoiler}

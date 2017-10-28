@@ -411,7 +411,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
           (longest, current) => longest && ('' + longest).length > ('' + current).length ? longest : current
         );
         const emojiString = '' + emojo;
-        const match = emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(emojiString.length) !== '\ufe0e' ? emojiString : ':' + emojo.name + ':';
+        const match = emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(emojiString.length) !== '\ufe0e') ? emojiString : ':' + emojo.name + ':';
 
         //  If there was text prior to this emoji, we push it to our
         //  result.  Then we push the emoji image.

@@ -83,7 +83,7 @@ export default function ConnectedParseEmoji ({
         staticHref,
         str,
       } = emojo;
-      const match = str && text.substr(i, str.length) === str && (str.charAt(str.length - 1) === '\ufe0f' || text.charAt(str.length) !== '\ufe0e' ? str : ':' + emojo.name + ':';
+      const match = str && text.substr(i, str.length) === str && (str.charAt(str.length - 1) === '\ufe0f' || text.charAt(str.length) !== '\ufe0e') ? str : ':' + emojo.name + ':';
 
       //  If there was text prior to this emoji, we push it to our
       //  result.  Then we push the emoji image.
