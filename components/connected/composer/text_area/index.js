@@ -385,12 +385,6 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
       }
       return i;
     }();
-
-    //  Note: Our last point of difference may wind up before our first
-    //  one (this can happen when comparing eg "11" ➡️ "11a11" because
-    //  our diffs are relative to the `lastRenderedString`).  In these
-    //  instances, we will actually re-use parts of our cache (which is
-    //  fine).
     const diffEnd = diffStart === lastRenderedString.length ? lastRenderedString.length : function () {
       let i;
       for (i = 0; i < lastRenderedString.length; i++) {
@@ -400,6 +394,17 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
       }
       return lastRenderedString.length - i;
     }();
+
+    //  Our last point of difference may wind up before our first one
+    //  (this can happen when comparing eg "11" ➡️ "11a11" because our
+    //  diffs are relative to the `lastRenderedString`).  We can't
+    //  allow this because it will completely throw off our chunk
+    //  processing and boundary detection.  This unfortunately means
+    //  we can't reüse chunks—the duplicate string will have to be
+    //  reprocessed.
+    if (diffEnd < diffStart) {
+      diffEnd = diffStart;
+    }
 
     //  We store our result in an array.
     const result = [];
@@ -517,7 +522,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
       //  If we've processed 0x16 or more characters, we go ahead and
       //  push them.  This helps to keep our diffs small.  Note that
       //  0x16 = ⌊√0x1F4⌋ = ⌊√500⌋.
-      if (i >= 0x16) {
+      if (i >= 0x15) {  //  Because our first character is 0
         result.push({
           position,
           size: i + 1,
