@@ -183,7 +183,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
             if (rng.startContainer !== input && rng.startOffset === 0) {
               img = rng.startContainer.previousSibling;
             } else if (rng.startContainer === input) {
-              img = input.childNodes.item(rng.startOffset);
+              img = input.childNodes.item(rng.startOffset - 1);
             }
             if (img && img.tagName.toUpperCase() === 'IMG') {
               e.preventDefault();
@@ -207,7 +207,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
             if (rng.endContainer !== input && rng.endOffset === (rng.nodeType === Node.TEXT_NODE ? rng.endContainer.textContent : rng.endContainer.childNodes).length) {
               img = rng.endContainer.nextSibling;
             } else if (rng.endContainer === input) {
-              img = input.childNodes.item(rng.endOffset + 1);
+              img = input.childNodes.item(rng.endOffset);
             }
             if (img && img.tagName.toUpperCase() === 'IMG') {
               e.preventDefault();
