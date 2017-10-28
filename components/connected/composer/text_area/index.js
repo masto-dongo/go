@@ -169,7 +169,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
       insertContent,
     } = this;
     const { onChange } = this.props;
-    if (e.type === 'keypress') {
+    if (e.type === 'keydown') {
       let img, nde, rng, sel;
       switch (e.key) {
       case 'Enter':
@@ -276,7 +276,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     //  This loop breaks if we run out of nodes, or find the node that
     //  our caret belongs in.  It properly handles the case where the
     //  caret belongs between two `<br>`s.
-    while (wkr.nextNode()) {
+    while (!success && wkr.nextNode()) {
       nde = wkr.currentNode;
       if (nde.nodeType === Node.TEXT_NODE) {
         if (idx <= caret && dst <= idx + nde.textContent.length) {
@@ -302,7 +302,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     //  caret there.
     if (success && nde) {
       if (nde.nodeType === Node.TEXT_NODE) rng.setEnd(nde, dst - idx);
-      else rng.selectNodeContents(nde);
+      else rng.selectNode(nde);
     } else if (
       input.lastChild &&
       input.lastChild.nodeName.toUpperCase() === 'BR'
@@ -384,9 +384,9 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
           const emojiString = '' + emojo;
           const shortcodeString = emojo.name ? ':' + emojo.name + ':' : null;
           switch (true) {
-          case emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(emojiString.length) !== '\ufe0e'):
+          case emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(i + emojiString.length) !== '\ufe0e'):
             return true;
-          case !inWord && shortcodeString && text.substr(i, shortcodeString.length) === shortcodeString && (!text.charAt(shortcodeString.length) || !/[\w:]/.test(text.charAt(shortcodeString.length))):
+          case !inWord && shortcodeString && text.substr(i, shortcodeString.length) === shortcodeString && (!text.charAt(i + shortcodeString.length) || !/[\w:]/.test(text.charAt(i + shortcodeString.length))):
             return true;
           default:
             return false;
@@ -404,7 +404,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
           (longest, current) => longest && ('' + longest).length > ('' + current).length ? longest : current
         );
         const emojiString = '' + emojo;
-        const match = emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(emojiString.length) !== '\ufe0e') ? emojiString : ':' + emojo.name + ':';
+        const match = emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(i + emojiString.length) !== '\ufe0e') ? emojiString : ':' + emojo.name + ':';
 
         //  If there was text prior to this emoji, we push it to our
         //  result.  Then we push the emoji image.
@@ -448,7 +448,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         className={computedClass}
         contentEditable={!disabled}
         dangerouslySetInnerHTML={{ __html: result.join('') }}
-        onKeyPress={handleEvent}
+        onKeyDown={handleEvent}
         onInput={handleEvent}
         onBlur={handleEvent}
         ref={handleRef}

@@ -57,9 +57,9 @@ export default function ConnectedParseEmoji ({
         const emojiString = '' + emojo;
         const shortcodeString = emojo.name ? ':' + emojo.name + ':' : null;
         switch (true) {
-        case emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(emojiString.length) !== '\ufe0e'):
+        case emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(i + emojiString.length) !== '\ufe0e'):
           return true;
-        case !inWord && shortcodeString && text.substr(i, shortcodeString.length) === shortcodeString && (!text.charAt(shortcodeString.length) || !/[\w:]/.test(text.charAt(shortcodeString.length))):
+        case !inWord && shortcodeString && text.substr(i, shortcodeString.length) === shortcodeString && (!text.charAt(i + shortcodeString.length) || !/[\w:]/.test(text.charAt(i + shortcodeString.length))):
           return true;
         default:
           return false;
@@ -83,7 +83,7 @@ export default function ConnectedParseEmoji ({
         staticHref,
         str,
       } = emojo;
-      const match = str && text.substr(i, str.length) === str && (str.charAt(str.length - 1) === '\ufe0f' || text.charAt(str.length) !== '\ufe0e') ? str : ':' + emojo.name + ':';
+      const match = str && text.substr(i, str.length) === str && (str.charAt(str.length - 1) === '\ufe0f' || text.charAt(i + str.length) !== '\ufe0e') ? str : ':' + emojo.name + ':';
 
       //  If there was text prior to this emoji, we push it to our
       //  result.  Then we push the emoji image.

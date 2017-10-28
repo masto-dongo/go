@@ -278,9 +278,9 @@ export default class Emojifier {
           const emojiString = '' + emojo;
           const shortcodeString = emojo.name ? ':' + emojo.name + ':' : null;
           switch (true) {
-          case emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(emojiString.length) !== '\ufe0e'):
+          case emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(i + emojiString.length) !== '\ufe0e'):
             return true;
-          case !inWord && shortcodeString && text.substr(i, shortcodeString.length) === shortcodeString && (!text.charAt(shortcodeString.length) || !/[\w:]/.test(text.charAt(shortcodeString.length))):
+          case !inWord && shortcodeString && text.substr(i, shortcodeString.length) === shortcodeString && (!text.charAt(i + shortcodeString.length) || !/[\w:]/.test(text.charAt(i + shortcodeString.length))):
             return true;
           default:
             return false;
@@ -292,7 +292,7 @@ export default class Emojifier {
           (longest, current) => ('' + longest).length > ('' + current).length ? longest : current,
         0);
         const emojiString = '' + emojo;
-        const match = emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(emojiString.length) !== '\ufe0e') ? emojiString : ':' + emojo.name + ':';
+        const match = emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(i + emojiString.length) !== '\ufe0e') ? emojiString : ':' + emojo.name + ':';
         result.appendChild(document.createTextNode(text.substr(0, i)));
         result.appendChild(emojo.toImage(useStatic));
         if (text[match.length] === '\ufe0f' && match.charAt(match.length - 1) !== '\ufe0f') {
