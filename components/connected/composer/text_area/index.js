@@ -385,14 +385,20 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
       }
       return i;
     }();
+
+    //  Note: Our last point of difference may wind up before our first
+    //  one (this can happen when comparing eg "11" ➡️ "11a11" because
+    //  our diffs are relative to the `lastRenderedString`).  In these
+    //  instances, we will actually re-use parts of our cache (which is
+    //  fine).
     const diffEnd = diffStart === lastRenderedString.length ? lastRenderedString.length : function () {
       let i;
       for (i = 0; i < lastRenderedString.length; i++) {
         if (lastRenderedString.charAt(lastRenderedString.length - i) !== value.charAt(value.length - i)) {
-          return lastRenderedString.length - i - 1;
+          return lastRenderedString.length - i;
         }
       }
-      return lastRenderedString.length - i - 1;
+      return lastRenderedString.length - i;
     }();
 
     //  We store our result in an array.
@@ -549,7 +555,6 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         value: cache[index].value,
       });
       position += cache[index++].size;
-      index++;
     }
 
     //  We store our result and our current string for next time.
