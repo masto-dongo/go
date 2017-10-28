@@ -384,7 +384,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         }
       }
       return i;
-    };
+    }();
     const diffEnd = diffStart === lastRenderedString.length ? lastRenderedString.length : function () {
       let i;
       for (i = 0; i < lastRenderedString.length; i++) {
@@ -393,7 +393,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         }
       }
       return lastRenderedString.length - i - 1;
-    };
+    }();
 
     //  We store our result in an array.
     const result = [];
