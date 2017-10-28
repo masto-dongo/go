@@ -248,7 +248,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     const brs = cts.querySelectorAll('br').length;
     const alt = Array.prototype.slice.call(cts.querySelectorAll('img')).reduce(function (str, img) {
       return str + img.alt;
-    }, '');
+    }, '').length;
 
     //  We can now find the length of the selection by adding the
     //  length of the text content to the number of line breaks.
@@ -261,7 +261,6 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     const { input, caret } = this;
     const { value } = this.props;
     if (!input) return;
-    console.log(caret, offset, value.length);
     const sel = window.getSelection();
     const rng = document.createRange();
     const wkr = document.createTreeWalker(input);
