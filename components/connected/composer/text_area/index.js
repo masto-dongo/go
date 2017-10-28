@@ -170,20 +170,19 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     } = this;
     const { onChange } = this.props;
     if (e.type === 'keypress') {
+      let img, nde, rng, sel;
       switch (e.key) {
       case 'Enter':
         e.preventDefault();
         insertContent(document.createElement('br'));
         return;
       case 'Backspace':
-        const sel = window.getSelection();
-        if (sel && sel.rangeCount) {
-          const rng = sel.getRangeAt(0);
-          const img = rng.startContainer.previousSibling;
-          if (rng.collapsed && input.contains(rng.startContainer) && rng.startOffset === 0 && img.tagName.toUpperCase() === 'IMG') {
+        if ((sel = window.getSelection()) && sel.rangeCount) {
+          rng = sel.getRangeAt(0);
+          if (rng.collapsed && input.contains(rng.startContainer) && rng.startOffset === 0 && (img = rng.startContainer.previousSibling) && img.tagName.toUpperCase() === 'IMG') {
             e.preventDefault();
             rng.setStartBefore(img);
-            const nde = document.createTextNode(img.alt.substr(0, img.alt.length - 1));
+            nde = document.createTextNode(img.alt.substr(0, img.alt.length - 1));
             rng.deleteContents();
             rng.insertNode(nde);
             rng.setEndAfter(nde);
@@ -195,14 +194,12 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         }
         return;
       case 'Delete':
-        const sel = window.getSelection();
-        if (sel && sel.rangeCount) {
-          const rng = sel.getRangeAt(0);
-          const img = rng.endContainer.nextSibling;
-          if (rng.collapsed && input.contains(rng.endContainer) && rng.endOffset === 0 && img.tagName.toUpperCase() === 'IMG') {
+        if ((sel = window.getSelection()) && sel.rangeCount) {
+          rng = sel.getRangeAt(0);
+          if (rng.collapsed && input.contains(rng.endContainer) && rng.endOffset === 0 && (img = rng.endContainer.nextSibling) && img.tagName.toUpperCase() === 'IMG') {
             e.preventDefault();
             rng.setEndAfter(img);
-            const nde = document.createTextNode(img.alt.substr(0, img.alt.length - 1));
+            nde = document.createTextNode(img.alt.substr(0, img.alt.length - 1));
             rng.deleteContents();
             rng.insertNode(nde);
             rng.setEndBefore(nde);
