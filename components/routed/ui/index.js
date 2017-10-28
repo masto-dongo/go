@@ -101,20 +101,24 @@ class UI extends React.Component {  //  Impure
       handleAttach,
       handleCompose,
       handleNavigate,
+      handleUpload,
     } = this;
     DOMListen(DOMEventAttach, handleAttach);
     DOMListen(DOMEventCompose, handleCompose);
     DOMListen(DOMEventNavigate, handleNavigate);
+    DOMListen(DOMEventUpload, handleUpload);
   }
   componentWillUnmount () {
     const {
       handleAttach,
       handleCompose,
       handleNavigate,
+      handleUpload,
     } = this;
     DOMForget(DOMEventAttach, handleAttach);
     DOMForget(DOMEventCompose, handleCompose);
     DOMForget(DOMEventNavigate, handleNavigate);
+    DOMForget(DOMEventUpload, handleUpload);
   }
 
   handleAttach ({ detail: { id } }) {
@@ -209,7 +213,7 @@ class UI extends React.Component {  //  Impure
   handleUpload ({ completed }) {
     const { uploading } = this.state;
     if (completed === uploading) {
-      this.setState({ uploading: !complete });
+      this.setState({ uploading: !completed });
     }
   }
 

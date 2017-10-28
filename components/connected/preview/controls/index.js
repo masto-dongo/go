@@ -28,6 +28,7 @@ export default class ConnectedPreviewControls extends React.PureComponent {
     const { handleSubmit } = this;
     const {
       className,
+      disabled,
       local,
       spoiler,
       text,

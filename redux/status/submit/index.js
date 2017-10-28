@@ -64,12 +64,12 @@ export default function submitStatus (text, options, go, current, api) {
           return 'public';
         case VISIBILITY.UNLISTED:
           return 'unlisted';
-        case VISIBLITY.PRIVATE:
+        case VISIBILITY.PRIVATE:
           return 'private';
         default:
           return 'direct';
         }
-      }(VISIBILITY.normalize(item & VISIBILITY.FEDERATED))
+      }(VISIBILITY.normalize(item & VISIBILITY.FEDERATED));
     }
   }
   data.status = text;
