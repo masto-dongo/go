@@ -384,7 +384,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         }
       }
       return i;
-    }
+    };
     const diffEnd = diffStart === lastRenderedString.length ? lastRenderedString.length : function () {
       let i;
       for (i = 0; i < lastRenderedString.length; i++) {
@@ -392,7 +392,8 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
           return lastRenderedString.length - i - 1;
         }
       }
-    }
+      return lastRenderedString.length - i - 1;
+    };
 
     //  We store our result in an array.
     const result = [];
@@ -415,7 +416,8 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     }
 
     console.log(`cache size: ${cache.length}`);
-    console.log(`start: ${position}; end: ${endPosition}`);
+    console.log(`start: ${diffStart}; end: ${diffEnd}`);
+    console.log(`startPos: ${position}; endPos: ${endPosition}`);
 
     //  Next, we process the text in-between our two diffs.
     let i = 0;
@@ -494,7 +496,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         result.push({
           position: position += i,
           size: match.length,
-          value: emojo.toImage(!autoplay).outerHTML || match
+          value: emojo.toImage(!autoplay).outerHTML || match,
         });
         position += match.length;
 
@@ -506,9 +508,10 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         continue;
       }
 
-      //  If we've processed 0x10 or more characters, we go ahead and
-      //  push them.  This helps to keep our diffs small.
-      if (i >= 0x10) {
+      //  If we've processed 0x16 or more characters, we go ahead and
+      //  push them.  This helps to keep our diffs small.  Note that
+      //  0x16 = ⌊√0x1F4⌋ = ⌊√500⌋.
+      if (i >= 0x16) {
         result.push({
           position,
           size: i + 1,
