@@ -57,7 +57,9 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
 
     //  Variables.
     this.caret = 0;
+    this.cache = [];
     this.input = null;
+    this.lastRenderedString = null;
   }
 
   componentWillMount () {
@@ -350,8 +352,10 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
   //  Rendering.
   render () {
     const {
+      cache,
       handleEvent,
       handleRef,
+      lastRenderedString,
     } = this;
     const {
       autoplay,
@@ -370,10 +374,52 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
       ),
     }, className);
 
+    //  This gets our first and last points of difference from our
+    //  previous render.
+    const diffStart = function () {
+      let i;
+      for (i = 0; i < lastRenderedString.length, i++) {
+        if (lastRenderedString.charAt(i) !== value.charAt(i)) {
+          return i;
+        }
+      }
+      return i;
+    }
+    const diffEnd = diffStart === lastRenderedString.length ? lastRenderedString.length : function () {
+      let i;
+      for (i = 0; i < lastRenderedString.length; i++) {
+        if (lastRenderedString.charAt(lastRenderedString.length - i) !== value.charAt(value.length - i)) {
+          return lastRenderedString.length - i - 1;
+        }
+      }
+    }
+
     //  We store our result in an array.
-    let text = value;
     const result = [];
+    let index = 0;
+    let position = 0;
+    let endPosition = 0;
+
+    //  We use the cached result so long as our diff doesn't begin
+    //  until a later index.
+    while (cache[index + 1] && diffStart > cache[index + 1].position) {
+      result.push(cache[index]);
+      position += cache[index++].size;
+    }
+
+    //  We move our `index` to the first cached entry after `diffEnd`,
+    //  if applicable.
+    index = cache.length;
+    while (cache[index - 1] && diffEnd < cache[index - 1].position) {
+      endPosition += cache[--index].size;
+    }
+
+    console.log(`cache size: ${cache.length}`);
+    console.log(`start: ${position}; end: ${endPosition}`);
+
+    //  Next, we process the text in-between our two diffs.
     let i = 0;
+    let text = value.substring(position, value.length - endPosition);
     let inWord = false;
 
     //  We loop over each character in the string and look for a
@@ -383,9 +429,18 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
       //  If our character is a line-break, we push a `<br>`.
       if (text.charAt(i) === '\n') {
         if (i !== 0) {
-          result.push(text.substr(0, i));
+          result.push({
+            position,
+            size: i,
+            value: text.substr(0, i),
+          });
         }
-        result.push('<br>');
+        result.push({
+          position: position += i,
+          size: 1,
+          value: '<br>',
+        });
+        position++;
         text = text.substr(i + 1);
         i = 0;
         inWord = false;
@@ -419,20 +474,29 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
           (longest, current) => longest && ('' + longest).length > ('' + current).length ? longest : current
         );
         const emojiString = '' + emojo;
-        const match = emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(i + emojiString.length) !== '\ufe0e') ? emojiString : ':' + emojo.name + ':';
+        let match = emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(i + emojiString.length) !== '\ufe0e') ? emojiString : ':' + emojo.name + ':';
+
+        //  We gobble the following U+FE0F character if one exists and
+        //  our match doesn't end with one.
+        if (text.charAt(i + match.length) === '\ufe0f' && match.charAt(match.length - 1) !== '\ufe0f') {
+          match += '\ufe0f';
+        }
 
         //  If there was text prior to this emoji, we push it to our
         //  result.  Then we push the emoji image.
         if (i !== 0) {
-          result.push(text.substr(0, i));
+          result.push({
+            position,
+            size: i,
+            value: text.substr(0, i),
+          });
         }
-        result.push(emojo.toImage(!autoplay).outerHTML || match);
-
-        //  We gobble any following U+FE0F characters if our match
-        //  doesn't end with one.
-        if (text.charAt(i + match.length) === '\ufe0f' && match.charAt(match.length - 1) !== '\ufe0f') {
-          i++;
-        }
+        result.push({
+          position: position += i,
+          size: match.length,
+          value: emojo.toImage(!autoplay).outerHTML || match
+        });
+        position += match.length;
 
         //  We now trim the processed text off of our `text` string and
         //  reset the index to `0`.
@@ -442,27 +506,61 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         continue;
       }
 
-      //  Otherwise, we increment our index and move on.
-      if (/[\w:]/.test(text.charAt(i))) {
-        inWord = true;
-      } else {
-        inWord = false;
+      //  If we've processed 0x10 or more characters, we go ahead and
+      //  push them.  This helps to keep our diffs small.
+      if (i >= 0x10) {
+        result.push({
+          position,
+          size: i + 1,
+          value: text.substr(0, i + 1),
+        });
+        position += i + 1;
+        inWord = /[\w:]/.test(text.charAt(i));
+        text = text.substr(i + 1);
+        i = 0;
+        continue;
       }
+
+      //  Otherwise, we increment our index and move on.
+      inWord = /[\w:]/.test(text.charAt(i));
       i++;
     }
 
     //  If our `text` didn't end in a parseäble entity, there will
     //  still be some leftover text to push.
     if (text) {
-      result.push(text);
+      result.push({
+        position: position,
+        size: text.length,
+        value: text,
+      });
+      position += text.length;
     }
+
+    //  Now we can use the cached result for any remaining entries.  We
+    //  do need to update the `position`s, though.
+    while (cache[index]) {
+      result.push({
+        position: position,
+        size: cache[index].size,
+        value: cache[index].value,
+      });
+      position += cache[index++].size;
+      index++;
+    }
+
+    //  We store our result and our current string for next time.
+    this.cache = result;
+    this.lastRenderedString = value;
 
     return (
       <div
         aria-label={ℳ.label}
         className={computedClass}
         contentEditable={!disabled}
-        dangerouslySetInnerHTML={{ __html: result.join('') }}
+        dangerouslySetInnerHTML={{ __html: result.map(
+          item => item.value
+        ).join('') }}
         onKeyDown={handleEvent}
         onInput={handleEvent}
         onBlur={handleEvent}

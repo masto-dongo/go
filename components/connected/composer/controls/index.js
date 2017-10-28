@@ -86,7 +86,7 @@ export default class ConnectedComposerControls extends React.PureComponent {
     return (
       <div className={computedClass}>
         <CommonButton
-          disabled={disabled || !(size && size <= 500)}
+          disabled={disabled || !(text.trim() && size <= 500)}
           icon={quickMode ? 'paper-plane' : 'paper-plane-o'}
           onClick={handleClick}
           role={quickMode ? 'button' : 'link'}
