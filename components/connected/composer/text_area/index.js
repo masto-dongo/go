@@ -394,7 +394,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     const diffEnd = diffStart === lastRenderedString.length ? lastRenderedString.length : function () {
       let i;
       for (i = 0; i < lastRenderedString.length; i++) {
-        if (lastRenderedString.charAt(lastRenderedString.length - i) !== value.charAt(value.length - i)) {
+        if (lastRenderedString.charAt(lastRenderedString.length - i - 1) !== value.charAt(value.length - i - 1)) {
           return lastRenderedString.length - i;
         }
       }
