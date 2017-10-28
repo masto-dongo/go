@@ -84,7 +84,6 @@ class Composer extends React.PureComponent {
           small
         />
         <CommonInput
-          autoplay={autoplay}
           disabled={disabled}
           onChange={onSpoiler}
           title={ℳ.spoiler}
@@ -104,6 +103,7 @@ class Composer extends React.PureComponent {
         />
         <ConnectedComposerInput
           attachments={media}
+          autoplay={autoplay}
           emojifier={emojifier}
           onRemove={onMediaRemove}
           onSensitive={onSensitive}
