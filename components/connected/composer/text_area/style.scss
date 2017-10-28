@@ -24,9 +24,14 @@
     margin: auto;
     border: none;
     padding: .625em .75em;
+    height: 1.25em;
     color: $mastodon_go_text_area_placeholder;
+    opacity: 0;
     text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
     content: attr(aria-label);
+    transition: opacity (.3s * $mastodon_go_animation_speed) ease-in-out;
   }
 
   & > img {
@@ -38,5 +43,11 @@
   &:focus {
     outline: none;
     border-color: transparent $mastodon_go_text_area_active_border;
+  }
+
+  &.empty:not(:focus) {
+    &::before {
+      opacity: 1;
+    }
   }
 }
