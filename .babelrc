@@ -7,11 +7,11 @@
         "modules": false,
         "targets": {
           "browsers": [
-            "Chrome >= 6",
-            "Firefox >= 6",
+            "Chrome >= 51",
+            "Firefox >= 23",
             "IE >= 9",
             "iOS >= 7",
-            "Opera >= 12.10",
+            "Opera >= 38",
             "Safari >= 5.1",
           ]
         }

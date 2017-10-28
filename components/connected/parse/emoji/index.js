@@ -83,6 +83,7 @@ export default function ConnectedParseEmoji ({
         staticHref,
         str,
       } = emojo;
+      const match = str && text.substr(i, str.length) === str && (str.charAt(str.length - 1) === '\ufe0f' || text.charAt(str.length) !== '\ufe0e' ? str : ':' + emojo.name + ':';
 
       //  If there was text prior to this emoji, we push it to our
       //  result.  Then we push the emoji image.
@@ -101,15 +102,15 @@ export default function ConnectedParseEmoji ({
         />
       );
 
-      if (text[str.length] === '\ufe0f' && str.charAt(str.length - 1) !== '\ufe0f') {
+      if (text.charAt(i + match.length) === '\ufe0f' && match.charAt(match.length - 1) !== '\ufe0f') {
         i++;
       }
 
       //  We now trim the processed text off of our `text` string and
       //  reset the index to `0`.
-      text = text.substr(i + str.length);
-      inWord = false;
+      text = text.substr(i + match.length);
       i = 0;
+      inWord = false;
       continue;
     }
 

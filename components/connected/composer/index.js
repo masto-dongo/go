@@ -91,6 +91,7 @@ class Composer extends React.PureComponent {
           small
         />
         <ConnectedComposerTextArea
+          autoplay={autoplay}
           disabled={disabled}
           emoji={emoji}
           onChange={onText}

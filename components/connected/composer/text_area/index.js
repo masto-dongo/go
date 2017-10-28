@@ -139,12 +139,16 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     const sel = window.getSelection();
     if (sel && sel.rangeCount) {
       const rng = sel.getRangeAt(0);
-      rng.deleteContents();
-      rng.insertNode(node);
-      rng.setEndAfter(node);
-      rng.collapse(false);
-      sel.removeAllRanges();
-      sel.addRange(rng);
+      if (input.contains(rng.commonAncestorContainer)) {
+        rng.deleteContents();
+        rng.insertNode(node);
+        rng.setEndAfter(node);
+        rng.collapse(false);
+        sel.removeAllRanges();
+        sel.addRange(rng);
+      } else {
+        input.appendChild(node);
+      }
     } else {
       input.appendChild(node);
     }
@@ -158,16 +162,60 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
   //  user types "enter" then we need to ensure that the result is just
   //  a simple `<br>` element and not some weird `<div>`-induced magic
   //  that browsers like Chrome (and now Firefox) like to pull.
-  handleEvent (e) {
+  handleEvent ({
+    key,
+    type,
+  }) {
     const {
       getContents,
       insertContent,
     } = this;
     const { onChange } = this.props;
-    if (e.type === 'keypress') {
-      if (e.key === 'Enter' || e.keyCode === 0x0D) {
+    if (type === 'keypress') {
+      switch (key) {
+      case 'Enter':
         e.preventDefault();
         insertContent(document.createElement('br'));
+      case 'Backspace':
+        const sel = window.getSelection();
+        if (sel && sel.rangeCount) {
+          const rng = sel.getRangeAt(0);
+          const img = rng.startContainer.previousSibling;
+          if (rng.collapsed && input.contains(rng.startContainer) && rng.startOffset = 0 && img.tagName.toUpperCase() === 'IMG') {
+            e.preventDefault();
+            rng.setStartBefore(img);
+            const nde = document.createTextNode(img.alt.substr(0, img.alt.length - 1));
+            rng.deleteContents();
+            rng.insertNode(nde);
+            rng.setEndAfter(node);
+            rng.collapse(false);
+            sel.removeAllRanges();
+            sel.addRange(rng);
+            if (onChange) {
+              onChange(getContents());
+            }
+          }
+        }
+      case 'Delete':
+        const sel = window.getSelection();
+        if (sel && sel.rangeCount) {
+          const rng = sel.getRangeAt(0);
+          const img = rng.endContainer.nextSibling;
+          if (rng.collapsed && input.contains(rng.endContainer) && rng.endOffset = 0 && img.tagName.toUpperCase() === 'IMG') {
+            e.preventDefault();
+            rng.setEndAfter(img);
+            const nde = document.createTextNode(img.alt.substr(0, img.alt.length - 1));
+            rng.deleteContents();
+            rng.insertNode(nde);
+            rng.setEndBefore(node);
+            rng.collapse(false);
+            sel.removeAllRanges();
+            sel.addRange(rng);
+            if (onChange) {
+              onChange(getContents());
+            }
+          }
+        }
       }
       return;
     }
@@ -203,11 +251,15 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     //  This next line tells us how many line breaks were in the
     //  selected range.  This is a somewhat expensive operation as it
     //  involves cloning DOM nodes, but there isn't any faster way.
-    const brs = pre.cloneContents().querySelectorAll('br').length;
+    const cts = pre.cloneContents();
+    const brs = cts.querySelectorAll('br').length;
+    const alt = Array.prototype.slice.call(cts.querySelectorAll('img')).reduce(function (str, img) {
+      return str + img.alt;
+    }, '');
 
     //  We can now find the length of the selection by adding the
     //  length of the text content to the number of line breaks.
-    this.caret = pre.toString().length + brs;
+    this.caret = pre.toString().length + brs + alt;
   }
 
   //  Restoring our caret position.  The `offset` argument can be used
@@ -238,11 +290,13 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
           success = true;
           break;
         } else idx += nde.textContent.length;
-      } else if (
-        nde.nodeType === Node.ELEMENT_NODE &&
-        nde.tagName.toUpperCase() === 'BR'
-      ) {
+      } else if (nde.tagName.toUpperCase() === 'BR') {
         if (idx++ === dst) {
+          success = true;
+          break;
+        }
+      } else if (nde.tagName.toUpperCase() === 'IMG') {
+        if ((idx += nde.alt) >= dst) {
           success = true;
           break;
         }
@@ -293,6 +347,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
       handleRef,
     } = this;
     const {
+      autoplay,
       className,
       disabled,
       emoji,
@@ -311,6 +366,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     let text = value;
     const result = [];
     let i = 0;
+    let inWord = false;
 
     //  We loop over each character in the string and look for a
     //  parseäble substring.
@@ -324,16 +380,24 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         result.push('<br>');
         text = text.substr(i + 1);
         i = 0;
+        inWord = false;
         continue;
       }
 
-      /*
       //  Otherwise, we look for matches with emoji.  There may
       //  multiple.
       const matches = emoji.filter(
         emojo => {
           const emojiString = '' + emojo;
-          return text.substr(i, emojiString.length) === emojiString;
+          const shortcodeString = emojo.name ? ':' + emojo.name + ':' : null;
+          switch (true) {
+          case emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(emojiString.length) !== '\ufe0e'):
+            return true;
+          case !inWord && shortcodeString && text.substr(i, shortcodeString.length) === shortcodeString && (!text.charAt(shortcodeString.length) || !/[\w:]/.test(text.charAt(shortcodeString.length))):
+            return true;
+          default:
+            return false;
+          }
         }
       );
 
@@ -346,24 +410,36 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         const emojo = matches.reduce(
           (longest, current) => longest && ('' + longest).length > ('' + current).length ? longest : current
         );
-        const selector = '';  //  TK: Selector support forthcoming
+        const emojiString = '' + emojo;
+        const match = emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(emojiString.length) !== '\ufe0e' ? emojiString : ':' + emojo.name + ':';
 
         //  If there was text prior to this emoji, we push it to our
         //  result.  Then we push the emoji image.
         if (i !== 0) {
           result.push(text.substr(0, i));
         }
-        result.push(emojo.toImage(selector).outerHTML || emojo + selector);
+        result.push(emojo.toImage(autoplay).outerHTML || match);
+
+        //  We gobble any following U+FE0F characters if our match
+        //  doesn't end with one.
+        if (text.charAt(i + match.length) === '\ufe0f' && match.charAt(match.length - 1) !== '\ufe0f') {
+          i++;
+        }
 
         //  We now trim the processed text off of our `text` string and
         //  reset the index to `0`.
-        text = text.substr(i + (emojo + selector).length);
+        text = text.substr(i + match.length);
         i = 0;
+        inWord = false;
         continue;
       }
-      */
 
       //  Otherwise, we increment our index and move on.
+      if (/[\w:]/.test(text.charAt(i))) {
+        inWord = true;
+      } else {
+        inWord = false;
+      }
       i++;
     }
 
@@ -391,6 +467,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
 }
 
 ConnectedComposerTextArea.propTypes = {
+  autoplay: PropTypes.bool,
   className: PropTypes.string,
   disabled: PropTypes.bool,
   emoji: PropTypes.arrayOf(PropTypes.instanceOf(Emoji)).isRequired,
