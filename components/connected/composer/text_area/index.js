@@ -204,7 +204,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         if ((sel = window.getSelection()) && sel.rangeCount) {
           rng = sel.getRangeAt(0);
           if (rng.collapsed && input.contains(rng.endContainer)) {
-            if (rng.endContainer !== input && rng.endOffset === (rng.nodeType === Node.TEXT_NODE ? rng.endContainer.textContent : rng.endContainer.childNodes).length) {
+            if (rng.endContainer !== input && rng.endOffset === (rng.endContainer.nodeType === Node.TEXT_NODE ? rng.endContainer.textContent : rng.endContainer.childNodes).length) {
               img = rng.endContainer.nextSibling;
             } else if (rng.endContainer === input) {
               img = input.childNodes.item(rng.endOffset);
