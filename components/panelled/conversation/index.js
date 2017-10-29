@@ -78,7 +78,8 @@ moduleOnReady(function () {
           status,
         },
       }) => ancestors && descendants ? ancestors.withMutations(
-        list => list.concat(ImmutableList([status]), descendants).map(
+        list => {console.log(ancestors.toJS(), descendants.toJS(), ImmutableList([status]).toJS())
+          return list.concat(ImmutableList([status]), descendants).map(
           item => item ? item.get('account') : null
         ).filter(
           item => !!item
