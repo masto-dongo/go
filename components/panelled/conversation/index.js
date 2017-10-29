@@ -78,15 +78,14 @@ moduleOnReady(function () {
           status,
         },
       }) => ancestors && descendants ? ancestors.withMutations(
-        list => {console.log(ancestors.toJS(), descendants.toJS(), ImmutableList([status]).toJS())
-          return list.concat(ImmutableList([status]), descendants).map(
+        list => {
+          const l = list.concat(ImmutableList([status]), descendants).map(
           item => item ? item.get('account') : null
         ).filter(
           item => !!item
-        )}
+        ); debugger}
       ).toOrderedSet().reduce(function (items, item, index) {
         items.push({
-          active: status && item === status.get('account'),
           destination: `/profile/${item}`,
           icon: <ConnectedAccount account={item} />,
           title: ℳ.viewProfile,
