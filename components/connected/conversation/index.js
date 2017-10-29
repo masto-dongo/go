@@ -76,8 +76,8 @@ class Conversation extends React.Component {  //  Impure
           items.push(
             <ConnectedStatus
               detailed={id === statusId}
-              id={id}
-              key={id}
+              id={statusId}
+              key={statusId}
             />
           );
           return items;

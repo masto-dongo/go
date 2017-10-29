@@ -40,7 +40,15 @@ import { TIMELINE_EXPAND_SUCCESS } from 'themes/mastodon-go/redux/timeline/expan
 import { TIMELINE_FETCH_SUCCESS } from 'themes/mastodon-go/redux/timeline/fetch';
 import { TIMELINE_REFRESH_SUCCESS } from 'themes/mastodon-go/redux/timeline/refresh';
 import { TIMELINE_UPDATE_RECEIVE } from 'themes/mastodon-go/redux/timeline/update';
+import { STATUS_FAVOURITE_SUCCESS } from 'themes/mastodon-go/redux/status/favourite';
 import { STATUS_FETCH_SUCCESS } from 'themes/mastodon-go/redux/status/fetch';
+import { STATUS_MUTE_SUCCESS } from 'themes/mastodon-go/redux/status/mute';
+import { STATUS_PIN_SUCCESS } from 'themes/mastodon-go/redux/status/pin';
+import { STATUS_REBLOG_SUCCESS } from 'themes/mastodon-go/redux/status/reblog';
+import { STATUS_UNFAVOURITE_SUCCESS } from 'themes/mastodon-go/redux/status/unfavourite';
+import { STATUS_UNMUTE_SUCCESS } from 'themes/mastodon-go/redux/status/unmute';
+import { STATUS_UNPIN_SUCCESS } from 'themes/mastodon-go/redux/status/unpin';
+import { STATUS_UNREBLOG_SUCCESS } from 'themes/mastodon-go/redux/status/unreblog';
 
 //  Other imports.
 import deHTMLify from 'themes/mastodon-go/util/deHTMLify';
