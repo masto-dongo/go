@@ -69,7 +69,7 @@ moduleOnReady(function () {
     {
       backdrop: ConnectedConversation,
       className: 'MASTODON_GO--PANELLED--CONVERSATION',
-      menu: ({
+      menu: function ({
         id,
         ℳ,
         '🏪': {
@@ -77,20 +77,27 @@ moduleOnReady(function () {
           descendants,
           status,
         },
-      }) => ancestors && descendants ? ancestors.withMutations(
-        list => list.concat(ImmutableList([status]), descendants).map(
-          item => item ? item.get('account') : null
-        ).filter(
-          item => !!item
-        )
-      ).toOrderedSet().reduce(function (items, item, index) {
-        items.push({
-          destination: `/profile/${item}`,
-          icon: <ConnectedAccount account={item} />,
-          title: ℳ.viewProfile,
-        });
-        return items;
-      }, []) : [],
+      }) {
+        if (!ancestors || !descendants) {
+          return [];
+        }
+        const result = ancestors.withMutations(
+          list => list.concat(ImmutableList([status]), descendants).map(
+            item => item ? item.get('account') : null
+          ).filter(
+            item => !!item
+          )
+        ).toOrderedSet().reduce(function (items, item, index) {
+          items.push({
+            destination: `/profile/${item}`,
+            icon: <ConnectedAccount account={item} />,
+            title: ℳ.viewProfile,
+          });
+          return items;
+        }, []);
+        debugger;
+        return result;
+      },
       title: ({ ℳ }) => ℳ.title,
     }
   );
