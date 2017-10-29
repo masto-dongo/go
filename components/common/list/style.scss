@@ -4,7 +4,6 @@
 
 .MASTODON_GO--COMMON--LIST {
   display: block;
-  position: relative;
   margin: 0;
   border: none;
   padding: 0;
@@ -12,11 +11,13 @@
   overflow-x: hidden;
   overflow-y: scroll;
 
-  & > .MASTODON_GO--COMMON--BUTTON {
+  & > .MASTODON_GO--COMMON--BUTTON.with_text {
     display: block;
+    box-sizing: border-box;
     margin: 0;
     border: none;
-    padding: 0 .75em .625em;
+    padding: 1.25em .75em;
+    width: 100%;
     color: $mastodon_go_content_color;
     background-color: $mastodon_go_content_background;
     font: inherit;

@@ -213,7 +213,6 @@ var ConnectedReference = connect(
       card,
       href,
       mention,
-      tagName,
     }) => {
       switch (true) {
       case !!attachment:
