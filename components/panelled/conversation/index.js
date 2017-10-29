@@ -75,15 +75,18 @@ moduleOnReady(function () {
           descendants,
           status,
         },
-      }) => ancestors && status && descendants ? ancestors.concat(status, descendants).reduce(function (items, item, index) {
-        return items.push(
-          {
-            active: id === item.id,
-            destination: `/profile/${item.account}`,
-            icon: !index ? 'comment' : 'comments',
-            title: ℳ.viewProfile,
-          }
-        );
+      }) => ancestors && descendants ? ancestors.concat(status, descendants).reduce(function (items, item, index) {
+        if (item) {  //  `status` might not be loaded yet
+          items.push(
+            {
+              active: id === item.id,
+              destination: `/profile/${item.account}`,
+              icon: !index ? 'comment' : 'comments',
+              title: ℳ.viewProfile,
+            }
+          );
+        }
+        return items;
       }, []) : [],
       title: ({ ℳ }) => ℳ.title,
     }

@@ -76,8 +76,8 @@ class Conversation extends React.Component {  //  Impure
 
     return (
       <CommonList className={computedClass}>
-        {ancestors && status && descendants ? ancestors.concat(status, descendants).reduce(function (items, item) {
-          const statusId = item.get('id');
+        {ancestors && descendants ? ancestors.concat(status, descendants).reduce(function (items, item) {
+          const statusId = item ? item.get('id') : id;  //  `status` might not be loaded yet
           items.push(
             <ConnectedStatus
               detailed={id === statusId}
