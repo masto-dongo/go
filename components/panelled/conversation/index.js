@@ -84,14 +84,13 @@ moduleOnReady(function () {
           item => !!item
         )
       ).toOrderedSet().reduce(function (items, item, index) {
-        items.push(
-          {
-            active: status && item === status.get('account'),
-            destination: `/profile/${item}`,
-            icon: <ConnectedAccount account={item} />,
-            title: ℳ.viewProfile,
-          }
-        );
+        console.log(item);
+        items.push({
+          active: status && item === status.get('account'),
+          destination: `/profile/${item}`,
+          icon: <ConnectedAccount account={item} />,
+          title: ℳ.viewProfile,
+        });
         return items;
       }, []) : [],
       title: ({ ℳ }) => ℳ.title,
