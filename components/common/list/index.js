@@ -112,18 +112,16 @@ export default class CommonList extends React.PureComponent {
         scrollHeight,
         scrollTop,
       } = node;
-      const newItems = (
-        () => {
-          switch (true) {
-          case React.Children.count(prevProps.children) <= 0:
-          case React.Children.count(prevProps.children) >= React.Children.count(children):
-          case prevProps.children[0].key === children[0].key:
-            return false;
-          default:
-            return true;
-          }
+      const newItems = function () {
+        switch (true) {
+        case React.Children.count(prevProps.children) <= 0:
+        case React.Children.count(prevProps.children) >= React.Children.count(children):
+        case (prevProps.children[0] || {}).key === (children[0] || {}).key:
+          return false;
+        default:
+          return true;
         }
-      )();
+      }();
 
       // Reset the scroll position when a new child comes in in order not to
       // jerk the scrollbar around if you're already scrolled down the page.
