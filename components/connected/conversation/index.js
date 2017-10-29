@@ -17,6 +17,7 @@
 
 //  Package imports.
 import classNames from 'classnames';
+import { List as ImmutableList } from 'immutable';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -69,15 +70,14 @@ class Conversation extends React.Component {  //  Impure
       '🏪': {
         ancestors,
         descendants,
-        status,
       },
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--CONVERSATION', className);
 
     return (
       <CommonList className={computedClass}>
-        {ancestors && descendants ? ancestors.concat(status, descendants).reduce(function (items, item) {
-          const statusId = item ? item.get('id') : id;  //  `status` might not be loaded yet
+        {ancestors && descendants ? ancestors.concat(id, descendants).reduce(function (items, item) {
+          const statusId = ImmutableList.isList(item) ? item.get('id') : item;
           items.push(
             <ConnectedStatus
               detailed={id === statusId}
@@ -101,7 +101,6 @@ Conversation.propTypes = {
   '🏪': PropTypes.shape({
     ancestors: ImmutablePropTypes.list,
     descendants: ImmutablePropTypes.list,
-    status: ImmutablePropTypes.map,
   }).isRequired,
   '💪': PropTypes.objectOf(PropTypes.func).isRequired,
 };
@@ -120,7 +119,6 @@ var ConnectedConversation = connect(
   createStructuredSelector({
     ancestors: (state, { id }) => state.getIn(['conversation', id, 'ancestors']),
     descendants: (state, { id }) => state.getIn(['conversation', id, 'descendants']),
-    status: (state, { id }) => state.getIn(['status', id]),
   }),
 
   //  Messages.

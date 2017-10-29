@@ -130,8 +130,19 @@ export default class RawPaneller extends React.Component {  //  Impure
             }
             return null;
           }()}
-          {(typeof menu === 'function' ? menu(getPassableProps()) : menu || []).map(
-            (item, index) => (
+          {(typeof menu === 'function' ? menu(getPassableProps()) : menu || []).map(function (item, index) {
+            if (React.isValidElement(item.icon)) {
+              return (
+                <CommonButton
+                  active={item.active !== void 0 ? item.active : item.hash && computedHash === item.hash}
+                  key={index}
+                  onClick={clicks[index + 1]}
+                  role='link'
+                  title={item.title}
+                >{item.icon}</CommonButton>
+              );
+            }
+            return (
               <CommonButton
                 active={item.active !== void 0 ? item.active : item.hash && computedHash === item.hash}
                 icon={item.icon}
@@ -140,8 +151,8 @@ export default class RawPaneller extends React.Component {  //  Impure
                 role='link'
                 title={item.title}
               />
-            )
-          )}
+            );
+          })}
           {activeRoute ? function () {
             switch (true) {
             case computedHash && computedHash !== '#' && !!ℳ['⬅']:

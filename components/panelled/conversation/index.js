@@ -2,11 +2,13 @@
 //  -------
 
 //  Package imports.
+import { List as ImmutableList } from 'immutable';
 import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
 //  Component imports.
 import {
+  ConnectedAccount,
   ConnectedConversation,
   RawPaneller,
 } from 'themes/mastodon-go/components';
@@ -75,17 +77,21 @@ moduleOnReady(function () {
           descendants,
           status,
         },
-      }) => ancestors && descendants ? ancestors.concat(status, descendants).reduce(function (items, item, index) {
-        if (item) {  //  `status` might not be loaded yet
-          items.push(
-            {
-              active: id === item.id,
-              destination: `/profile/${item.account}`,
-              icon: !index ? 'comment' : 'comments',
-              title: ℳ.viewProfile,
-            }
-          );
-        }
+      }) => ancestors && descendants ? ancestors.withMutations(
+        list => list.concat(status, descendants).map(
+          item => item ? item.get('account') : null
+        ).filter(
+          item => !!item
+        )
+      ).toOrderedSet().reduce(function (items, item, index) {
+        items.push(
+          {
+            active: status && item === status.get('account'),
+            destination: `/profile/${item}`,
+            icon: <ConnectedAccount account={item} />,
+            title: ℳ.viewProfile,
+          }
+        );
         return items;
       }, []) : [],
       title: ({ ℳ }) => ℳ.title,
