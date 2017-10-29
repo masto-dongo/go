@@ -86,7 +86,7 @@ const getCard = (state, id) => {
 //  The component
 //  -------------
 
-class Status extends React.PureComponent {
+class Status extends React.Component {  //  Impure
 
   //  Prior to mounting, we fetch the status's card if this is a
   //  detailed status and we don't already have it.

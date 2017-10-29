@@ -54,7 +54,7 @@ import { POST_TYPE } from 'themes/mastodon-go/util/constants';
 //  -------------
 
 //  Component definition.
-class Courier extends React.PureComponent {
+class Courier extends React.Component {  //  Impure
 
   //  Constructor.  We go ahead and prefetch the notifications,
   //  forgetting about any previously-loaded ones.  There shouldn't
@@ -97,9 +97,11 @@ class Courier extends React.PureComponent {
           );
           return items;
         }, []).concat(!isLoading ? (
-          <CommonObservable searchText={ℳ.loadMore}>
+          <CommonObservable
+            key='loadmore'
+            searchText={ℳ.loadMore}
+          >
             <CommonButton
-              key='loadmore'
               onClick={expand}
               showTitle
               title={ℳ.loadMore}

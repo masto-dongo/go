@@ -43,7 +43,7 @@ import connect from 'themes/mastodon-go/util/connect';
 //  -------------
 
 //  Component definition.
-class Conversation extends React.PureComponent {
+class Conversation extends React.Component {  //  Impure
 
   //  Our constructor goes ahead and prefetches the conversation.
   constructor (props) {

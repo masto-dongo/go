@@ -20,7 +20,7 @@ import './style.scss';
 
 import connect from 'themes/mastodon-go/util/connect';
 
-class Profile extends React.PureComponent {
+class Profile extends React.Component {  //  Impure
 
   constructor (props) {
     super(props);

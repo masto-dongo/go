@@ -54,7 +54,7 @@ import connect from 'themes/mastodon-go/util/connect';
 //  -------------
 
 //  Component definition.
-class Catalogue extends React.PureComponent {
+class Catalogue extends React.Component {  //  Impure
 
   //  Constructor.  We go ahead and prefetch the catalogue.  Note that
   //  this will erase any existing catalogue contents, but there
@@ -117,9 +117,11 @@ class Catalogue extends React.PureComponent {
           );
           return items;
         }, []).concat(!isLoading ? (
-          <CommonObservable searchText={ℳ.loadMore}>
+          <CommonObservable
+            key='loadmore'
+            searchText={ℳ.loadMore}
+          >
             <CommonButton
-              key='loadmore'
               onClick={expand}
               showTitle
               title={ℳ.loadMore}

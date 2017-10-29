@@ -50,7 +50,7 @@ import connect from 'themes/mastodon-go/util/connect';
 //  -------------
 
 //  Component definition.
-class Parse extends React.PureComponent {
+class Parse extends React.Component {  //  Impure
 
   constructor (props) {
     super(props);

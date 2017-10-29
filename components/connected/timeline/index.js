@@ -25,7 +25,7 @@ import './style.scss';
 import connect from 'themes/mastodon-go/util/connect';
 import { POST_TYPE } from 'themes/mastodon-go/util/constants';
 
-class Timeline extends React.PureComponent {
+class Timeline extends React.Component {  //  Impure
 
   constructor (props) {
     super(props);
@@ -90,9 +90,11 @@ class Timeline extends React.PureComponent {
           );
           return items;
         }, []).concat(!isLoading ? (
-          <CommonObservable searchText={ℳ.loadMore}>
+          <CommonObservable
+            key='loadmore'
+            searchText={ℳ.loadMore}
+          >
             <CommonButton
-              key='loadmore'
               onClick={expand}
               showTitle
               title={ℳ.loadMore}
