@@ -17,7 +17,7 @@
 
 //  Package imports.
 import classNames from 'classnames';
-import { List as ImmutableList } from 'immutable';
+import { Map as ImmutableMap } from 'immutable';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -77,7 +77,7 @@ class Conversation extends React.Component {  //  Impure
     return (
       <CommonList className={computedClass}>
         {ancestors && descendants ? ancestors.concat(id, descendants).reduce(function (items, item) {
-          const statusId = ImmutableList.isList(item) ? item.get('id') : item;
+          const statusId = ImmutableMap.isMap(item) ? item.get('id') : item;
           items.push(
             <ConnectedStatus
               detailed={id === statusId}
