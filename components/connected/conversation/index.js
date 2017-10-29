@@ -66,7 +66,11 @@ class Conversation extends React.Component {  //  Impure
     const {
       className,
       id,
-      '🏪': { statuses },
+      '🏪': {
+        ancestors,
+        descendants,
+        status,
+      },
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--CONVERSATION', className);
 
