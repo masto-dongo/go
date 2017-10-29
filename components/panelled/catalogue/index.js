@@ -58,7 +58,10 @@ moduleOnReady(function () {
       backdrop: ConnectedCatalogue,
       className: 'MASTODON_GO--PANELLED--CATALOGUE',
       icon: ({ icon }) => icon,
-      title: ({ ℳ }) => ℳ.title,
+      title: ({
+        title,
+        ℳ,
+      }) => title || ℳ.title,
     }
   );
 });

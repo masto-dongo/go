@@ -47,7 +47,7 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
     this.handleReply = DOMEventCompose.bind(this, {
       inReplyTo: id,
       spoiler,
-      text: '@' + at,
+      text: '@' + at + ' ',
       visibility,
     });
   }
@@ -62,6 +62,8 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
       onDetail,
       onFavourite,
       onReblog,
+      onUnfavourite,
+      onUnreblog,
       visibility,
       ℳ,
     } = this.props;
@@ -74,11 +76,11 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
 
     //  This selects our reply icon.
     if (is.get('reply')) {
-      replyIcon = 'reply';
-      replyTitle = ℳ.reply;
-    } else {
       replyIcon = 'reply-all';
       replyTitle = ℳ.replyAll;
+    } else {
+      replyIcon = 'reply';
+      replyTitle = ℳ.reply;
     }
 
     //  Now we can render the component.
@@ -93,25 +95,22 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
           active={is.get('reblogged')}
           disabled={!rebloggable}
           icon='retweet'
-          onClick={onReblog}
+          onClick={is.get('reblogged') ? onReblog : onUnreblog}
           title={reblogTitle}
         />
         <CommonButton
           active={is.get('favourited')}
           animate
           icon='star'
-          onClick={onFavourite}
+          onClick={is.get('favourited') ? onFavourite : onUnfavourite}
           title={ℳ.favourite}
         />
-        {
-          onDetail ? (
-            <CommonButton
-              active={detailed}
-              title={ℳ.expand}
-              icon={detailed ? 'minus' : 'plus'}
-              onClick={onDetail}
-            />
-          ) : null
+        <CommonButton
+          active={detailed}
+          title={ℳ.expand}
+          icon={detailed ? 'minus' : 'plus'}
+          onClick={onDetail}
+        />
         }
       </div>
     );
@@ -128,6 +127,8 @@ ConnectedStatusActionBar.propTypes = {
   onDetail: PropTypes.func,
   onFavourite: PropTypes.func,
   onReblog: PropTypes.func,
+  onUnfavourite: PropTypes.func,
+  onUnreblog: PropTypes.func,
   spoiler: PropTypes.string,
   visibility: PropTypes.number,
   ℳ: PropTypes.func.isRequired,

@@ -17,6 +17,9 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
+//  DOM imports.
+import { DOMEventNavigate } from 'themes/mastodon-go/DOM';
+
 //  Request imports.
 import {
   deleteStatus,
@@ -179,6 +182,8 @@ class Status extends React.Component {  //  Impure
       if (e) {
         e.preventDefault();
       }
+    } else if (!detailed) {
+      DOMEventNavigate(`/status/${id}`);
     }
   }
 
@@ -223,6 +228,8 @@ class Status extends React.Component {  //  Impure
       '💪': {
         favourite,
         reblog,
+        unfavourite,
+        unreblog,
       },
     } = this.props;
     const { contentVisible } = this.state;
@@ -331,6 +338,8 @@ class Status extends React.Component {  //  Impure
           onDetail={handleClick}
           onFavourite={favourite}
           onReblog={reblog}
+          onUnfavourite={unfavourite}
+          onUnreblog={unreblog}
           spoiler={spoiler}
           visibility={visibility}
           ℳ={ℳ}

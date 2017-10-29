@@ -133,7 +133,7 @@ export default function attachment (state = initialState, action) {
   case STATUS_UNMUTE_SUCCESS:
   case STATUS_UNPIN_SUCCESS:
   case STATUS_UNREBLOG_SUCCESS:
-    return set(state, action.notification.status.media_attachments);
+    return set(state, action.status.media_attachments);
   case TIMELINE_EXPAND_SUCCESS:
   case TIMELINE_FETCH_SUCCESS:
   case TIMELINE_REFRESH_SUCCESS:

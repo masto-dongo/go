@@ -168,7 +168,15 @@ export default function account (state = initialState, action) {
       action.notification.account,
       action.notification.status.account,
     ]);
+  case STATUS_FAVOURITE_SUCCESS:
   case STATUS_FETCH_SUCCESS:
+  case STATUS_MUTE_SUCCESS:
+  case STATUS_PIN_SUCCESS:
+  case STATUS_REBLOG_SUCCESS:
+  case STATUS_UNFAVOURITE_SUCCESS:
+  case STATUS_UNMUTE_SUCCESS:
+  case STATUS_UNPIN_SUCCESS:
+  case STATUS_UNREBLOG_SUCCESS:
     return set(state, action.status.account);
   case TIMELINE_EXPAND_SUCCESS:
   case TIMELINE_FETCH_SUCCESS:
