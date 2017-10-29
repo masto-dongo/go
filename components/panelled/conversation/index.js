@@ -9,7 +9,7 @@ import { createStructuredSelector } from 'reselect';
 
 //  Component imports.
 import {
-  ConnectedAccount,
+  ConnectedAvatar,
   ConnectedConversation,
   RawPaneller,
 } from 'themes/mastodon-go/components';
