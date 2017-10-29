@@ -3,6 +3,7 @@
 
 //  Package imports.
 import { List as ImmutableList } from 'immutable';
+import React from 'react';
 import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
