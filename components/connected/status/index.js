@@ -337,7 +337,7 @@ class Status extends React.PureComponent {
         />
         {detailed ? (
           <ConnectedStatusNav
-            reblogsCount={counts.get('favourites')}
+            favouritesCount={counts.get('favourites')}
             id={id}
             reblogsCount={counts.get('reblogs')}
             ℳ={ℳ}

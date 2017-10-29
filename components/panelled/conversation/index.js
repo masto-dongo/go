@@ -72,17 +72,16 @@ moduleOnReady(function () {
           account,
           accounts,
         },
-      }) => accounts.reduce(
-        (items, id, index) => items.push(
+      }) => accounts ? accounts.reduce(function (items, id, index) {
+        return items.push(
           {
             active: id === account,
             destination: `/profile/${id}`,
             icon: !index ? 'comment' : 'comments',
             title: ℳ.viewProfile,
           }
-        ),
-        []
-      ),
+        );
+      }, []) : [],
       title: ({ ℳ }) => ℳ.title,
     }
   );
