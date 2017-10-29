@@ -78,12 +78,11 @@ moduleOnReady(function () {
           status,
         },
       }) => ancestors && descendants ? ancestors.withMutations(
-        list => {
-          const l = list.concat(ImmutableList([status]), descendants).map(
+        list => list.concat(ImmutableList([status]), descendants).map(
           item => item ? item.get('account') : null
         ).filter(
           item => !!item
-        ); debugger}
+        )
       ).toOrderedSet().reduce(function (items, item, index) {
         items.push({
           destination: `/profile/${item}`,
