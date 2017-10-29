@@ -155,7 +155,7 @@ function makeMessages (intl, messager) {
     //  access to them later as well.
     let name;
     for (name in messager) {
-      Object.defineProperty(ℳ, name, { value: new String(/(?:\\\\|[^\\]|^){[^]+(?:\\\\|[^\\])}/.test(messager[name].defaultMessage) ? messager[name].id : intl.formatMessage(messager[name], messager[name].defaultValues)) });
+      Object.defineProperty(ℳ, name, { value: new String(/(?:\\\\|[^\\]|^){[^]*?(?:\\\\|[^\\])}/.test(messager[name].defaultMessage) ? messager[name].id : intl.formatMessage(messager[name], messager[name].defaultValues)) });
       ℳ[name].withValues = intl.formatMessage.bind(intl, messager[name]);
     }
   }

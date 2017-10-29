@@ -35,9 +35,9 @@ export default class ConnectedStatusNav extends React.PureComponent {
     const { id } = this.props;
 
     //  Function binding.
-    this.handleConversation = DOMEventNavigate(`/status/${id}`);
-    this.handleReblogs = DOMEventNavigate(`/status/${id}/reblogs`);
-    this.handleFavourites = DOMEventNavigate(`/status/${id}/favourites`);
+    this.handleConversation = DOMEventNavigate.bind(this, `/status/${id}`);
+    this.handleReblogs = DOMEventNavigate.bind(this, `/status/${id}/reblogs`);
+    this.handleFavourites = DOMEventNavigate.bind(this, `/status/${id}/favourites`);
   }
 
   //  Rendering.
