@@ -84,7 +84,6 @@ moduleOnReady(function () {
           item => !!item
         )
       ).toOrderedSet().reduce(function (items, item, index) {
-        console.log(item);
         items.push({
           active: status && item === status.get('account'),
           destination: `/profile/${item}`,

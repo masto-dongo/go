@@ -39,14 +39,14 @@ import { CONVERSATION_FETCH_SUCCESS } from 'themes/mastodon-go/redux/conversatio
 const normalize = (ancestors, id, descendants) => ImmutableMap({
   ancestors: ImmutableList(ancestors ? ancestors.map(
     status => ImmutableMap({
-      account: '' + status.account,
+      account: '' + status.account.id,
       id: '' + status.id,
     })
   ) : []),
   status: id,
   descendants: ImmutableList(descendants ? descendants.map(
     status => ImmutableMap({
-      account: '' + status.account,
+      account: '' + status.account.id,
       id: '' + status.id,
     })
   ) : []),
