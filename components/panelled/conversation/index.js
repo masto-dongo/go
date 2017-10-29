@@ -89,7 +89,7 @@ moduleOnReady(function () {
         ).toOrderedSet().reduce(function (items, item, index) {
           items.push({
             destination: `/profile/${item}`,
-            icon: <ConnectedAccount account={item} />,
+            icon: <ConnectedAvatar account={item} />,
             title: ℳ.viewProfile,
           });
           return items;
