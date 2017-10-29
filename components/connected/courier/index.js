@@ -87,13 +87,14 @@ class Courier extends React.PureComponent {
         isLoading={isLoading}
       >
         {notifications ? notifications.reduce(function (items, id) {
-          return items.push(
+          items.push(
             <ConnectedNotification
               hideIf={(settings.getIn(['shows', 'favourite']) && POST_TYPE.IS_FAVOURITE) | (settings.getIn(['shows', 'reblog']) && POST_TYPE.IS_REBLOG) | (settings.getIn(['shows', 'mention']) && POST_TYPE.IS_MENTION) | (settings.getIn(['shows', 'follow']) && POST_TYPE.IS_FOLLOW)}
               id={id}
               key={id}
             />
           );
+          return items;
         }, []).concat(!isLoading ? (
           <CommonButton
             key='loadmore'

@@ -72,16 +72,16 @@ class Conversation extends React.PureComponent {
 
     return (
       <CommonList className={computedClass}>
-        {statuses ? statuses.reduce(
-          (items, statusId) => items.push(
+        {statuses ? statuses.reduce(function (items, statusId) {
+          items.push(
             <ConnectedStatus
               detailed={id === statusId}
               id={id}
               key={id}
             />
-          ),
-          []
-        ) : null}
+          );
+          return items;
+        }, []) : null}
       </CommonList>
     );
   }

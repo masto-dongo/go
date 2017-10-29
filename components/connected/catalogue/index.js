@@ -108,12 +108,13 @@ class Catalogue extends React.PureComponent {
         isLoading={isLoading}
       >
         {accounts ? accounts.reduce(function (items, id) {
-          return items.push(
+          items.push(
             <ConnectedAccount
               id={id}
               key={id}
             />
           );
+          return items;
         }, []).concat(!isLoading ? (
           <CommonButton
             key='loadmore'
