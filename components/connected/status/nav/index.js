@@ -50,7 +50,6 @@ export default class ConnectedStatusNav extends React.PureComponent {
     const {
       className,
       favouritesCount,
-      id,
       reblogsCount,
       ℳ,
     } = this.props;
@@ -92,4 +91,4 @@ ConnectedStatusNav.propTypes = {
   id: PropTypes.string.isRequired,
   reblogsCount: PropTypes.number,
   ℳ: PropTypes.func,
-}
+};

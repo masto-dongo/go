@@ -1,12 +1,6 @@
 //  STATUS:FETCH
 //  ============
 
-//  Imported reducers.
-import {
-  fetchCard,
-  fetchConversation,
-} from 'themes/mastodon-go/redux';
-
 //  Action types.
 export const STATUS_FETCH_REQUEST = 'STATUS_FETCH_REQUEST';
 export const STATUS_FETCH_SUCCESS = 'STATUS_FETCH_SUCCESS';

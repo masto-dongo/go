@@ -68,6 +68,7 @@ moduleOnReady(function () {
       backdrop: ConnectedConversation,
       className: 'MASTODON_GO--PANELLED--CONVERSATION',
       menu: ({
+        id,
         ℳ,
         '🏪': {
           ancestors,
