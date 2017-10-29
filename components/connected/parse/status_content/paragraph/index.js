@@ -118,6 +118,7 @@ export default function ConnectedParseStatusContentParagraph ({
               case !!tag && (content.replace(/^#/, '') === tag.get('name')):
                 return (
                   <ConnectedReference
+                    href={tag.get('url')}
                     key={pContents.length}
                     tagName={tag.get('name')}
                     showHash={content[0] === '#'}

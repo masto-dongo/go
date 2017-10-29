@@ -54,6 +54,6 @@ export default function fetchCourier (go, current, api) {
     //  Regardless, we dispatch our success.
     go(success, data, prev, next);
   }).catch(function (error) {
-    go(failure, error)
+    go(failure, error);
   });
 }

@@ -43,6 +43,6 @@ export default function fetchTimeline (path, go, current, api) {
     const prev = (link.match(/<\s*([^,]*)\s*>\s*;(?:[^,]*[;\s])?rel="?prev(?:ious)?"?/) || [])[1];
     go(success, path, data, prev, next);
   }).catch(function (error) {
-    go(failure, path, error)
+    go(failure, path, error);
   });
 }

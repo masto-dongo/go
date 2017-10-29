@@ -1,9 +1,10 @@
 //  Package imports.
 import {
-  List as ImmutableList,
+  //  List as ImmutableList,
   Map as ImmutableMap,
 } from 'immutable';
 
+/*
 
 const normalize = search => ImmutableMap({
   accounts: ImmutableList(search.accounts.map(
@@ -15,6 +16,11 @@ const normalize = search => ImmutableMap({
   )),
 });
 
+*/
+
 export default function search (state = ImmutableMap(), action) {
-  return state;
+  switch (action.type) {
+  default:
+    return state;
+  }
 }

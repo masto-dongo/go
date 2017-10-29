@@ -10,7 +10,6 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
@@ -212,6 +211,7 @@ var ConnectedReference = connect(
     href: (state, {
       attachment,
       card,
+      href,
       mention,
       tagName,
     }) => {
@@ -222,10 +222,8 @@ var ConnectedReference = connect(
         return state.getIn(['card', card, 'href']);
       case !!mention:
         return state.getIn(['account', mention, 'href']);
-      case !!tagName:
-        return state.getIn(['tag', tagName, 'href']);
       default:
-        return void 0;
+        return href || null;
       }
     },
     mediaType: (state, { attachment }) => attachment ? state.getIn(['attachment', attachment, 'type']) : null,
@@ -245,7 +243,7 @@ var ConnectedReference = connect(
       case !!tagName:
         return tagName;
       default:
-        return void 0;
+        return null;
       }
     },
     username: (state, { mention }) => mention ? state.getIn(['account', mention, 'username']) : null,
@@ -281,10 +279,7 @@ var ConnectedReference = connect(
   }),
 
   //  Handler.
-  (go, store, {
-    mention,
-    tagName,
-  }) => ({
+  (go, store, { mention }) => ({
     fetch () {
       switch (true) {
       case !!mention:
