@@ -18,10 +18,7 @@ import React from 'react';
 import { DOMEventNavigate } from 'themes/mastodon-go/DOM';
 
 //  Component imports.
-import {
-  CommonIcon,
-  CommonLink,
-} from 'themes/mastodon-go/components';
+import { CommonButton } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style.scss';

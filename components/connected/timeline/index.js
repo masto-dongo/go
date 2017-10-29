@@ -88,7 +88,7 @@ class Timeline extends React.PureComponent {
             />
           );
           return items;
-        }, []).concat(isLoading ? (
+        }, []).concat(!isLoading ? (
           <CommonButton
             key='loadmore'
             onClick={expand}

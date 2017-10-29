@@ -94,7 +94,7 @@ class Courier extends React.PureComponent {
               key={id}
             />
           );
-        }, []).concat(isLoading ? (
+        }, []).concat(!isLoading ? (
           <CommonButton
             key='loadmore'
             onClick={expand}
