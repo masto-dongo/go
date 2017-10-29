@@ -91,7 +91,6 @@ class Conversation extends React.PureComponent {
 //  Props.
 Conversation.propTypes = {
   className: PropTypes.string,
-  icon: PropTypes.string,
   id: PropTypes.string.isRequired,
   ℳ: PropTypes.func,
   '🏪': PropTypes.shape({ statuses: ImmutablePropTypes.list }).isRequired,

@@ -15,20 +15,17 @@
   white-space: nowrap;
 
   &.detailed {
-    margin: .3125em 0;
+    margin: .625em 0;
     width: 100%;
     height: auto;
-    text-align: center;
 
     & > .MASTODON_GO--COMMON--BUTTON {
       display: inline-block;
       margin: 0;
       border: none;
-      padding: 0 .5em;
+      padding: 0;
 
-      & + .MASTODON_GO--COMMON--BUTTON {
-        border-left: 1px $mastodon_go_content_border solid;
-      }
+      & + .MASTODON_GO--COMMON--BUTTON { margin-left: 1em }
     }
   }
 }

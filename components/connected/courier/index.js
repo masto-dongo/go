@@ -94,14 +94,14 @@ class Courier extends React.PureComponent {
               key={id}
             />
           );
-        }, []).concat(
+        }, []).concat(isLoading ? (
           <CommonButton
-            disabled={isLoading}
+            key='loadmore'
             onClick={expand}
             showTitle
             title={ℳ.loadMore}
           />
-        ) : null}
+        ) : null) : null}
       </CommonList>
     );
   }

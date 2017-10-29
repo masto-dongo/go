@@ -2,4 +2,27 @@
 
 @import "themes/mastodon-go/variables";
 
-.MASTODON_GO--CONNECTED--STATUS--NAV {}
+.MASTODON_GO--CONNECTED--STATUS--NAV {
+  display: block;
+  margin: 0;
+  border: none;
+  padding: 0;
+  height: 1.25rem;
+  font-size: 1rem;
+  line-height: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+
+  & > .MASTODON_GO--COMMON--BUTTON.with_text {
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 0;
+    border: none;
+    padding: .5em;
+    width: 33.33333%;
+    font: inherit;
+
+    & + .MASTODON_GO--COMMON--BUTTON { margin-left: 1em }
+  }
+}

@@ -335,6 +335,16 @@ export default connect(
       description: 'Used as the title for local hashtag timelines',
       id: 'timeline.local_tag',
     },
+    statusFavourites: {
+      defaultMessage: 'Status favouriters',
+      description: 'Used as the title for status favourites timelines',
+      id: 'timeline.status_favourites',
+    },
+    statusReblogs: {
+      defaultMessage: 'Status boosters',
+      description: 'Used as the title for status reblogs timelines',
+      id: 'timeline.status_reblogs',
+    },
   }),
 
   //  Handler.

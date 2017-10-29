@@ -205,6 +205,7 @@ class Status extends React.PureComponent {
         card,
         comrade,
         content,
+        counts,
         datetime,
         emoji,
         href,
@@ -336,7 +337,9 @@ class Status extends React.PureComponent {
         />
         {detailed ? (
           <ConnectedStatusNav
+            reblogsCount={counts.get('favourites')}
             id={id}
+            reblogsCount={counts.get('reblogs')}
             ℳ={ℳ}
           />
         ) : null}
@@ -366,6 +369,7 @@ Status.propTypes = {
     card: ImmutablePropTypes.map,
     comrade: PropTypes.string,
     content: ImmutablePropTypes.map,
+    counts: ImmutablePropTypes.map,
     datetime: PropTypes.instanceOf(Date),
     emoji: ImmutablePropTypes.list,
     href: PropTypes.string,
@@ -409,6 +413,7 @@ var ConnectedStatus = connect(
       return comrade || null;
     },
     content: (state, { id }) => getInStatus(state, id, 'content'),
+    counts: (state, { id }) => getInStatus(state, id, 'counts'),
     datetime: (state, { id }) => getInStatus(state, id, 'datetime'),
     emoji: (state, { id }) => getInStatus(state, id, 'emoji'),
     href: (state, { id }) => getInStatus(state, id, 'href'),
@@ -447,6 +452,16 @@ var ConnectedStatus = connect(
       defaultMessage: 'This post cannot be boosted',
       description: 'Used as the label for a disabled reblog button',
       id: 'status.no_reblog',
+    },
+    numFavourites: {
+      defaultMessage: '{n} favourites',
+      description: 'Used as the label for a favourites link',
+      id: 'status.num_favourites',
+    },
+    numReblogs: {
+      defaultMessage: '{n} reblogs',
+      description: 'Used as the label for a reblogs link',
+      id: 'status.num_reblogs',
     },
     private: {
       defaultMessage: 'Followers-only',
@@ -502,16 +517,6 @@ var ConnectedStatus = connect(
       defaultMessage: 'View conversation',
       description: 'Used as the label for a conversation link',
       id : 'status.view_conversation',
-    },
-    viewFavourites: {
-      defaultMessage: 'View favourites',
-      description: 'Used as the label for a favourites link',
-      id: 'status.view_favourites',
-    },
-    viewReblogs: {
-      defaultMessage: 'View reblogs',
-      description: 'Used as the label for a reblogs link',
-      id: 'status.view_reblogs',
     },
   }),
 

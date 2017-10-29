@@ -189,6 +189,43 @@ export default class RoutedUIColumn extends React.PureComponent {
 
           <Route
             exact
+            path='/status/:id/favourites'
+            render={function ({
+              location: { hash },
+              match: { params: { id } },
+            }) {
+              return (
+                <PanelledCatalogue
+                  activeRoute={activeRoute}
+                  hash={activeRoute ? hash : null}
+                  icon='star'
+                  path={`/api/v1/statuses/${id}/favourited_by`}
+                  title={ℳ.statusFavourites}
+                />
+              );
+            }}
+          />
+          <Route
+            exact
+            path='/status/:id/reblogs'
+            render={function ({
+              location: { hash },
+              match: { params: { id } },
+            }) {
+              return (
+                <PanelledCatalogue
+                  activeRoute={activeRoute}
+                  hash={activeRoute ? hash : null}
+                  icon='retweet'
+                  path={`/api/v1/statuses/${id}/reblogged_by`}
+                  title={ℳ.statusReblogs}
+                />
+              );
+            }}
+          />
+
+          <Route
+            exact
             path='/profile/:id'
             render={function ({
               location: { hash },
@@ -196,6 +233,23 @@ export default class RoutedUIColumn extends React.PureComponent {
             }) {
               return (
                 <PanelledProfile
+                  activeRoute={activeRoute}
+                  hash={activeRoute ? hash : null}
+                  id={id}
+                />
+              );
+            }}
+          />
+
+          <Route
+            exact
+            path='/status/:id'
+            render={function ({
+              location: { hash },
+              match: { params: { id } },
+            }) {
+              return (
+                <PanelledConversation
                   activeRoute={activeRoute}
                   hash={activeRoute ? hash : null}
                   id={id}

@@ -26,7 +26,10 @@
     &:not(:first-child) { border-top: 1px $mastodon_go_content_border solid }
 
     &:focus,
-    &:hover { background-color: $mastodon_go_content_highlight }
+    &:hover {
+      color: $mastodon_go_content_color;
+      background-color: $mastodon_go_content_highlight;
+    }
   }
 
   &.loading::after {

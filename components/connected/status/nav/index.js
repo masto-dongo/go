@@ -14,6 +14,9 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+//  DOM imports.
+import { DOMEventNavigate } from 'themes/mastodon-go/DOM';
+
 //  Component imports.
 import {
   CommonIcon,
@@ -30,35 +33,66 @@ import './style.scss';
 
 export default class ConnectedStatusNav extends React.PureComponent {
 
-  //  Props.
-  static propTypes = {
-    className: PropTypes.string,
-    id: PropTypes.string.isRequired,
-    ℳ: PropTypes.func,
+  constructor (props) {
+    super(props);
+    const { id } = this.props;
+
+    //  Function binding.
+    this.handleConversation = DOMEventNavigate(`/status/${id}`);
+    this.handleReblogs = DOMEventNavigate(`/status/${id}/reblogs`);
+    this.handleFavourites = DOMEventNavigate(`/status/${id}/favourites`);
   }
 
   //  Rendering.
   render () {
     const {
+      handleConversation,
+      handleReblogs,
+      handleFavourites,
+    } = this;
+    const {
       className,
+      favouritesCount,
       id,
+      reblogsCount,
       ℳ,
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--STATUS--NAV', className);
 
     return (
       <nav className={computedClass}>
-        <CommonLink title={ℳ.viewConversation}>
-          <CommonIcon name='comments-o' />
-        </CommonLink>
-        <CommonLink title={ℳ.viewReblogs}>
-          <CommonIcon name='retweet' />
-        </CommonLink>
-        <CommonLink title={ℳ.viewFavourites}>
-          <CommonIcon name='star' />
-        </CommonLink>
+        <CommonButton
+          icon='comments-o'
+          onClick={handleConversation}
+          role='link'
+          showTitle
+          title={ℳ.viewConversation}
+        />
+        <CommonButton
+          icon='retweet'
+          onClick={handleReblogs}
+          role='link'
+          showTitle
+          title={ℳ.numReblogs.withValues({ n: reblogsCount || '??' })}
+        />
+        <CommonButton
+          icon='star'
+          onClick={handleFavourites}
+          role='link'
+          showTitle
+          title={ℳ.numFavourites.withValues({ n: favouritesCount || '??' })}
+        />
       </nav>
     );
   }
 
+}
+
+//  Props.
+ConnectedStatusNav.propTypes = {
+  className: PropTypes.string,
+  favouritesCount: PropTypes.number,
+  id: PropTypes.string.isRequired,
+  reblogsCount: PropTypes.number,
+  ℳ: PropTypes.func,
 }
