@@ -62,23 +62,20 @@ export default class ConnectedStatusNav extends React.PureComponent {
           icon='comments-o'
           onClick={handleConversation}
           role='link'
-          showTitle
           title={ℳ.viewConversation}
         />
         <CommonButton
           icon='retweet'
           onClick={handleReblogs}
           role='link'
-          showTitle
           title={ℳ.numReblogs.withValues({ n: reblogsCount || '??' })}
-        />
+        >{reblogsCount === +reblogsCount ? reblogsCount : '??'}</CommonButton>
         <CommonButton
           icon='star'
           onClick={handleFavourites}
           role='link'
-          showTitle
           title={ℳ.numFavourites.withValues({ n: favouritesCount || '??' })}
-        />
+        >{favouritesCount === +favouritesCount ? favouritesCount : '??'}</CommonButton>
       </nav>
     );
   }

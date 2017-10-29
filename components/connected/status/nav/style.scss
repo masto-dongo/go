@@ -14,15 +14,23 @@
   overflow-y: hidden;
   white-space: nowrap;
 
-  & > .MASTODON_GO--COMMON--BUTTON.with_text {
+  & > .MASTODON_GO--COMMON--BUTTON, & > .MASTODON_GO--COMMON--BUTTON.with_text {
     display: inline-block;
     box-sizing: border-box;
     margin: 0;
     border: none;
     padding: .5em;
     width: 33.33333%;
+    color: $mastodon_go_content_color;
+    background-color: $mastodon_go_content_background;
     font: inherit;
 
-    & + .MASTODON_GO--COMMON--BUTTON { margin-left: 1em }
+    &:not(:first-child) { border-left: 1px $mastodon_go_content_border solid }
+
+    &:focus,
+    &:hover {
+      color: $mastodon_go_content_color;
+      background-color: $mastodon_go_content_highlight;
+    }
   }
 }
