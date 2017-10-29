@@ -83,7 +83,7 @@ moduleOnReady(function () {
           item => item ? item.get('account') : null
         ).filter(
           item => !!item
-        )
+        )}
       ).toOrderedSet().reduce(function (items, item, index) {
         items.push({
           active: status && item === status.get('account'),
