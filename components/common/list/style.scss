@@ -11,24 +11,26 @@
   overflow-x: hidden;
   overflow-y: scroll;
 
-  & > .MASTODON_GO--COMMON--BUTTON.with_text {
-    display: block;
-    box-sizing: border-box;
-    margin: 0;
-    border: none;
-    padding: 1.25em .75em;
-    width: 100%;
-    color: $mastodon_go_content_color;
-    background-color: $mastodon_go_content_background;
-    font: inherit;
-    text-align: center;
-
-    &:not(:first-child) { border-top: 1px $mastodon_go_content_border solid }
-
-    &:focus,
-    &:hover {
+  & > .MASTODON_GO--COMMON--OBSERVABLE {
+    & > .MASTODON_GO--COMMON--BUTTON.with_text {
+      display: block;
+      box-sizing: border-box;
+      margin: 0;
+      border: none;
+      padding: 1.25em .75em;
+      width: 100%;
       color: $mastodon_go_content_color;
-      background-color: $mastodon_go_content_highlight;
+      background-color: $mastodon_go_content_background;
+      font: inherit;
+      text-align: center;
+
+      &:not(:first-child) { border-top: 1px $mastodon_go_content_border solid }
+
+      &:focus,
+      &:hover {
+        color: $mastodon_go_content_color;
+        background-color: $mastodon_go_content_highlight;
+      }
     }
   }
 

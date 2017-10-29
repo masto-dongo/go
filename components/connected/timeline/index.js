@@ -16,6 +16,7 @@ import {
 import {
   CommonButton,
   CommonList,
+  CommonObservable,
   ConnectedStatus,
 } from 'themes/mastodon-go/components';
 
@@ -89,12 +90,14 @@ class Timeline extends React.PureComponent {
           );
           return items;
         }, []).concat(!isLoading ? (
-          <CommonButton
-            key='loadmore'
-            onClick={expand}
-            showTitle
-            title={ℳ.loadMore}
-          />
+          <CommonObservable searchText={ℳ.loadMore}>
+            <CommonButton
+              key='loadmore'
+              onClick={expand}
+              showTitle
+              title={ℳ.loadMore}
+            />
+          </CommonObservable>
         ) : null) : null}
       </CommonList>
     );

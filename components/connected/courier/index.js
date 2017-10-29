@@ -27,6 +27,7 @@ import { createStructuredSelector } from 'reselect';
 import {
   CommonButton,
   CommonList,
+  CommonObservable,
   ConnectedNotification,
 } from 'themes/mastodon-go/components';
 
@@ -96,12 +97,14 @@ class Courier extends React.PureComponent {
           );
           return items;
         }, []).concat(!isLoading ? (
-          <CommonButton
-            key='loadmore'
-            onClick={expand}
-            showTitle
-            title={ℳ.loadMore}
-          />
+          <CommonObservable searchText={ℳ.loadMore}>
+            <CommonButton
+              key='loadmore'
+              onClick={expand}
+              showTitle
+              title={ℳ.loadMore}
+            />
+          </CommonObservable>
         ) : null) : null}
       </CommonList>
     );

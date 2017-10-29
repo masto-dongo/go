@@ -241,7 +241,7 @@ class Status extends React.PureComponent {
       }
     }(filterRegex);
 
-    if (!id) {
+    if (!id || !content) {
       return null;
     }
 
