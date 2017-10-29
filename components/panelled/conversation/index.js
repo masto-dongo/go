@@ -31,8 +31,9 @@ moduleOnReady(function () {
 
     //  Store.
     createStructuredSelector({
-      account: (state, { id }) => state.getIn(['conversation', id, 'account']),
-      accounts: (state, { id }) => state.getIn(['conversation', id, 'accounts']),
+      ancestors: (state, { id }) => state.getIn(['conversation', id, 'ancestors']),
+      descendants: (state, { id }) => state.getIn(['conversation', id, 'descendants']),
+      status: (state, { id }) => state.getIn(['status', id]),
     }),
 
     //  Messages.
@@ -69,14 +70,15 @@ moduleOnReady(function () {
       menu: ({
         ℳ,
         '🏪': {
-          account,
-          accounts,
+          ancestors,
+          descendants,
+          status,
         },
-      }) => accounts ? accounts.reduce(function (items, id, index) {
+      }) => ancestors && status && descendants ? ancestors.concat(status, descendants).reduce(function (items, item, index) {
         return items.push(
           {
-            active: id === account,
-            destination: `/profile/${id}`,
+            active: id === item.id,
+            destination: `/profile/${item.account}`,
             icon: !index ? 'comment' : 'comments',
             title: ℳ.viewProfile,
           }

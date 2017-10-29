@@ -72,7 +72,8 @@ class Conversation extends React.Component {  //  Impure
 
     return (
       <CommonList className={computedClass}>
-        {statuses ? statuses.reduce(function (items, statusId) {
+        {ancestors && status && descendants ? ancestors.concat(status, descendants).reduce(function (items, item) {
+          const statusId = item.get('id');
           items.push(
             <ConnectedStatus
               detailed={id === statusId}
@@ -93,7 +94,11 @@ Conversation.propTypes = {
   className: PropTypes.string,
   id: PropTypes.string.isRequired,
   ℳ: PropTypes.func,
-  '🏪': PropTypes.shape({ statuses: ImmutablePropTypes.list }).isRequired,
+  '🏪': PropTypes.shape({
+    ancestors: ImmutablePropTypes.list,
+    descendants: ImmutablePropTypes.list,
+    status: ImmutablePropTypes.map,
+  }).isRequired,
   '💪': PropTypes.objectOf(PropTypes.func).isRequired,
 };
 
@@ -109,7 +114,9 @@ var ConnectedConversation = connect(
 
   //  Store.
   createStructuredSelector({
-    statuses: (state, { id }) => state.getIn(['conversation', id, 'statuses']),
+    ancestors: (state, { id }) => state.getIn(['conversation', id, 'ancestors']),
+    descendants: (state, { id }) => state.getIn(['conversation', id, 'descendants']),
+    status: (state, { id }) => state.getIn(['status', id]),
   }),
 
   //  Messages.

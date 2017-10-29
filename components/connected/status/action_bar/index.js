@@ -95,14 +95,14 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
           active={is.get('reblogged')}
           disabled={!rebloggable}
           icon='retweet'
-          onClick={is.get('reblogged') ? onReblog : onUnreblog}
+          onClick={!is.get('reblogged') ? onReblog : onUnreblog}
           title={reblogTitle}
         />
         <CommonButton
           active={is.get('favourited')}
           animate
           icon='star'
-          onClick={is.get('favourited') ? onFavourite : onUnfavourite}
+          onClick={!is.get('favourited') ? onFavourite : onUnfavourite}
           title={ℳ.favourite}
         />
         <CommonButton
@@ -111,7 +111,6 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
           icon={detailed ? 'minus' : 'plus'}
           onClick={onDetail}
         />
-        }
       </div>
     );
   }

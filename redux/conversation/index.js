@@ -36,9 +36,20 @@ import { CONVERSATION_FETCH_SUCCESS } from 'themes/mastodon-go/redux/conversatio
 
 //  `normalize()` normalizes the given array of status `ids` into a
 //  proper conversation.
-const normalize = (id, ids) => ImmutableMap({
-  for_status: id,
-  statuses: ImmutableList(ids),
+const normalize = (ancestors, id, descendants) => ImmutableMap({
+  ancestors: ImmutableList(ancestors ? ancestors.map(
+    status => ImmutableMap({
+      account: '' + status.account,
+      id: '' + status.id,
+    })
+  ) : []),
+  status: id,
+  descendants: ImmutableList(descendants ? descendants.map(
+    status => ImmutableMap({
+      account: '' + status.account,
+      id: '' + status.id,
+    })
+  ) : []),
 });
 
 //  * * * * * * *  //
@@ -54,11 +65,7 @@ const initialState = ImmutableMap();
 //  appropriate `id` in our state, populating it with ids from the
 //  provided `ancestors` and `descendants`. It overwrites any existing
 //  catalogue at that location.
-const set = (state, id, ancestors, descendants) => state.set('' + id, normalize('' + id, [].concat(ancestors.map(
-  status => '' + status.id
-), '' + id, descendants.map(
-  status => '' + status.id
-))));
+const set = (state, id, ancestors, descendants) => state.set('' + id, normalize(ancestors, id, descendants));
 
 //  * * * * * * *  //
 
