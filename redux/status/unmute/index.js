@@ -24,7 +24,7 @@ const failure = (id, error) => ({
 //  Request.
 export default function unmuteStatus (id, go, current, api) {
   go(request, id);
-  api.get(
+  api.post(
     `/api/v1/statuses/${id}/unmute`
   ).then(
     response => go(success, response.data)

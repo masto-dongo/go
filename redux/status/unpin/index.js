@@ -24,7 +24,7 @@ const failure = (id, error) => ({
 //  Request.
 export default function unpinStatus (id, go, current, api) {
   go(request, id);
-  api.get(
+  api.post(
     `/api/v1/statuses/${id}/unpin`
   ).then(
     response => go(success, response.data)

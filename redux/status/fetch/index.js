@@ -30,12 +30,6 @@ const failure = (id, error) => ({
 //  Request.
 export default function fetchStatus (id, force, go, current, api) {
 
-  //  Before we fetch our status (and regardless of whether or not we
-  //  already have data on it), we first fetch its card and
-  //  conversation, if possible.
-  go(fetchConversation, id);
-  go(fetchCard, id);
-
   //  We only want to fetch statuses that we don't already have. If we
   //  already have a status associated with this `id`, we do nothing.
   if (!force && current().getIn(['status', id])) {

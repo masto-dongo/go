@@ -24,7 +24,7 @@ const failure = (id, error) => ({
 //  Request.
 export default function unreblogStatus (id, go, current, api) {
   go(request, id);
-  api.get(
+  api.post(
     `/api/v1/statuses/${id}/unreblog`
   ).then(
     response => go(success, response.data)

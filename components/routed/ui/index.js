@@ -145,7 +145,7 @@ class UI extends React.Component {  //  Impure
       media: [],
       sensitive: false,
       spoiler: spoiler ? '' + spoiler : '',
-      text: text ? '' + text.trim() + '\n' : '\n',
+      text: text ? '' + text + '\n' : '\n',
       visibility: visibility === +visibility ? VISIBILITY.normalize(visibility & defaultVisibility) : defaultVisibility,
     });
     DOMEventNavigate('/compose');

@@ -223,14 +223,14 @@ export default function status (state = initialState, action) {
   case STATUS_MUTE_SUCCESS:
   case STATUS_PIN_SUCCESS:
   case STATUS_REBLOG_SUCCESS:
-    return set(state, action.notification.status);
+    return set(state, action.status);
   case STATUS_REMOVE_COMPLETE:
     return filterByStatus(state, action.ids);
   case STATUS_UNFAVOURITE_SUCCESS:
   case STATUS_UNMUTE_SUCCESS:
   case STATUS_UNPIN_SUCCESS:
   case STATUS_UNREBLOG_SUCCESS:
-    return set(state, action.notification.status);
+    return set(state, action.status);
   case TIMELINE_EXPAND_SUCCESS:
   case TIMELINE_FETCH_SUCCESS:
   case TIMELINE_REFRESH_SUCCESS:
