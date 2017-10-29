@@ -81,12 +81,10 @@ moduleOnReady(function () {
         if (!ancestors || !descendants) {
           return [];
         }
-        const result = ancestors.withMutations(
-          list => list.concat(ImmutableList([status]), descendants).map(
-            item => item ? item.get('account') : null
-          ).filter(
-            item => !!item
-          )
+        return ancestors.concat(ImmutableList([status]), descendants).map(
+          item => item ? item.get('account') : null
+        ).filter(
+          item => !!item
         ).toOrderedSet().reduce(function (items, item, index) {
           items.push({
             destination: `/profile/${item}`,
@@ -95,8 +93,6 @@ moduleOnReady(function () {
           });
           return items;
         }, []);
-        debugger;
-        return result;
       },
       title: ({ ℳ }) => ℳ.title,
     }
