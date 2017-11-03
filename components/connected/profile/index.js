@@ -1,3 +1,14 @@
+//  <ConnectedProfile>
+//  ==================
+
+//  This component renders a user profile given an `id`.
+
+//  * * * * * * *  //
+
+//  Imports
+//  -------
+
+//  Package imports.
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -5,9 +16,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
-//  Request imports.
-import { fetchAccount } from 'themes/mastodon-go/redux';
-
+//  Component imports.
 import {
   CommonButton,
   CommonLink,
@@ -16,12 +25,24 @@ import {
   ConnectedParse,
 } from 'themes/mastodon-go/components';
 
+//  Request imports.
+import { fetchAccount } from 'themes/mastodon-go/redux';
+
+//  Stylesheet imports.
 import './style.scss';
 
+//  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
 
+//  * * * * * * *  //
+
+//  The component
+//  -------------
+
+//  Component definition.
 class Profile extends React.Component {  //  Impure
 
+  //  Constructor.
   constructor (props) {
     super(props);
     const {
@@ -51,6 +72,7 @@ class Profile extends React.Component {  //  Impure
     }
   }
 
+  //  Rendering.
   render () {
     const {
       handleFollowersClick,
@@ -72,6 +94,7 @@ class Profile extends React.Component {  //  Impure
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--PROFILE', className);
 
+    //  We render the profile inside of an article.
     return (
       <article className={computedClass}>
         <header style={rainbow ? { backgroundImage: `linear-gradient(160deg, ${rainbow.get('3').join(', ')})` } : {}}>
@@ -82,11 +105,7 @@ class Profile extends React.Component {  //  Impure
               staticSrc={header.get('static')}
             />
           ) : null}
-          {
-            //  We don't give the `<ConnectedAccount>` our `history`
-            //  because we don't *want* it to open in the web view.
-            <ConnectedAccount id={id} />
-          }
+          <ConnectedAccount id={id} />
         </header>
         {
           //  If the account isn't local, then we provide a disclaimer.
@@ -131,27 +150,29 @@ class Profile extends React.Component {  //  Impure
 
 }
 
-
 //  Props.
 Profile.propTypes = {
   className: PropTypes.string,
-  id: PropTypes.string,
+  id: PropTypes.string,  //  The id of the account
   rehash: PropTypes.func,
   ℳ: PropTypes.func,
   '🏪': PropTypes.shape({
-    bio: ImmutablePropTypes.map,
-    counts: ImmutablePropTypes.map,
-    header: ImmutablePropTypes.map,
-    href: PropTypes.string,
-    local: PropTypes.bool,
-    rainbow: ImmutablePropTypes.map,
-    relationship: PropTypes.number,
+    bio: ImmutablePropTypes.map,  //  The account bio
+    counts: ImmutablePropTypes.map,  //  Counts for the account
+    header: ImmutablePropTypes.map,  //  The account header
+    href: PropTypes.string,  //  The URL of the account static page
+    local: PropTypes.bool,  //  Whether the account is local
+    rainbow: ImmutablePropTypes.map,  //  The account rainbows
   }).isRequired,
   '💪': PropTypes.objectOf(PropTypes.func),
 };
 
 //  * * * * * * *  //
 
+//  Connecting
+//  ----------
+
+//  Connecting our component
 var ConnectedProfile = connect(
 
   //  Component.
@@ -165,7 +186,6 @@ var ConnectedProfile = connect(
     href: (state, { id }) => state.getIn(['account', id, 'href']),
     local: (state, { id }) => !state.getIn(['account', id, 'domain']),
     rainbow: (state, { id }) => state.getIn(['account', id, 'rainbow']),
-    relationship: (state, { id }) => state.getIn(['relationship', id]),
   }),
 
   //  Messages.
@@ -203,4 +223,5 @@ var ConnectedProfile = connect(
   })
 );
 
+//  Exporting.
 export { ConnectedProfile as default };

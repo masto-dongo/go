@@ -1,31 +1,27 @@
-/*********************************************************************\
-|                                                                     |
-|   <Notification>                                                    |
-|   ==============                                                    |
-|                                                                     |
-|   A notification is more-or-less just a wrapper for an account or   |
-|   a status for inclusion inside of a courier.  Notifications have   |
-|   their own ids (distinct from status or account ids).  They also   |
-|   have a `POST_TYPE` which can be used for hiding/filtering (when   |
-|   the `hideIf` property is specified).  Be careful not to specify   |
-|   a `hideIf` value like the following:                              |
-|                                                                     |
-|       var hideIf = POST_TYPE.FOLLOW | POST_TYPE.FAVOURITE;          |
-|                                                                     |
-|   …because that code is equivalent to:                              |
-|                                                                     |
-|       var hideIf = POST_TYPE.IS_FOLLOW | POST_TYPE.IS_FAVOURITE |   |
-|         POST_TYPE.STATUS | POST_TYPE.PLAIN;                         |
-|                                                                     |
-|   …which will hide all notifications.  Instead, you should write:   |
-|                                                                     |
-|       var hideIf = POST_TYPE.IS_FOLLOW | POST_TYPE.IS_FAVOURITE;    |
-|                                                                     |
-|   …which just hides follows and favourites.                         |
-|                                                                     |
-|                                             ~ @kibi@glitch.social   |
-|                                                                     |
-\*********************************************************************/
+//  <ConnectedNotification>
+//  =======================
+
+//  A notification is more-or-less just a wrapper for an account or
+//  status for inclusion inside of a courier.  Note that notifications
+//  have their own ids (distinct from status or account ids).  Their
+//  `POST_TYPE` can be used for hiding/filtering when the `hideIf` prop
+//  is specified.  Be careful not to specify a `hideIf` like the
+//  following:
+
+//      var hideIf = POST_TYPE.FOLLOW | POST_TYPE.FAVOURITE;
+
+//  …because that code is equivalent to:
+
+//      var hideIf = POST_TYPE.IS_FOLLOW | POST_TYPE.IS_FAVOURITE |
+//        POST_TYPE.STATUS | POST_TYPE.PLAIN;
+
+//  …which will hide all notifications.  Instead, you should write:
+
+//      var hideIf = POST_TYPE.IS_FOLLOW | POST_TYPE.IS_FAVOURITE;
+
+//  …which just hides follows and favourites.
+
+//  * * * * * * *  //
 
 //  Imports
 //  -------
@@ -36,7 +32,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createStructuredSelector } from 'reselect';
 
-//  Container imports.
+//  Component imports.
 import {
   ConnectedAccount,
   ConnectedStatus,
@@ -103,15 +99,14 @@ function Notification ({
 //  Props.
 Notification.propTypes = {
   className: PropTypes.string,
-  hideIf: PropTypes.number,
+  hideIf: PropTypes.number,  //  Specifies `POST_TYPE`s to hide
   id: PropTypes.string.isRequired,
-  observer: PropTypes.object,
+  observer: PropTypes.object,  //  An `observer` for tracking intersections
   ℳ: PropTypes.func,
   '🏪': PropTypes.shape({
-    account: PropTypes.string.isRequired,
-    datetime: PropTypes.instanceOf(Date),
-    status: PropTypes.string,
-    type: PropTypes.number.isRequired,
+    account: PropTypes.string.isRequired,  //  The id of the account associated with the notification
+    status: PropTypes.string,  //  The id of the status associated with the notification
+    type: PropTypes.number.isRequired,  //  The notification's `POST_TYPE`
   }).isRequired,
   '💪': PropTypes.objectOf(PropTypes.func),
 };
@@ -121,6 +116,7 @@ Notification.propTypes = {
 //  Connecting
 //  ----------
 
+//  Connecting our component.
 var ConnectedNotificaton = connect(
 
   //  Component.
@@ -135,4 +131,5 @@ var ConnectedNotificaton = connect(
   })
 );
 
+//  Exporting.
 export { ConnectedNotificaton as default };

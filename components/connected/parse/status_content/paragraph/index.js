@@ -1,15 +1,12 @@
-/*********************************************************************\
-|                                                                     |
-|   <ParseStatusContentParagraph>                                     |
-|   =============================                                     |
-|                                                                     |
-|   This simple functional component converts a single paragraph of   |
-|   plain-text status content into a React component suitable for a   |
-|   `<Status>`.                                                       |
-|                                                                     |
-|                                             ~ @kibi@glitch.social   |
-|                                                                     |
-\*********************************************************************/
+
+//  <ConnectedParseStatusContentParagraph>
+//  ======================================
+
+//  This simple functional component converts a single paragraph of
+//  plain-text status content into a React component suitable for a
+//  `<Status>`.
+
+//  * * * * * * *  //
 
 //  Imports
 //  -------
@@ -80,7 +77,7 @@ export default function ConnectedParseStatusContentParagraph ({
                 item => href === item.get('href')
               ) : null;
               let attachment = attachments ? attachments.find(
-                item => href === item.getIn(['src', 'original']) || href === item.getIn(['src', 'remote']) || href === item.get(['src', 'shortlink'])
+                item => href === item.getIn(['src', 'local']) || href === item.getIn(['src', 'remote']) || href === item.get(['src', 'shortlink'])
               ) : null;
 
               //  We use a switch to select our link type.
@@ -178,11 +175,11 @@ export default function ConnectedParseStatusContentParagraph ({
 
 //  Props.
 ConnectedParseStatusContentParagraph.propTypes = {
-  attachments: ImmutablePropTypes.list,
-  card: ImmutablePropTypes.map,
+  attachments: ImmutablePropTypes.list,  //  The attachments associated with the status
+  card: ImmutablePropTypes.map,  //  The card associated with the status
   className: PropTypes.string,
-  emoji: ImmutablePropTypes.list,
-  mentions: ImmutablePropTypes.list,
-  tags: ImmutablePropTypes.list,
-  text: PropTypes.string,
+  emoji: ImmutablePropTypes.list,  //  The emoji associated with the status
+  mentions: ImmutablePropTypes.list,  //  The mentions associated with the status
+  tags: ImmutablePropTypes.list,  //  The tags associated with the status
+  text: PropTypes.string.isRequired,  //  The text of the paragraph
 };

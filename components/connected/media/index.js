@@ -1,17 +1,11 @@
-/*********************************************************************\
-|                                                                     |
-|   <Attachment>                                                      |
-|   ============                                                      |
-|                                                                     |
-|   <Attachment> presents a single media item.  It is intentionally   |
-|   general so that it can be used both in media galleries and with   |
-|   the media uploader in the compose area.  It needs two things to   |
-|   function: the `id` of the attachment and the `targetWidth` that   |
-|   describes its most likely rendered size.                          |
-|                                                                     |
-|                                             ~ @kibi@glitch.social   |
-|                                                                     |
-\*********************************************************************/
+//  <ConnectedMedia>
+//  ================
+
+//  <ConnectedMedia> presents a single media item.  It is intentionally
+//  general so that it can be used both in media galleries and with the
+//  media uploader in the compose area.
+
+//  * * * * * * *  //
 
 //  Imports:
 //  --------
@@ -25,9 +19,10 @@ import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
 //  Component imports.
-import AttachmentGifv from './gifv';
-import AttachmentImage from './image';
-import AttachmentVideo from './video';
+import ConnectedMediaGifv from './gifv';
+import ConnectedMediaImage from './image';
+import ConnectedMediaUnknown from './unknown';
+import ConnectedMediaVideo from './video';
 
 //  Stylesheet imports.
 import './style.scss';
@@ -42,18 +37,20 @@ import { MEDIA_TYPE } from 'themes/mastodon-go/util/constants';
 //  -------------
 
 //  Component definition.
-class Attachment extends React.PureComponent {
+class Media extends React.PureComponent {
 
+  //  Constructor.
   constructor (props) {
     super(props);
 
+    //  Function binding.
     const { handleClick } = Object.getPrototypeOf(this);
     this.handleClick = handleClick.bind(this);
   }
 
   //  Click handling.
-  handleClick (e) {
-
+  handleClick (time) {
+    //  TK
   }
 
   //  Rendering.
@@ -68,26 +65,40 @@ class Attachment extends React.PureComponent {
         autoplay,
         description,
         href,
-        preview,
+        previewSrc,
+        previewWidth,
         src,
         type,
         width,
       },
       '💪': handler,
     } = this.props;
-    const computedClass = classNames('MASTODON_GO--CONNECTED--ATTACHMENT', className);
+    const computedClass = classNames('MASTODON_GO--CONNECTED--MEDIA', function () {
+      switch (type) {
+      case MEDIA_TYPE.IMAGE:
+        return 'image';
+      case MEDIA_TYPE.GIFV:
+        return 'gifv';
+      case MEDIA_TYPE.VIDEO:
+        return 'video';
+      default:
+        return 'unknown';
+      }
+    }(), className);
 
-    //  We pass the appropriate props to `<AttachmentImage>`,
-    //  `<AttachmentGifv>`, or `<AttachmentVideo>` depending on our
-    //  `type`.
+    //  We pass the appropriate props to the necessary component
+    //  depending on our `type`.
     switch (type) {
     case MEDIA_TYPE.IMAGE:
       return (
-        <AttachmentImage
+        <ConnectedMediaImage
           className={computedClass}
           description={description}
           href={href}
-          preview={preview}
+          onClick={handleClick}
+          previewHeight={previewHeight}
+          previewSrc={previewSrc}
+          previewWidth={previewWidth}
           src={src}
           targetWidth={targetWidth}
           width={width}
@@ -96,50 +107,59 @@ class Attachment extends React.PureComponent {
       );
     case MEDIA_TYPE.GIFV:
       return (
-        <AttachmentGifv
+        <ConnectedMediaGifv
           autoplay={autoplay}
           className={computedClass}
           description={description}
           href={href}
-          preview={preview}
+          onClick={handleClick}
+          previewSrc={previewSrc}
           src={src}
           ℳ={ℳ}
         />
       );
     case MEDIA_TYPE.VIDEO:
       return (
-        <AttachmentVideo
+        <ConnectedMediaVideo
           autoplay={autoplay}
           className={computedClass}
           description={description}
           href={href}
-          preview={preview}
+          onClick={handleClick}
+          previewSrc={previewSrc}
           src={src}
           ℳ={ℳ}
         />
       );
     default:
-      return null;
+      return (
+        <ConnectedMediaUnknown
+          className={computedClass}
+          description={description}
+          href={href}
+        />
+      );
     }
   }
 
 }
 
 //  Props.
-Attachment.propTypes = {
+Media.propTypes = {
   className: PropTypes.string,
-  id: PropTypes.string.isRequired,
-  targetWidth: PropTypes.number,
+  id: PropTypes.string.isRequired,  //  The media's id
+  targetWidth: PropTypes.number,  //  A target width for the media; purely advisory
   ℳ: PropTypes.func.isRequired,
   '🏪': PropTypes.shape({
-    autoplay: PropTypes.bool,
-    description: PropTypes.string,
-    height: PropTypes.number,
-    href: PropTypes.string,
-    preview: ImmutablePropTypes.map,
-    src: PropTypes.string,
-    type: PropTypes.number.isRequired,
-    width: PropTypes.number,
+    autoplay: PropTypes.bool,  //  Whether to autoplay moving media
+    description: PropTypes.string,  //  A label for the media item
+    height: PropTypes.number,  //  The height of the media
+    href: PropTypes.string,  //  A link to the original version of the media
+    previewSrc: PropTypes.string,  //  The URL of the preview source
+    previewWidth: PropTypes.number,  //  The width of the preview image
+    src: PropTypes.string,  //  The URL of the media source
+    type: PropTypes.number,  //  A `MEDIA_TYPE`
+    width: PropTypes.number,  //  The width of the media
   }).isRequired,
   '💪': PropTypes.objectOf(PropTypes.func),
 };
@@ -149,22 +169,35 @@ Attachment.propTypes = {
 //  Connecting
 //  ----------
 
-var ConnectedAttachment = connect(
+//  Connecting our component.
+var ConnectedMedia = connect(
 
   //  Component.
-  Attachment,
+  Media,
 
   //  Store.
   createStructuredSelector({
     autoplay: state => state.getIn(['meta', 'autoplay']),
     description: (state, { id }) => state.getIn(['attachment', id, 'description']),
     height: (state, { id }) => state.getIn(['attachment', id, 'height']),
-    href: (state, { id }) => state.getIn([
-      'attachment', id, 'src', 'remote',
+    href: (state, { id }) => state.getIn(['attachment', id, 'href',]),
+    previewSrc: (state, { id }) => state.getIn([
+      'attachment',
+      id,
+      'preview',
+      'src'
     ]),
-    preview: (state, { id }) => state.getIn(['attachment', id, 'preview']),
+    previewWidth: (state, { id }) => state.getIn([
+      'attachment',
+      id,
+      'preview',
+      'width'
+    ]),
     src: (state, { id }) => state.getIn([
-      'attachment', id, 'src', 'local',
+      'attachment',
+      id,
+      'src',
+      'local',
     ]),
     type: (state, { id }) => state.getIn(['attachment', id, 'type']),
     width: (state, { id }) => state.getIn(['attachment', id, 'width']),
@@ -210,4 +243,5 @@ var ConnectedAttachment = connect(
   })
 );
 
-export { ConnectedAttachment as default };
+//  Exporting.
+export { ConnectedMedia as default };

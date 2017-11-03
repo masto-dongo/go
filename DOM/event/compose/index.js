@@ -1,5 +1,10 @@
+//  DOM:COMPOSE
+//  ===========
+
+//  Imports.
 import { DOMDispatch } from 'themes/mastodon-go/DOM';
 
+//  The event.
 export default function DOMEventCompose (options = {}) {
   DOMDispatch(DOMEventCompose, {
     inReplyTo: options.inReplyTo,
@@ -9,4 +14,5 @@ export default function DOMEventCompose (options = {}) {
   });
 }
 
+//  Event type.
 DOMEventCompose.type = 'mastodongocompose';

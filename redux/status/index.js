@@ -14,7 +14,7 @@ import {
   Map as ImmutableMap,
 } from 'immutable';
 
-//  Requests.
+//  Request imports.
 import deleteStatus from './delete';
 import favouriteStatus from './favourite';
 import fetchStatus from './fetch';
@@ -103,7 +103,14 @@ const normalize = (status, oldContent) => {
       reply: !!status.in_reply_to_id,
     }),
     media: ImmutableList((status.media_attachments || []).map(
-      attachment => '' + attachment.id,
+      attachment => ImmputableMap({
+        id: '' + attachment.id,,
+        src: ImmutableMap({
+          local: '' + attachment.url,
+          remote: '' + attachment.remote_url,
+          shortlink: '' + attachment.text_url,
+        }),
+      })
     )),
     mentions: ImmutableList((status.mentions || []).map(
       mention => ImmutableMap({
@@ -111,7 +118,7 @@ const normalize = (status, oldContent) => {
         href: '' + mention.url,
         id: '' + mention.id,
         username: '' + mention.username,
-      }),
+      })
     )),
     reblog: status.reblog ? '' + status.reblog.id : null,
     sensitive: !!status.sensitive,

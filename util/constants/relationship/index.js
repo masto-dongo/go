@@ -16,21 +16,21 @@
 //  provided with names.
 export const NONE                        = 0b00000000;
 export const FOLLOWER                    = 0b00000001;
-export const FOLLOW                      = 0b00000010;
+export const FOLLOWED                    = 0b00000010;
 export const MUTUAL                      = 0b00000011;
 export const REQUESTED                   = 0b00000100;
 export const REQUESTED_MUTUAL            = 0b00000101;
 export const BLOCKED                     = 0b00001000;
 export const MUTED                       = 0b00010000;
 export const MUTED_FOLLOWER              = 0x00010001;
-export const MUTED_FOLLOWS               = 0x00010010;
+export const MUTED_FOLLOWED              = 0x00010010;
 export const MUTED_MUTUAL                = 0x00010011;
 export const MUTED_REQUESTED             = 0x00010100;
 export const MUTED_REQUESTED_MUTUAL      = 0x00010101;
 export const NOTIFICATIONS_MUTED         = 0x00100000;  //  Used with comparisons
 export const HARD_MUTED                  = 0x00110000;
 export const HARD_MUTED_FOLLOWER         = 0x00110001;
-export const HARD_MUTED_FOLLOWS          = 0x00110010;
+export const HARD_MUTED_FOLLOWED         = 0x00110010;
 export const HARD_MUTED_MUTUAL           = 0x00110011;
 export const HARD_MUTED_REQUESTED        = 0x00110100;
 export const HARD_MUTED_REQUESTED_MUTUAL = 0x00110101;

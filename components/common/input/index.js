@@ -1,4 +1,11 @@
+//  <CommonInput>
+//  =============
 
+//  This component provides a simple text `<input>` element for
+//  various text fields.  The provided `onChange()` function will be
+//  called with the input's value.
+
+//  * * * * * * *  //
 
 //  Imports
 //  -------
@@ -16,31 +23,41 @@ import './style.scss';
 //  The component
 //  -------------
 
+//  Component definition.
 export default class CommonInput extends React.PureComponent {
 
-  static propTypes = {
-    className: PropTypes.string,
-    disabled: PropTypes.bool,
-    onChange: PropTypes.func,
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]),
-    value: PropTypes.string,
-  };
-  input = null;
+  constructor (props) {
+    super(props);
 
-  handleChange = () => {
-    const { input } = this;
+    //  Variables.
+    this.node = null;
+
+    //  Function binding.
+    const {
+      handleChange,
+      handleRef,
+    } = Object.getPrototypeOf(this);
+    this.handleChange = handleChange.bind(this);
+    this.handleRef = handleRef.bind(this);
+
+  }
+
+  handleChange () {
+    const { node } = this;
     const { onChange } = this.props;
-    if (input) {
-      onChange(input.value);
+    if (node) {
+      onChange(node.value);
     }
   }
 
-  setRef = input => this.input = input;
+  handleRef (node) {
+    this.input = node;
+  }
 
   render () {
     const {
       handleChange,
-      setRef,
+      handleRef,
     } = this;
     const {
       className,
@@ -58,7 +75,7 @@ export default class CommonInput extends React.PureComponent {
         disabled={disabled}
         onChange={handleChange}
         placeholder={title}
-        ref={setRef}
+        ref={handleRef}
         title={title}
         type='text'
         value={value || ''}
@@ -68,3 +85,11 @@ export default class CommonInput extends React.PureComponent {
   }
 
 }
+
+CommonInput.propTypes = {
+  className: PropTypes.string,
+  disabled: PropTypes.bool,  //  Whether the input is disabled
+  onChange: PropTypes.func,  //  A function for receiving the input's value on change
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]),  //  The title and placeholder text for the input
+  value: PropTypes.string,  //  The input's value
+};

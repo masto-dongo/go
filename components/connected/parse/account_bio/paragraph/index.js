@@ -1,16 +1,12 @@
-/*********************************************************************\
-|                                                                     |
-|   <ParseAccountBioParagraph>                                        |
-|   ==========================                                        |
-|                                                                     |
-|   This simple functional component converts a plain-text bio into   |
-|   a React paragraph that we can use.  It handles link delimiters,   |
-|   as well as line-breaks, but not paragraphs (it expects a single   |
-|   paragraph as input.                                               |
-|                                                                     |
-|                                             ~ @kibi@glitch.social   |
-|                                                                     |
-\*********************************************************************/
+//  <ConnectedParseAccountBioParagraph>
+//  ===================================
+
+//  This simple functional component converts a plain-text bio into
+//  a React paragraph that we can use.  It handles link delimiters,
+//  as well as line-breaks, but not paragraphs (it expects a single
+//  paragraph as input.
+
+//  * * * * * * *  //
 
 //  Imports
 //  -------
@@ -108,5 +104,5 @@ export default function ConnectedParseAccountBioParagraph ({
 //  Props.
 ConnectedParseAccountBioParagraph.propTypes = {
   className: PropTypes.string,
-  text: PropTypes.string,
+  text: PropTypes.string,  //  The text of the paragraph
 };

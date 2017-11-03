@@ -1,3 +1,11 @@
+//  <PanelledTimeline>
+//  ==================
+
+//  The settings for the timeline are available via the
+//  `<PanelledTimelineSettings>` panel.
+
+//  * * * * * * *  //
+
 //  Imports
 //  -------
 
@@ -20,9 +28,10 @@ import { moduleOnReady } from 'themes/mastodon-go/util/module';
 //  Connecting
 //  ----------
 
+//  Variable declaration.
 var PanelledTimeline;
 
-//  Building our store and handlers.
+//  Building the paneller.
 moduleOnReady(function () {
   PanelledTimeline = connect(
 
@@ -113,4 +122,5 @@ moduleOnReady(function () {
   );
 });
 
+//  Exporting.
 export { PanelledTimeline as default };

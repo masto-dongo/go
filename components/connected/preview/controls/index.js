@@ -1,3 +1,13 @@
+//  <ConnectedPreviewControls>
+//  ==========================
+
+//  This component just renders the submit button for statuses.
+
+//  * * * * * * *  //
+
+//  Imports
+//  -------
+
 //  Package imports.
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -9,58 +19,47 @@ import { CommonButton } from 'themes/mastodon-go/components';
 //  Stylesheet imports.
 import './style.scss';
 
-export default class ConnectedPreviewControls extends React.PureComponent {
+//  * * * * * * *  //
 
-  constructor (props) {
-    super(props);
+//  The component
+//  -------------
 
-    //  Function binding.
-    const { handleSubmit } = Object.getPrototypeOf(this);
-    this.handleSubmit = handleSubmit.bind(this);
-  }
+export default function ConnectedPreviewControls ({
+  className,
+  disabled,
+  local,
+  onSubmit,
+  spoiler,
+  text,
+  ℳ,
+}) {
+  const computedClass = classNames('MASTODON_GO--CONNECTED--PREVIEW--CONTROLS', { disabled }, className);
 
-  handleSubmit () {
-    const { onSubmit } = this.props;
-    onSubmit();
-  }
+  //  This calculates the length of the status.
+  const size = ((local ? text + ' 👁' : text) + (spoiler || '')).trim().replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, '_').length;
 
-  render () {
-    const { handleSubmit } = this;
-    const {
-      className,
-      disabled,
-      local,
-      spoiler,
-      text,
-      ℳ,
-    } = this.props;
-    const computedClass = classNames('MASTODON_GO--CONNECTED--PREVIEW--CONTROLS', { disabled }, className);
-
-    const size = ((local ? text + ' 👁' : text) + (spoiler || '')).trim().replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, '_').length;
-
-    return (
-      <div className={computedClass}>
-        <CommonButton
-          disabled={disabled || !(text.trim() && size <= 500)}
-          icon={'paper-plane'}
-          onClick={handleSubmit}
-          title={ℳ.publish}
-          showTitle
-        />
-      </div>
-    );
-  }
-
+  //  Rendering the button.
+  return (
+    <div className={computedClass}>
+      <CommonButton
+        disabled={disabled || !(text.trim() && size <= 500)}
+        icon={'paper-plane'}
+        onClick={onSubmit}
+        title={ℳ.publish}
+        showTitle
+      />
+    </div>
+  );
 }
 
+//  Props.
 ConnectedPreviewControls.propTypes = {
   className: PropTypes.string,
-  disabled: PropTypes.bool,
-  local: PropTypes.bool,
-  onSubmit: PropTypes.func,
-  rehash: PropTypes.func,
-  spoiler: PropTypes.string,
-  text: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,  //  `true` if the composer is disabled
+  local: PropTypes.bool,  //  `true` if this is a local-only status
+  onSubmit: PropTypes.func,  //  A function to call when submitting the status
+  spoiler: PropTypes.string,  //  The contents of the status's spoiler
+  text: PropTypes.string.isRequired,  //  The text contents of the status
   ℳ: PropTypes.func.isRequired,
 };
 

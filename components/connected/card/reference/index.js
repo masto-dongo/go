@@ -1,14 +1,8 @@
-/*********************************************************************\
-|                                                                     |
-|   <CardReference>                                                   |
-|   ===============                                                   |
-|                                                                     |
-|   This creates a reference to an author or a provider for a card.   |
-|   At least one of {`href`, `name`} must be provided.                |
-|                                                                     |
-|                                             ~ @kibi@glitch.social   |
-|                                                                     |
-\*********************************************************************/
+//  <ConnectedCardReference>
+//  ========================
+
+//  This creates a reference to an author or a provider for a card.
+//  At least one of {`href`, `name`} must be provided.
 
 //  Imports
 //  -------
@@ -86,6 +80,6 @@ export default function ConnectedCardReference ({
 
 ConnectedCardReference.propTypes = {
   className: PropTypes.string,
-  href: PropTypes.string,
-  name: PropTypes.string,
+  href: PropTypes.string,  //  The link of the reference
+  name: PropTypes.string,  //  The name of the reference
 };

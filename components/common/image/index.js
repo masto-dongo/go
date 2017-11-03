@@ -1,3 +1,11 @@
+//  <CommonImage>
+//  =============
+
+//  This is a simple component for rendering images, especially those
+//  which might have animated forms.
+
+//  * * * * * * *  //
+
 //  Imports
 //  -------
 
@@ -17,36 +25,33 @@ import './style.scss';
 //  Component definition.
 export default class CommonImage extends React.PureComponent {
 
-  //  Props and state.
-  static propTypes = {
-    animatedSrc: PropTypes.string,
-    autoplay: PropTypes.bool,
-    className: PropTypes.string,
-    description: PropTypes.string,
-    staticSrc: PropTypes.string,
-    title: PropTypes.string,
-  }
-  state = {
-    hovering: false,
+  //  Constructor.
+  constructor (props) {
+    super(props);
+
+    //  State.
+    this.state = { hovering: false };
+
+    //  Function binding.
+    const {
+      handleMouseEnter,
+      handleMouseLeave,
+    } = Object.getPrototypeOf(this);
+    this.handleMouseEnter = handleMouse.bind(this, true);
+    this.handleMouseLeave = handleMouse.bind(this, false);
   }
 
   //  Starts or stops animation on hover. We don't do this if we're
   //  `autoplay`ing to prevent needless re-renders.
-  handleMouseEnter = () => {
+  handleMouse (state) {
     const {
       animatedSrc,
       autoplay,
     } = this.props;
-    if (autoplay || !animatedSrc) return;
-    this.setState({ hovering: true });
-  }
-  handleMouseLeave = () => {
-    const {
-      animatedSrc,
-      autoplay,
-    } = this.props;
-    if (autoplay || !animatedSrc) return;
-    this.setState({ hovering: false });
+    if (autoplay || !animatedSrc) {
+      return;
+    }
+    this.setState({ hovering: state });
   }
 
   //  Rendering.
@@ -66,6 +71,9 @@ export default class CommonImage extends React.PureComponent {
     } = this.props;
     const { hovering } = this.state;
     const computedClass = classNames('MASTODON_GO--COMMON--IMAGE', className);
+
+    //  If we don't have any image sources, we fallback to just the
+    //  description text.
     if (!staticSrc && !animatedSrc) {
       return (
         <span
@@ -75,6 +83,8 @@ export default class CommonImage extends React.PureComponent {
         >{description}</span>
       );
     }
+
+    //  Otherwise, we render the appropriate image.
     return (
       <img
         alt={description}
@@ -89,3 +99,13 @@ export default class CommonImage extends React.PureComponent {
   }
 
 }
+
+//  Props.
+CommonImage.propTypes = {
+  animatedSrc: PropTypes.string,  //  The animated image source, if one exists
+  autoplay: PropTypes.bool,  //  Whether to autoplay the image, if animated
+  className: PropTypes.string,
+  description: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]),  //  Image alt-text
+  staticSrc: PropTypes.string,  //  The static image source.
+  title: PropTypes.string,  //  A title/label for the image, if different from its `description`
+};

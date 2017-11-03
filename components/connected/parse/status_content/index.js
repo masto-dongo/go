@@ -1,19 +1,10 @@
-/*********************************************************************\
-|                                                                     |
-|   <ParseStatusContent>                                              |
-|   ====================                                              |
-|                                                                     |
-|   This parser is way more complex than it by all rights should be   |
-|   because the Mastodon API doesn't give us statuses in plain text   |
-|   and so we have to un-parse their HTML before we can re-parse it   |
-|   as React.  We preserve Mastodon's `<p>` and `<br>` elements and   |
-|   replace links with our own special components.  Tags, mentions,   |
-|   and attachments are rendered as `<Reference>`s, and other links   |
-|   are turned into `<CommonLink>`s.                                  |
-|                                                                     |
-|                                             ~ @kibi@glitch.social   |
-|                                                                     |
-\*********************************************************************/
+//  <ConnectedParseStatusContent>
+//  =============================
+
+//  To parse status content, we just break it up into paragraphs and
+//  then parse each separately.
+
+//  * * * * * * *  //
 
 //  Imports
 //  -------
@@ -70,11 +61,11 @@ export default function ConnectedParseStatusContent ({
 
 //  Props.
 ConnectedParseStatusContent.propTypes = {
-  attachments: ImmutablePropTypes.list,
-  card: ImmutablePropTypes.map,
+  attachments: ImmutablePropTypes.list,  //  The attachments associated with the status
+  card: ImmutablePropTypes.map,  //  The card associated with the status
   className: PropTypes.string,
-  emoji: ImmutablePropTypes.list,
-  mentions: ImmutablePropTypes.list,
-  tags: ImmutablePropTypes.list,
-  text: PropTypes.string.isRequired,
+  emoji: ImmutablePropTypes.list,  //  The emoji associated with the status
+  mentions: ImmutablePropTypes.list,  //  The mentions associated with the status
+  tags: ImmutablePropTypes.list,  //  The tags associated with the status
+  text: PropTypes.string.isRequired,  //  The text associated with the status
 };

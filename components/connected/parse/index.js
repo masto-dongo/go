@@ -1,27 +1,18 @@
-/*********************************************************************\
-|                                                                     |
-|   <Parse>                                                           |
-|   =======                                                           |
-|                                                                     |
-|   <Parse> is a wrapper component for a number of parsers employed   |
-|   in various places across _Mastodon GO!_.  The type of parser is   |
-|   specified via the `type` prop, and the needed props for parsing   |
-|   varies depending on type.  The "account" parser generates a bio   |
-|   from the provided `text`, with account metadata rendered into a   |
-|   table.  The "emoji" parser takes a string and replaces segments   |
-|   with emoji as defined by the `emoji` information from the redux   |
-|   store.  The "status" parser takes an HTML string and transforms   |
-|   it into components suitable for insertion into a <Status>.  The   |
-|   "text" parser takes an HTML string and produces plain text.       |
-|                                                                     |
-|   The `mentions`, `tags`, and `card` props are used by the status   |
-|   parser to appropriately render those sorts of links.  Our emoji   |
-|   data is only handled by the emoji parser (which is contained by   |
-|   other parsers as well).                                           |
-|                                                                     |
-|                                             ~ @kibi@glitch.social   |
-|                                                                     |
-\*********************************************************************/
+//  <ConnectedParse>
+//  ================
+
+//  This component is a wrapper component for a number of parsers used
+//  in various places across _Mastodon GO!_.  The type of parser is
+//  specified via the `type` prop, and the needed props for parsing
+//  varies depending on the type.  The "account" parser generates a bio
+//  from the provided `text`, with account metadata rendered into a
+//  table.  The "emoji" parser takes a string and emojifies it
+//  according to the passed `emoji` and the global emoji information
+//  from the redux store.  The "status" parser takes a deHTMLified
+//  string and transforms it into components suitable for insertion
+//  into a <ConnectedStatus>.
+
+//  * * * * * * *  //
 
 //  Imports
 //  -------
@@ -77,6 +68,7 @@ class Parse extends React.Component {  //  Impure
   render () {
     const { emoji } = this;
     const {
+      attachments,
       card,
       className,
       emoji: immutableEmoji,
@@ -112,6 +104,7 @@ class Parse extends React.Component {  //  Impure
     case 'status':
       return (
         <ConnectedParseStatusContent
+          attachments={attachments}
           card={card}
           className={computedClass}
           emoji={immutableEmoji}
@@ -129,24 +122,20 @@ class Parse extends React.Component {  //  Impure
 
 //  Props.
 Parse.propTypes = {
-  card: ImmutablePropTypes.map,
+  attachments: ImmutablePropTypes.list,  //  The attachments associated with the status, for status parsers
+  card: ImmutablePropTypes.map,  //  The card associated with the status, for status parsers
   className: PropTypes.string,
-  emoji: ImmutablePropTypes.list,
-  mentions: ImmutablePropTypes.list,
-  metadata: ImmutablePropTypes.list,
-  tags: ImmutablePropTypes.list,
-  text: PropTypes.string,
-  type: PropTypes.oneOf([
-    'account',
-    'emoji',
-    'status',
-  ]),
+  emoji: ImmutablePropTypes.list,  //  The custom emoji to use with the parser
+  mentions: ImmutablePropTypes.list,  //  The mentions associated with the status, for status parsers
+  metadata: ImmutablePropTypes.list,  //  The metadata associated with the account, for account parsers
+  tags: ImmutablePropTypes.list,  //  The tags associated with the status, for status parsers
+  text: PropTypes.string,  //  The text to parse
+  type: PropTypes.oneOf(['account', 'emoji', 'status']),  //  The type of the parser
   ℳ: PropTypes.func,
   '🏪': PropTypes.shape({
-    autoplay: ImmutablePropTypes.bool,
-    globalEmoji: ImmutablePropTypes.list,
+    autoplay: ImmutablePropTypes.bool,  //  Whether to autoplay animated emoji
+    globalEmoji: ImmutablePropTypes.list,  //  Global emoji for use with parseïng
   }).isRequired,
-  '💪': PropTypes.objectOf(PropTypes.func),
 };
 
 //  * * * * * * *  //
@@ -154,6 +143,7 @@ Parse.propTypes = {
 //  Connecting
 //  ----------
 
+//  Connecting our component.
 var ConnectedParse = connect(
 
   //  Component.
@@ -166,4 +156,5 @@ var ConnectedParse = connect(
   })
 );
 
+//  Exporting.
 export { ConnectedParse as default };

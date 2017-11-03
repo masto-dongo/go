@@ -23,11 +23,11 @@ const failure = (status, error) => ({
 });
 
 //  Request.
-export default function fetchCard (status, go, current, api) {
+export default function fetchCard (status, force, go, current, api) {
 
   //  We only want to request cards that we don't already have. If we
   //  already have a card associated with this `status`, we do nothing.
-  if (current().getIn(['card', status])) {  //  Not forceäble
+  if (!force && current().getIn(['card', status])) {
     return;
   }
 

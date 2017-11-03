@@ -1,3 +1,10 @@
+//  <PanelledStartContents>
+//  =======================
+
+//  The start column consists of just a bunch of navigational links.
+
+//  * * * * * * *  //
+
 //  Imports
 //  -------
 
@@ -26,9 +33,11 @@ import './style.scss';
 //  Component definition.
 export default class PanelledStartContents extends React.Component {  //  Impure
 
+  //  Constructor.
   constructor (props) {
     super(props);
 
+    //  Function binding.
     this.handleCompose = DOMEventNavigate.bind(this, '/compose');
     this.handleCourier = DOMEventNavigate.bind(this, '/courier');
     this.handleGlobal = DOMEventNavigate.bind(this, '/global');
@@ -36,6 +45,7 @@ export default class PanelledStartContents extends React.Component {  //  Impure
     this.handleLocal = DOMEventNavigate.bind(this, '/local');
   }
 
+  //  Rendering.
   render () {
     const {
       handleCompose,
@@ -51,6 +61,7 @@ export default class PanelledStartContents extends React.Component {  //  Impure
     } = this.props;
     const computedClass = classNames('MASTODON_GO--START', className);
 
+    //  Our links are rendered buttony and divided into sections.
     return (
       <div className={computedClass}>
         {me ? <ConnectedAccount id={me} /> : null}
@@ -122,9 +133,9 @@ export default class PanelledStartContents extends React.Component {  //  Impure
 
 }
 
+//  Props.
 PanelledStartContents.propTypes = {
   className: PropTypes.string,
   ℳ: PropTypes.func.isRequired,
-  '🏪': PropTypes.shape({ me: PropTypes.string }).isRequired,
-  '💪': PropTypes.objectOf(PropTypes.func),
+  '🏪': PropTypes.shape({ me: PropTypes.string }).isRequired,  //  The id of the current user's account
 };

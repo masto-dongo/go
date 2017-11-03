@@ -1,9 +1,29 @@
+//  <ConnectedTimeline>
+//  ===================
+
+//  This component just pulls a timeline of statuses in from the redux
+//  store and renders them in a list.
+
+//  * * * * * * *  //
+
+//  Imports
+//  -------
+
+//  Package imports.
 import classNames from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
+
+//  Component imports.
+import {
+  CommonButton,
+  CommonList,
+  CommonObserveäble,
+  ConnectedStatus,
+} from 'themes/mastodon-go/components';
 
 //  Request imports.
 import {
@@ -13,20 +33,22 @@ import {
   refreshTimeline,
 } from 'themes/mastodon-go/redux';
 
-import {
-  CommonButton,
-  CommonList,
-  CommonObservable,
-  ConnectedStatus,
-} from 'themes/mastodon-go/components';
-
+//  Stylesheet imports.
 import './style.scss';
 
+//  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
 import { POST_TYPE } from 'themes/mastodon-go/util/constants';
 
+//  * * * * * * * //
+
+//  The component
+//  -------------
+
+//  Component definition.
 class Timeline extends React.Component {  //  Impure
 
+  //  Constructor.
   constructor (props) {
     super(props);
     const { '💪': { fetch } } = this.props;
@@ -53,10 +75,12 @@ class Timeline extends React.Component {  //  Impure
     }
   }
 
+  //  This function sets the currently detailed status in the list.
   handleDetail (id) {
     this.setState({ currentDetail: id });
   }
 
+  //  Rendering.
   render () {
     const { handleDetail } = this;
     const {
@@ -72,6 +96,8 @@ class Timeline extends React.Component {  //  Impure
     const { currentDetail } = this.state;
     const computedClass = classNames('MASTODON_GO--CONNECTED--TIMELINE', className);
 
+    //  If a status in our list has an `id` which matches our
+    //  `currentDetail`, we make it detailed.
     return (
       <CommonList
         className={computedClass}
@@ -85,12 +111,12 @@ class Timeline extends React.Component {  //  Impure
               hideIf={settings ? (settings.getIn(['shows', 'reblog']) && POST_TYPE.IS_REBLOG) | (settings.getIn(['shows', 'reply']) && POST_TYPE.IS_MENTION) : null}
               id={status.get('id')}
               key={status.get('id')}
-              setDetail={handleDetail}
+              onDetail={handleDetail}
             />
           );
           return items;
         }, []).concat(!isLoading ? (
-          <CommonObservable
+          <CommonObserveäble
             key='loadmore'
             searchText={ℳ.loadMore}
           >
@@ -99,7 +125,7 @@ class Timeline extends React.Component {  //  Impure
               showTitle
               title={ℳ.loadMore}
             />
-          </CommonObservable>
+          </CommonObserveäble>
         ) : null) : null}
       </CommonList>
     );
@@ -128,6 +154,7 @@ Timeline.propTypes = {
 //  Connecting
 //  ----------
 
+//  Connecting our component.
 var ConnectedTimeline = connect(
 
   //  Component.
@@ -154,7 +181,7 @@ var ConnectedTimeline = connect(
     },
   }),
 
-  //  Handler.
+  //  Handlers.
   (go, store, { path }) => ({
     connect: (newPath = path) => go(connectTimeline, newPath),
     expand: (newPath = path) => go(expandTimeline, newPath),
@@ -163,4 +190,5 @@ var ConnectedTimeline = connect(
   })
 );
 
+//  Exporting.
 export { ConnectedTimeline as default };

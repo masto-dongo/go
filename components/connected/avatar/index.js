@@ -1,16 +1,12 @@
-/*********************************************************************\
-|                                                                     |
-|   <Avatar>                                                          |
-|   ========                                                          |
-|                                                                     |
-|   `account` gives our main account, while `comrade` gives another   |
-|   (eg, the account of a reblogger) which is displayed overlaid on   |
-|   the main one.  Avatars are squares by default; `circular` gives   |
-|   a circular one if your sensibilities roll that direction.         |
-|                                                                     |
-|                                             ~ @kibi@glitch.social   |
-|                                                                     |
-\*********************************************************************/
+//  <ConnectedAvatar>
+//  =================
+
+//  `account` gives our main account, while `comrade` gives another
+//  (eg, the account of a reblogger) which is displayed as an overlay.
+//  Avatars are squares by default; `circular` gives a circular one if
+//  your sensibilities roll that direction.
+
+//  * * * * * * *  //
 
 //  Imports
 //  -------
@@ -25,6 +21,9 @@ import { createStructuredSelector } from 'reselect';
 //  Component imports.
 import { CommonImage } from 'themes/mastodon-go/components';
 
+//  Request imports.
+import { fetchAccount } from 'themes/mastodon-go/redux';
+
 //  Stylesheet imports.
 import './style.scss';
 
@@ -37,68 +36,95 @@ import connect from 'themes/mastodon-go/util/connect';
 //  -------------
 
 //  Component definition.
-function Avatar ({
-  className,
-  circular,
-  comrade,
-  '🏪': {
-    autoplay,
-    accountAt,
-    accountSrc,
-    comradeAt,
-    comradeSrc,
-  },
-}) {
-  const computedClass = classNames('MASTODON_GO--CONNECTED--AVATAR', {
-    circular: circular,
-  }, className);
+class Avatar extends React.PureComponent {
 
-  //  Avatars are a straightforward div with image(s) inside.
-  return comrade ? (
-    <div className={computedClass}>
-      <CommonImage
-        autoplay={autoplay}
-        animatedSrc={accountSrc.get('original')}
-        className='main'
-        description={accountAt}
-        staticSrc={accountSrc.get('static')}
-      />
-      <CommonImage
-        autoplay={autoplay}
-        animatedSrc={comradeSrc.get('original')}
-        className='comrade'
-        description={comradeAt}
-        staticSrc={comradeSrc.get('static')}
-      />
-    </div>
-  ) : (
-    <div className={computedClass}>
-      <CommonImage
-        autoplay={autoplay}
-        animatedSrc={accountSrc.get('original')}
-        className='solo'
-        description={accountAt}
-        staticSrc={accountSrc.get('static')}
-      />
-    </div>
-  );
+  //  Constructor.
+  constructor (props) {
+    super(props);
+    const { '💪': { fetch } } = this.props;
+
+    //  Fetching the account.  This only goes through if the account
+    //  isn't already in our store.
+    fetch();
+  }
+
+  //  If our `id` is about to change, we need to fetch the new account.
+  componentWillReceiveProps (nextProps) {
+    const {
+      id,
+      '💪': { fetch },
+    } = this.props;
+    if (id !== nextProps.id) {
+      fetch(nextProps.id);
+    }
+  }
+
+  //  Rendering.
+  render () {
+    const {
+      className,
+      circular,
+      comrade,
+      '🏪': {
+        autoplay,
+        accountAt,
+        accountSrc,
+        comradeAt,
+        comradeSrc,
+      },
+    } = this.props;
+    const computedClass = classNames('MASTODON_GO--CONNECTED--AVATAR', {
+      circular: circular,
+    }, className);
+
+    //  Avatars are a straightforward div with image(s) inside.
+    return comrade && comradeSrc ? (
+      <div className={computedClass}>
+        <CommonImage
+          autoplay={autoplay}
+          animatedSrc={accountSrc ? accountSrc.get('original') : null}
+          className='main'
+          description={accountAt}
+          staticSrc={accountSrc ? accountSrc.get('static') : null}
+        />
+        <CommonImage
+          autoplay={autoplay}
+          animatedSrc={comradeSrc.get('original')}
+          className='comrade'
+          description={comradeAt}
+          staticSrc={comradeSrc.get('static')}
+        />
+      </div>
+    ) : (
+      <div className={computedClass}>
+        <CommonImage
+          autoplay={autoplay}
+          animatedSrc={accountSrc ? accountSrc.get('original') : null}
+          className='solo'
+          description={accountAt}
+          staticSrc={accountSrc ? accountSrc.get('static') : null}
+        />
+      </div>
+    );
+  }
+
 }
 
 //  Props.
 Avatar.propTypes = {
-  account: PropTypes.string.isRequired,
-  circular: PropTypes.bool,
+  account: PropTypes.string.isRequired,  //  The id of the avatar's account
+  circular: PropTypes.bool,  //  Whether to make a circular avatar
   className: PropTypes.string,
-  comrade: PropTypes.string,
+  comrade: PropTypes.string,  //  The id of an associated account
   ℳ: PropTypes.func,
   '🏪': PropTypes.shape({
-    autoplay: PropTypes.bool,
-    accountAt: PropTypes.string.isRequired,
-    accountSrc: ImmutablePropTypes.map.isRequired,
-    comradeAt: PropTypes.string,
-    comradeSrc: ImmutablePropTypes.map,
+    autoplay: PropTypes.bool,  //  Whether to autoplay GIF avatars
+    accountAt: PropTypes.string,  //  The @ of the avatar's account
+    accountSrc: ImmutablePropTypes.map,  //  The avatar's source
+    comradeAt: PropTypes.string,  //  The @ of the associated account
+    comradeSrc: ImmutablePropTypes.map,  //  The associated account's source
   }).isRequired,
-  '💪': PropTypes.objectOf(PropTypes.func),
+  '💪': PropTypes.objectOf(PropTypes.func).isRequired,
 };
 
 //  * * * * * * *  //
@@ -106,6 +132,7 @@ Avatar.propTypes = {
 //  Connecting
 //  ----------
 
+//  Connecting our component.
 var ConnectedAvatar = connect(
 
   //  Component.
@@ -118,7 +145,16 @@ var ConnectedAvatar = connect(
     autoplay: state => state.getIn(['meta', 'autoplay']),
     comradeAt: (state, { comrade }) => comrade ? state.getIn(['account', comrade, 'at']) : null,
     comradeSrc: (state, { comrade }) => comrade ? state.getIn(['account', comrade, 'avatar']) : null,
+  }),
+
+  //  Messages.
+  null,
+
+  //  Handlers.
+  (go, store, { id }) => ({
+    fetch: (newId = id) => go(fetchAccount, newId, false),
   })
 );
 
+//  Exporting.
 export { ConnectedAvatar as default };

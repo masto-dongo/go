@@ -17,7 +17,7 @@ import {
   Map as ImmutableMap,
 } from 'immutable';
 
-//  Requests.
+//  Request imports.
 import expandCatalogue from './expand';
 import fetchCatalogue from './fetch';
 import refreshCatalogue from './refresh';

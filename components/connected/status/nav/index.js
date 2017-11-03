@@ -1,8 +1,8 @@
-//  <StatusNav>
-//  ========
+//  <ConnectedStatusNav>
+//  ====================
 
-//  For more information, please contact:
-//  @kibi@glitch.social
+//  This component lets you see status counts and navigate to related
+//  columns.
 
 //  * * * * * * *  //
 
@@ -28,8 +28,10 @@ import './style.scss';
 //  The component
 //  -------------
 
+//  Component definition.
 export default class ConnectedStatusNav extends React.PureComponent {
 
+  //  Constructor.
   constructor (props) {
     super(props);
     const { id } = this.props;
@@ -55,6 +57,7 @@ export default class ConnectedStatusNav extends React.PureComponent {
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--STATUS--NAV', className);
 
+    //  We just render our buttons in a row.
     return (
       <nav className={computedClass}>
         <CommonButton
@@ -87,8 +90,8 @@ export default class ConnectedStatusNav extends React.PureComponent {
 //  Props.
 ConnectedStatusNav.propTypes = {
   className: PropTypes.string,
-  favouritesCount: PropTypes.number,
-  id: PropTypes.string.isRequired,
-  reblogsCount: PropTypes.number,
+  favouritesCount: PropTypes.number,  //  The number of favourites for the status
+  id: PropTypes.string.isRequired,  //  The status id
+  reblogsCount: PropTypes.number,  //  The number of reblogs for the status
   ℳ: PropTypes.func,
 };

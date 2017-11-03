@@ -1,34 +1,62 @@
+//  <CommonToggle>
+//  ==============
 
+//  This renders a toggle which is visually similar to react-toggle,
+//  but is actually internally represented as a radio list of exactly
+//  two options.
+
+//  * * * * * * *  //
+
+//  Imports
+//  -------
+
+//  Package imports.
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+//  Component imports.
 import { CommonIcon } from 'themes/mastodon-go/components';
 
+//  Stylesheet imports.
 import './style.scss';
 
+//  * * * * * * *  //
+
+//  The component
+//  -------------
+
+//  Component definition.
 export default class CommonToggle extends React.PureComponent {
 
-  static propTypes = {
-    active: PropTypes.bool,
-    activeIcon: PropTypes.string,
-    activeLabel: PropTypes.node.isRequired,
-    className: PropTypes.string,
-    disabled: PropTypes.bool,
-    inactiveIcon: PropTypes.string,
-    inactiveLabel: PropTypes.node.isRequired,
-    onChange: PropTypes.func,
-    title: PropTypes.string,
-  };
-  static defaultProps = {
-    activeIcon: 'check-circle-o',
-    inactiveIcon: 'times',
-  };
-  state = {
-    isActive: !!this.props.active,
-    isFocused: false,
-  };
+  //  Constructor.
+  constructor (props) {
+    super(props);
 
+    //  State.
+    this.state = {
+      isActive: !!this.props.active,
+      isFocused: false,
+    };
+
+    //  Function binding.
+    const {
+      handleChange,
+      handleFocusChange,
+      handleKeyPress,
+    } = Object.getPrototypeOf(this);
+    this.handleActivate = handleChange.bind(this, true);
+    this.handleActiveKeyPress = handleKeyPress.bind(this, true);
+    this.handleBlur = handleFocusChange.bind(this, false);
+    this.handleClick = handleChange.bind(this, null);
+    this.handleDeäctivate = handleChange.bind(this, false);
+    this.handleFocus = handleFocusChange.bind(this, true);
+    this.handleInactiveKeyPress = handleKeyPress.bind(this, false);
+    this.handleKeyPress = handleKeyPress.bind(this, null);
+  }
+
+  //  If our `active` prop changes, we need to reflect that in our
+  //  state.
   componentWillReceiveProps (nextProps) {
     const { active } = this.props;
     if (active !== nextProps.active) {
@@ -36,108 +64,71 @@ export default class CommonToggle extends React.PureComponent {
     }
   }
 
-  handleChange = value => {
-    const { onChange } = this.props;
+  //  Changes the value of the toggle to the specified `value`, or
+  //  toggles it.
+  handleChange (value, e) {
+    const {
+      disabled,
+      onChange,
+    } = this.props;
     const { isActive } = this.state;
-    const willBeActive = value !== void 0 ? !!value : !isActive;
+
+    //  If our toggle is `disabled`, we do nothing.
+    if (disabled) {
+      return;
+    }
+
+    //  Otherwise, we set our active state.
+    const willBeActive = typeof value === 'boolean' ? !!value : !isActive;
     this.setState({ isActive: willBeActive });
     onChange(willBeActive);
+    if (e) {
+      e.stopPropagation();  //  Prevents clicks from being detected twice
+    }
   }
 
-  handleClick = e => {
-    const { handleChange } = this;
-    handleChange();
-    e.stopPropagation();
-  };
-  handleActivate = e => {
-    const { handleChange } = this;
-    handleChange(true);
-    e.stopPropagation();
-  };
-  handleDeäctivate = e => {
-    const { handleChange } = this;
-    handleChange(false);
-    e.stopPropagation();
-  };
-  handleKeyPress = e => {
-    const { handleChange } = this;
-    switch (e.key) {
-    case ' ':
-      handleChange();
-      break;
-    case 'Down':
-    case 'Right':
-    case 'ArrowDown':
-    case 'ArrowRight':
-      handleChange(false);
-      break;
-    case 'Left':
-    case 'Up':
-    case 'ArrowLeft':
-    case 'ArrowUp':
-      handleChange(true);
-      break;
-    default:
-      return;
-    }
-    e.stopPropagation();
-    e.preventDefault();
-  };
-  handleActiveKeyPress = e => {
-    const { handleChange } = this;
-    switch (e.key) {
-    case ' ':
-      handleChange(true);
-      break;
-    case 'Down':
-    case 'Right':
-    case 'ArrowDown':
-    case 'ArrowRight':
-      handleChange(true);
-      break;
-    case 'Left':
-    case 'Up':
-    case 'ArrowLeft':
-    case 'ArrowUp':
-      handleChange(false);
-      break;
-    default:
-      return;
-    }
-    e.stopPropagation();
-    e.preventDefault();
-  };
-  handleInactiveKeyPress = e => {
-    const { handleChange } = this;
-    switch (e.key) {
-    case ' ':
-      handleChange(false);
-      break;
-    case 'Down':
-    case 'Right':
-    case 'ArrowDown':
-    case 'ArrowRight':
-      handleChange(true);
-      break;
-    case 'Left':
-    case 'Up':
-    case 'ArrowLeft':
-    case 'ArrowUp':
-      handleChange(false);
-      break;
-    default:
-      return;
-    }
-    e.stopPropagation();
-    e.preventDefault();
-  };
-  handleFocus = () => {
-    this.setState({ isFocused: true });
-  };
-  handleBlur = () => {
-    this.setState({ isFocused: false });
+  //  When our focus changes, we change our focused state accordingly.
+  handleFocusChange (value) {
+    this.setState({ isFocused: !!value });
   };
 
+  //  Handles keyboard events.
+  handleKeyPress (value, e) {
+    const { handleChange } = this;
+    const { disabled } = this.props;
+
+    //  If our toggle is disabled, we do nothing.
+    if (disabled) {
+      return;
+    }
+
+    //  Otherwise, we handle our keypresses.
+    switch (e.key) {
+    case ' ':
+      handleChange(value);
+      break;
+    case 'Down':
+    case 'Right':
+    case 'ArrowDown':
+    case 'ArrowRight':
+      handleChange(true);
+      break;
+    case 'Left':
+    case 'Up':
+    case 'ArrowLeft':
+    case 'ArrowUp':
+      handleChange(false);
+      break;
+    default:
+      return;
+    }
+    if (e) {
+      e.stopPropagation();  //  Prevents keypresses from being detected twice
+      e.preventDefault();  //  Prevents default keypress actions (ie, scrolling)
+    }
+  };
+
+  //  Rendering.
   render () {
     const {
       handleActivate,
@@ -154,6 +145,7 @@ export default class CommonToggle extends React.PureComponent {
       activeIcon,
       activeLabel,
       className,
+      compact,
       disabled,
       inactiveIcon,
       inactiveLabel,
@@ -167,10 +159,61 @@ export default class CommonToggle extends React.PureComponent {
     } = this.state;
     const computedClass = classNames('MASTODON_GO--COMMON--TOGGLE', {
       active: isActive,
+      compact: !activeLabel || !inactiveLabel || compact,
+      disabled,
       focused: isFocused,
     }, className);
 
-    return (
+    return !activeLabel || !inactiveLabel || compact ? (
+      <span
+        aria-disabled={!!disabled}
+        onBlur={handleBlur}
+        onClick={!disabled ? handleClick : void 0}
+        onKeyDown={!disabled ? handleKeyPress : void 0}
+        onFocus={handleFocus}
+        className={computedClass}
+        title={title}
+        {...rest}
+      >
+        <span
+          className='track'
+          role='radiogroup'
+        >
+          <span
+            aria-checked={!isActive}
+            onBlur={handleBlur}
+            onClick={!disabled ? handleDeäctivate : void 0}
+            onKeyDown={!disabled ? handleInactiveKeyPress : void 0}
+            onFocus={handleFocus}
+            role='radio'
+            tabIndex='0'
+          >
+            <CommonIcon
+              icon={inactiveIcon}
+              title={inactiveLabel}
+            />
+          </span>
+          <span
+            aria-hidden='true'
+            className='thumb'
+          />
+          <span
+            aria-checked={!!isActive}
+            onBlur={handleBlur}
+            onClick={!disabled ? handleActivate : void 0}
+            onKeyDown={!disabled ? handleActiveKeyPress : void 0}
+            onFocus={handleFocus}
+            role='radio'
+            tabIndex='0'
+          >
+            <CommonIcon
+              icon={activeIcon}
+              label={activeLabel}
+            />
+          </span>
+        </span>
+      </span>
+    ) : (
       <span
         aria-disabled={!!disabled}
         onBlur={handleBlur}
@@ -195,9 +238,9 @@ export default class CommonToggle extends React.PureComponent {
           aria-hidden='true'
           className='track'
         >
-          <CommonIcon name={inactiveIcon} />
+          <CommonIcon icon={inactiveIcon} />
           <span className='thumb' />
-          <CommonIcon name={activeIcon} />
+          <CommonIcon icon={activeIcon} />
         </span>
         <span
           aria-checked={!!isActive}
@@ -213,3 +256,23 @@ export default class CommonToggle extends React.PureComponent {
   }
 
 }
+
+//  Props.
+CommonToggle.propTypes = {
+  active: PropTypes.bool,  //  `true` if the active option is selected
+  activeIcon: PropTypes.node,  //  The icon for the active option
+  activeLabel: PropTypes.oneOfType(PropTypes.string, PropTypes.instanceOf(String)).isRequired,  //  The label for the active option
+  className: PropTypes.string,
+  compact: PropTypes.bool,  //  Whether or not to show the labels
+  disabled: PropTypes.bool,  //  Whether the toggle is disabled
+  inactiveIcon: PropTypes.node,  //  The icon for the inactive option
+  inactiveLabel: PropTypes.oneOfType(PropTypes.string, PropTypes.instanceOf(String)).isRequired,  //  The label for the inactive option
+  onChange: PropTypes.func,  //  A function to call on toggle change, with the current value
+  title: PropTypes.string,  //  A label for the toggle
+};
+
+//  Default props.  These give our default active/inactive icons.
+CommonToggle.defaultProps = {
+  activeIcon: 'check-circle-o',
+  inactiveIcon: 'times',
+};

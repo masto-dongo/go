@@ -17,7 +17,7 @@ import {
   Map as ImmutableMap,
 } from 'immutable';
 
-//  Requests.
+//  Request imports.
 import ensureDirectory from './ensure';
 import expandDirectory from './expand';
 import fetchDirectory from './fetch';

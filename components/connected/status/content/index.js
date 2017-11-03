@@ -1,8 +1,9 @@
-//  <StatusContent>
-//  ===============
+//  <ConnectedStatusContent>
+//  ========================
 
-//  For more information, please contact:
-//  @kibi@glitch.social
+//  This component renders the status content.  For the most part, we
+//  hand this over to `<ConnectedParse>`, but we do need to render
+//  media and spoilers ourselves.
 
 //  * * * * * * *  //
 
@@ -15,58 +16,56 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
+//  Component imports.
 import {
   CommonButton,
   ConnectedCard,
   ConnectedParse,
   ConnectedReference,
 } from 'themes/mastodon-go/components';
-
-// import StatusContentGallery from './gallery';
-// import StatusContentUnknown from './unknown';
-const ConnectedStatusContentGallery = () => null;
-const ConnectedStatusContentUnknown = () => null;
+import ConnectedStatusContentGallery from './gallery';
 
 //  Stylesheet imports.
 import './style.scss';
+
+//  Other imports.
+import { MEDIA_TYPE } from 'themes/mastodon-go/util/constants';
 
 //  * * * * * * *  //
 
 //  The component
 //  -------------
 
+//  Component definition.
 export default class ConnectedStatusContent extends React.PureComponent {
 
-  //  Props and state.
-  static propTypes = {
-    card: ImmutablePropTypes.map,
-    className: PropTypes.string,
-    content: PropTypes.string,
-    contentVisible: PropTypes.bool,
-    detailed: PropTypes.bool,
-    emoji: ImmutablePropTypes.list,
-    media: ImmutablePropTypes.list,
-    mentions: ImmutablePropTypes.list,
-    onClick: PropTypes.func,
-    sensitive: PropTypes.bool,
-    setExpansion: PropTypes.func,
-    small: PropTypes.bool,
-    spoiler: PropTypes.string,
-    tags: ImmutablePropTypes.list,
-    ℳ: PropTypes.func.isRequired,
+  //  Constructor.
+  constructor (props) {
+    super(props);
+
+    //  Variables.
+    this.startXY = null;
+
+    //  Function binding.
+    const {
+      handleMouseDown,
+      handleMouseUp,
+    } = Object.getPrototypeOf(this);
+    this.handleMouseDown = handleMouseDown.bind(this);
+    this.handleMouseUp = handleMouseUp.bind(this);
   }
 
-  //  Variables.
-  startXY = null
-
   //  When the mouse is pressed down, we grab its position.
-  handleMouseDown = (e) => {
-    this.startXY = [e.clientX, e.clientY];
+  handleMouseDown ({
+    clientX,
+    clientY,
+  }) {
+    this.startXY = [clientX, clientY];
   }
 
   //  When the mouse is raised, we handle the click if it wasn't a part
   //  of a drag.
-  handleMouseUp = (e) => {
+  handleMouseUp (e) {
     const { startXY } = this;
     const { onClick } = this.props;
     const { button, clientX, clientY, target } = e;
@@ -87,7 +86,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
     case !onClick:
     case Math.sqrt(deltaX ** 2 + deltaY ** 2) >= 5:
     case (
-      target.matches || target.msMatchesSelector || target.webkitMatchesSelector || (() => void 0)
+      target.matches || target.msMatchesSelector || target.webkitMatchesSelector || (() => false)
     ).call(target, 'button, button *, a, a *'):
       break;
 
@@ -101,20 +100,11 @@ export default class ConnectedStatusContent extends React.PureComponent {
     this.startXY = null;
   }
 
-  //  This expands and collapses our spoiler.
-  handleSpoilerClick = () => {
-    const { setExpansion } = this.props;
-    if (setExpansion) {
-      setExpansion();  //  Calling with no argument toggles
-    }
-  }
-
-  //  Renders our component.
+  //  Rendering.
   render () {
     const {
       handleMouseDown,
       handleMouseUp,
-      handleSpoilerClick,
     } = this;
     const {
       card,
@@ -126,6 +116,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
       media,
       mentions,
       onClick,
+      onExpansion,
       sensitive,
       small,
       spoiler,
@@ -144,16 +135,10 @@ export default class ConnectedStatusContent extends React.PureComponent {
       case !!small:
         return null;
 
-      //  If there aren't any media attachments, we try showing a card.
-      case (!media || !media.size) && card:
-        return <ConnectedCard card={card.get('id')} />;
-
-      //  Otherwise, if there is an unknown attachment, we show an
-      //  attachment list.
-      case (media && media.some(
-        item => item.get('type') === 'unknown'
-      )):
-        return <ConnectedStatusContentUnknown media={media} />;
+      //  If there aren't any media attachments and our status is
+      //  detailed, we try showing a card.
+      case (!media || !media.size) && detailed:
+        return <ConnectedCard card={id} />;
 
       //  Otherwise, if there are attachments, we render them in a
       //  gallery.
@@ -164,6 +149,8 @@ export default class ConnectedStatusContent extends React.PureComponent {
             sensitive={sensitive}
           />
         );
+
+      //  If we don't have any media, we can't render any.
       default:
         return null;
       }
@@ -203,7 +190,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
             <CommonButton
               active={!!contentVisible}
               className='showmore'
-              onClick={handleSpoilerClick}
+              onClick={onExpand}
               showTitle={!contentVisible}
               title={ℳ.showMore}
             >
@@ -220,6 +207,8 @@ export default class ConnectedStatusContent extends React.PureComponent {
               } : {})}
             >
               <ConnectedParse
+                attachments={media}
+                card={(!media || !media.size) && detailed && card}
                 emoji={emoji}
                 mentions={mentions}
                 tags={tags}
@@ -245,6 +234,8 @@ export default class ConnectedStatusContent extends React.PureComponent {
               } : {})}
             >
               <ConnectedParse
+                attachments={media}
+                card={(!media || !media.size) && detailed && card}
                 emoji={emoji}
                 mentions={mentions}
                 tags={tags}
@@ -260,3 +251,22 @@ export default class ConnectedStatusContent extends React.PureComponent {
   }
 
 }
+
+//  Props.
+ConnectedStatusContent.propTypes = {
+  card: ImmutablePropTypes.map,  //  The status card
+  className: PropTypes.string,
+  content: PropTypes.string,  //  The content of the status
+  contentVisible: PropTypes.bool,  //  `true` if the spoiler is expanded and content is visible
+  detailed: PropTypes.bool,  //  `true` if the status is detailed
+  emoji: ImmutablePropTypes.list,  //  A list of custom emoji for the status
+  media: ImmutablePropTypes.list,  //  A list of media attachments for the status
+  mentions: ImmutablePropTypes.list,  //  A list of mentions for the status
+  onClick: PropTypes.func,  //  A function to call when clicking on the status content
+  onExpansion: PropTypes.func,  //  A function to call when expanding the spoiler
+  sensitive: PropTypes.bool,  //  `true` if the status contains sensitive media
+  small: PropTypes.bool,  //  `true` if the status is small
+  spoiler: PropTypes.string,  //  The status spoiler
+  tags: ImmutablePropTypes.list,  // A list of tags for the status
+  ℳ: PropTypes.func.isRequired,
+};

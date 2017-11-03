@@ -1,16 +1,12 @@
-/*********************************************************************\
-|                                                                     |
-|   <Courier>                                                         |
-|   =========                                                         |
-|                                                                     |
-|   Couriers are like timelines only for notifications!  I took the   |
-|   name "courier" from monsterpit.net since upstream just calls it   |
-|   "notifications", which is confusing when you also have singular   |
-|   `<Notification>` components.                                      |
-|                                                                     |
-|                                             ~ @kibi@glitch.social   |
-|                                                                     |
-\*********************************************************************/
+//  <ConnectedCourier>
+//  ==================
+
+//  Couriers are like timelines only for notifications!  I took the
+//  name "courier" from monsterpit.net since upstream calls this
+//  component "Notifications", which is confusing when you also have
+//  singular  `<Notification>` components.
+
+//  * * * * * * * //
 
 //  Imports
 //  -------
@@ -27,12 +23,9 @@ import { createStructuredSelector } from 'reselect';
 import {
   CommonButton,
   CommonList,
-  CommonObservable,
+  CommonObserveäble,
   ConnectedNotification,
 } from 'themes/mastodon-go/components';
-
-//  Stylesheet imports.
-import './style.scss';
 
 //  Request imports.
 import {
@@ -43,6 +36,9 @@ import {
   clearNotification,
   deleteNotification,
 } from 'themes/mastodon-go/redux';
+
+//  Stylesheet imports.
+import './style.scss';
 
 //  Other imports
 import connect from 'themes/mastodon-go/util/connect';
@@ -56,14 +52,13 @@ import { POST_TYPE } from 'themes/mastodon-go/util/constants';
 //  Component definition.
 class Courier extends React.Component {  //  Impure
 
-  //  Constructor.  We go ahead and prefetch the notifications,
-  //  forgetting about any previously-loaded ones.  There shouldn't
-  //  ever be two notification timelines on the screen at once so
-  //  this shouldn't cause a problem.
+  //  Constructor.
   constructor (props) {
     super(props);
 
-    //  Notification fetching.
+    //  We go ahead and prefetch the notifications, forgetting any
+    //  previously-loaded ones.  There shouldn't ever be two couriers
+    //  on the screen at one time so this shouldn't cause a problem.
     const { '💪': { fetch } } = this.props;
     fetch();
   }
@@ -82,6 +77,8 @@ class Courier extends React.Component {  //  Impure
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--COURIER', className);
 
+    //  We just render our notifications in a `<CommonList>`.  The
+    //  `<CommonButton>` at the bottom is just for loading more.
     return (
       <CommonList
         className={computedClass}
@@ -97,7 +94,7 @@ class Courier extends React.Component {  //  Impure
           );
           return items;
         }, []).concat(!isLoading ? (
-          <CommonObservable
+          <CommonObserveäble
             key='loadmore'
             searchText={ℳ.loadMore}
           >
@@ -106,7 +103,7 @@ class Courier extends React.Component {  //  Impure
               showTitle
               title={ℳ.loadMore}
             />
-          </CommonObservable>
+          </CommonObserveäble>
         ) : null) : null}
       </CommonList>
     );
@@ -120,9 +117,9 @@ Courier.propTypes = {
   rehash: PropTypes.func,
   ℳ: PropTypes.func.isRequired,
   '🏪': PropTypes.shape({
-    isLoading: PropTypes.bool,
-    notifications: ImmutablePropTypes.list,
-    settings: ImmutablePropTypes.map,
+    isLoading: PropTypes.bool,  //  `true` if the courier is still loading
+    notifications: ImmutablePropTypes.list,  //  A list of notifications
+    settings: ImmutablePropTypes.map,  //  The courier settings
   }).isRequired,
   '💪': PropTypes.objectOf(PropTypes.func).isRequired,
 };
@@ -132,6 +129,7 @@ Courier.propTypes = {
 //  Connecting
 //  ----------
 
+//  Connecting our component.
 var ConnectedCourier = connect(
 
   //  Component.
@@ -164,4 +162,5 @@ var ConnectedCourier = connect(
   })
 );
 
+//  Exporting.
 export { ConnectedCourier as default };

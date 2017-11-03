@@ -17,7 +17,7 @@ import {
   Map as ImmutableMap,
 } from 'immutable';
 
-//  Requests.
+//  Request imports.
 import fetchAccount from './fetch';
 import updateAccount from './update';
 import verifyAccount from './verify';

@@ -1,15 +1,11 @@
-/*********************************************************************\
-|                                                                     |
-|   <ParseEmoji>                                                      |
-|   ============                                                      |
-|                                                                     |
-|   <ParseEmoji> parses a string to insert emoji images.  The emoji   |
-|   are specified via the `emojifier` prop, which is passed through   |
-|   from the parent <Parse> component.                                |
-|                                                                     |
-|                                             ~ @kibi@glitch.social   |
-|                                                                     |
-\*********************************************************************/
+//  <ConnectedParseEmoji>
+//  =====================
+
+//  <ConnectedParseEmoji> parses a string to insert emoji images.  The
+//  emoji are specified via the `emojifier` prop, which is passed
+//  through from the parent <ConnectedParse> component.
+
+//  * * * * * * *  //
 
 //  Imports
 //  -------
@@ -115,11 +111,7 @@ export default function ConnectedParseEmoji ({
     }
 
     //  Otherwise, we increment our index and move on.
-    if (/[\w:]/.test(text.charAt(i))) {
-      inWord = true;
-    } else {
-      inWord = false;
-    }
+    inWord = /[\w:]/.test(text.charAt(i));
     i++;
   }
 
@@ -130,15 +122,13 @@ export default function ConnectedParseEmoji ({
   }
 
   //  We can now put our `result` in a `<span>` and return the result.
-  return (
-    <span className={computedClass}>{result}</span>
-  );
+  return <span className={computedClass}>{result}</span>;
 }
 
 //  Props.
 ConnectedParseEmoji.propTypes = {
-  autoplay: PropTypes.bool,
+  autoplay: PropTypes.bool,  //  `true` if animated emoji should be autoplayed
   className: PropTypes.string,
-  emoji: PropTypes.arrayOf(PropTypes.instanceOf(Emoji)).isRequired,
-  text: PropTypes.string.isRequired,
+  emoji: PropTypes.arrayOf(PropTypes.instanceOf(Emoji)).isRequired,  //  An array of emoji
+  text: PropTypes.string.isRequired,  //  The text to process
 };

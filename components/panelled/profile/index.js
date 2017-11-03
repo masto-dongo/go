@@ -1,3 +1,12 @@
+//  <PanelledProfile>
+//  =================
+
+//  We include all of the relevant timelines for the profile as panels
+//  and create menu items for them.  There are also a couple of
+//  catalogues which *don't* have menu items.
+
+//  * * * * * * *  //
+
 //  Imports
 //  -------
 
@@ -23,9 +32,10 @@ import { moduleOnReady } from 'themes/mastodon-go/util/module';
 //  Connecting
 //  ----------
 
+//  Variable declaration.
 var PanelledProfile;
 
-//  Building our store and handlers.
+//  Building the paneller.
 moduleOnReady(function () {
   PanelledProfile = connect(
 
@@ -119,4 +129,5 @@ moduleOnReady(function () {
   );
 });
 
+//  Exporting.
 export { PanelledProfile as default };

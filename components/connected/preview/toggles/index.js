@@ -1,3 +1,11 @@
+//  <ConnectedPreviewToggles>
+//  =========================
+
+//  This component holds the toggles for controlling status visibility.
+//  This may change at some point in the future (see Issue #22).
+
+//  * * * * * * *  //
+
 //  Imports
 //  -------
 
@@ -23,6 +31,7 @@ import { VISIBILITY } from 'themes/mastodon-go/util/constants';
 //  Component definition.
 export default class ConnectedPreviewToggles extends React.PureComponent {
 
+  //  Constructor.
   constructor (props) {
     super(props);
 
@@ -39,6 +48,7 @@ export default class ConnectedPreviewToggles extends React.PureComponent {
     this.handleRebloggable = handleRebloggable.bind(this);
   }
 
+  //  Here are our toggles.
   handleFederated (value) {
     const {
       onVisibility,
@@ -80,6 +90,7 @@ export default class ConnectedPreviewToggles extends React.PureComponent {
     onVisibility(value ? visibility & VISIBILITY.DIRECT : visibility | VISIBILITY.FOLLOWERS | VISIBILITY.PROFILE);
   }
 
+  //  Rendering.
   render () {
     const {
       handleDirect,
@@ -95,7 +106,7 @@ export default class ConnectedPreviewToggles extends React.PureComponent {
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--PREVIEW--TOGGLES', { disabled }, className);
 
-    //  Rendering.
+    //  We just render our toggles in a `<div>`.
     return (
       <div className={computedClass}>
         <CommonToggle
@@ -143,8 +154,8 @@ export default class ConnectedPreviewToggles extends React.PureComponent {
 //  Props.
 ConnectedPreviewToggles.propTypes = {
   className: PropTypes.string,
-  disabled: PropTypes.bool,
-  onVisibility: PropTypes.func,
-  visibility: PropTypes.number,
+  disabled: PropTypes.bool,  //  `true` if the composer is disabled
+  onVisibility: PropTypes.func,  //  A function to call when changing status visibility
+  visibility: PropTypes.number,  //  The `VISIBILITY` of the status
   ℳ: PropTypes.func.isRequired,
 };

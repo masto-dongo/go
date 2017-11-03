@@ -1,8 +1,8 @@
-//  <StatusActionBar>
-//  =================
+//  <ConnectedStatusActionBar>
+//  ==========================
 
-//  For more information, please contact:
-//  @kibi@glitch.social
+//  This component renders the action bar for statuses—those buttons
+//  at the bottom which let you favourite and reply and such.
 
 //  * * * * * * *  //
 
@@ -32,8 +32,10 @@ import './style.scss';
 //  The component
 //  -------------
 
+//  Component definition.
 export default class ConnectedStatusActionBar extends React.PureComponent {
 
+  //  Constructor.
   constructor (props) {
     super(props);
     const {
@@ -67,7 +69,6 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
       visibility,
       ℳ,
     } = this.props;
-
     const computedClass = classNames('MASTODON_GO--CONNECTED--STATUS--ACTION_BAR', { detailed }, className);
     const rebloggable = visibility & VISIBILITY.REBLOGGABLE;
     const reblogTitle = rebloggable ? ℳ.reblog : ℳ.noReblog;
@@ -117,18 +118,19 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
 
 }
 
+//  Props.
 ConnectedStatusActionBar.propTypes = {
-  at: PropTypes.string,
+  at: PropTypes.string,  //  The @ of the status's author
   className: PropTypes.string,
-  detailed: PropTypes.bool,
-  id: PropTypes.string,
-  is: ImmutablePropTypes.map.isRequired,
-  onDetail: PropTypes.func,
-  onFavourite: PropTypes.func,
-  onReblog: PropTypes.func,
-  onUnfavourite: PropTypes.func,
-  onUnreblog: PropTypes.func,
-  spoiler: PropTypes.string,
-  visibility: PropTypes.number,
+  detailed: PropTypes.bool,  //  `true` if the status is detailed
+  id: PropTypes.string,  //  The id of the status
+  is: ImmutablePropTypes.map.isRequired,  //  What the status is
+  onDetail: PropTypes.func,  //  A function to set the detail of the status
+  onFavourite: PropTypes.func,  //  A function to favourite the status
+  onReblog: PropTypes.func,  //  A function to reblog the status
+  onUnfavourite: PropTypes.func,  //  A function to unfavourite the status
+  onUnreblog: PropTypes.func,  //  A function to unreblog the status
+  spoiler: PropTypes.string,  //  The status spoiler
+  visibility: PropTypes.number,  //  The status `VISIBILITY`
   ℳ: PropTypes.func.isRequired,
 };

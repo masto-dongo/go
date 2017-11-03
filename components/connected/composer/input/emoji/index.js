@@ -1,3 +1,12 @@
+//  <ConnectedComposerInputEmoji>
+//  =============================
+
+//  This provides an input area for emoji, including custom emoji.
+//  Mostly it just displays a collection of
+//  `<ConnectedComposerInputEmojiTable>`s.
+
+//  * * * * * * *  //
+
 //  Imports
 //  -------
 
@@ -20,12 +29,15 @@ import { Emojifier } from 'themes/mastodon-go/util/emojify';
 //  The component
 //  -------------
 
+//  Component definition.
 export default class ConnectedComposerInputEmoji extends React.PureComponent {
 
+  //  Constructor.
   constructor (props) {
     super(props);
   }
 
+  //  Rendering.
   render () {
     const {
       autoplay,
@@ -35,8 +47,14 @@ export default class ConnectedComposerInputEmoji extends React.PureComponent {
       ℳ,
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER--INPUT--EMOJI', { disabled }, className);
+
+    //  We just render all of our tables in order.
     return (
-      <div className={computedClass}>
+      <div
+        className={computedClass}
+        id='mastodon-go.connected.composer.input.emoji'
+        role='tabpanel'
+      >
         <ConnectedComposerInputEmojiTable
           autoplay={autoplay}
           caption={ℳ.emojiCustom}
@@ -99,9 +117,9 @@ export default class ConnectedComposerInputEmoji extends React.PureComponent {
 
 //  Props.
 ConnectedComposerInputEmoji.propTypes = {
-  autoplay: PropTypes.bool,
+  autoplay: PropTypes.bool,  //  `true` if animated emoji should be autoplayed
   className: PropTypes.string,
-  disabled: PropTypes.bool,
-  emojifier: PropTypes.instanceOf(Emojifier),
+  disabled: PropTypes.bool,  //  `true` if the composer is currently disabled
+  emojifier: PropTypes.instanceOf(Emojifier),  //  The `Emojifier` which holds the emoji
   ℳ: PropTypes.func.isRequired,
 };

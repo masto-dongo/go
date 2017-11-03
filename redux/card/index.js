@@ -14,7 +14,7 @@
 //  Package imports.
 import { Map as ImmutableMap } from 'immutable';
 
-//  Requests.
+//  Request imports.
 import fetchCard from './fetch';
 
 //  Action types.
@@ -29,7 +29,7 @@ import { CARD_TYPE } from 'themes/mastodon-go/util/constants';
 //  -----
 
 //  `normalize()` normalizes our card into an Immutable map.
-const normalize = card => ImmutableMap({
+const normalize = card => Object.keys(card).length ? ImmutableMap({
   author: card.author ? ImmutableMap({
     href: card.author.url ? '' + card.author.url : null,
     name: card.author.name ? '' + card.author.name : null,
@@ -61,7 +61,7 @@ const normalize = card => ImmutableMap({
     }
   )(card.type),
   width: +card.width,
-});
+}) : null;
 
 //  * * * * * * *  //
 

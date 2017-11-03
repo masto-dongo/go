@@ -1,18 +1,17 @@
-/*
+//  <ConnectedComposerTextArea>
+//  ===========================
 
-`<ComposerTextArea>`
-====================
+//  This component provides a semi-rich-text editor. It uses diffs and
+//  all sorts of magic to make `contentEditable` work well with React.
 
-The `<ComposerTextArea>` component provides a semi-rich-text editor. We
-store the plain-text value of the textbox in an instance variable and
-then pass it up to its parent component through `onChange()`.
-Similarly, the value property passed down contains HTML-formatted
-content with which to update our box.
+//  This component is based off of a very similar one I wrote for my
+//  frontend "Labcoat", but rewritten and improved for use with
+//  _Mastodon GO!_.
 
-This component is based off of a very similar one I wrote for my
-frontend "Labcoat", but rewritten and improved for use with Mastodon.
+//  * * * * * * *  //
 
-*/
+//  Imports
+//  -------
 
 //  Package imports.
 import classNames from 'classnames';
@@ -32,10 +31,24 @@ import './style.scss';
 //  Other imports.
 import { Emoji } from 'themes/mastodon-go/util/emojify';
 
+//  * * * * * * *  //
+
+//  The component
+//  -------------
+
+//  Component definition.
 export default class ConnectedComposerTextArea extends React.PureComponent {
 
+  //  Constructor.
   constructor (props) {
     super(props);
+
+    //  Variables.
+    this.caret = 0;
+    this.cache = [];
+    this.composing = false;
+    this.lastRenderedString = '';
+    this.node = null;
 
     //  Function binding.
     const {
@@ -54,47 +67,61 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     this.insertContent = insertContent.bind(this);
     this.restoreCaretPos = restoreCaretPos.bind(this);
     this.storeCaretPos = storeCaretPos.bind(this);
-
-    //  Variables.
-    this.caret = 0;
-    this.cache = [];
-    this.composing = false;
-    this.input = null;
-    this.lastRenderedString = '';
   }
 
-  componentWillMount () {
-    const { handleInsert } = this;
+  //  On mounting we listen for an insert event and get the value of
+  //  the component.
+  componentDidMount () {
+    const {
+      getContents,
+      handleInsert,
+    } = this;
+    const { onChange } = this.props;
     DOMListen(DOMEventInsert, handleInsert);
+    if (onChange) onChange(getContents());
   }
+
+  //  We use `componentWillUpdate()` to grab the caret position before
+  //  updating.
+  componentWillUpdate (nextProps) {
+    const { value } = this.props;
+    if (nextProps.value !== value) {
+      this.storeCaretPos();
+    }
+  }
+
+  //  On unmounting, we stop listening for the insert event.
   componentWillUnmount () {
     const { handleInsert } = this;
     DOMForget(DOMEventInsert, handleInsert);
   }
 
-  //  We get the value of the component on mounting.
-  componentDidMount () {
-    const { getContents } = this;
-    const { onChange } = this.props;
-    if (onChange) onChange(getContents());
+  //  If our component updates, then we need to restore the caret
+  //  afterwards.
+  componentDidUpdate (prevProps) {
+    const { value } = this.props;
+    if (prevProps.value !== value) {
+      this.restoreCaretPos();
+    }
   }
 
   //  This gets the contents of the text area.  This is a little more
   //  complicated than it would otherwise be since we have to account
-  //  for `<br>`s.  We walk the tree of our element and collect the
-  //  content of every text node, additionally inserting a `'\n'` for
-  //  each `<br>` we find.  In essence, this is just a `<br>`-aware
-  //  `Element.textContent`.
+  //  for `<br>`s and `<img>s`.  We walk the tree of our element and
+  //  collect the content of every text node, additionally inserting
+  //  a `'\n'` for each `<br>` we find, as well as replacing images
+  //  with their alt-text.  In essence, this is just a `<br>`- and
+  //  `<img>`-aware `Element.textContent`.
   getContents () {
-    const { input } = this;
-    if (!input) {
+    const { node } = this;
+    if (!node) {
       return '\n';
     }
-    let wkr = document.createTreeWalker(input, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT, {
-      acceptNode (node) {
-        const nodeName = node.nodeName.toUpperCase();
+    let wkr = document.createTreeWalker(node, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT, {
+      acceptNode (nde) {
+        const nodeName = nde.nodeName.toUpperCase();
         switch (true) {
-        case node.nodeType === Node.TEXT_NODE:
+        case nde.nodeType === Node.TEXT_NODE:
         case nodeName === 'BR':
         case nodeName === 'IMG':
           return NodeFilter.FILTER_ACCEPT;
@@ -135,25 +162,25 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
   insertContent (content) {
     const {
       getContents,
-      input,
+      node,
     } = this;
     const { onChange } = this.props;
-    const node = content instanceof Node ? content : document.createTextNode(content);
+    const nde = content instanceof Node ? content : document.createTextNode(content);
     const sel = window.getSelection();
     if (sel && sel.rangeCount) {
       const rng = sel.getRangeAt(0);
-      if (input.contains(rng.commonAncestorContainer)) {
+      if (node.contains(rng.commonAncestorContainer)) {
         rng.deleteContents();
-        rng.insertNode(node);
-        rng.setEndAfter(node);
+        rng.insertNode(nde);
+        rng.setEndAfter(nde);
         rng.collapse(false);
         sel.removeAllRanges();
         sel.addRange(rng);
       } else {
-        input.insertBefore(node, input.lastChild);
+        node.insertBefore(nde, node.lastChild);
       }
     } else {
-      input.insertBefore(node, input.lastChild);
+      node.insertBefore(nde, node.lastChild);
     }
     if (onChange) {
       onChange(getContents());
@@ -164,15 +191,18 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
   //  value whenever something happens to our textbox.  However, if the
   //  user types "enter" then we need to ensure that the result is just
   //  a simple `<br>` element and not some weird `<div>`-induced magic
-  //  that browsers like Chrome (and now Firefox) like to pull.
+  //  that browsers like Chrome (and now Firefox) like to pull.  We
+  //  also need to keep track of compositions so that we don't
+  //  accidentially break them with a re-render.
   handleEvent (e) {
     const {
       composing,
       getContents,
-      input,
       insertContent,
+      node,
     } = this;
     const { onChange } = this.props;
+    let img, nde, rng, sel;
     switch (e.type) {
     case 'compositionstart':
       this.composing = true;
@@ -181,7 +211,6 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
       this.composing = false;
       return;
     case 'keydown':
-      let img, nde, rng, sel;
       switch (e.key) {
       case 'Enter':
         e.preventDefault();
@@ -190,11 +219,11 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
       case 'Backspace':
         if ((sel = window.getSelection()) && sel.rangeCount) {
           rng = sel.getRangeAt(0);
-          if (rng.collapsed && input.contains(rng.startContainer)) {
-            if (rng.startContainer !== input && rng.startOffset === 0) {
+          if (rng.collapsed && node.contains(rng.startContainer)) {
+            if (rng.startContainer !== node && rng.startOffset === 0) {
               img = rng.startContainer.previousSibling;
-            } else if (rng.startContainer === input) {
-              img = input.childNodes.item(rng.startOffset - 1);
+            } else if (rng.startContainer === node) {
+              img = node.childNodes.item(rng.startOffset - 1);
             }
             if (img && img.nodeName.toUpperCase() === 'IMG') {
               e.preventDefault();
@@ -214,11 +243,11 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
       case 'Delete':
         if ((sel = window.getSelection()) && sel.rangeCount) {
           rng = sel.getRangeAt(0);
-          if (rng.collapsed && input.contains(rng.endContainer)) {
-            if (rng.endContainer !== input && rng.endOffset === (rng.endContainer.nodeType === Node.TEXT_NODE ? rng.endContainer.textContent : rng.endContainer.childNodes).length) {
+          if (rng.collapsed && node.contains(rng.endContainer)) {
+            if (rng.endContainer !== node && rng.endOffset === (rng.endContainer.nodeType === Node.TEXT_NODE ? rng.endContainer.textContent : rng.endContainer.childNodes).length) {
               img = rng.endContainer.nextSibling;
-            } else if (rng.endContainer === input) {
-              img = input.childNodes.item(rng.endOffset);
+            } else if (rng.endContainer === node) {
+              img = node.childNodes.item(rng.endOffset);
             }
             if (img && img.nodeName.toUpperCase() === 'IMG') {
               e.preventDefault();
@@ -244,13 +273,20 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     }
   }
 
+  //  When we get an insert event, we just `insertContent()`.
   handleInsert ({ detail: { text } }) {
     const { insertContent } = this;
     insertContent(text);
   }
 
+  //  Storing a reference to our node.
+  handleRef (node) {
+    this.node = node;
+  }
+
   //  Storing our caret position.
   storeCaretPos () {
+    const { node } = this;
 
     //  We store the current selection with `sel` and the current range
     //  of the selection with `rng`.
@@ -265,7 +301,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     //  set the endpoint of the range to be the endpoint of our current
     //  selection.
     const pre = rng.cloneRange();
-    pre.selectNodeContents(this.input);
+    pre.selectNodeContents(node);
     pre.setEnd(rng.endContainer, rng.endOffset);
 
     //  This next line tells us how many line breaks were in the
@@ -285,12 +321,15 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
   //  Restoring our caret position.  The `offset` argument can be used
   //  to adjust where to place the caret.
   restoreCaretPos (offset = 0) {
-    const { input, caret } = this;
+    const {
+      caret,
+      node,
+    } = this;
     const { value } = this.props;
-    if (!input) return;
+    if (!node) return;
     const sel = window.getSelection();
     const rng = document.createRange();
-    const wkr = document.createTreeWalker(input);
+    const wkr = document.createTreeWalker(node);
     const dst = caret + offset;
     let idx = 0;
     let nde = null;
@@ -331,33 +370,13 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
       if (nde.nodeType === Node.TEXT_NODE) rng.setEnd(nde, dst - idx);
       else rng.selectNode(nde);
     } else if (
-      input.lastChild &&
-      input.lastChild.nodeName.toUpperCase() === 'BR'
-    ) rng.setEnd(input, input.childNodes.length - 1);
-    else rng.selectNodeContents(input);
+      node.lastChild &&
+      node.lastChild.nodeName.toUpperCase() === 'BR'
+    ) rng.setEnd(node, node.childNodes.length - 1);
+    else rng.selectNodeContents(node);
     rng.collapse(false);
     sel.removeAllRanges();
     sel.addRange(rng);
-  }
-
-  //  We use `componentWillUpdate()` to grab the caret position before
-  //  updating, and `componentDidUpdate()` to set it afterwards.
-  componentWillUpdate (nextProps) {
-    const { value } = this.props;
-    if (nextProps.value !== value) {
-      this.storeCaretPos();
-    }
-  }
-  componentDidUpdate (prevProps) {
-    const { value } = this.props;
-    if (prevProps.value !== value) {
-      this.restoreCaretPos();
-    }
-  }
-
-  //  Storing a reference to our input.
-  handleRef (input) {
-    this.input = input;
   }
 
   //  Rendering.
@@ -578,6 +597,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     this.cache = result;
     this.lastRenderedString = value;
 
+    //  Finally we can insert our result into our `<div>` and render.
     return (
       <div
         aria-label={ℳ.label}
@@ -599,6 +619,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
 
 }
 
+//  Props.
 ConnectedComposerTextArea.propTypes = {
   autoplay: PropTypes.bool,
   className: PropTypes.string,

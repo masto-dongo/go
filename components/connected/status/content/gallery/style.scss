@@ -1,52 +1,47 @@
-@import 'variables';
+@charset "UTF-8";
 
-.glitch.glitch__status__content__gallery {
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--CONNECTED--STATUS--CONTENT--GALLERY {
   display: block;
   position: relative;
-  color: $ui-primary-color;
-  background: $base-shadow-color;
+  color: $mastodon_go_media_color;
+  background: $mastodon_go_media_background;
 
-  .gallery\\button {
+  & > *.button {
     position: absolute;
+    top: 0;
+    left: 0;
     margin: .35em;
-    border-radius: .35em;
     padding: .1625em;
     height: 1em;  // 1 + 2*.35 + 2*.1625 = 1.5*1.35
-    color: $primary-text-color;
-    background: $base-overlay-background;
+    color: $mastodon_go_media_color;
+    background: $mastodon_go_media_background;
     font-size: 1em;
     line-height: 1;
     opacity: .7;
 
-    &:hover {
-      opacity: 1;
-    }
-
-    &.gallery\\sensitive {
-      top: 0;
-      left: 0;
-    }
+    &:hover { opacity: 1 }
   }
 
-  .gallery\\curtain.gallery\\sensitive {
+  & > *.curtain {
     display: block;
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    border-radius: 0;
+    margin: 0;
     padding: 0;
-    color: $ui-secondary-color;
-    background: $base-overlay-background;
+    color: $mastodon_go_media_color;
+    background: $mastodon_go_media_background;
     font-size: (1.25em / 1.35);  //  approx. .925em
     line-height: 1.35;
     text-align: center;
     white-space: nowrap;
     cursor: pointer;
-    transition: color ($glitch-animation-speed * .15s) ease-in;
 
-    .gallery\\message {
+    span {
       display: block;
       position: absolute;
       top: 0;
@@ -55,20 +50,17 @@
       right: 0;
       height: 2.6em;
       margin: auto;
+      opacity: .7;
 
-      .gallery\\warning {
+      strong {
         display: block;
         font-size: (1.35em / 1.25);
-        line-height: 1.35;
+        line-height: 1.25;
       }
     }
 
     &:active,
     &:focus,
-    &:hover {
-      color: $primary-text-color;
-      background: $base-overlay-background;  //  No change
-      transition: color ($glitch-animation-speed * .3s) ease-out;
-    }
+    &:hover { opacity: 1 }
   }
 }

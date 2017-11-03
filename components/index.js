@@ -1,6 +1,9 @@
 //  <MastodonGO>
 //  ============
 
+//  See the subfolders for various components.  Here we just provide
+//  the necessary provider components for routing our `<RoutedUI>`.
+
 //  * * * * * * *  //
 
 //  Imports
@@ -11,15 +14,13 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-//  Higher-order component imports.
+//  Component imports.
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 import {
   BrowserRouter,
   Route,
 } from 'react-router-dom';
-
-//  Routed imports.
 import { RoutedUI } from './routed';
 
 //  Stylesheet imports.
@@ -33,6 +34,7 @@ import './style.scss';
 //  Component definition.
 export default class MastodonGO extends React.Component {
 
+  //  Constructor.
   constructor (props) {
     super(props);
 
@@ -45,6 +47,8 @@ export default class MastodonGO extends React.Component {
     this.konami = 0;
   }
 
+  //  We set up keydown listeners on the body when mounting and remove
+  //  them when unmounting.
   componentWillMount () {
     const { handleKeyDown } = this;
     document.body.addEventListener('keydown', handleKeyDown, true);
@@ -55,6 +59,7 @@ export default class MastodonGO extends React.Component {
   }
 
   //  Big professional companies aren't allowed to have code like this.
+  //  So we will in their stead.
   handleKeyDown (e) {
     const { konami } = this;
     const { konamiActive } = this.state;
@@ -90,6 +95,7 @@ export default class MastodonGO extends React.Component {
     }
   }
 
+  //  Rendering.
   render () {
     const {
       className,
@@ -101,7 +107,8 @@ export default class MastodonGO extends React.Component {
     const { konamiActive } = this.state;
     const computedClass = classNames('MASTODON_GO', { konami: konamiActive }, className);
 
-    //  Rendering.
+    //  We just render a bunch of providers and our `<RoutedUI>` inside
+    //  a `<div>`.
     return (
       <div
         className={computedClass}
@@ -128,9 +135,9 @@ export default class MastodonGO extends React.Component {
 
 MastodonGO.propTypes = {
   className: PropTypes.string,
-  locale: PropTypes.string.isRequired,
-  messages: PropTypes.object.isRequired,
-  store: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired,  //  The locale to use with our frontend
+  messages: PropTypes.object.isRequired,  //  Locale messages for our frontend
+  store: PropTypes.object.isRequired,  //  Our redux store
 };
 
 //  * * * * * * *  //
@@ -138,17 +145,9 @@ MastodonGO.propTypes = {
 //  Exports
 //  -------
 
-//  Common exports.
+//  Named exports.
 export * from './common';
-
-//  Connected exports.
 export * from './connected';
-
-//  Panelled exports.
 export * from './panelled';
-
-//  Raw exports.
 export * from './raw';
-
-//  Routed exports.
 export * from './routed';

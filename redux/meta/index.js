@@ -12,7 +12,7 @@ import {
   Map as ImmutableMap,
 } from 'immutable';
 
-//  Requests.
+//  Request imports.
 import loadMeta from './load';
 
 //  Action types.

@@ -1,3 +1,11 @@
+//  <PanelledCourierSettings>
+//  =========================
+
+//  Our courier settings are just a list of toggles, broken up into
+//  sections.
+
+//  * * * * * * *  //
+
 //  Imports
 //  -------
 
@@ -21,7 +29,6 @@ import './style.scss';
 export default function PanelledCourierSettings ({
   className,
   ℳ,
-  //  `...rest` doesn't make sense for panels
 }) {
   const computedClass = classNames('MASTODON_GO--PANELLED--COURIER--SETTINGS', className);
 

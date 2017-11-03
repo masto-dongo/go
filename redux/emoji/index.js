@@ -4,7 +4,7 @@ import {
   Map as ImmutableMap,
 } from 'immutable';
 
-//  Requests.
+//  Request imports.
 import fetchEmoji from './fetch';
 
 //  Action types.

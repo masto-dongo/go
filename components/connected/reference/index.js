@@ -1,5 +1,9 @@
-//  <Reference>
-//  ===========
+//  <ConnectedReference>
+//  ====================
+
+//  This component creates a "smart" reference to one of the various
+//  linkable types—attachment, card, mention, tag.  The props specify
+//  the nature of the reference.
 
 //  * * * * * * *  //
 
@@ -16,14 +20,14 @@ import { createStructuredSelector } from 'reselect';
 //  DOM imports.
 import { DOMEventNavigate } from 'themes/mastodon-go/DOM';
 
-//  Requests.
-import { fetchAccount } from 'themes/mastodon-go/redux';
-
 //  Component imports.
 import {
   CommonButton,
   CommonLink,
 } from 'themes/mastodon-go/components';
+
+//  Request imports.
+import { fetchAccount } from 'themes/mastodon-go/redux';
 
 //  Stylesheet imports.
 import './style.scss';
@@ -40,6 +44,7 @@ import { MEDIA_TYPE } from 'themes/mastodon-go/util/constants';
 //  Component definition.
 class Reference extends React.PureComponent {
 
+  //  Constructor.
   constructor (props) {
     super(props);
     const { '💪': { fetch } } = props;
@@ -52,6 +57,8 @@ class Reference extends React.PureComponent {
     fetch();
   }
 
+  //  We navigate to profiles/tagged timelines when a mention/tag is
+  //  clicked.
   handleClick () {
     const {
       mention,
@@ -77,7 +84,6 @@ class Reference extends React.PureComponent {
       tagName,
       ℳ,
       '🏪': {
-        at,
         href,
         mediaType,
         title,
@@ -142,7 +148,7 @@ class Reference extends React.PureComponent {
           className={computedClass}
           href={href}
           onClick={handleClick}
-          title={title || '@' + at}
+          title={title}
         >
           <code>
             {showAt && username ? <span className='at'>@</span> : null}
@@ -159,7 +165,7 @@ class Reference extends React.PureComponent {
           className={computedClass}
           href={href}
           onClick={handleClick}
-          title={ℳ.hashtag.withValues({ tagName })}
+          title={title}
         >
           <b>
             {showHash ? <span className='hash'>#</span> : null}
@@ -176,21 +182,22 @@ class Reference extends React.PureComponent {
 
 }
 
+//  Props.
 Reference.propTypes = {
-  attachment: PropTypes.string,
-  card: PropTypes.string,
+  attachment: PropTypes.string,  //  The id of an attachment
+  card: PropTypes.string,  //  The id of a status with a card
   className: PropTypes.string,
-  mention: PropTypes.string,
-  showAt: PropTypes.bool,
-  showHash: PropTypes.bool,
-  tagName: PropTypes.string,
+  mention: PropTypes.string,  //  The id of a mentioned account
+  showAt: PropTypes.bool,  //  `true` if the mention should be prefixed with an @
+  showHash: PropTypes.bool,  //  `true` if the tag should be prefixed with a #
+  tagName: PropTypes.string,  //  A hashtag name
   ℳ: PropTypes.func,
   '🏪': PropTypes.shape({
-    at: PropTypes.string,
-    href: PropTypes.string,
-    mediaType: PropTypes.number,
-    title: PropTypes.string,
-    username: PropTypes.string,
+    at: PropTypes.string,  //  The @ of a mentioned account
+    href: PropTypes.string,  //  The external link that the reference points to
+    mediaType: PropTypes.number,  //  The `MEDIA_TYPE` of the reference, if applicable
+    title: PropTypes.string,  //  A label for the reference
+    username: PropTypes.string,  //  The username of a mentioned account
   }).isRequired,
   '💪': PropTypes.objectOf(PropTypes.func).isRequired,
 };
@@ -200,6 +207,7 @@ Reference.propTypes = {
 //  Connecting
 //  ----------
 
+//  Connecting our component.
 var ConnectedReference = connect(
 
   //  Component.
@@ -207,7 +215,6 @@ var ConnectedReference = connect(
 
   //  Store.
   createStructuredSelector({
-    at: (state, { mention }) => mention ? state.getIn(['account', mention, 'at']) : null,
     href: (state, {
       attachment,
       card,
@@ -238,9 +245,9 @@ var ConnectedReference = connect(
       case !!card:
         return state.getIn(['card', card, 'title']);
       case !!mention:
-        return state.getIn(['account', mention, 'at']);
+        return '@' + state.getIn(['account', mention, 'at']);
       case !!tagName:
-        return tagName;
+        return '#' + tagName;
       default:
         return null;
       }
@@ -254,11 +261,6 @@ var ConnectedReference = connect(
       defaultMessage: 'Card',
       description: 'Used to label card references',
       id: 'reference.card',
-    },
-    hashtag: {
-      defaultMessage: 'Hashtag #{tagName}',
-      description: 'Used to label hashtag references',
-      id: 'reference.hashtag',
     },
     image: {
       defaultMessage: 'Image',
@@ -289,5 +291,5 @@ var ConnectedReference = connect(
   })
 );
 
+//  Exporting.
 export { ConnectedReference as default };
-

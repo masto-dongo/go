@@ -46,6 +46,12 @@
       line-height: 1;
       text-align: center;
 
+      & > .MASTODON_GO--COMMON--AVATAR {
+        margin: -.375rem;
+        width: 2rem;
+        height: 2rem;
+      }
+
       &:focus,
       &:hover {
         color: $mastodon_go_menu_hover_color;

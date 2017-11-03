@@ -1,4 +1,10 @@
+//  <ConnectedComposerInputMenu>
+//  ============================
 
+//  This component provides a list of tabs for selecting the currently
+//  available input panel.
+
+//  * * * * * * *  //
 
 //  Imports
 //  -------
@@ -19,8 +25,10 @@ import './style.scss';
 //  The component
 //  -------------
 
+//  Component definition.
 export default class ConnectedComposerInputMenu extends React.PureComponent {
 
+  //  Constructor.
   constructor (props) {
     super(props);
 
@@ -31,6 +39,7 @@ export default class ConnectedComposerInputMenu extends React.PureComponent {
     this.handleEmojiClick = onChange.bind(this, 2);
   }
 
+  //  Rendering.
   render () {
     const {
       handleAttachClick,
@@ -43,6 +52,8 @@ export default class ConnectedComposerInputMenu extends React.PureComponent {
       ℳ,
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER--INPUT--MENU', className);
+
+    //  We just render our buttons in order.
     return (
       <div
         className={computedClass}
@@ -79,7 +90,7 @@ export default class ConnectedComposerInputMenu extends React.PureComponent {
 //  Props.
 ConnectedComposerInputMenu.propTypes = {
   className: PropTypes.string,
-  onChange: PropTypes.func,
-  value: PropTypes.number,
+  onChange: PropTypes.func,  //  A function to call to change the current tab
+  value: PropTypes.number,  //  The index of the current tab
   ℳ: PropTypes.func.isRequired,
 };

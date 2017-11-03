@@ -28,8 +28,8 @@ export default function fetchRelationship (ids, force, go, current, api) {
   //  have. If we already have relationships for all of the provided
   //  `ids`, we do nothing.
   const loadedRelationships = current().get('relationship');
-  const newIds = [].concat(ids).filter(
-    id => !!force || loadedRelationships.get(id) === void 0
+  const newIds = force ? [].concat(ids) : [].concat(ids).filter(
+    id => loadedRelationships.get(id) === void 0
   );
   if (!ids.length) {
     return;

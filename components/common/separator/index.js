@@ -1,11 +1,8 @@
 //  <CommonSeparator>
-//  ========
+//  =================
 
-//  For code documentation, please see:
-//  https://glitch-soc.github.io/docs/javascript/glitch/common/separator
-
-//  For more information, please contact:
-//  @kibi@glitch.social
+//  This is an extremely simple component for rendering a separator
+//  which is recognizable via ARIA.
 
 //  * * * * * * *  //
 
@@ -25,23 +22,26 @@ import './style.scss';
 //  The component
 //  -------------
 
-const CommonSeparator = ({
+//  Component definition.
+export default function CommonSeparator ({
   className,
   visible,
   ...rest
-}) => visible ? (
-  <span
-    className={classNames('MASTODON_GO--COMMON--SEPARATOR', className)}
-    {...rest}
-    role='separator'
-  />  //  Contents provided via CSS.
-) : null;
+}) {
+  const computedClass = classNames('MASTODON_GO--COMMON--SEPARATOR', className);
+
+  //  We only render the separator if it is `visible`.
+  return visible ? (
+    <span
+      className={computedClass}
+      {...rest}
+      role='separator'
+    />  //  Contents provided via CSS.
+  ) : null;
+}
 
 //  Props.
 CommonSeparator.propTypes = {
   className: PropTypes.string,
-  visible: PropTypes.bool,
+  visible: PropTypes.bool,  //  Whether the separator should be rendered.
 };
-
-//  Export.
-export default CommonSeparator;

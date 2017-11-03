@@ -1,15 +1,11 @@
-/*********************************************************************\
-|                                                                     |
-|   <Card>                                                            |
-|   ======                                                            |
-|                                                                     |
-|   Cards are stored in redux by status, so `id` refers to a status   |
-|   `id` and not some other kind of identifier.  All of the rest of   |
-|   our card information is pulled in from the store.                 |
-|                                                                     |
-|                                             ~ @kibi@glitch.social   |
-|                                                                     |
-\*********************************************************************/
+//  <ConnectedCard>
+//  ===============
+
+//  Cards are stored in redux by status, so `id` refers to a status
+//  `id` and not some other kind of identifier.  All of the rest of
+//  our card information is pulled in from the store.
+
+//  * * * * * * *  //
 
 //  Imports
 //  -------
@@ -30,6 +26,9 @@ import {
 } from 'themes/mastodon-go/components';
 import ConnectedCardReference from './reference';
 
+//  Request imports.
+import { fetchCard } from 'themes/mastodon-go/redux';
+
 //  Stylesheet imports.
 import './style.scss';
 
@@ -43,139 +42,161 @@ import { CARD_TYPE } from 'themes/mastodon-go/util/constants';
 //  -------------
 
 //  Component definition.
-function Card ({
-  className,
-  '🏪': {
-    author,
-    description,
-    href,
-    html,
-    image,
-    provider,
-    title,
-    type,
-  },
-}) {
-  const computedClass = classNames('MASTODON_GO--CONNECTED--CARD', className);
+class Card extends React.PureComponent {
 
-  //  This generates our card media (image or video).
-  const media = function () {
-    switch (type) {
-    case CARD_TYPE.PHOTO:
-      return (
-        <CommonLink
-          className='image'
-          href={href}
-        >
-          <CommonImage
-            alt={title}
-            staticSrc={image}
-          />
-        </CommonLink>
-      );
-    case CARD_TYPE.VIDEO:
-      return (
-        <div
-          className='video'
-          dangerouslySetInnerHTML={{ __html: html }}
-          title={title}
-        />
-      );
-    default:
-      return null;
+  //  Constructor.
+  constructor (props) {
+    super(props);
+    const { '💪': { fetch } } = this.props;
+
+    //  We need to fetch our card if we don't have it.
+    fetch();
+  }
+
+  //  If our `id` is about to change, we need to fetch the new card.
+  componentWillReceiveProps (nextProps) {
+    const {
+      id,
+      '💪': { fetch },
+    } = this.props;
+    if (id !== nextProps.id) {
+      fetch(nextProps.id);
     }
-  }();
+  }
 
-  //  If we have at least a title or a description, then we can
-  //  render some textual contents.
-  const text = function () {
-    if (title || description) {
-      return (
-        <CommonLink
-          className='description'
-          href={href}
-        >
-          {type === CARD_TYPE.LINK && image ? (
-            <img
-              alt=''
-              className='thumbnail'
-              src={image}
+  //  Rendering.
+  render () {
+    const {
+      className,
+      '🏪': {
+        author,
+        description,
+        href,
+        html,
+        image,
+        provider,
+        title,
+        type,
+      },
+    } = this.props;
+    const computedClass = classNames('MASTODON_GO--CONNECTED--CARD', className);
+
+    //  This generates our card media (image or video).
+    const media = function () {
+      switch (type) {
+      case CARD_TYPE.PHOTO:
+        return (
+          <CommonLink
+            className='image'
+            href={href}
+          >
+            <CommonImage
+              alt={title}
+              staticSrc={image}
             />
-          ) : null}
-          {title ? (
-            <h1>
+          </CommonLink>
+        );
+      case CARD_TYPE.VIDEO:
+        return (
+          <div
+            className='video'
+            dangerouslySetInnerHTML={{ __html: html }}
+            title={title}
+          />
+        );
+      default:
+        return null;
+      }
+    }();
+
+    //  If we have at least a title or a description, then we can
+    //  render some textual contents.
+    const text = function () {
+      if (title || description) {
+        return (
+          <CommonLink
+            className='description'
+            href={href}
+          >
+            {type === CARD_TYPE.LINK && image ? (
+              <img
+                alt=''
+                className='thumbnail'
+                src={image}
+              />
+            ) : null}
+            {title ? (
+              <h1>
+                <ConnectedParse
+                  text={title}
+                  type='emoji'
+                />
+              </h1>
+            ) : null}
+            {description ? (
               <ConnectedParse
-                text={title}
+                text={description}
                 type='emoji'
               />
-            </h1>
-          ) : null}
-          {description ? (
-            <ConnectedParse
-              text={description}
-              type='emoji'
+            ) : null}
+          </CommonLink>
+        );
+      } else {
+        return null;
+      }
+    }();
+
+    //  If we have either the author or the provider, then we can
+    //  render a caption.
+    const caption = function () {
+      if (author || provider) {
+        return (
+          <figcaption>
+            <ConnectedCardReference
+              className='author'
+              href={author.get('href')}
+              name={author.get('name')}
             />
-          ) : null}
-        </CommonLink>
-      );
-    } else {
-      return null;
-    }
-  }();
+            <CommonSeparator visible={author && provider} />
+            <ConnectedCardReference
+              className='provider'
+              href={provider.get('href')}
+              name={provider.get('name')}
+            />
+          </figcaption>
+        );
+      } else {
+        return null;
+      }
+    }();
 
-  //  If we have either the author or the provider, then we can
-  //  render a caption.
-  const caption = function () {
-    if (author || provider) {
-      return (
-        <figcaption>
-          <ConnectedCardReference
-            className='author'
-            href={author.get('href')}
-            name={author.get('name')}
-          />
-          <CommonSeparator visible={author && provider} />
-          <ConnectedCardReference
-            className='provider'
-            href={provider.get('href')}
-            name={provider.get('name')}
-          />
-        </figcaption>
-      );
-    } else {
-      return null;
-    }
-  }();
+    //  Rendering.
+    return (
+      <figure className={computedClass}>
+        {media}
+        {text}
+        {caption}
+      </figure>
+    );
+  }
 
-  //  Putting the pieces together and returning.
-  return (
-    <figure className={computedClass}>
-      {media}
-      {text}
-      {caption}
-    </figure>
-  );
 }
 
 //  Props.
 Card.propTypes = {
   className: PropTypes.string,
-  id: PropTypes.string.isRequired,
-  ℳ: PropTypes.func,
+  id: PropTypes.string.isRequired,  //  The id of the card's status
   '🏪': PropTypes.shape({
-    author: ImmutablePropTypes.map,
-    description: PropTypes.string,
-    height: PropTypes.number,
-    href: PropTypes.string,
-    html: PropTypes.string,
-    image: PropTypes.string,
-    provider: ImmutablePropTypes.map,
-    rainbow: ImmutablePropTypes.map,
-    title: PropTypes.string,
-    type: PropTypes.number.isRequired,
-    width: PropTypes.number,
+    author: ImmutablePropTypes.map,  //  Author information for the card
+    description: PropTypes.string,  //  The card description
+    href: PropTypes.string,  //  The card's link
+    html: PropTypes.string,  //  HTML content for the card
+    image: PropTypes.string,  //  The card's associated image
+    provider: ImmutablePropTypes.map,  //  The provider of the card
+    title: PropTypes.string,  //  The title of the card
+    type: PropTypes.number.isRequired,  //  A `CARD_TYPE`
   }).isRequired,
-  '💪': PropTypes.objectOf(PropTypes.func),
+  '💪': PropTypes.objectOf(PropTypes.func).isRequired,
 };
 
 //  * * * * * * *  //
@@ -198,6 +219,14 @@ var ConnectedCard = connect(
     provider: (state, { id }) => state.getIn(['card', id, 'provider']),
     title: (state, { id }) => state.getIn(['card', id, 'title']),
     type: (state, { id }) => state.getIn(['card', id, 'type']),
+  }),
+
+  //  Messages.
+  null,
+
+  //  Handlers.
+  (go, store, { id }) => ({
+    fetch: (newId = id) => go(fetchCard, newId, false),
   })
 );
 

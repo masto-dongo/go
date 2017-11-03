@@ -1,3 +1,11 @@
+//  <PanelledConversation>
+//  ======================
+
+//  We create a menu out of all of the accounts participating in the
+//  conversation to make them easy to access.
+
+//  * * * * * * *  //
+
 //  Imports
 //  -------
 
@@ -23,9 +31,10 @@ import { moduleOnReady } from 'themes/mastodon-go/util/module';
 //  Connecting
 //  ----------
 
+//  Variable declaration.
 var PanelledConversation;
 
-//  Building our store and handlers.
+//  Building the paneller.
 moduleOnReady(function () {
   PanelledConversation = connect(
 
@@ -70,6 +79,7 @@ moduleOnReady(function () {
     {
       backdrop: ConnectedConversation,
       className: 'MASTODON_GO--PANELLED--CONVERSATION',
+      id: 'th-list',
       menu: function ({
         id,
         ℳ,
@@ -100,4 +110,5 @@ moduleOnReady(function () {
   );
 });
 
+//  Exporting.
 export { PanelledConversation as default };

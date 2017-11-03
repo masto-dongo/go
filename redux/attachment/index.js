@@ -16,7 +16,7 @@
 //  Package imports.
 import { Map as ImmutableMap } from 'immutable';
 
-//  Requests.
+//  Request imports.
 import submitAttachment from './submit';
 
 //  Action types.

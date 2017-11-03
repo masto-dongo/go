@@ -1,3 +1,11 @@
+//  <PanelledCatalogue>
+//  ===================
+
+//  Catalogues are extremely straightforward, with no menus or other
+//  clutter.
+
+//  * * * * * * *  //
+
 //  Imports
 //  -------
 
@@ -19,9 +27,10 @@ import { moduleOnReady } from 'themes/mastodon-go/util/module';
 //  Connecting
 //  ----------
 
+//  Variable declaration.
 var PanelledCatalogue;
 
-//  Building our store and handlers.
+//  Building the paneller.
 moduleOnReady(function () {
   PanelledCatalogue = connect(
 
@@ -66,4 +75,5 @@ moduleOnReady(function () {
   );
 });
 
+//  Exporting.
 export { PanelledCatalogue as default };

@@ -1,17 +1,11 @@
-/*********************************************************************\
-|                                                                     |
-|   <ParseAccountBio>                                                 |
-|   =================                                                 |
-|                                                                     |
-|   Because Mastodon's API gives us HTML and not plain-text, we are   |
-|   forced to do a fair bit of HTML parsing in order to process the   |
-|   bio frontmatter.  Additionally, we need to format links if they   |
-|   appear—in both the bio and the metadata.  And, of course, we'll   |
-|   use a <ParseContainer> to handle any emoji.                       |
-|                                                                     |
-|                                             ~ @kibi@glitch.social   |
-|                                                                     |
-\*********************************************************************/
+//  <ConnectedParseAccountBio>
+//  ==========================
+
+//  We need to format links if they appear—in both the bio and the
+//  metadata.  And, of course, we'll use a <ConnectedParse> to handle
+//  any emoji.
+
+//  * * * * * * *  //
 
 //  Imports
 //  -------
@@ -97,6 +91,6 @@ export default function ConnectedParseAccountBio ({
 //  Props.
 ConnectedParseAccountBio.propTypes = {
   className: PropTypes.string,
-  metadata: ImmutablePropTypes.list,
-  text: PropTypes.string,
+  metadata: ImmutablePropTypes.list,  //  The metadata for the account
+  text: PropTypes.string,  //  The account bio
 };

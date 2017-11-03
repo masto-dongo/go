@@ -1,3 +1,11 @@
+//  <ConnectedSetting>
+//  ==================
+
+//  This component links a `<CommonInput>` or a `<CommonToggle>` with a
+//  setting that is kept in the redux store.
+
+//  * * * * * * *  //
+
 //  Imports
 //  -------
 
@@ -7,15 +15,19 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createStructuredSelector } from 'reselect';
 
-import { changeSetting } from 'themes/mastodon-go/redux';
-
+//  Component imports.
 import {
   CommonInput,
   CommonToggle,
 } from 'themes/mastodon-go/components';
 
+//  Request imports.
+import { changeSetting } from 'themes/mastodon-go/redux';
+
+//  Stylesheet imports.
 import './style.scss';
 
+//  Other imports.
 import connect from 'themes/mastodon-go/util/connect';
 
 //  * * * * * * *  //
@@ -26,9 +38,11 @@ import connect from 'themes/mastodon-go/util/connect';
 //  Component definition.
 class Setting extends React.PureComponent {
 
+  //  Constructor.
   constructor (props) {
     super(props);
 
+    //  Function binding.
     const {
       handleInput,
       handleToggle,
@@ -125,19 +139,19 @@ class Setting extends React.PureComponent {
 
 //  Props.
 Setting.propTypes = {
-  activeIcon: PropTypes.string,
-  activeLabel: PropTypes.node,
+  activeIcon: PropTypes.node,  //  The active icon for a toggle setting
+  activeLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),  //  The active label for a toggle setting
   children: PropTypes.node,
   className: PropTypes.string,
-  disabled: PropTypes.bool,
-  global: PropTypes.bool,
-  inactiveIcon: PropTypes.string,
-  inactiveLabel: PropTypes.node,
-  settingKey: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
-  title: PropTypes.string,
-  type: PropTypes.oneOf(['input', 'toggle']),
+  disabled: PropTypes.bool,  //  `true` if the setting is disabled
+  global: PropTypes.bool,  //  `true` if the setting is a global (stored server-side) setting
+  inactiveIcon: PropTypes.node,  //  The inactive icon for a toggle setting
+  inactiveLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),  //  The inactive label for a toggle setting
+  settingKey: PropTypes.string.isRequired,  //  The key for the setting
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]),  //  The label for the setting
+  type: PropTypes.oneOf(['input', 'toggle']),  //  The setting type
   ℳ: PropTypes.func,
-  '🏪': PropTypes.shape({ value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]) }).isRequired,
+  '🏪': PropTypes.shape({ value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]) }).isRequired,  //  The value of the setting
   '💪': PropTypes.objectOf(PropTypes.func).isRequired,
 };
 
@@ -146,6 +160,7 @@ Setting.propTypes = {
 //  Connecting
 //  ----------
 
+//  Connecting our component.
 var ConnectedSetting = connect(
 
   //  Component.
@@ -162,7 +177,7 @@ var ConnectedSetting = connect(
   //  Messages.
   null,
 
-  //  Result.
+  //  Handlers.
   (go, store, {
     global,
     settingKey,
@@ -171,4 +186,5 @@ var ConnectedSetting = connect(
   })
 );
 
+//  Exporting.
 export { ConnectedSetting as default };

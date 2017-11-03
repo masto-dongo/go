@@ -1,16 +1,11 @@
-/*********************************************************************\
-|                                                                     |
-|   <Conversation>                                                    |
-|   ==============                                                    |
-|                                                                     |
-|   Conversations are essentially just timelines where the expanded   |
-|   status is fixed rather than user-selectable.  And, I mean, they   |
-|   don't update and represent something conceptually different and   |
-|   whatnot, but that doesn't concern us here.                        |
-|                                                                     |
-|                                             ~ @kibi@glitch.social   |
-|                                                                     |
-\*********************************************************************/
+//  <ConnectedConversation>
+//  =======================
+
+//  Conversations are essentially just timelines where the expanded
+//  status is fixed rather than user-selectable.  The API stuff works
+//  differently, but that's a minor detail here.
+
+//  * * * * * * * //
 
 //  Imports
 //  -------
@@ -29,11 +24,11 @@ import {
   ConnectedStatus,
 } from 'themes/mastodon-go/components';
 
-//  Stylesheet imports.
-import './style.scss';
-
 //  Request imports.
 import { fetchConversation } from 'themes/mastodon-go/redux';
+
+//  Stylesheet imports.
+import './style.scss';
 
 //  Other imports
 import connect from 'themes/mastodon-go/util/connect';
@@ -46,14 +41,16 @@ import connect from 'themes/mastodon-go/util/connect';
 //  Component definition.
 class Conversation extends React.Component {  //  Impure
 
-  //  Our constructor goes ahead and prefetches the conversation.
+  //  Constructor.
   constructor (props) {
     super(props);
     const { '💪': { fetch } } = this.props;
+
+    //  We go ahead and prefetch the conversation.
     fetch();
   }
 
-  //  If we receive new props, we need to fetch the new status.
+  //  If we receive new props, we need to fetch the new convo.
   componentWillReceiveProps (nextProps) {
     const {
       id,
@@ -74,6 +71,8 @@ class Conversation extends React.Component {  //  Impure
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--CONVERSATION', className);
 
+    //  We just render our statuses in a list, with the one that
+    //  matches our `id` detailed.
     return (
       <CommonList className={computedClass}>
         {ancestors && descendants ? ancestors.concat(id, descendants).reduce(function (items, item) {
@@ -96,11 +95,11 @@ class Conversation extends React.Component {  //  Impure
 //  Props.
 Conversation.propTypes = {
   className: PropTypes.string,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,  //  The `id` of the detailed status
   ℳ: PropTypes.func,
   '🏪': PropTypes.shape({
-    ancestors: ImmutablePropTypes.list,
-    descendants: ImmutablePropTypes.list,
+    ancestors: ImmutablePropTypes.list,  //  Ancestors of the detailed status
+    descendants: ImmutablePropTypes.list,  //  Descendants of the detailed status
   }).isRequired,
   '💪': PropTypes.objectOf(PropTypes.func).isRequired,
 };
@@ -110,6 +109,7 @@ Conversation.propTypes = {
 //  Connecting
 //  ----------
 
+//  Connecting our component.
 var ConnectedConversation = connect(
 
   //  Component.
@@ -130,4 +130,5 @@ var ConnectedConversation = connect(
   })
 );
 
+//  Exporting.
 export { ConnectedConversation as default };

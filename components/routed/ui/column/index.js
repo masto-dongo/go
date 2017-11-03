@@ -1,60 +1,75 @@
+//  <RoutedUIColumn>
+//  ================
+
+//  This component does all of our routeïng.  Most of the props are
+//  composer things which just get passed straight through.
+
+//  * * * * * * *  //
+
+//  Imports
+//  -------
+
+//  Package imports.
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+
+//  Component imports.
 import Redirect from 'react-router-dom/Redirect';
 import Switch from 'react-router-dom/Switch';
 import Route from 'react-router-dom/Route';
-
 import {
   PanelledCatalogue,
+  PanelledComposer,
   PanelledConversation,
   PanelledCourier,
-  PanelledDrawer,
   PanelledProfile,
   PanelledStart,
   PanelledTimeline,
 } from 'themes/mastodon-go/components';
-
-//  Component imports.
-//import RoutedUIColumnUnknown from './unknown';
-const RoutedUIColumnUnknown = () => null;
+const RoutedUIColumnUnknown = () => null;  //  TK
 
 //  Stylesheet imports.
 import './style.scss';
 
-export default class RoutedUIColumn extends React.PureComponent {
+//  * * * * * * *  //
 
-  render () {
-    const {
-      activeRoute,
-      className,
-      index,
-      location,
-      media,
-      onMediaRemove,
-      onSensitive,
-      onSpoiler,
-      onSubmit,
-      onText,
-      onVisibility,
-      spoiler,
-      text,
-      uploading,
-      visibility,
-      ℳ,
-    } = this.props;
+//  The component
+//  -------------
 
-    const computedClass = classNames('MASTODON_GO--ROUTED--UI--COLUMN', 'column-' + index, className);
+//  Component definition.
+export default function RoutedUIColumn ({
+  activeRoute,
+  className,
+  index,
+  location,
+  media,
+  onMediaRemove,
+  onSensitive,
+  onSpoiler,
+  onSubmit,
+  onText,
+  onVisibility,
+  spoiler,
+  text,
+  uploading,
+  visibility,
+  ℳ,
+}) {
+  const computedClass = classNames('MASTODON_GO--ROUTED--UI--COLUMN', 'column-' + index, className);
 
-    return (
-      <section className={computedClass}>
-        <Switch location={location}>
-          <Redirect
-            exact
-            from='/'
-            to='/start'
-          />
+  //  Rendering.
+  return (
+    <section className={computedClass}>
+      <Switch location={location}>
+        <Redirect
+          exact
+          from='/'
+          to='/start'
+        />
 
+        {
+          //  The start container.
           <Route
             exact
             path='/start'
@@ -67,7 +82,8 @@ export default class RoutedUIColumn extends React.PureComponent {
               );
             }}
           />
-
+        }{
+          //  The courier.
           <Route
             exact
             path='/courier'
@@ -80,13 +96,14 @@ export default class RoutedUIColumn extends React.PureComponent {
               );
             }}
           />
-
+        }{
+          //  The composer.
           <Route
             exact
             path='/compose'
             render={function ({ location: { hash } }) {
               return (
-                <PanelledDrawer
+                <PanelledComposer
                   activeRoute={activeRoute}
                   disabled={uploading}
                   hash={activeRoute ? hash : null}
@@ -104,7 +121,8 @@ export default class RoutedUIColumn extends React.PureComponent {
               );
             }}
           />
-
+        }{
+          //  The home timeline.
           <Route
             exact
             path='/home'
@@ -120,6 +138,8 @@ export default class RoutedUIColumn extends React.PureComponent {
               );
             }}
           />
+        }{
+          //  The global timeline.
           <Route
             exact
             path='/global'
@@ -135,6 +155,8 @@ export default class RoutedUIColumn extends React.PureComponent {
               );
             }}
           />
+        }{
+          //  The local timeline.
           <Route
             exact
             path='/local'
@@ -150,6 +172,8 @@ export default class RoutedUIColumn extends React.PureComponent {
               );
             }}
           />
+        }{
+          //  Hashtag timelines.
           <Route
             exact
             path='/tagged/:query'
@@ -168,6 +192,8 @@ export default class RoutedUIColumn extends React.PureComponent {
               );
             }}
           />
+        }{
+          //  Local hashtag timelines.
           <Route
             exact
             path='/tagged/:query/local'
@@ -186,7 +212,8 @@ export default class RoutedUIColumn extends React.PureComponent {
               );
             }}
           />
-
+        }{
+          //  Favourites catalogues.
           <Route
             exact
             path='/status/:id/favourites'
@@ -205,6 +232,8 @@ export default class RoutedUIColumn extends React.PureComponent {
               );
             }}
           />
+        }{
+          //  Reblogs catalogues.
           <Route
             exact
             path='/status/:id/reblogs'
@@ -223,7 +252,8 @@ export default class RoutedUIColumn extends React.PureComponent {
               );
             }}
           />
-
+        }{
+          //  Profiles.
           <Route
             exact
             path='/profile/:id'
@@ -240,7 +270,8 @@ export default class RoutedUIColumn extends React.PureComponent {
               );
             }}
           />
-
+        }{
+          //  Conversations.
           <Route
             exact
             path='/status/:id'
@@ -257,7 +288,8 @@ export default class RoutedUIColumn extends React.PureComponent {
               );
             }}
           />
-
+        }{
+          //  Not found.
           <Route
             render={function ({ location: { hash } }) {
               return (
@@ -269,28 +301,28 @@ export default class RoutedUIColumn extends React.PureComponent {
               );
             }}
           />
-        </Switch>
-      </section>
-    );
-  }
-
+        }
+      </Switch>
+    </section>
+  );
 }
 
+//  Props.
 RoutedUIColumn.propTypes = {
-  activeRoute: PropTypes.bool,
+  activeRoute: PropTypes.bool,  //  `true` if the column is currently the active route
   className: PropTypes.string,
-  index: PropTypes.number.isRequired,
-  location: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  media: PropTypes.array,
-  onMediaRemove: PropTypes.func,
-  onSensitive: PropTypes.func,
-  onSpoiler: PropTypes.func,
-  onSubmit: PropTypes.func,
-  onText: PropTypes.func,
-  onVisibility: PropTypes.func,
-  spoiler: PropTypes.string,
-  text: PropTypes.string,
-  uploading: PropTypes.bool,
-  visibility: PropTypes.number,
+  index: PropTypes.number.isRequired,  //  The index of the column
+  location: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),  //  The location of the column
+  media: PropTypes.array,  //  Composer media attachments
+  onMediaRemove: PropTypes.func,  //  Composer function for removing media
+  onSensitive: PropTypes.func,  //  Composer function for changing sensitivity
+  onSpoiler: PropTypes.func,  //  Composer function for changing the spoiler
+  onSubmit: PropTypes.func,  //  Composer function for submitting the status
+  onText: PropTypes.func,  //  Composer function for changing the status text
+  onVisibility: PropTypes.func,  //  Composer function for changing the visibility
+  spoiler: PropTypes.string,  //  Composer spoiler
+  text: PropTypes.string,  //  Composer text
+  uploading: PropTypes.bool,  //  `true` if the composer is uploading
+  visibility: PropTypes.number,  //  Composer `VISIBILITY`
   ℳ: PropTypes.func.isRequired,
 };

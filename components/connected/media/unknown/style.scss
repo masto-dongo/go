@@ -2,7 +2,7 @@
 
 @import "themes/mastodon-go/variables";
 
-.MASTODON_GO--CONNECTED--ATTACHMENT--GIFV {
+.MASTODON_GO--CONNECTED--MEDIA--UNKNOWN {
   &.MASTODON_GO--COMMON--BUTTON {
     display: block;
     position: relative;
@@ -13,7 +13,7 @@
     height: 8.1em;
     background-color: $mastodon_go_media_background;
 
-    & > video {
+    & > img {
       display: block;
       position: absolute;
       top: 0;

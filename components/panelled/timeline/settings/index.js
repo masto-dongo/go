@@ -1,19 +1,39 @@
+//  <PanelledTimelineSettings>
+//  ==========================
+
+//  Our timeline settings are just a list of toggles and inputs,
+//  broken up into sections.
+
+//  * * * * * * *  //
+
+//  Imports
+//  -------
+
+//  Package imports.
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+//  Component imports.
 import { ConnectedSetting } from 'themes/mastodon-go/components';
 
+//  Stylesheet imports.
 import './style.scss';
 
+//  * * * * * * *  //
+
+//  The component
+//  -------------
+
+//  Component definition.
 export default function PanelledTimelineSettings ({
   className,
   path,
   ℳ,
-  //  `...rest` doesn't make sense for panels
 }) {
   const computedClass = classNames('MASTODON_GO--PANELLED--TIMELINE--SETTINGS', className);
 
+  //  Rendering.
   return (
     <div className={computedClass}>
       <section>
@@ -46,8 +66,9 @@ export default function PanelledTimelineSettings ({
   );
 };
 
+//  Props.
 PanelledTimelineSettings.propTypes = {
   className: PropTypes.string,
-  path: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,  //  The API path to the timeline
   ℳ: PropTypes.func.isRequired,
 };

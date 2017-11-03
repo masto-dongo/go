@@ -13,7 +13,7 @@
 //  Package imports.
 import { Map as ImmutableMap } from 'immutable';
 
-//  Requests.
+//  Request imports.
 import authorizeRelationship from './authorize';
 import blockRelationship from './block';
 import fetchRelationship from './fetch';
@@ -56,7 +56,7 @@ const set = (state, relationships) => state.withMutations(
         value |= RELATIONSHIP.FOLLOWER;
       }
       if (relationship.following) {
-        value |= RELATIONSHIP.FOLLOW;
+        value |= RELATIONSHIP.FOLLOWED;
       }
       if (relationship.requested) {
         value |= RELATIONSHIP.REQUESTED;

@@ -1,6 +1,16 @@
-//  <UI>
-//  ====
+//  <RoutedUI>
+//  ==========
 
+//  This component holds the state for our composer, so that you can
+//  navigate to and from the composer column without losing your work.
+//  All of the actual routing takes place in `<RoutedUIColumn>`.
+
+//  * * * * * * *  //
+
+//  Imports
+//  -------
+
+//  Package imports.
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -17,15 +27,15 @@ import {
   DOMListen,
 } from 'themes/mastodon-go/DOM';
 
+//  Component imports.
+import RoutedUIColumn from './column';
+import RoutedUIModal from './modal';
+
 //  Request imports.
 import {
   loadMeta,
   submitStatus,
 } from 'themes/mastodon-go/redux';
-
-//  Component imports.
-import RoutedUIColumn from './column';
-import RoutedUIModal from './modal';
 
 //  Stylesheet imports.
 import './style.scss';
@@ -35,8 +45,15 @@ import connect from 'themes/mastodon-go/util/connect';
 import { VISIBILITY } from 'themes/mastodon-go/util/constants';
 import uuid from 'themes/mastodon-go/util/uuid';
 
+//  * * * * * * *  //
+
+//  The component
+//  -------------
+
+//  Component definition.
 class UI extends React.Component {  //  Impure
 
+  //  Constructor.
   constructor (props) {
     super(props);
     const {
@@ -82,6 +99,8 @@ class UI extends React.Component {  //  Impure
     fetch();
   }
 
+  //  If our default visibility changes and our composer is empty, we
+  //  need to reset its visibility to the default.
   componentWillReceiveProps (nextProps) {
     const {
       '🏪': { defaultVisibility },
@@ -96,6 +115,8 @@ class UI extends React.Component {  //  Impure
     }
   }
 
+  //  When mounting, we listen for composer-related events. On
+  //  unmounting, we stop listening.
   componentWillMount () {
     const {
       handleAttach,
@@ -121,6 +142,7 @@ class UI extends React.Component {  //  Impure
     DOMForget(DOMEventUpload, handleUpload);
   }
 
+  //  On attach we simply add the attachment to our `media` array.
   handleAttach ({ detail: { id } }) {
     const { media } = this.state;
     if (media.length < 4) {
@@ -132,6 +154,8 @@ class UI extends React.Component {  //  Impure
     DOMEventNavigate('/compose');
   }
 
+  //  This function clears the composer and replaces it with the given
+  //  contents, navigating to bring it into view.
   handleCompose ({ detail: {
     inReplyTo,
     spoiler,
@@ -151,6 +175,7 @@ class UI extends React.Component {  //  Impure
     DOMEventNavigate('/compose');
   }
 
+  //  This simple function just filters our `media` to remove an `id`.
   handleMediaRemove (id) {
     const { media } = this.state;
     this.setState({
@@ -161,6 +186,7 @@ class UI extends React.Component {  //  Impure
     });
   }
 
+  //  This function ensures that a column is in view.
   handleNavigate ({ detail: { destination } }) {
     const { history } = this.props;
     //  Once we have multi-column support, we will need to check if
@@ -170,6 +196,7 @@ class UI extends React.Component {  //  Impure
     history.push(destination);
   }
 
+  //  This function sets the sensitivity of the media attachments.
   handleSensitive (value) {
     const { sensitive } = this.state;
     this.setState({
@@ -178,6 +205,7 @@ class UI extends React.Component {  //  Impure
     });
   }
 
+  //  This function updates the status spoiler.
   handleSpoiler (spoiler) {
     this.setState({
       idempotency: uuid(),
@@ -185,6 +213,7 @@ class UI extends React.Component {  //  Impure
     });
   }
 
+  //  This function submits the status.
   handleSubmit () {
     const { '💪': { submit } } = this.props;
     const {
@@ -208,6 +237,7 @@ class UI extends React.Component {  //  Impure
     }
   }
 
+  //  This function updates the status text.
   handleText (text) {
     this.setState({
       idempotency: uuid(),
@@ -215,6 +245,7 @@ class UI extends React.Component {  //  Impure
     });
   }
 
+  //  This function handles an active upload.
   handleUpload ({ detail: { completed } }) {
     const { uploading } = this.state;
     if (completed === uploading) {
@@ -222,6 +253,8 @@ class UI extends React.Component {  //  Impure
     }
   }
 
+  //  This function updates the visibility of the status being
+  //  composed.
   handleVisibility (value) {
     this.setState({
       idempotency: uuid(),
@@ -233,6 +266,7 @@ class UI extends React.Component {  //  Impure
 
   //  TK: Push notificaitons
 
+  //  Rendering.
   render () {
     const {
       handleMediaRemove,
@@ -254,11 +288,12 @@ class UI extends React.Component {  //  Impure
       uploading,
       visibility,
     } = this.state;
-
     const computedClass = classNames('MASTODON_GO--ROUTED--UI', className);
 
+    //  TK: Actual column tracking (in the state).
     const columns = { size: 0 };  //  for now
 
+    //  We just pass everything to the `<RoutedUIColumn>` for now.
     return (
       <div className={computedClass}>
         <RoutedUIModal />
@@ -293,7 +328,7 @@ UI.propTypes = {
   match: PropTypes.object,
   staticContext: PropTypes.object,  //  Unused
   ℳ: PropTypes.func.isRequired,
-  '🏪': PropTypes.shape({ defaultVisibility: PropTypes.number }).isRequired,
+  '🏪': PropTypes.shape({ defaultVisibility: PropTypes.number }).isRequired,  //  The default visibility for statuses
   '💪': PropTypes.objectOf(PropTypes.func).isRequired,
 };
 
@@ -302,8 +337,8 @@ UI.propTypes = {
 //  Connecting
 //  ----------
 
-//  Selector factory.
-export default connect(
+//  Connecting our component.
+var RoutedUI = connect(
 
   //  Component.
   UI,
@@ -347,9 +382,12 @@ export default connect(
     },
   }),
 
-  //  Handler.
+  //  Handlers.
   go => ({
     fetch: () => go(loadMeta),
     submit: (text, options) => go(submitStatus, text, options),
   })
 );
+
+//  Exporting.
+export { RoutedUI as default };

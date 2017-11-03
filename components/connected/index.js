@@ -1,11 +1,22 @@
+//  CONNECTED
+//  =========
+
+//  These components are connected to the data in the Redux store.
+
+//  * * * * * * *  //
+
+//  Imports
+//  -------
+
+//  Component imports.
 import ConnectedAccount from './account';
-import ConnectedAttachment from './attachment';
 import ConnectedAvatar from './avatar';
 import ConnectedCard from './card';
 import ConnectedCatalogue from './catalogue';
 import ConnectedComposer from './composer';
 import ConnectedConversation from './conversation';
 import ConnectedCourier from './courier';
+import ConnectedMedia from './media';
 import ConnectedNotification from './notification';
 import ConnectedParse from './parse';
 import ConnectedPreview from './preview';
@@ -15,15 +26,21 @@ import ConnectedSetting from './setting';
 import ConnectedStatus from './status';
 import ConnectedTimeline from './timeline';
 
+//  * * * * * * *  //
+
+//  Exports
+//  -------
+
+//  Named exports.
 export {
   ConnectedAccount,
-  ConnectedAttachment,
   ConnectedAvatar,
   ConnectedCard,
   ConnectedCatalogue,
   ConnectedComposer,
   ConnectedConversation,
   ConnectedCourier,
+  ConnectedMedia,
   ConnectedNotification,
   ConnectedParse,
   ConnectedPreview,

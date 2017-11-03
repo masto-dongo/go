@@ -22,7 +22,7 @@ export const MEDIA        = 0b0100001000;
 
 export const PLAIN        = 0b1000000000;  //  Used with comparisons
 export const FOLLOW       = 0b1000010000;
-export const REQUEST      = 0b1000100000;  //  Speculative
+export const REQUEST      = 0b1000100000;
 export const BLOCK        = 0b1001000000;
 export const MUTE         = 0b1010000000;
 

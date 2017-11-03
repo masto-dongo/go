@@ -1,15 +1,11 @@
-/*********************************************************************\
-|                                                                     |
-|   <AttachmentVideo>                                                 |
-|   =================                                                 |
-|                                                                     |
-|   A lot of the complexity here is just making sure that the video   |
-|   loaded properly.  Why do we do that here but not for GIFVs??  I   |
-|   don't know lol I'm just copying upstream with this one.           |
-|                                                                     |
-|                                             ~ @kibi@glitch.social   |
-|                                                                     |
-\*********************************************************************/
+//  <ConnectedMediaVideo>
+//  =====================
+//
+//  A lot of the complexity here is just making sure that the video
+//  loaded properly.  Why do we do that here but not for GIFVs?? I
+//  don't know lol I'm just copying upstream with this one.
+
+//  * * * * * * *  //
 
 //  Imports:
 //  --------
@@ -20,7 +16,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-//  Common imports.
+//  Component imports.
 import { CommonButton } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
@@ -31,18 +27,23 @@ import './style.scss';
 //  The component
 //  -------------
 
-export default class ConnectedAttachmentVideo extends React.PureComponent {
+export default class ConnectedMediaVideo extends React.PureComponent {
 
+  //  Constructor
   constructor (props) {
     super(props);
+    const { autoplay } = this.props;
 
     //  State.
     this.state = {
       hasAudio: true,
       muted: true,
-      previewVisible: !!this.props.autoplay,
+      previewVisible: !!autoplay,
       videoError: false,
     };
+
+    //  Variables.
+    this.node = null;
 
     //  Function binding.
     const {
@@ -59,9 +60,6 @@ export default class ConnectedAttachmentVideo extends React.PureComponent {
     this.handlePlayPause = handlePlayPause.bind(this);
     this.handleRef = handleRef.bind(this);
     this.handleVideoError = handleVideoError.bind(this);
-
-    //  Variables.
-    this.video = null;
   }
 
 
@@ -70,11 +68,11 @@ export default class ConnectedAttachmentVideo extends React.PureComponent {
     this.setState({ muted: !this.state.muted });
   }
   handlePlayPause () {
-    const { video } = this;
+    const { node } = this;
     if (video.paused) {
-      video.play();
+      node.play();
     } else {
-      video.pause();
+      node.pause();
     }
   }
 
@@ -82,12 +80,13 @@ export default class ConnectedAttachmentVideo extends React.PureComponent {
   //  expand it, depending. Note that when we de-preview the video will
   //  also begin playing due to its `autoplay` attribute.
   handleClick () {
-    const { setState, video } = this;
+    const { node } = this;
     const { onClick } = this.props;
     const { previewVisible } = this.state;
-    if (previewVisible) setState({ previewVisible: false });
-    else {
-      video.pause();
+    if (previewVisible) {
+      this.setState({ previewVisible: false });
+    } else {
+      node.pause();
       onClick(video.currentTime);
     }
   }
@@ -96,8 +95,8 @@ export default class ConnectedAttachmentVideo extends React.PureComponent {
   //  the video has audio imo. There's probably a better way to do this
   //  but that's how upstream has it.
   handleLoadedData () {
-    const { video } = this;
-    if (('WebkitAppearance' in document.documentElement.style && video.audioTracks.length === 0) || video.mozHasAudio === false) {
+    const { node } = this;
+    if (('WebkitAppearance' in document.documentElement.style && node.audioTracks.length === 0) || node.mozHasAudio === false) {
       this.setState({ hasAudio: false });
     }
   }
@@ -109,26 +108,39 @@ export default class ConnectedAttachmentVideo extends React.PureComponent {
   //  listeners. We can't necessarily do this right away because there
   //  might be a preview up.
   componentDidMount () {
-    this.componentDidUpdate();
+    const { componentDidUpdate } = this;
+    componentDidUpdate();
   }
   componentDidUpdate () {
-    const { handleLoadedData, handleVideoError, video } = this;
-    if (!video) return;
-    video.addEventListener('loadeddata', handleLoadedData);
-    video.addEventListener('error', handleVideoError);
+    const {
+      handleLoadedData,
+      handleVideoError,
+      node,
+    } = this;
+    if (!node) {
+      return;
+    }
+    node.addEventListener('loadeddata', handleLoadedData);
+    node.addEventListener('error', handleVideoError);
   }
 
   //  On unmounting, we remove the listeners from the video element.
   componentWillUnmount () {
-    const { handleLoadedData, handleVideoError, video } = this;
-    if (!video) return;
-    video.removeEventListener('loadeddata', handleLoadedData);
-    video.removeEventListener('error', handleVideoError);
+    const {
+      handleLoadedData,
+      handleVideoError,
+      node,
+    } = this;
+    if (!node) {
+      return;
+    }
+    node.removeEventListener('loadeddata', handleLoadedData);
+    node.removeEventListener('error', handleVideoError);
   }
 
   //  Getting a reference to our video.
   handleRef (node) {
-    this.video = node;
+    this.node = node;
   }
 
   //  Rendering.
@@ -145,7 +157,7 @@ export default class ConnectedAttachmentVideo extends React.PureComponent {
       className,
       description,
       href,
-      preview,
+      previewSrc,
       src,
       ℳ,
     } = this.props;
@@ -155,7 +167,7 @@ export default class ConnectedAttachmentVideo extends React.PureComponent {
       previewVisible,
       videoError,
     } = this.state;
-    const computedClass = classNames('MASTODON_GO--CONNECTED--ATTACHMENT--VIDEO', className);
+    const computedClass = classNames('MASTODON_GO--CONNECTED--MEDIA--VIDEO', className);
 
     //  This gets our content: either a preview image, an error
     //  message, or the video.
@@ -165,7 +177,7 @@ export default class ConnectedAttachmentVideo extends React.PureComponent {
         return (
           <img
             alt={description}
-            src={preview.get('src')}
+            src={previewSrc}
             title={description}
           />
         );
@@ -177,7 +189,7 @@ export default class ConnectedAttachmentVideo extends React.PureComponent {
             autoPlay={autoplay}
             loop
             muted={muted}
-            poster={preview.get('src')}
+            poster={previewSrc}
             ref={handleRef}
             src={src}
             title={description}
@@ -223,13 +235,14 @@ export default class ConnectedAttachmentVideo extends React.PureComponent {
 
 }
 
-ConnectedAttachmentVideo.propTypes = {
+//  Props.
+ConnectedMediaVideo.propTypes = {
   autoplay: PropTypes.bool,
   className: PropTypes.string,
   description: PropTypes.string,
   href: PropTypes.string,
   onClick: PropTypes.func,
-  preview: ImmutablePropTypes.map,
+  previewSrc: ImmutablePropTypes.map,
   src: PropTypes.string,
   ℳ: PropTypes.func.isRequired,
 };

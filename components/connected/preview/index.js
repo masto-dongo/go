@@ -1,3 +1,15 @@
+//  <ConnectedPreview>
+//  ==================
+
+//  This component creates the preview panel for the composer. It
+//  generates a faux-status preview and has toggles for visibility
+//  and the like.
+
+//  * * * * * * *  //
+
+//  Imports
+//  -------
+
 //  Package imports
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -19,6 +31,12 @@ import './style.scss';
 import connect from 'themes/mastodon-go/util/connect';
 import { VISIBILITY } from 'themes/mastodon-go/util/constants';
 
+//  * * * * * * *  //
+
+//  The component
+//  -------------
+
+//  Component definition.
 class Preview extends React.PureComponent {
 
   //  Constructor.
@@ -30,12 +48,12 @@ class Preview extends React.PureComponent {
     this.state = { contentVisible: !spoiler };
 
     //  Binding functions.
-    const { setExpansion } = Object.getPrototypeOf(this);
-    this.setExpansion = setExpansion.bind(this);
+    const { handleExpansion } = Object.getPrototypeOf(this);
+    this.handleExpansion = handleExpansion.bind(this);
   }
 
-  //  `setExpansion` handles expanding and collapsing spoilers.
-  setExpansion (value) {
+  //  `handleExpansion` handles expanding and collapsing spoilers.
+  handleExpansion (value) {
     const { contentVisible } = this.state;
     switch (true) {
 
@@ -56,8 +74,9 @@ class Preview extends React.PureComponent {
     }
   }
 
+  //  Rendering.
   render () {
-    const { setExpansion } = this;
+    const { handleExpansion } = this;
     const {
       className,
       disabled,
@@ -79,12 +98,13 @@ class Preview extends React.PureComponent {
     const { contentVisible } = this.state;
     const computedClass = classNames('MASTODON_GO--CONNECTED--PREVIEW', { disabled }, className);
 
+    //  We just render our components in order.
     return (
       <div className={computedClass}>
         <div className='status'>
           <ConnectedAccount
-            history={history}
             id={me}
+            navigable
             small
           />
           <ConnectedPreviewStatus
@@ -92,8 +112,8 @@ class Preview extends React.PureComponent {
             contentVisible={contentVisible}
             emoji={customEmoji}
             media={media}
+            onExpansion={handleExpansion}
             sensitive={sensitive}
-            setExpansion={setExpansion}
             spoiler={spoiler}
             ℳ={ℳ}
           />
@@ -120,31 +140,32 @@ class Preview extends React.PureComponent {
 
 }
 
+//  Props.
 Preview.propTypes = {
   className: PropTypes.string,
-  disabled: PropTypes.bool,
-  inReplyTo: PropTypes.string,
-  media: PropTypes.array,
-  onMediaRemove: PropTypes.func,
-  onSensitive: PropTypes.func,
-  onSpoiler: PropTypes.func,
-  onSubmit: PropTypes.func,
-  onText: PropTypes.func,
-  onUpload: PropTypes.func,
-  onVisibility: PropTypes.func,
-  rehash: PropTypes.func,
-  sensitive: PropTypes.bool,
-  spoiler: PropTypes.string,
-  text: PropTypes.string.isRequired,
-  visibility: PropTypes.number,
+  disabled: PropTypes.bool,  //  `true` if the composer is currently disabled
+  inReplyTo: PropTypes.string,  //  The id of the status this post is in reply to
+  media: PropTypes.array,  //  An array of media attachments
+  onSensitive: PropTypes.func,  //  A function to call when toggling status sensitivity
+  onSubmit: PropTypes.func,  //  A function to call to submit the status
+  onVisibility: PropTypes.func,  //  A function to call to change the status visibility
+  sensitive: PropTypes.bool,  //  `true` if the status has sensitive media
+  spoiler: PropTypes.string,  //  The status spoiler
+  text: PropTypes.string.isRequired,  //  The text of the status
+  visibility: PropTypes.number,  //  The status `VISIBILITY`
   ℳ: PropTypes.func.isRequired,
   '🏪': PropTypes.shape({
-    customEmoji: ImmutablePropTypes.list,
-    me: PropTypes.string,
+    customEmoji: ImmutablePropTypes.list,  //  A list of custom emoji
+    me: PropTypes.string,  //  The current user's id
   }).isRequired,
-  '💪': PropTypes.objectOf(PropTypes.func),
 };
 
+//  * * * * * * *  //
+
+//  Connecting
+//  ----------
+
+//  Connecting our component.
 var ConnectedPreview = connect(
 
   //  Component.
@@ -217,4 +238,5 @@ var ConnectedPreview = connect(
 
 );
 
+//  Exporting.
 export { ConnectedPreview as default };

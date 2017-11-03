@@ -1,20 +1,13 @@
-/*********************************************************************\
-|                                                                     |
-|   <Catalogue>                                                       |
-|   ===========                                                       |
-|                                                                     |
-|   A catalogue is just a list of accounts.  I named it "catalogue"   |
-|   because uhh "Rolodex" is trademarked and also nobody knows what   |
-|   tf that even means anymore.  You hand it a `path` (which should   |
-|   be an API access point which returns a list of accounts) and it   |
-|   displays them all nice and fancy in a list.  This component has   |
-|   been designed for use with our `<UIContainer>` (ie, it includes   |
-|   a menu); it's trivial enough to just render a `<CommonList>` of   |
-|   accounts that we don't need a separate component for that.        |
-|                                                                     |
-|                                             ~ @kibi@glitch.social   |
-|                                                                     |
-\*********************************************************************/
+//  <ConnectedCatalogue>
+//  ====================
+
+//  A catalogue is just a list of accounts.  I named it "catalogue"
+//  because uhhh "Rolodex" is trademarked and also nobody knows what tf
+//  that means anymore.  You hand it a `path` (which should be an API
+//  access point returning a list of accounts) and it displays them all
+//  nice and fancy in a `<CommonList>`.
+
+//  * * * * * * *  //
 
 //  Imports
 //  -------
@@ -31,7 +24,7 @@ import { createStructuredSelector } from 'reselect';
 import {
   CommonButton,
   CommonList,
-  CommonObservable,
+  CommonObserveäble,
   ConnectedAccount,
 } from 'themes/mastodon-go/components';
 
@@ -84,7 +77,7 @@ class Catalogue extends React.Component {  //  Impure
     }
   }
 
-  //  Loads more lol.
+  //  Loads more.
   handleLoadMore () {
     const { '💪': { expand } } = this.props;
     expand();
@@ -92,8 +85,10 @@ class Catalogue extends React.Component {  //  Impure
 
   //  Rendering.
   render () {
+    const { handleLoadMore } = this;
     const {
       className,
+      type,
       ℳ,
       '🏪': {
         accounts,
@@ -103,21 +98,26 @@ class Catalogue extends React.Component {  //  Impure
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--CATALOGUE', className);
 
+    //  This looks a bit complicated, but we're just appending a
+    //  "load more" button to the end of our accounts unless the
+    //  catalogue `isLoading`.
     return (
       <CommonList
         className={computedClass}
         isLoading={isLoading}
+        onScrollToBottom={handleLoadMore}
       >
         {accounts ? accounts.reduce(function (items, id) {
           items.push(
             <ConnectedAccount
               id={id}
               key={id}
+              type={type}
             />
           );
           return items;
         }, []).concat(!isLoading ? (
-          <CommonObservable
+          <CommonObserveäble
             key='loadmore'
             searchText={ℳ.loadMore}
           >
@@ -126,7 +126,7 @@ class Catalogue extends React.Component {  //  Impure
               showTitle
               title={ℳ.loadMore}
             />
-          </CommonObservable>
+          </CommonObserveäble>
         ) : null) : null}
       </CommonList>
     );
@@ -137,12 +137,12 @@ class Catalogue extends React.Component {  //  Impure
 //  Props.
 Catalogue.propTypes = {
   className: PropTypes.string,
-  path: PropTypes.string.isRequired,
-  rehash: PropTypes.func,
+  path: PropTypes.string.isRequired,  //  The API path for the catalogue
+  type: PropTypes.number,  //  A `POST_TYPE` to pass to the accounts
   ℳ: PropTypes.func.isRequired,
   '🏪': PropTypes.shape({
-    accounts: ImmutablePropTypes.list,
-    isLoading: PropTypes.bool,
+    accounts: ImmutablePropTypes.list,  //  The list of accounts
+    isLoading: PropTypes.bool,  //  Whether the catalogue is currently loading
   }).isRequired,
   '💪': PropTypes.objectOf(PropTypes.func).isRequired,
 };
@@ -152,6 +152,7 @@ Catalogue.propTypes = {
 //  Connecting
 //  ----------
 
+//  Connecting our component.
 var ConnectedCatalogue = connect(
 
   //  Component.
@@ -180,4 +181,5 @@ var ConnectedCatalogue = connect(
   })
 );
 
+//  Exporting.
 export { ConnectedCatalogue as default };

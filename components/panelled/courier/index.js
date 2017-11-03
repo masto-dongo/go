@@ -1,3 +1,10 @@
+//  <PanelledCourier>
+//  =================
+
+//  Our settings are stored in `<PanelledCourierSettings>`.
+
+//  * * * * * * *  //
+
 //  Imports
 //  -------
 
@@ -20,9 +27,10 @@ import { moduleOnReady } from 'themes/mastodon-go/util/module';
 //  Connecting
 //  ----------
 
+//  Variable declaration.
 var PanelledCourier;
 
-//  Building our store and handlers.
+//  Building the paneller.
 moduleOnReady(function () {
   PanelledCourier = connect(
 
@@ -130,4 +138,5 @@ moduleOnReady(function () {
   );
 });
 
+//  Exporting.
 export { PanelledCourier as default };

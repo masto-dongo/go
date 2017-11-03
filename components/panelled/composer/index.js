@@ -1,3 +1,11 @@
+//  <PanelledComposer>
+//  ==================
+
+//  We use `<ConnectedComposer>` as our backdrop but also need
+//  `<ConnectedPreview>` for our status previews.
+
+//  * * * * * * *  //
+
 //  Imports
 //  -------
 
@@ -20,11 +28,12 @@ import { moduleOnReady } from 'themes/mastodon-go/util/module';
 //  Connecting
 //  ----------
 
-var PanelledDrawer;
+//  Variable declaration.
+var PanelledComposer;
 
-//  Building our store and handlers.
+//  Building the paneller.
 moduleOnReady(function () {
-  PanelledDrawer = connect(
+  PanelledComposer = connect(
 
     //  Component.
     RawPaneller,
@@ -57,7 +66,7 @@ moduleOnReady(function () {
     //  Panelling.
     {
       backdrop: ConnectedComposer,
-      className: 'MASTODON_GO--PANELLED--DRAWER',
+      className: 'MASTODON_GO--PANELLED--COMPOSER',
       icon: 'pencil-square',
       panels: { preview: ConnectedPreview },
       title: ({ ℳ }) => ℳ.title,
@@ -65,4 +74,5 @@ moduleOnReady(function () {
   );
 });
 
-export { PanelledDrawer as default };
+//  Exporting.
+export { PanelledComposer as default };

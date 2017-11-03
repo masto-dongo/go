@@ -1,3 +1,12 @@
+//  <ConnectedPreviewStatus>
+//  ========================
+
+//  This component renders a preview of the status that will be
+//  submitted from the composer.  It's pretty rough right now—see
+//  Issue #21.
+
+//  * * * * * * *  //
+
 //  Imports
 //  -------
 
@@ -7,6 +16,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
+//  Component imports.
 import {
   CommonButton,
   ConnectedParse,
@@ -20,8 +30,10 @@ import './style.scss';
 //  The component
 //  -------------
 
+//  Component definition.
 export default class ConnectedPreviewStatus extends React.PureComponent {
 
+  //  Constructor.
   constructor (props) {
     super(props);
 
@@ -32,9 +44,9 @@ export default class ConnectedPreviewStatus extends React.PureComponent {
 
   //  This expands and collapses our spoiler.
   handleSpoilerClick () {
-    const { setExpansion } = this.props;
-    if (setExpansion) {
-      setExpansion();  //  Calling with no argument toggles
+    const { onExpansion } = this.props;
+    if (onExpansion) {
+      onExpansion();  //  Calling with no argument toggles
     }
   }
 
@@ -53,6 +65,7 @@ export default class ConnectedPreviewStatus extends React.PureComponent {
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--PREVIEW--STATUS', { spoilered: !contentVisible }, className);
 
+    //  This is the media element that goes with our status.
     const mediaElement = function () {
       switch (true) {
 
@@ -137,14 +150,15 @@ export default class ConnectedPreviewStatus extends React.PureComponent {
 
 }
 
+//  Props.
 ConnectedPreviewStatus.propTypes = {
   className: PropTypes.string,
-  content: PropTypes.string,
-  contentVisible: PropTypes.bool,
-  emoji: ImmutablePropTypes.list,
-  media: PropTypes.array,
-  sensitive: PropTypes.bool,
-  setExpansion: PropTypes.func,
-  spoiler: PropTypes.string,
+  content: PropTypes.string,  //  The content of the status
+  contentVisible: PropTypes.bool,  //  Whether the status content is visible
+  emoji: ImmutablePropTypes.list,  //  A list of custom emoji for the status
+  media: PropTypes.array,  //  The status media
+  onExpansion: PropTypes.func,  //  A function to set the expansion of the status
+  sensitive: PropTypes.bool,  //  `true` if the status contains sensitive media
+  spoiler: PropTypes.string,  //  The contents of the status spoiler
   ℳ: PropTypes.func.isRequired,
 };

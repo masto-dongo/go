@@ -6,7 +6,7 @@ import { applyMiddleware, createStore } from 'redux';
 import { combineReducers } from 'redux-immutable';
 import thunk from 'redux-thunk';
 
-//  Reducers.
+//  Reducer imports.
 import account from './account';
 import attachment from './attachment';
 import card from './card';
@@ -27,6 +27,7 @@ import timeline from './timeline';
 //  Other imports.
 import { moduleOnReady } from 'themes/mastodon-go/util/module';
 
+//  Variable declaration.
 var redux;
 
 //  Our store creator.
@@ -51,9 +52,10 @@ moduleOnReady(function () {
   }), applyMiddleware(thunk));
 });
 
+//  Exporting.
 export { redux as default };
 
-//  Our requests.
+//  Request exports.
 export * from './account';
 export * from './attachment';
 export * from './card';

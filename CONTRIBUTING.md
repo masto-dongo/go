@@ -1,16 +1,25 @@
 #  CONTRIBUTING  #
 
-Before you get all rearing to submit your PR, you should take a moment to consider your approach.
+My ideal world is one in which there are a bajillion different Mastodon frontends, all of which offer slightly different features and configuration options which respond to the specific needs of their community.
+Consequently, I'd honestly rather people spend time developing their own _Mastodon GO!_ forks than try to merge changes into this repository proper.
+That said, maintaining a fork is a lot of work, and for those interested in helping out without that kind of stamina there are things which can be done.
 
-If your approach is “Golly gee, _Mastodon GO!_ does this thing *wrong* and I'm going to make it *right*!”, that's cool and I'm glad you're enthusiastic but you'd probably be better off just forking the software than trying to argue a PR 😜.
-_Mastodon GO!_ does things the way it does for a reason, and if you don't like those things or those reasons then participating in development will probably not be a very fun time for you lol.
+If your patch is just a quick bugfix or some other small change, naturally feel free to submit your PR.
+For longer endeavours, I really encourage you to first *get in touch with me* and talk things out.
+I'm `@kibi@glitch.social` and my mentions are always open.
+
+The reason I recommend doing this is because it will give me a chance to introduce you to the codebase and maybe give some pointers regarding where to start working, some tips for making the merge process go easier, and also (naturally) vet your idea before you wind up spending hours and hours working on it.
+Having written pretty much this entire thing from scratch, nobody knows it better than I do, and I'm happy to help.
+
+If you haven't already been involved with the _Mastodon GO!_ project for a while, sticking to a smaller project is better than trying to attempt a larger one, and anything involving refactoring should definitely only come after extensive discussion.
+_Mastodon GO!_ has… a particular way of going about things, and if you haven't been working with the code for a while then you're not going to be as fluent in its design and approach as someone who has.
+Most everything is architectured the way that it is for a reason, and learning the reasons behind the code is key to being able to write good additions.
 
 In terms of priorities, code that is down-to-earth and accessible is valued above code that is extra-professional or mightily efficient.
 If your thought-process is “I'm going to change X to match Y programming trend or marginally boost Z efficiency,” you should first think about what the consequences of that change will be regarding keeping the codebase straightforward and friendly.
-If you can't implement your change in a simple and inviting manner, you might want to head back to the drawing board and rethink it over.
+If you can't implement your change in a simple and inviting manner, it might be necessary to head back to the drawing board and rethink it over.
 
-That said, if you're thinking “Hey, _Mastodon GO!_ does a ton of stuff right and I really appreciate it, and *for that reason* I want to help make it better!”, first of all, thanks, and secondly, welcome to the club 😉.
-The process for contributing is roughly as follows:
+The ideal process for contributing is roughly as follows:
 
 1.  Develop an implementation of your new feature, bugfix, or solution to the problem.
 
@@ -24,6 +33,5 @@ The process for contributing is roughly as follows:
 
 6.  If everything looks good, the code will get merged.
 
-Not everyone has the same amount of time to spend on this stuff, but as a general rule of thumb, the more time you spend on the first 3 items, the less time it will take for the last 3.
-If what you're developing is a bugfix or small change, jumping into the code is probably fine.
-If it's a larger change or new feature, you should probably open an issue and maybe get approval first, just to be sure that you're not putting a lot of work in for nothing 😅.
+Not everyone has the same amount of time or ability when it comes to working on this stuff, but as a general rule of thumb, the more time you spend on the first 3 items, the less time it will take for the last 3.
+If your code requires extensive rewriting to bring it up to _Mastodon GO!_ standards, it's not *that* much better than us just writing the code from scratch, so try to do what you can to build things correctly from the getgo.

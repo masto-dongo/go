@@ -1,3 +1,11 @@
+//  <PanelledStart>
+//  ===============
+
+//  The contents of the start column are provided by
+//  `<PanelledStartContents>`.
+
+//  * * * * * * *  //
+
 //  Imports
 //  -------
 
@@ -18,9 +26,10 @@ import { moduleOnReady } from 'themes/mastodon-go/util/module';
 //  Connecting
 //  ----------
 
+//  Variable declaration.
 var PanelledStart;
 
-//  Building our store and handlers.
+//  Building the paneller.
 moduleOnReady(function () {
   PanelledStart = connect(
 
@@ -104,4 +113,5 @@ moduleOnReady(function () {
   );
 });
 
+//  Exporting.
 export { PanelledStart as default };

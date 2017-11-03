@@ -13,7 +13,7 @@
 //  Package imports.
 import { Map as ImmutableMap } from 'immutable';
 
-//  Requests.
+//  Request imports.
 import changeSetting from './change';
 
 //  Action types.

@@ -1,8 +1,9 @@
-//  <Status>
-//  ========
+//  <ConnectedStatus>
+//  =================
 
-//  For more information, please contact:
-//  @kibi@glitch.social
+//  This component renders statuses!  It's pretty weighty, but
+//  thankfully some of the work is taken care of for us via
+//  `<ConnectedParse>` and `<ConnectedMedia>`.
 
 //  * * * * * * *  //
 
@@ -20,11 +21,21 @@ import { createStructuredSelector } from 'reselect';
 //  DOM imports.
 import { DOMEventNavigate } from 'themes/mastodon-go/DOM';
 
+//  Component imports.
+import {
+  CommonObserveäble,
+  ConnectedAccount,
+} from 'themes/mastodon-go/components';
+import ConnectedStatusActionBar from './action_bar';
+import ConnectedStatusContent from './content';
+import ConnectedStatusFooter from './footer';
+import ConnectedStatusNav from './nav';
+import ConnectedStatusPrepend from './prepend';
+
 //  Request imports.
 import {
   deleteStatus,
   favouriteStatus,
-  fetchCard,
   fetchStatus,
   muteStatus,
   pinStatus,
@@ -34,17 +45,6 @@ import {
   unpinStatus,
   unreblogStatus,
 } from 'themes/mastodon-go/redux';
-
-//  Component imports.
-import {
-  CommonObservable,
-  ConnectedAccount,
-} from 'themes/mastodon-go/components';
-import ConnectedStatusActionBar from './action_bar';
-import ConnectedStatusContent from './content';
-import ConnectedStatusFooter from './footer';
-import ConnectedStatusNav from './nav';
-import ConnectedStatusPrepend from './prepend';
 
 //  Stylesheet imports.
 import './style.scss';
@@ -91,21 +91,14 @@ const getCard = (state, id) => {
 
 class Status extends React.Component {  //  Impure
 
-  //  Prior to mounting, we fetch the status's card if this is a
-  //  detailed status and we don't already have it.
+  //  Constructor.
   constructor (props) {
     super(props);
     const {
       detailed,
       id,
-      '🏪': {
-        card,
-        spoiler,
-      },
-      '💪': {
-        fetch,
-        card: handleCard,
-      },
+      '🏪': { spoiler },
+      '💪': { fetch },
     } = this.props;
 
     //  State.
@@ -113,42 +106,50 @@ class Status extends React.Component {  //  Impure
 
     //  Binding functions.
     const {
-      handleClick,
-      setExpansion,
+      handleDetail,
+      handleExpansion,
     } = Object.getPrototypeOf(this);
-    this.handleClick = handleClick.bind(this);
-    this.setExpansion = setExpansion.bind(this);
+    this.handleDetail = handleDetail.bind(this);
+    this.handleExpansion = handleExpansion.bind(this);
 
-    //  Fetching the status/card.
+    //  Fetching the status.
     if (id) {
       fetch(id, detailed);
     }
-    if (id && !card && detailed) {
-      handleCard();
-    }
   }
 
-  //  If our component is about to become detailed, we request its card
-  //  if we don't have it.
+  //  If our `id` is about to change, we need to fetch the new status.
+  //  We also update our status if it has just been made `detailed`.
   componentWillUpdate (nextProps) {
     const {
       detailed,
       id,
-      '💪': {
-        fetch,
-        card: handleCard,
-      },
+      '💪': { fetch },
     } = this.props;
     if (nextProps.id && (nextProps.id !== id || nextProps.detailed && !detailed)) {
       fetch(nextProps.id, nextProps.detailed);
-      if (!nextProps['🏪'].card) {
-        handleCard(nextProps.id);
-      }
     }
   }
 
-  //  `setExpansion` handles expanding and collapsing spoilers.
-  setExpansion (value) {
+  //  `handleDetail()` handles setting our detail.
+  handleDetail (e) {
+    const {
+      detailed,
+      id,
+      onDetail,
+    } = this.props;
+    if (onDetail && !(e && (e.button || e.ctrlKey || e.shiftKey || e.altKey || e.metaKey))) {
+      onDetail(detailed ? null : id);
+      if (e) {
+        e.preventDefault();
+      }
+    } else if (!detailed) {
+      DOMEventNavigate(`/status/${id}`);
+    }
+  }
+
+  //  `handleExpansion` handles expanding and collapsing spoilers.
+  handleExpansion (value) {
     const { contentVisible } = this.state;
     switch (true) {
 
@@ -169,29 +170,11 @@ class Status extends React.Component {  //  Impure
     }
   }
 
-  //  `handleClick()` handles all clicking stuff. We route links and
-  //  make our status detailed if it isn't already.
-  handleClick (e) {
-    const {
-      detailed,
-      id,
-      setDetail,
-    } = this.props;
-    if (setDetail && !(e && (e.button || e.ctrlKey || e.shiftKey || e.altKey || e.metaKey))) {
-      setDetail(detailed ? null : id);
-      if (e) {
-        e.preventDefault();
-      }
-    } else if (!detailed) {
-      DOMEventNavigate(`/status/${id}`);
-    }
-  }
-
   //  Puts our element on the screen.
   render () {
     const {
-      handleClick,
-      setExpansion,
+      handleDetail,
+      handleExpansion,
     } = this;
     const {
       className,
@@ -233,13 +216,13 @@ class Status extends React.Component {  //  Impure
       },
     } = this.props;
     const { contentVisible } = this.state;
-
     const computedClass = classNames('MASTODON_GO--CONNECTED--STATUS', {
       detailed,
       direct: !(visibility & ~VISIBILITY.DIRECT),
       small,
     }, className);
 
+    //  We try creäting regex from our `filterRegex` if possible.
     const regex = function (exp) {
       try {
         return exp && new RegExp(exp, 'i');
@@ -248,19 +231,27 @@ class Status extends React.Component {  //  Impure
       }
     }(filterRegex);
 
+    //  If we don't have an `id` or `content`, we don't render
+    //  anything.  In the latter case, it is likely the status is
+    //  still loading.
     if (!id || !content) {
       return null;
     }
 
+    //  The replace function here simply removes the URLs from our
+    //  deHTMLified links.
     const searchText = spoiler + '\n\n' + content.get('plain').replace(/\ufdd0([^]*)\ufdd1([^]*)\ufdd2/g, '$1');
 
+    //  If our `type` matches our `hideIf` or our `regex` matches our
+    //  `searchText`, we don't show the status.
     if (hideIf & type || regex && account !== me && regex.test(searchText)) {
       return null;
     }
 
+    //  If our status is `small` then we only show the account and content.
     if (small) {
       return (
-        <CommonObservable
+        <CommonObserveäble
           className={computedClass}
           id={containerId || id}
           observer={observer}
@@ -278,21 +269,22 @@ class Status extends React.Component {  //  Impure
             emoji={emoji}
             media={media}
             mentions={mentions}
-            onClick={handleClick}
+            onDetail={handleDetail}
+            onExpansion={handleExpansion}
             sensitive={sensitive}
-            setExpansion={setExpansion}
             small
             spoiler={spoiler}
             tags={tags}
             ℳ={ℳ}
           />
-        </CommonObservable>
+        </CommonObserveäble>
       );
     }
 
     //  We can now render our status!
     return (
-      <CommonObservable
+      <CommonObserveäble
+        article
         className={computedClass}
         id={containerId || id}
         observer={observer}
@@ -315,9 +307,9 @@ class Status extends React.Component {  //  Impure
           emoji={emoji}
           media={media}
           mentions={mentions}
-          onClick={handleClick}
+          onDetail={handleDetail}
+          onExpansion={handleExpansion}
           sensitive={sensitive}
-          setExpansion={setExpansion}
           spoiler={spoiler}
           tags={tags}
           ℳ={ℳ}
@@ -335,7 +327,7 @@ class Status extends React.Component {  //  Impure
           detailed={detailed}
           id={id}
           is={is}
-          onDetail={handleClick}
+          onDetail={handleDetail}
           onFavourite={favourite}
           onReblog={reblog}
           onUnfavourite={unfavourite}
@@ -352,7 +344,7 @@ class Status extends React.Component {  //  Impure
             ℳ={ℳ}
           />
         ) : null}
-      </CommonObservable>
+      </CommonObserveäble>
     );
 
   }
@@ -362,36 +354,36 @@ class Status extends React.Component {  //  Impure
 //  Props.
 Status.propTypes = {
   className: PropTypes.string,
-  containerId: PropTypes.string,
-  detailed: PropTypes.bool,
-  filterRegex: PropTypes.string,
-  hideIf: PropTypes.number,
-  id: PropTypes.string,
-  observer: PropTypes.object,
-  setDetail: PropTypes.func,
-  small: PropTypes.bool,
+  containerId: PropTypes.string,  //  The id to be used for intersection observing, if not the same as `id`.
+  detailed: PropTypes.bool,  //  `true` if the status is detailed.
+  filterRegex: PropTypes.string,  //  Regex which should hide the status if found
+  hideIf: PropTypes.number,  //  `POST_TYPE`s which should hide the status if found
+  id: PropTypes.string,  //  The id of the status
+  observer: PropTypes.object,  //  An intersection observer for the status
+  onDetail: PropTypes.func,  //  A function to call to set the detailed condition of the status
+  small: PropTypes.bool,  //  `true` if the status should be rendered small
   ℳ: PropTypes.func,
   '🏪': PropTypes.shape({
-    at: PropTypes.string,
-    account: PropTypes.string,
-    application: ImmutablePropTypes.map,
-    card: ImmutablePropTypes.map,
-    comrade: PropTypes.string,
-    content: ImmutablePropTypes.map,
-    counts: ImmutablePropTypes.map,
-    datetime: PropTypes.instanceOf(Date),
-    emoji: ImmutablePropTypes.list,
-    href: PropTypes.string,
-    inReplyTo: PropTypes.map,
-    is: ImmutablePropTypes.map,
-    me: PropTypes.string,
-    media: ImmutablePropTypes.list,
-    mentions: ImmutablePropTypes.list,
-    sensitive: PropTypes.bool,
-    spoiler: PropTypes.string,
-    tags: ImmutablePropTypes.list,
-    type: PropTypes.number,
-    visibility: PropTypes.number,
+    at: PropTypes.string,  //  The @ of the status's author
+    account: PropTypes.string,  //  The account id of the status's author
+    application: ImmutablePropTypes.map,  //  The application which posted the status
+    card: ImmutablePropTypes.map,  //  The status's card
+    comrade: PropTypes.string,  //  The id of the status's comrade
+    content: ImmutablePropTypes.map,  //  The content of the status
+    counts: ImmutablePropTypes.map,  //  Counts for the status
+    datetime: PropTypes.instanceOf(Date),  //  The `Date` when the status was posted
+    emoji: ImmutablePropTypes.list,  //  The custom emoji for the status
+    href: PropTypes.string,  //  A link to the static page for the status
+    inReplyTo: PropTypes.map,  //  The id of the status that this status is in reply to
+    is: ImmutablePropTypes.map,  //  What the status is (and isn't)
+    me: PropTypes.string,  //  The current user's id
+    media: ImmutablePropTypes.list,  //  The media attached to the status
+    mentions: ImmutablePropTypes.list,  //  A list of mentions contained in the status
+    sensitive: PropTypes.bool,  //  `true` if the status media is sensitive
+    spoiler: PropTypes.string,  //  The content of the status spoiler
+    tags: ImmutablePropTypes.list,  //  A list of tags contained in the status
+    type: PropTypes.number,  //  The `POST_TYPE` of the status
+    visibility: PropTypes.number,  //  The `VISIBILITY` of the status
   }).isRequired,
   '💪': PropTypes.objectOf(PropTypes.func).isRequired,
 };
@@ -442,6 +434,11 @@ var ConnectedStatus = connect(
 
   //  Messages.
   defineMessages({
+    clickToView: {
+      defaultMessage: 'Click to view',
+      description: 'Used as the instructions for the sensitive content and hidden media overlays',
+      id: 'status.clickToView',
+    },
     direct: {
       defaultMessage: 'Direct',
       description: 'Used as the label for a direct status',
@@ -456,6 +453,16 @@ var ConnectedStatus = connect(
       defaultMessage: 'Favourite',
       description: 'Used as the label for the favourite button',
       id: 'status.favourite',
+    },
+    hidden: {
+      defaultMessage: 'Media hidden',
+      description: 'Used as the label for the hidden media overlay',
+      id: 'status.hidden',
+    },
+    hideMedia: {
+      defaultMessage: 'Hide media',
+      description: 'Used as the label for the sensitive content button',
+      id: 'status.hide_media',
     },
     noReblog: {
       defaultMessage: 'This post cannot be boosted',
@@ -502,6 +509,11 @@ var ConnectedStatus = connect(
       description: 'Used as the label for the reply button when a status is part of a conversation',
       id: 'status.reply_all',
     },
+    sensitive: {
+      defaultMessage: 'Sensitive content',
+      description: 'Used as the label for the sensitive content overlay',
+      id: 'status.sensitive',
+    },
     showMore: {
       defaultMessage: 'Show more',
       description: 'Used as the label for the "Show more" button',
@@ -529,9 +541,8 @@ var ConnectedStatus = connect(
     },
   }),
 
-  //  Handler.
+  //  Handlers.
   (go, store, { id }) => ({
-    card: (newId = id) => go(fetchCard, newId),
     delete: (newId = id) => go(deleteStatus, newId),
     favourite: (newId = id) => go(favouriteStatus, newId),
     fetch: (newId = id, force = false) => go(fetchStatus, newId, force),
@@ -545,4 +556,5 @@ var ConnectedStatus = connect(
   })
 );
 
+//  Exporting.
 export { ConnectedStatus as default };

@@ -1,15 +1,11 @@
-/*********************************************************************\
-|                                                                     |
-|   <AttachmentGifv>                                                  |
-|   ================                                                  |
-|                                                                     |
-|   GIFVs are just videos which look like images.  If `autoplay` is   |
-|   set to `false`, you have to hover your mouse over them in order   |
-|   to get them to play.                                              |
-|                                                                     |
-|                                             ~ @kibi@glitch.social   |
-|                                                                     |
-\*********************************************************************/
+//  <ConnectedMediaGifv>
+//  ====================
+
+//  GIFVs are just videos which look like images.  If `autoplay` is set
+//  to `false`, you have to hover your mouse over them in order to get
+//  them to play.
+
+//  * * * * * * *  //
 
 //  Imports:
 //  --------
@@ -18,9 +14,8 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 
-//  Common imports.
+//  Component imports.
 import { CommonButton } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
@@ -32,8 +27,9 @@ import './style.scss';
 //  -------------
 
 //  Component definition.
-export default class ConnectedAttachmentGifv extends React.PureComponent {
+export default class ConnectedMediaGifv extends React.PureComponent {
 
+  //  Constructor
   constructor (props) {
     super(props);
 
@@ -73,11 +69,11 @@ export default class ConnectedAttachmentGifv extends React.PureComponent {
       description,
       href,
       onClick,
-      preview,
+      previewSrc,
       src,
       ℳ,
     } = this.props;
-    const computedClass = classNames('MASTODON_GO--CONNECTED--ATTACHMENT--GIFV', className);
+    const computedClass = classNames('MASTODON_GO--CONNECTED--MEDIA--GIFV', className);
 
     //  We render the gifv inside of a linky button, which provides
     //  provides the original. (We can only do this with a video
@@ -95,7 +91,7 @@ export default class ConnectedAttachmentGifv extends React.PureComponent {
           muted
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          poster={preview.get('src')}
+          poster={previewSrc}
           src={src}
           title={description}
         />
@@ -107,12 +103,12 @@ export default class ConnectedAttachmentGifv extends React.PureComponent {
 
 //  Props.
 ConnectedAttachmentGifv.propTypes = {
-  autoplay: PropTypes.bool,
+  autoplay: PropTypes.bool,  //  Whether to autoplay the GIFV
   className: PropTypes.string,
-  description: PropTypes.string,
-  href: PropTypes.string,
-  onClick: PropTypes.func,
-  preview: ImmutablePropTypes.map,
-  src: PropTypes.string,
+  description: PropTypes.string,  //  The label for the GIFV
+  href: PropTypes.string,  //  The original GIFV file
+  onClick: PropTypes.func,  //  A function to call when clicking the GIFV
+  previewSrc: PropTypes.string,  //  The source of the (static) GIFV preview
+  src: PropTypes.string,  //  The source of the GIFV
   ℳ: PropTypes.func,
 };
