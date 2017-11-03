@@ -38,13 +38,11 @@ export default function ConnectedAttachmentUnknown ({
 
   //  Rendering.
   return (
-    <CommonLink
+    <CommonButton
       className={computedClass}
       href={href}
-    >
-      <CommonIcon name='link' />
-      {description}
-    </CommonLink>
+      icon='link'
+    >{description}</CommonButton>
   );
 }
 

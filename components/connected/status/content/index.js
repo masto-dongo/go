@@ -28,9 +28,6 @@ import ConnectedStatusContentGallery from './gallery';
 //  Stylesheet imports.
 import './style.scss';
 
-//  Other imports.
-import { MEDIA_TYPE } from 'themes/mastodon-go/util/constants';
-
 //  * * * * * * *  //
 
 //  The component
@@ -113,6 +110,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
       contentVisible,
       detailed,
       emoji,
+      id,
       media,
       mentions,
       onClick,
@@ -190,7 +188,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
             <CommonButton
               active={!!contentVisible}
               className='showmore'
-              onClick={onExpand}
+              onClick={onExpansion}
               showTitle={!contentVisible}
               title={ℳ.showMore}
             >

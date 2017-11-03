@@ -16,7 +16,7 @@ import React from 'react';
 
 //  Component imports.
 import ConnectedComposerInputMenu from './menu';
-import ConnectedComposerInputAttachment from './attachment';
+import ConnectedComposerInputAttach from './attach';
 import ConnectedComposerInputEmoji from './emoji';
 
 //  Stylesheet imports.
@@ -78,8 +78,7 @@ export default class ConnectedComposerInput extends React.PureComponent {
           switch (currentTab) {
           case 1:
             return (
-              <ConnectedComposerInputAttachment
-                autoplay={autoplay}
+              <ConnectedComposerInputAttach
                 attachments={attachments}
                 disabled={disabled}
                 formats={formats}

@@ -102,7 +102,7 @@ export default class ConnectedMediaGifv extends React.PureComponent {
 }
 
 //  Props.
-ConnectedAttachmentGifv.propTypes = {
+ConnectedMediaGifv.propTypes = {
   autoplay: PropTypes.bool,  //  Whether to autoplay the GIFV
   className: PropTypes.string,
   description: PropTypes.string,  //  The label for the GIFV

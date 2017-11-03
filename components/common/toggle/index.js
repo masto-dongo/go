@@ -167,18 +167,16 @@ export default class CommonToggle extends React.PureComponent {
     return !activeLabel || !inactiveLabel || compact ? (
       <span
         aria-disabled={!!disabled}
+        className={computedClass}
         onBlur={handleBlur}
         onClick={!disabled ? handleClick : void 0}
         onKeyDown={!disabled ? handleKeyPress : void 0}
         onFocus={handleFocus}
-        className={computedClass}
+        role='radiogroup'
         title={title}
         {...rest}
       >
-        <span
-          className='track'
-          role='radiogroup'
-        >
+        <span className='track'>
           <span
             aria-checked={!isActive}
             onBlur={handleBlur}
@@ -216,11 +214,11 @@ export default class CommonToggle extends React.PureComponent {
     ) : (
       <span
         aria-disabled={!!disabled}
+        className={computedClass}
         onBlur={handleBlur}
         onClick={!disabled ? handleClick : void 0}
         onKeyDown={!disabled ? handleKeyPress : void 0}
         onFocus={handleFocus}
-        className={computedClass}
         role='radiogroup'
         title={title}
         {...rest}

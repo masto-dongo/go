@@ -16,7 +16,7 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
+import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
 //  DOM imports.
@@ -93,7 +93,7 @@ class Account extends React.Component {  //  Impure
   handleClick () {
     const {
       id,
-      navigable
+      navigable,
     } = this.props;
     if (!navigable) {
       return;
@@ -130,7 +130,7 @@ class Account extends React.Component {  //  Impure
         unblock,
         unfollow,
         unmute,
-      }
+      },
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--ACCOUNT', {
       navigable,
@@ -182,9 +182,9 @@ class Account extends React.Component {  //  Impure
                 return [
                   <CommonButton
                     icon='check'
-                    key='approve'
-                    onClick={approve}
-                    title={ℳ.approve}
+                    key='authorize'
+                    onClick={authorize}
+                    title={ℳ.authorize}
                   />,
                   <CommonButton
                     icon='times'
@@ -297,10 +297,10 @@ var ConnectedAccount = connect(
 
   //  Messages.
   defineMessages({
-    approve: {
-      defaultMessage: 'Approve follow request',
-      description: 'Label for the button to approve follow requests',
-      id: 'account.approve',
+    authorize: {
+      defaultMessage: 'Authorize follow request',
+      description: 'Label for the button to authorize follow requests',
+      id: 'account.authorize',
     },
     block: {
       defaultMessage: 'Block',

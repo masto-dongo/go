@@ -88,7 +88,7 @@ export default class ConnectedStatusContentGallery extends React.PureComponent {
           </CommonButton>
         )}
         {this.state.visibile ? useableAttachments.map(
-          attachment => <ConnectedAttachment id={attachment.get('id')}/>
+          attachment => <ConnectedAttachment id={attachment.get('id')} />
         ) : null}
       </div>
     );

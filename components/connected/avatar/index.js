@@ -41,21 +41,31 @@ class Avatar extends React.PureComponent {
   //  Constructor.
   constructor (props) {
     super(props);
-    const { '💪': { fetch } } = this.props;
+    const {
+      comrade,
+      '💪': { fetch },
+    } = this.props;
 
     //  Fetching the account.  This only goes through if the account
     //  isn't already in our store.
     fetch();
+    if (comrade) {
+      fetch(comrade);
+    }
   }
 
   //  If our `id` is about to change, we need to fetch the new account.
   componentWillReceiveProps (nextProps) {
     const {
-      id,
+      account,
+      comrade,
       '💪': { fetch },
     } = this.props;
-    if (id !== nextProps.id) {
-      fetch(nextProps.id);
+    if (id !== nextProps.account) {
+      fetch(nextProps.account);
+    }
+    if (nextProps.comrade && comrade !== nextProps.comrade) {
+      fetch(nextProps.comrade);
     }
   }
 
@@ -151,8 +161,8 @@ var ConnectedAvatar = connect(
   null,
 
   //  Handlers.
-  (go, store, { id }) => ({
-    fetch: (newId = id) => go(fetchAccount, newId, false),
+  (go, store, { account }) => ({
+    fetch: (id = account) => go(fetchAccount, id, false),
   })
 );
 

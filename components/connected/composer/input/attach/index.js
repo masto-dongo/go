@@ -55,7 +55,6 @@ export default class ConnectedComposerInputAttach extends React.PureComponent {
     const { handleChange } = this;
     const {
       attachments,
-      autoplay,
       className,
       disabled,
       formats,
@@ -98,8 +97,8 @@ export default class ConnectedComposerInputAttach extends React.PureComponent {
         {attachments ? attachments.map(
           attachment => (
             <ConnectedMedia
-              id={id}
-              key={id}
+              id={attachment}
+              key={attachment}
             />
           )
         ) : null}
@@ -112,7 +111,6 @@ export default class ConnectedComposerInputAttach extends React.PureComponent {
 //  Props.
 ConnectedComposerInputAttach.propTypes = {
   attachments: PropTypes.array,  //  An array of media attachments
-  autoplay: PropTypes.bool,  //  `true` if attachments should be autoplayed
   className: PropTypes.string,
   disabled: PropTypes.bool,  //  `true` if the composer is disabled
   formats: PropTypes.string,  //  A comma-separated list of acceptable media types

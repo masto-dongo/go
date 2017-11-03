@@ -69,7 +69,7 @@ export default class ConnectedMediaVideo extends React.PureComponent {
   }
   handlePlayPause () {
     const { node } = this;
-    if (video.paused) {
+    if (node.paused) {
       node.play();
     } else {
       node.pause();
@@ -87,7 +87,7 @@ export default class ConnectedMediaVideo extends React.PureComponent {
       this.setState({ previewVisible: false });
     } else {
       node.pause();
-      onClick(video.currentTime);
+      onClick(node.currentTime);
     }
   }
 

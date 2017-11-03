@@ -33,10 +33,7 @@ export default class CommonImage extends React.PureComponent {
     this.state = { hovering: false };
 
     //  Function binding.
-    const {
-      handleMouseEnter,
-      handleMouseLeave,
-    } = Object.getPrototypeOf(this);
+    const { handleMouse } = Object.getPrototypeOf(this);
     this.handleMouseEnter = handleMouse.bind(this, true);
     this.handleMouseLeave = handleMouse.bind(this, false);
   }

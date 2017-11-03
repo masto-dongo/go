@@ -170,7 +170,7 @@ export default class RawPaneller extends React.Component {  //  Impure
                   role='link'
                   title={item.title}
                 />
-              );
+              )
             )
           }
           {function () {

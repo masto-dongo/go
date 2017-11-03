@@ -238,8 +238,9 @@ export default class CommonButton extends React.PureComponent {
 
 //  Props.
 CommonButton.propTypes = {
-  active: PropTypes.bool,  //  Whether the button is active
-  animate: PropTypes.bool,  //  Whether to animate (spin) the button
+  active: PropTypes.bool,  //  `true` if the button is active
+  animate: PropTypes.bool,  //  `true` to animate (spin) the button
+  asText: PropTypes.bool,  //  `true` if the button should be rendered as text regardless of contents
   children: PropTypes.node,
   className: PropTypes.string,
   data: PropTypes.any,  //  For non-link buttons, this will be passed to `onClick`.
@@ -250,6 +251,6 @@ CommonButton.propTypes = {
   passive: PropTypes.bool,  //  `true` if clicking the button shouldn't affect focus
   proportional: PropTypes.bool,  //  `true` if the button icon should be proportional (not fullwidth)
   role: PropTypes.string,  //  The ARIA role of the button, if not `'button'`.
-  showTitle: PropTypes.bool,  //  Whether to render the `title` as visible text
+  showTitle: PropTypes.bool,  //  `true` to render the `title` as visible text
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]),  //  The button's label
 };

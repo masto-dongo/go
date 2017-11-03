@@ -104,7 +104,7 @@ const normalize = (status, oldContent) => {
     }),
     media: ImmutableList((status.media_attachments || []).map(
       attachment => ImmputableMap({
-        id: '' + attachment.id,,
+        id: '' + attachment.id,
         src: ImmutableMap({
           local: '' + attachment.url,
           remote: '' + attachment.remote_url,

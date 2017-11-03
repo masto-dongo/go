@@ -45,7 +45,6 @@ moduleOnReady(function () {
     createStructuredSelector({
       ancestors: (state, { id }) => state.getIn(['conversation', id, 'ancestors']),
       descendants: (state, { id }) => state.getIn(['conversation', id, 'descendants']),
-      status: (state, { id }) => state.getIn(['status', id]),
     }),
 
     //  Messages.
@@ -86,17 +85,16 @@ moduleOnReady(function () {
         '🏪': {
           ancestors,
           descendants,
-          status,
         },
       }) {
         if (!ancestors || !descendants) {
           return [];
         }
-        return ancestors.concat(ImmutableList([status]), descendants).map(
+        return ancestors.concat(ImmutableList([id]), descendants).map(
           item => item ? item.get('account') : null
         ).filter(
           item => !!item
-        ).toOrderedSet().reduce(function (items, item, index) {
+        ).toOrderedSet().reduce(function (items, item) {
           items.push({
             destination: `/profile/${item}`,
             icon: <ConnectedAvatar account={item} />,

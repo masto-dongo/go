@@ -14,7 +14,6 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
@@ -49,7 +48,7 @@ class Media extends React.PureComponent {
   }
 
   //  Click handling.
-  handleClick (time) {
+  handleClick () {
     //  TK
   }
 
@@ -58,7 +57,6 @@ class Media extends React.PureComponent {
     const { handleClick } = this;
     const {
       className,
-      id,
       targetWidth,
       ℳ,
       '🏪': {
@@ -71,7 +69,6 @@ class Media extends React.PureComponent {
         type,
         width,
       },
-      '💪': handler,
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--MEDIA', function () {
       switch (type) {
@@ -96,7 +93,6 @@ class Media extends React.PureComponent {
           description={description}
           href={href}
           onClick={handleClick}
-          previewHeight={previewHeight}
           previewSrc={previewSrc}
           previewWidth={previewWidth}
           src={src}
@@ -161,7 +157,6 @@ Media.propTypes = {
     type: PropTypes.number,  //  A `MEDIA_TYPE`
     width: PropTypes.number,  //  The width of the media
   }).isRequired,
-  '💪': PropTypes.objectOf(PropTypes.func),
 };
 
 //  * * * * * * *  //
@@ -180,18 +175,18 @@ var ConnectedMedia = connect(
     autoplay: state => state.getIn(['meta', 'autoplay']),
     description: (state, { id }) => state.getIn(['attachment', id, 'description']),
     height: (state, { id }) => state.getIn(['attachment', id, 'height']),
-    href: (state, { id }) => state.getIn(['attachment', id, 'href',]),
+    href: (state, { id }) => state.getIn(['attachment', id, 'href']),
     previewSrc: (state, { id }) => state.getIn([
       'attachment',
       id,
       'preview',
-      'src'
+      'src',
     ]),
     previewWidth: (state, { id }) => state.getIn([
       'attachment',
       id,
       'preview',
-      'width'
+      'width',
     ]),
     src: (state, { id }) => state.getIn([
       'attachment',
