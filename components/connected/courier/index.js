@@ -117,7 +117,7 @@ class Courier extends React.Component {  //  Impure
               title={ℳ.loadMore}
             />
           </CommonObserveäble>
-        )}
+        ) : null}
       </CommonList>
     );
   }

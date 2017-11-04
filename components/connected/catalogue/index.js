@@ -128,7 +128,7 @@ class Catalogue extends React.Component {  //  Impure
               title={ℳ.loadMore}
             />
           </CommonObserveäble>
-        )}
+        ) : null}
       </CommonList>
     );
   }
