@@ -37,8 +37,8 @@ export default function CommonIcon ({
 }) {
   const computedClass = classNames('MASTODON_GO--COMMON--ICON', className);
 
-  //  Naturally, we can only render an icon if we were given a `name`.
-  return name ? (
+  //  Naturally, we can only render an icon if we were given one.
+  return icon ? (
     <span
       className={computedClass}
       {...rest}

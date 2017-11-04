@@ -3,9 +3,6 @@ import 'intl';
 import 'intl/locale-data/jsonp/en';
 import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 
-//  Unfortunately Mastodon imports.
-import { getLocale } from 'mastodon/locales';
-
 //  Our imports.
 import MastodonGO from './components';
 import { DOMRoot } from './DOM';
@@ -26,4 +23,4 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 //  Launches the frontend.
-launch(DOMRoot, MastodonGO, redux, getLocale());
+launch(DOMRoot, MastodonGO, redux, {});
