@@ -91,7 +91,12 @@
 
     &:active,
     &:focus,
-    &:hover { opacity: 1 }
+    &:hover {
+      color: $mastodon_go_media_color;
+      background: $mastodon_go_media_background;
+
+      & > span { opacity: 1 }
+    }
   }
 
   &:not(.size-1) {
@@ -99,9 +104,10 @@
     & > .MASTODON_GO--CONNECTED--MEDIA:nth-of-type(even) { left: 50% }
 
     &:not(.size-2) {
-      & > .MASTODON_GO--CONNECTED--MEDIA:nth-child(2),
-      & > .MASTODON_GO--CONNECTED--MEDIA:nth-last-child(4) { bottom: 50% }
-      & > .MASTODON_GO--CONNECTED--MEDIA:nth-last-child(1) { top: 50% }
+      & > .MASTODON_GO--CONNECTED--MEDIA:nth-of-type(2),
+      & > .MASTODON_GO--CONNECTED--MEDIA:nth-last-of-type(4) { bottom: 50% }
+      & > .MASTODON_GO--CONNECTED--MEDIA:nth-of-type(3),
+      & > .MASTODON_GO--CONNECTED--MEDIA:nth-last-of-type(1) { top: 50% }
     }
   }
 }

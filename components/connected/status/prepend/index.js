@@ -91,7 +91,7 @@ export default class ConnectedStatusPrepend extends React.PureComponent {
       <aside className='MASTODON_GO--CONNECTED--STATUS--PREPEND'>
         <CommonIcon
           className={`prepend\\icon prepend\\${type}`}
-          name={type === 'favourite' ? 'star' : 'retweet'}
+          icon={type === 'favourite' ? 'star' : 'retweet'}
         />
         <Message />
       </aside>

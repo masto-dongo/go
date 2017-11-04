@@ -14,6 +14,10 @@
   overflow-y: hidden;
   white-space: nowrap;
 
+  & > .MASTODON_GO--COMMON--BUTTON {
+    &.favourite.active { color: $mastodon_go_content_star }
+  }
+
   &.detailed {
     margin: .625em 0;
     width: 100%;
@@ -24,8 +28,6 @@
       margin: 0;
       border: none;
       padding: 0;
-
-      &.favourite.active { color: $mastodon_go_content_star }
 
       & + .MASTODON_GO--COMMON--BUTTON { margin-left: 1em }
     }

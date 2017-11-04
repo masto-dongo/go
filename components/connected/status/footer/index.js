@@ -80,7 +80,7 @@ export default function ConnectedStatusFooter ({
   if (!detailed) return (
     <footer className={computedClass}>
       <CommonIcon
-        name={visibilityIcon}
+        icon={visibilityIcon}
         proportional
         title={visibilityText}
       />

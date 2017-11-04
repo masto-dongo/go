@@ -73,7 +73,8 @@
       background-color: $mastodon_go_media_hover_background;
     }
 
-    &:active {
+    &:active,
+    *.active {
       color: $mastodon_go_media_active_color;
       background-color: $mastodon_go_media_active_background;
     }
@@ -109,6 +110,19 @@
     }
 
     & > *.MASTODON_GO--CONNECTED--MEDIA { height: 100% }
+  }
+
+  &.disabled {
+    & > *.button {
+      opacity: .7;
+
+      &:active,
+      &:hover,
+      *.active {
+        color: inherit;
+        background-color: transparent;
+      }
+    }
   }
 
   &.empty {

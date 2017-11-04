@@ -82,7 +82,7 @@ export default class ConnectedComposerInputAttach extends React.PureComponent {
       ℳ,
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER--INPUT--ATTACH', {
-      disabled,
+      disabled: disabled || attachments && attachments.length >= 4,
       empty: !attachments || !attachments.length,
     }, className);
     return (
@@ -108,6 +108,7 @@ export default class ConnectedComposerInputAttach extends React.PureComponent {
           //  control over rendering.
           <span className='button'>
             <button
+              className={sensitive ? 'active' : null}
               disabled={disabled}
               onClick={handleSensitive}
               type='button'
