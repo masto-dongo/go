@@ -26,5 +26,9 @@
       width: auto;
       height: 100%;
     }
+
+    &:active,
+    &:focus,
+    &:hover { background-color: $mastodon_go_media_background }
   }
 }

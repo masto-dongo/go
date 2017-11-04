@@ -149,7 +149,7 @@ export default class ConnectedComposerControls extends React.PureComponent {
           title={pooptoot || quickMode ? ℳ.quick : ℳ.preview}
           showTitle
         >
-          {attached ? <span class='attached'>{attached}</span> : null}
+          {attached ? <span className='attached'>{attached}</span> : null}
           <span
             aria-hidden='true'
             className='filler'

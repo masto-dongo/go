@@ -101,13 +101,16 @@ export default class ConnectedComposerInputAttach extends React.PureComponent {
         ) : null}
         {attachments ? attachments.map(
           attachment => (
-            <span className='attachment'>
+            <span
+              className='attachment'
+              key={attachment}
+            >
               <ConnectedMedia
                 id={attachment}
-                key={attachment}
                 targetWidth={200}
               />
               <CommonButton
+                className='close'
                 data={attachment}
                 disabled={disabled}
                 icon='times'

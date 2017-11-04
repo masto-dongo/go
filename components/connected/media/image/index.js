@@ -84,7 +84,7 @@ ConnectedAttachmentImage.propTypes = {
   href: PropTypes.string,  //  The URL of the original image source
   onClick: PropTypes.func,  //  A function to call when clicking the image
   previewSrc: PropTypes.string,  //  The source of the preview image
-  previewWidth: PropTypes.string,  //  The width of the preview image
+  previewWidth: PropTypes.number,  //  The width of the preview image
   src: PropTypes.string,  //  The source of the image
   targetWidth: PropTypes.number,  //  The target width for the image
   width: PropTypes.number,  //  The width of the image
