@@ -65,24 +65,46 @@ import { Emoji } from 'themes/mastodon-go/util/emojify';
 //  Immutable map that we can store. We only keep track of the `id`
 //  of the status's related `account`, `reblog`, and `attachments`—not
 //  their contents.
-const normalize = (status, oldContent) => {
-  const plainContent = oldContent && oldContent.get('html') === '' + status.content ? oldContent.get('plain') : deHTMLify(status.content);
+const normalize = ({
+  account,
+  application,
+  content,
+  created_at,
+  emojis,
+  favourited,
+  favourites_count,
+  id,
+  in_reply_to_account_id,
+  in_reply_to_id,
+  media_attachments,
+  mentions,
+  muted,
+  reblog,
+  reblogged,
+  reblogs_count,
+  sensitive,
+  spoiler_text,
+  tags,
+  url,
+  visibility,
+}, oldContent) {
+  const plainContent = oldContent && oldContent.get('html') === '' + content ? oldContent.get('plain') : deHTMLify(content);
   return ImmutableMap({
-    account: '' + status.account.id,
-    application: ImmutableMap({
-      name: status.application.name,
-      website: status.application.website,
-    }),
+    account: account ? '' + account.id : null,
+    application: application ? ImmutableMap({
+      name: application.name,
+      website: application.website,
+    }) : null,
     content: ImmutableMap({
-      html: '' + status.content,
+      html: '' + content,
       plain: '' + plainContent,
     }),
     counts: ImmutableMap({
-      favourites: +status.favourites_count,
-      reblogs: +status.reblogs_count,
+      favourites: +favourites_count,
+      reblogs: +reblogs_count,
     }),
-    datetime: new Date(status.created_at),
-    emoji: ImmutableList((status.emojis || []).map(
+    datetime: new Date(created_at),
+    emoji: ImmutableList((emojis || []).map(
       emoji => new Emoji({
         name: '' + emoji.shortcode,
         href: '' + emoji.url,
@@ -90,19 +112,19 @@ const normalize = (status, oldContent) => {
         title: ':' + emoji.shortcode + ':',
       })
     )),
-    href: '' + status.url,
-    id: '' + status.id,
-    inReplyTo: status.in_reply_to_id ? ImmutableMap({
-      account: '' + status.in_reply_to_account_id,
-      id: '' + status.in_reply_to_id,
+    href: '' + url,
+    id: '' + id,
+    inReplyTo: in_reply_to_id ? ImmutableMap({
+      account: '' + in_reply_to_account_id,
+      id: '' + in_reply_to_id,
     }) : null,
     is: ImmutableMap({
-      favourited: !!status.favourited,
-      muted: !!status.muted,
-      reblogged: !!status.reblogged,
-      reply: !!status.in_reply_to_id,
+      favourited: !!favourited,
+      muted: !!muted,
+      reblogged: !!reblogged,
+      reply: !!in_reply_to_id,
     }),
-    media: ImmutableList((status.media_attachments || []).map(
+    media: ImmutableList((media_attachments || []).map(
       attachment => ImmutableMap({
         id: '' + attachment.id,
         src: ImmutableMap({
@@ -112,7 +134,7 @@ const normalize = (status, oldContent) => {
         }),
       })
     )),
-    mentions: ImmutableList((status.mentions || []).map(
+    mentions: ImmutableList((mentions || []).map(
       mention => ImmutableMap({
         at: '' + mention.account,
         href: '' + mention.url,
@@ -120,16 +142,16 @@ const normalize = (status, oldContent) => {
         username: '' + mention.username,
       })
     )),
-    reblog: status.reblog ? '' + status.reblog.id : null,
-    sensitive: !!status.sensitive,
-    spoiler: '' + status.spoiler_text,
-    tags: ImmutableList((status.tags || []).map(
+    reblog: reblog ? '' + reblog.id : null,
+    sensitive: !!sensitive,
+    spoiler: spoiler_text ? '' + spoiler_text : '',
+    tags: ImmutableList((tags || []).map(
       tag => ImmutableMap({
         href: '' + tag.url,
         name: '' + tag.name,
       })
     )),
-    visibility: function (visibility) {
+    visibility: function () {
       let value = VISIBILITY.DIRECT;
       switch (visibility) {
       case 'private':
@@ -146,7 +168,7 @@ const normalize = (status, oldContent) => {
         value &= ~VISIBILITY.FEDERATED;
       }
       return value;
-    }(status.visibility),
+    }(),
   });
 };
 
@@ -166,6 +188,9 @@ const set = (state, statuses) => state.withMutations(
     status => {
       if (status) {
         map.set('' + status.id, normalize(status));
+        if (status.reblog) {
+          map.set('' + status.reblog.id, normalize(status.reblog));
+        }
       }
     }
   )
