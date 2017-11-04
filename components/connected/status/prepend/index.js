@@ -41,35 +41,35 @@ export default function ConnectedStatusPrepend ({
   //  Creates our message.
   const message = function () {
     switch (true) {
-    case type & POST_TYPE.REBLOG === POST_TYPE.REBLOG:
+    case (type & POST_TYPE.REBLOG) === POST_TYPE.REBLOG:
       return (
         <ℳ
           name='reblogMessage'
           values={{ comrade: <ConnectedReference mention={comrade} /> }}
         />
       );
-    case type & POST_TYPE.FAVOURITE === POST_TYPE.FAVOURITE:
+    case (type & POST_TYPE.FAVOURITE) === POST_TYPE.FAVOURITE:
       return (
         <ℳ
           name='favouriteMessage'
           values={{ comrade: <ConnectedReference mention={comrade} /> }}
         />
       );
-    case type & POST_TYPE.MENTION === POST_TYPE.MENTION:
+    case (type & POST_TYPE.MENTION) === POST_TYPE.MENTION:
       return (
         <ℳ
           name='mentionMessage'
           values={{ comrade: <ConnectedReference mention={comrade} /> }}
         />
       );
-    case type & POST_TYPE.REBLOGGED === POST_TYPE.REBLOGGED:
+    case (type & POST_TYPE.REBLOGGED) === POST_TYPE.REBLOGGED:
       return (
         <ℳ
           name='rebloggedMessage'
           values={{ comrade: <ConnectedReference mention={comrade} /> }}
         />
       );
-    case type & POST_TYPE.REPLY === POST_TYPE.REPLY:
+    case (type & POST_TYPE.REPLY) === POST_TYPE.REPLY:
       return (
         <ℳ
           name='replyMessage'
