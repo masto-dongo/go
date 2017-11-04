@@ -85,6 +85,7 @@ export default class ConnectedComposerInput extends React.PureComponent {
                 onRemove={onRemove}
                 onSensitive={onSensitive}
                 onUpload={onUpload}
+                sensitive={sensitive}
                 ℳ={ℳ}
               />
             );

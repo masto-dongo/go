@@ -29,7 +29,7 @@ import { CARD_TYPE } from 'themes/mastodon-go/util/constants';
 //  -----
 
 //  `normalize()` normalizes our card into an Immutable map.
-const normalize = card => Object.keys(card).length ? ImmutableMap({
+const normalize = (card, status) => Object.keys(card).length ? ImmutableMap({
   author: card.author ? ImmutableMap({
     href: card.author.url ? '' + card.author.url : null,
     name: card.author.name ? '' + card.author.name : null,
@@ -43,6 +43,7 @@ const normalize = card => Object.keys(card).length ? ImmutableMap({
     href: card.provider.url ? '' + card.provider.url : null,
     name: card.provider.name ? '' + card.provider.name : null,
   }) : null,
+  status: '' + status,
   title: '' + card.title,
   type: (
     type => {
@@ -74,7 +75,7 @@ const initialState = ImmutableMap();
 
 //  `set()` just sets the Immutable map for the given `status` to be a
 //  newly normalized card.
-const set = (state, status, card) => state.set(status, normalize(card));
+const set = (state, status, card) => state.set('' + status, normalize(card, status));
 
 //  * * * * * * *  //
 

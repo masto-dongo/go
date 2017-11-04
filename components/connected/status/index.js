@@ -305,6 +305,7 @@ class Status extends React.Component {  //  Impure
           contentVisible={contentVisible}
           detailed={detailed}
           emoji={emoji}
+          id={id}
           media={media}
           mentions={mentions}
           onDetail={handleDetail}

@@ -103,7 +103,7 @@ const normalize = (status, oldContent) => {
       reply: !!status.in_reply_to_id,
     }),
     media: ImmutableList((status.media_attachments || []).map(
-      attachment => ImmputableMap({
+      attachment => ImmutableMap({
         id: '' + attachment.id,
         src: ImmutableMap({
           local: '' + attachment.url,

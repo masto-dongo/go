@@ -61,7 +61,7 @@ class Avatar extends React.PureComponent {
       comrade,
       '💪': { fetch },
     } = this.props;
-    if (id !== nextProps.account) {
+    if (account !== nextProps.account) {
       fetch(nextProps.account);
     }
     if (nextProps.comrade && comrade !== nextProps.comrade) {

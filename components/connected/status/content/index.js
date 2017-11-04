@@ -260,6 +260,7 @@ ConnectedStatusContent.propTypes = {
   emoji: ImmutablePropTypes.list,  //  A list of custom emoji for the status
   media: ImmutablePropTypes.list,  //  A list of media attachments for the status
   mentions: ImmutablePropTypes.list,  //  A list of mentions for the status
+  id: PropTypes.string,  //  The id of the status
   onClick: PropTypes.func,  //  A function to call when clicking on the status content
   onExpansion: PropTypes.func,  //  A function to call when expanding the spoiler
   sensitive: PropTypes.bool,  //  `true` if the status contains sensitive media

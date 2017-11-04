@@ -229,7 +229,7 @@ class Account extends React.Component {  //  Impure
                       onClick={unfollow}
                       title={ℳ.requested}
                     />
-                  )
+                  );
                 }
                 return relationship & RELATIONSHIP.FOLLOWED ? (
                   <CommonButton

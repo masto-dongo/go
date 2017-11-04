@@ -244,4 +244,6 @@ RawPaneller.propTypes = {
     suppressTitle: PropTypes.bool,  //  `true` if a title for the column should not be visually rendered
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String), PropTypes.func]),  //  The title of the column
   }).isRequired,
+  '🏪': PropTypes.object,
+  '💪': PropTypes.objectOf(PropTypes.func),
 };
