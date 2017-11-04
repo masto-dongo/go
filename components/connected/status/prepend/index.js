@@ -45,35 +45,60 @@ export default function ConnectedStatusPrepend ({
       return (
         <ℳ
           name='reblogMessage'
-          values={{ comrade: <ConnectedReference mention={comrade} /> }}
+          values={{ comrade: (
+            <ConnectedReference
+              mention={comrade}
+              showAt
+            />
+          ) }}
         />
       );
     case (type & POST_TYPE.FAVOURITE) === POST_TYPE.FAVOURITE:
       return (
         <ℳ
           name='favouriteMessage'
-          values={{ comrade: <ConnectedReference mention={comrade} /> }}
+          values={{ comrade: (
+            <ConnectedReference
+              mention={comrade}
+              showAt
+            />
+          ) }}
         />
       );
     case (type & POST_TYPE.MENTION) === POST_TYPE.MENTION:
       return (
         <ℳ
           name='mentionMessage'
-          values={{ comrade: <ConnectedReference mention={comrade} /> }}
+          values={{ comrade: (
+            <ConnectedReference
+              mention={comrade}
+              showAt
+            />
+          ) }}
         />
       );
     case (type & POST_TYPE.REBLOGGED) === POST_TYPE.REBLOGGED:
       return (
         <ℳ
           name='rebloggedMessage'
-          values={{ comrade: <ConnectedReference mention={comrade} /> }}
+          values={{ comrade: (
+            <ConnectedReference
+              mention={comrade}
+              showAt
+            />
+          ) }}
         />
       );
     case (type & POST_TYPE.REPLY) === POST_TYPE.REPLY:
       return (
         <ℳ
           name='replyMessage'
-          values={{ comrade: <ConnectedReference mention={comrade} /> }}
+          values={{ comrade: (
+            <ConnectedReference
+              mention={comrade}
+              showAt
+            />
+          ) }}
         />
       );
     default:
