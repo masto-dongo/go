@@ -285,6 +285,7 @@ class UI extends React.Component {  //  Impure
     } = this.props;
     const {
       media,
+      sensitive,
       spoiler,
       text,
       uploading,
@@ -311,6 +312,7 @@ class UI extends React.Component {  //  Impure
           onText={handleText}
           onUpload={upload}
           onVisibility={handleVisibility}
+          sensitive={sensitive}
           spoiler={spoiler}
           text={text}
           uploading={uploading}

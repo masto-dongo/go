@@ -5,8 +5,24 @@
 .MASTODON_GO--CONNECTED--STATUS--CONTENT--GALLERY {
   display: block;
   position: relative;
+  margin: 0;
+  border: none;
+  padding: 0;
+  width: 100%;
+  height: 8.1em;
   color: $mastodon_go_media_color;
   background: $mastodon_go_media_background;
+  font-size: 1em;
+
+  & > .MASTODON_GO--CONNECTED--MEDIA {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border: 1px transparent solid;
+  }
 
   & > *.button {
     position: absolute;
@@ -62,5 +78,16 @@
     &:active,
     &:focus,
     &:hover { opacity: 1 }
+  }
+
+  &:not(.size-1) {
+    & > .MASTODON_GO--CONNECTED--MEDIA:nth-of-type(odd) { right: 50% }
+    & > .MASTODON_GO--CONNECTED--MEDIA:nth-of-type(even) { left: 50% }
+    
+    &:not(.size-2) {
+      & > .MASTODON_GO--CONNECTED--MEDIA:nth-child(2),
+      & > .MASTODON_GO--CONNECTED--MEDIA:nth-last-child(4) { bottom: 50% }
+      & > .MASTODON_GO--CONNECTED--MEDIA:nth-last-child(1) { top: 50% }
+    }
   }
 }

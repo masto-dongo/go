@@ -88,12 +88,14 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
     return (
       <div className={computedClass}>
         <CommonButton
-          title={replyTitle}
+          className='reply'
           icon={replyIcon}
           onClick={handleReply}
+          title={replyTitle}
         />
         <CommonButton
           active={is.get('reblogged')}
+          className='reblog'
           disabled={!rebloggable}
           icon='retweet'
           onClick={!is.get('reblogged') ? onReblog : onUnreblog}
@@ -102,15 +104,17 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
         <CommonButton
           active={is.get('favourited')}
           animate
+          className='favourite'
           icon='star'
           onClick={!is.get('favourited') ? onFavourite : onUnfavourite}
           title={ℳ.favourite}
         />
         <CommonButton
           active={detailed}
-          title={ℳ.expand}
+          className='detail'
           icon={detailed ? 'minus' : 'plus'}
           onClick={onDetail}
+          title={ℳ.expand}
         />
       </div>
     );

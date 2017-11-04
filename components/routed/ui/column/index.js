@@ -52,6 +52,7 @@ export default function RoutedUIColumn ({
   onText,
   onUpload,
   onVisibility,
+  sensitive,
   spoiler,
   text,
   uploading,
@@ -117,6 +118,7 @@ export default function RoutedUIColumn ({
                   onText={onText}
                   onUpload={onUpload}
                   onVisibility={onVisibility}
+                  sensitive={sensitive}
                   spoiler={spoiler}
                   text={text}
                   visibility={visibility}
@@ -324,6 +326,7 @@ RoutedUIColumn.propTypes = {
   onText: PropTypes.func,  //  Composer function for changing the status text
   onUpload: PropTypes.func,  //  Composer function for uploading media
   onVisibility: PropTypes.func,  //  Composer function for changing the visibility
+  sensitive: PropTypes.bool,  //  `true` if the composer contains sensitive media
   spoiler: PropTypes.string,  //  Composer spoiler
   text: PropTypes.string,  //  Composer text
   uploading: PropTypes.bool,  //  `true` if the composer is uploading

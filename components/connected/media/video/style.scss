@@ -7,8 +7,6 @@
   margin: 0;
   border: none;
   padding: 2.025em 0;
-  width: 100%;
-  height: 8.1em;
   background-color: $mastodon_go_media_background;
 
   & > .MASTODON_GO--COMMON--BUTTON.with_text.box {
@@ -18,7 +16,7 @@
     border: none;
     padding: 0;
     width: 100%;
-    height: 8.1em;
+    height: 100%;
 
     & > img, & > video {
       display: block;

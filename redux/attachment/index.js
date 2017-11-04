@@ -49,36 +49,46 @@ import { MEDIA_TYPE } from 'themes/mastodon-go/util/constants';
 //  -----
 
 //  `normalize()` normalizes our attachment into an Immutable map.
-const normalize = attachment => ImmutableMap({
-  description: '' + attachment.description,
-  height: +((attachment.meta || {}).original || {}).height,
-  href: attachment.remote_url || attachment.url,
-  id: '' + attachment.id,
-  preview: ImmutableMap({
-    height: +((attachment.meta || {}).small || {}).height,
-    src: '' + attachment.preview_url,
-    width: +((attachment.meta || {}).small || {}).width,
-  }),
+const normalize = ({
+  description,
+  height,
+  id,
+  meta,
+  preview_url,
+  remote_url,
+  small,
+  text_url,
+  type,
+  url,
+  width,
+}) => ImmutableMap({
+  description: description ? '' + description : '',
+  height: +((meta || {}).original || {}).height,
+  href: remote_url || url,
+  id: '' + id,
+  preview: preview_url ? ImmutableMap({
+    height: +((meta || {}).small || {}).height,
+    src: '' + preview_url,
+    width: +((meta || {}).small || {}).width,
+  }) : null,
   src: ImmutableMap({
-    local: '' + attachment.url,
-    remote: '' + attachment.remote_url,
-    shortlink: '' + attachment.text_url,
+    local: url ? '' + url : null,
+    remote: remote_url ? '' + remote_url : null,
+    shortlink: text_url ? '' + text_url : null,
   }),
-  type: (
-    (type) => {
-      switch (type) {
-      case 'gifv':
-        return MEDIA_TYPE.GIFV;
-      case 'image':
-        return MEDIA_TYPE.IMAGE;
-      case 'video':
-        return MEDIA_TYPE.VIDEO;
-      default:
-        return MEDIA_TYPE.UNKNOWN;
-      }
+  type: function () {
+    switch (type) {
+    case 'gifv':
+      return MEDIA_TYPE.GIFV;
+    case 'image':
+      return MEDIA_TYPE.IMAGE;
+    case 'video':
+      return MEDIA_TYPE.VIDEO;
+    default:
+      return MEDIA_TYPE.UNKNOWN;
     }
-  )(attachment.type),
-  width: +((attachment.meta || {}).original || {}).width,
+  }(),
+  width: +((meta || {}).original || {}).width,
 });
 
 //  * * * * * * *  //

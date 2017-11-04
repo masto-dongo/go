@@ -60,20 +60,21 @@ export default function ConnectedAttachmentImage ({
   //  know our image is static (and this gives us easier access to the
   //  `sizes` and `srcSet` attributes).
   return (
-    <CommonButton
-      className={computedClass}
-      href={href || src}
-      onClick={onClick}
-      title={ℳ.imageExpand}
-    >
-      <img
-        alt={description}
-        sizes={sizes}
-        src={previewSrc}
-        srcSet={srcSet}
-        title={description}
-      />
-    </CommonButton>
+    <div className={computedClass}>
+      <CommonButton
+        href={href || src}
+        onClick={onClick}
+        title={ℳ.imageExpand}
+      >
+        <img
+          alt={description}
+          sizes={sizes}
+          src={previewSrc}
+          srcSet={srcSet}
+          title={description}
+        />
+      </CommonButton>
+    </div>
   );
 }
 

@@ -79,23 +79,24 @@ export default class ConnectedMediaGifv extends React.PureComponent {
     //  provides the original. (We can only do this with a video
     //  because we don't show the controls.)
     return (
-      <CommonButton
-        className={computedClass}
-        href={href || src}
-        onClick={onClick}
-        title={ℳ.expand}
-      >
-        <video
-          autoPlay={autoplay}
-          loop
-          muted
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          poster={previewSrc}
-          src={src}
-          title={description}
-        />
-      </CommonButton>
+      <div className={computedClass}>
+        <CommonButton
+          href={href || src}
+          onClick={onClick}
+          title={ℳ.expand}
+        >
+          <video
+            autoPlay={autoplay}
+            loop
+            muted
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            poster={previewSrc}
+            src={src}
+            title={description}
+          />
+        </CommonButton>
+      </div>
     );
   }
 

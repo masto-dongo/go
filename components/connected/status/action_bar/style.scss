@@ -25,6 +25,8 @@
       border: none;
       padding: 0;
 
+      &.favourite.active { color: $mastodon_go_content_star }
+
       & + .MASTODON_GO--COMMON--BUTTON { margin-left: 1em }
     }
   }
