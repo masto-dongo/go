@@ -76,12 +76,13 @@
       line-height: 1;
       opacity: 1;
       transition: opacity ($mastodon_go_animation_speed * .3s) ease;
-
-      &:last-child {
-        left: .1875em;
-        right: auto;
-        opacity: 0;
-      }
+    }
+    
+    & > .MASTODON_GO--COMMON--ICON:last-child,
+    & > *[role="radio"]:last-child > .MASTODON_GO--COMMON--ICON {
+      left: .1875em;
+      right: auto;
+      opacity: 0;
     }
 
     & > *.thumb {

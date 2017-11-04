@@ -201,7 +201,9 @@ export default class CommonList extends React.PureComponent {
       } else if (scrollTop < 100 && onScrollToTop) {
         onScrollToTop();
       }
-      onScroll();
+      if (onScroll) {
+        onScroll();
+      }
     }
   }
 

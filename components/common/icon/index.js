@@ -46,7 +46,7 @@ export default function CommonIcon ({
       {typeof icon === 'string' || icon instanceof String ? (
         <span
           aria-hidden
-          className={`fa ${proportional ? '' : 'fa-fw'} fa-${name}`}
+          className={`fa ${proportional ? '' : 'fa-fw'} fa-${icon}`}
           {...(title ? { title } : {})}
         />
       ) : icon}

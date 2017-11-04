@@ -266,7 +266,7 @@ CommonToggle.propTypes = {
   inactiveIcon: PropTypes.node,  //  The icon for the inactive option
   inactiveLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]).isRequired,  //  The label for the inactive option
   onChange: PropTypes.func,  //  A function to call on toggle change, with the current value
-  title: PropTypes.string,  //  A label for the toggle
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]),  //  A label for the toggle
 };
 
 //  Default props.  These give our default active/inactive icons.
