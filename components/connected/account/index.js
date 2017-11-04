@@ -345,12 +345,17 @@ var ConnectedAccount = connect(
   }),
 
   //  Handlers.
-  (go, store, { id }) => ({
+  (go, store, {
+    id,
+    small,
+  }) => ({
     authorize: id => go(authorizeRelationship, id),
     block: id => go(blockRelationship, id),
     fetch: (newId = id) => {
       go(fetchAccount, newId, false);
-      go(fetchRelationship, newId, false);
+      if (!small) {
+        go(fetchRelationship, newId, false);
+      }
     },
     follow: id => go(followRelationship, id),
     mute: id => go(muteRelationship, id),

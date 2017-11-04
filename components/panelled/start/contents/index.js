@@ -64,7 +64,10 @@ export default class PanelledStartContents extends React.Component {  //  Impure
     //  Our links are rendered buttony and divided into sections.
     return (
       <div className={computedClass}>
-        {me ? <ConnectedAccount id={me} /> : null}
+        <ConnectedAccount
+          id={me}
+          navigable
+        />
         <nav>
           <h2>{ℳ.personal}</h2>
           <CommonButton

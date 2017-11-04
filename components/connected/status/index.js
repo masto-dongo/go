@@ -298,6 +298,7 @@ class Status extends React.Component {  //  Impure
         <ConnectedAccount
           comrade={comrade}
           id={account}
+          navigable
           small
         />
         <ConnectedStatusContent
