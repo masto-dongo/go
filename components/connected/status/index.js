@@ -293,6 +293,7 @@ class Status extends React.Component {  //  Impure
         <ConnectedStatusPrepend
           comrade={comrade || inReplyTo && inReplyTo.get('account')}
           type={POST_TYPE}
+          ℳ={ℳ}
         />
         <ConnectedAccount
           comrade={comrade}
@@ -455,6 +456,11 @@ var ConnectedStatus = connect(
       description: 'Used as the label for the favourite button',
       id: 'status.favourite',
     },
+    favouriteMessage: {
+      defaultMessage: '{comrade} favourited your toot',
+      description: 'Used as the prepend for a favourite notification',
+      id: 'status.favourite_message',
+    },
     hidden: {
       defaultMessage: 'Media hidden',
       description: 'Used as the label for the hidden media overlay',
@@ -464,6 +470,11 @@ var ConnectedStatus = connect(
       defaultMessage: 'Hide media',
       description: 'Used as the label for the sensitive content button',
       id: 'status.hide_media',
+    },
+    mentionMessage: {
+      defaultMessage: '{comrade} mentioned you',
+      description: 'Used as the prepend for a reply',
+      id: 'status.mention_message',
     },
     noReblog: {
       defaultMessage: 'This post cannot be boosted',
@@ -500,6 +511,16 @@ var ConnectedStatus = connect(
       description: 'Used as the label for the reblog button',
       id: 'status.reblog',
     },
+    reblogMessage: {
+      defaultMessage: '{comrade} boosted your toot',
+      description: 'Used as the prepend for a reblog notification',
+      id: 'status.reblog_message',
+    },
+    rebloggedMessage: {
+      defaultMessage: 'Boosted by {comrade}',
+      description: 'Used as the prepend for a reblogged status',
+      id: 'status.reblogged_message',
+    },
     reply: {
       defaultMessage: 'Reply',
       description: 'Used as the label for the reply button',
@@ -509,6 +530,11 @@ var ConnectedStatus = connect(
       defaultMessage: 'Reply to thread',
       description: 'Used as the label for the reply button when a status is part of a conversation',
       id: 'status.reply_all',
+    },
+    replyMessage: {
+      defaultMessage: 'In reply to {comrade}',
+      description: 'Used as the prepend for a reply',
+      id: 'status.reply_message',
     },
     sensitive: {
       defaultMessage: 'Sensitive content',

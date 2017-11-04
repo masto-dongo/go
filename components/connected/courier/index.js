@@ -56,6 +56,10 @@ class Courier extends React.Component {  //  Impure
   constructor (props) {
     super(props);
 
+    //  Function binding.
+    const { handleLoadMore } = Object.getPrototypeOf(this);
+    this.handleLoadMore = handleLoadMore.bind(this);
+
     //  We go ahead and prefetch the notifications, forgetting any
     //  previously-loaded ones.  There shouldn't ever be two couriers
     //  on the screen at one time so this shouldn't cause a problem.
@@ -63,8 +67,15 @@ class Courier extends React.Component {  //  Impure
     fetch();
   }
 
+  //  Loads more.
+  handleLoadMore () {
+    const { '💪': { expand } } = this.props;
+    expand();
+  }
+
   //  Rendering.
   render () {
+    const { handleLoadMore } = this;
     const {
       className,
       ℳ,
@@ -83,6 +94,7 @@ class Courier extends React.Component {  //  Impure
       <CommonList
         className={computedClass}
         isLoading={isLoading}
+        onScrollToBottom={handleLoadMore}
       >
         {notifications ? notifications.reduce(function (items, id) {
           items.push(

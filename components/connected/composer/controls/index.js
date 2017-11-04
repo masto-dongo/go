@@ -24,7 +24,6 @@ import {
 import {
   CommonButton,
   CommonToggle,
-  ConnectedParse,
 } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.

@@ -59,7 +59,7 @@ export default class ConnectedPreviewStatus extends React.PureComponent {
       contentVisible,
       emoji,
       media,
-      sensitive,
+      //sensitive,
       spoiler,
       ℳ,
     } = this.props;

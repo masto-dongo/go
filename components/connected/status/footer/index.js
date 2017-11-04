@@ -125,7 +125,7 @@ export default function ConnectedStatusFooter ({
       }
       <CommonSeparator visible />
       <CommonIcon
-        name={visibilityIcon}
+        icon={visibilityIcon}
         proportional
         title={visibilityText}
       />

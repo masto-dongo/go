@@ -77,7 +77,6 @@ export default class ConnectedComposerInputAttach extends React.PureComponent {
       disabled,
       formats,
       onRemove,
-      onSensitive,
       sensitive,
       ℳ,
     } = this.props;

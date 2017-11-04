@@ -59,7 +59,7 @@ export default class ConnectedStatusContentGallery extends React.PureComponent {
       ℳ,
     } = this.props;
     const { visible } = this.state;
-    const computedClass = classNames('MASTODON_GO--CONNECTED--STATUS--CONTENT--GALLERY', 'size-' + media.size , className);
+    const computedClass = classNames('MASTODON_GO--CONNECTED--STATUS--CONTENT--GALLERY', 'size-' + media.size, className);
 
     //  We can only use up to 4 attachments.
     const useäbleAttachments = media.take(4);

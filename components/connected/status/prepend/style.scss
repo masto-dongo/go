@@ -2,34 +2,14 @@
 
 @import "themes/mastodon-go/variables";
 
-.glitch.glitch__status__prepend {
+.MASTODON_GO--CONNECTED--STATUS--PREPEND {
   display: block;
   position: relative;
-  margin: 0 0 1em;
-  //color: $ui-base-lighter-color;
-  padding: 0 0 0 (3.35em * .7);
-
-  .prepend\\icon {
-    display: block;
-    position: absolute;
-    margin: auto;
-    top: 0;
-    left: 0;
-    width: (3.35em * .7);
-    height: 1.35em;
-    text-align: center;
-
-    &.prepend\\reblog,
-    &.prepend\\reblogged {
-      //color: $ui-highlight-color;
-    }
-
-    &.prepend\\favourite {
-      //color: $gold-star;
-    }
-  }
-
-  .prepend\\comrade {
-    //color: $glitch-lighter-color;
-  }
+  margin: 0;
+  border-style: none none solid;
+  border-color: transparent transparent $mastodon_go_content_border;
+  border-width: 0 0 1px;
+  padding: .625em .75em;
+  color: $mastodon_go_content_alternate;
+  background-color: $mastodon_go_content_background;
 }

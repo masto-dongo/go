@@ -1,11 +1,8 @@
-//  <StatusPrepend>
-//  ==============
+//  <ConnectedStatusPrepend>
+//  ========================
 
-//  For code documentation, please see:
-//  https://glitch-soc.github.io/docs/javascript/glitch/status/header
-
-//  For more information, please contact:
-//  @kibi@glitch.social
+//  This component creates the "X boosted your status" prepend and
+//  similar.
 
 //  * * * * * * *  //
 
@@ -13,12 +10,13 @@
 //  --------
 
 //  Package imports.
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { FormattedMessage } from 'react-intl';
 
-//  Our imports.
+//  Component imports.
 import {
   CommonIcon,
   CommonLink,
@@ -27,75 +25,77 @@ import {
 //  Stylesheet imports.
 import './style.scss';
 
+//  Other imports.
+import { POST_TYPE } from 'themes/mastodon-go/util/constants';
+
 //  * * * * * * *  //
 
 //  The component
 //  -------------
-export default class ConnectedStatusPrepend extends React.PureComponent {
+export default function ConnectedStatusPrepend ({
+  className,
+  comrade,
+  type,
+  ℳ,
+}) {
+  const computedClass = classNames('MASTODON_GO--CONNECTED--STATUS--PREPEND', className);
 
-  //  Props.
-  static propTypes = {
-    comrade: ImmutablePropTypes.map.isRequired,
-    history: PropTypes.object,
-    type: PropTypes.string.isRequired,
-  };
-
-  //  This is a quick functional React component to get the prepend
-  //  message.
-  Message = () => {
-    const { comrade, history, type } = this.props;
-    let link = (
-      <CommonLink
-        className='prepend\comrade'
-        destination={`/accounts/${comrade.get('id')}`}
-        history={history}
-        href={comrade.get('url')}
-      >
-        {comrade.get('display_name_html') || comrade.get('username')}
-      </CommonLink>
-    );
-    switch (type) {
-    case 'favourite':
+  //  Creates our message.
+  const message = function () {
+    switch (true) {
+    case type & POST_TYPE.REBLOG === POST_TYPE.REBLOG:
       return (
-        <FormattedMessage
-          defaultMessage='{name} favourited your status'
-          id='notification.favourite'
-          values={{ name : link }}
+        <ℳ
+          name='reblogMessage'
+          values={{ comrade: <ConnectedReference mention={comrade} /> }}
         />
       );
-    case 'reblog':
+    case type & POST_TYPE.FAVOURITE === POST_TYPE.FAVOURITE:
       return (
-        <FormattedMessage
-          defaultMessage='{name} boosted your status'
-          id='notification.reblog'
-          values={{ name : link }}
+        <ℳ
+          name='favouriteMessage'
+          values={{ comrade: <ConnectedReference mention={comrade} /> }}
         />
       );
-    case 'reblogged':
+    case type & POST_TYPE.MENTION === POST_TYPE.MENTION:
       return (
-        <FormattedMessage
-          defaultMessage='{name} boosted'
-          id='status.reblogged_by'
-          values={{ name : link }}
+        <ℳ
+          name='mentionMessage'
+          values={{ comrade: <ConnectedReference mention={comrade} /> }}
         />
       );
+    case type & POST_TYPE.REBLOGGED === POST_TYPE.REBLOGGED:
+      return (
+        <ℳ
+          name='rebloggedMessage'
+          values={{ comrade: <ConnectedReference mention={comrade} /> }}
+        />
+      );
+    case type & POST_TYPE.REPLY === POST_TYPE.REPLY:
+      return (
+        <ℳ
+          name='replyMessage'
+          values={{ comrade: <ConnectedReference mention={comrade} /> }}
+        />
+      );
+    default:
+      return null;
     }
-    return null;
-  }
+  }();
 
-  //  This renders the prepend icon and the prepend message in sequence.
-  render () {
-    const { Message } = this;
-    const { type } = this.props;
-    return false ? (
-      <aside className='MASTODON_GO--CONNECTED--STATUS--PREPEND'>
-        <CommonIcon
-          className={`prepend\\icon prepend\\${type}`}
-          icon={type === 'favourite' ? 'star' : 'retweet'}
-        />
-        <Message />
-      </aside>
-    ) : null;
-  }
-
+  //  Rendering.
+  return message ? (
+    <aside className={computedClass}>
+      <CommonIcon icon={type & POST_TYPE.IS_FAVOURITE ? 'star' : 'retweet'} />
+      {message}
+    </aside>
+  ) : null;
 }
+
+//  Props.
+ConnectedStatusPrepend.propTypes = {
+  className: PropTypes.string,
+  comrade: PropTypes.string,
+  type: PropTypes.number.isRequired,
+  ℳ: PropTypes.func.isRequired,
+};

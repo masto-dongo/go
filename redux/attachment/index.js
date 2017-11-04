@@ -51,16 +51,13 @@ import { MEDIA_TYPE } from 'themes/mastodon-go/util/constants';
 //  `normalize()` normalizes our attachment into an Immutable map.
 const normalize = ({
   description,
-  height,
   id,
   meta,
   preview_url,
   remote_url,
-  small,
   text_url,
   type,
   url,
-  width,
 }) => ImmutableMap({
   description: description ? '' + description : '',
   height: +((meta || {}).original || {}).height,

@@ -80,7 +80,7 @@ class Preview extends React.PureComponent {
     const {
       className,
       disabled,
-      inReplyTo,
+      //inReplyTo,
       media,
       onSensitive,
       onSubmit,

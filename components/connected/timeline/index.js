@@ -57,8 +57,12 @@ class Timeline extends React.Component {  //  Impure
     this.state = { currentDetail: null };
 
     //  Function binding.
-    const { handleDetail } = Object.getPrototypeOf(this);
+    const {
+      handleDetail,
+      handleLoadMore,
+    } = Object.getPrototypeOf(this);
     this.handleDetail = handleDetail.bind(this);
+    this.handleLoadMore = handleLoadMore.bind(this);
 
     //  Fetching the timeline.
     fetch();
@@ -80,9 +84,18 @@ class Timeline extends React.Component {  //  Impure
     this.setState({ currentDetail: id });
   }
 
+  //  Loads more.
+  handleLoadMore () {
+    const { '💪': { expand } } = this.props;
+    expand();
+  }
+
   //  Rendering.
   render () {
-    const { handleDetail } = this;
+    const {
+      handleDetail,
+      handleLoadMore,
+    } = this;
     const {
       className,
       ℳ,
@@ -102,6 +115,7 @@ class Timeline extends React.Component {  //  Impure
       <CommonList
         className={computedClass}
         isLoading={isLoading}
+        onScrollToBottom={handleLoadMore}
       >
         {statuses ? statuses.reduce(function (items, status) {
           items.push(
@@ -184,9 +198,9 @@ var ConnectedTimeline = connect(
   //  Handlers.
   (go, store, { path }) => ({
     connect: (newPath = path) => go(connectTimeline, newPath),
-    expand: (newPath = path) => go(expandTimeline, newPath),
+    expand: () => go(expandTimeline, path),
     fetch: (newPath = path) => go(fetchTimeline, newPath),
-    refresh: (newPath = path) => go(refreshTimeline, newPath),
+    refresh: () => go(refreshTimeline, path),
   })
 );
 
