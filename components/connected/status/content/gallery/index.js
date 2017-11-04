@@ -62,12 +62,12 @@ export default class ConnectedStatusContentGallery extends React.PureComponent {
     const computedClass = classNames('MASTODON_GO--CONNECTED--STATUS--CONTENT--GALLERY', className);
 
     //  We can only use up to 4 attachments.
-    const useableAttachments = media.take(4);
+    const useäbleAttachments = media.take(4);
 
     //  Renders the gallery.
     return (
       <div className={computedClass}>
-        {this.state.visible ? (
+        {visible ? (
           <CommonButton
             className='button'
             icon={visible ? 'eye' : 'eye-slash'}
@@ -87,8 +87,13 @@ export default class ConnectedStatusContentGallery extends React.PureComponent {
             </span>
           </CommonButton>
         )}
-        {this.state.visibile ? useableAttachments.map(
-          attachment => <ConnectedMedia id={attachment.get('id')} />
+        {visible ? useäbleAttachments.map(
+          attachment => (
+            <ConnectedMedia
+              key={attachment.get('id')}
+              id={attachment.get('id')}
+            />
+          )
         ) : null}
       </div>
     );

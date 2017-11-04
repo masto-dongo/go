@@ -37,8 +37,12 @@ export default class ConnectedComposerInputAttach extends React.PureComponent {
     super(props);
 
     //  Function binding.
-    const { handleChange } = Object.getPrototypeOf(this);
+    const {
+      handleChange,
+      handleSensitive,
+    } = Object.getPrototypeOf(this);
     this.handleChange = handleChange.bind(this);
+    this.handleSensitive = handleSensitive.bind(this);
   }
 
   //  This function handles selected files and uploads them.
@@ -50,9 +54,23 @@ export default class ConnectedComposerInputAttach extends React.PureComponent {
     }
   }
 
+  //  We need this function wrapper to appropriately ignore the event.
+  handleSensitive () {
+    const {
+      sensitive,
+      onSensitive,
+    } = this.props;
+    if (onSensitive) {
+      onSensitive(!sensitive);
+    }
+  }
+
   //  Rendering.
   render () {
-    const { handleChange } = this;
+    const {
+      handleChange,
+      handleSensitive,
+    } = this;
     const {
       attachments,
       className,
@@ -91,7 +109,7 @@ export default class ConnectedComposerInputAttach extends React.PureComponent {
           <span className='button'>
             <button
               disabled={disabled}
-              onClick={onSensitive}
+              onClick={handleSensitive}
               type='button'
             >
               <CommonIcon icon='eye-slash' />

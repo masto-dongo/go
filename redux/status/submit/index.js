@@ -51,7 +51,7 @@ export default function submitStatus (text, options, go, current, api) {
     if ((item = options.media)) {
       data.media_ids = item;
     }
-    if ((item = options.sensitive)) {
+    if (typeof (item = options.sensitive) !== 'undefined') {
       data.sensitive = item;
     }
     if ((item = options.spoiler)) {

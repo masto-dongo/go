@@ -51,7 +51,7 @@ export default class CommonInput extends React.PureComponent {
   }
 
   handleRef (node) {
-    this.input = node;
+    this.node = node;
   }
 
   render () {
