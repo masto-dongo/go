@@ -25,7 +25,7 @@ const failure = (id, error) => ({
 export default function fetchAccount (id, force, go, current, api) {
 
   //  If we already have the account data, we don't bother fetching it.
-  if (!force && current().getIn(['accounts', id])) {
+  if (!force && current().getIn(['account', id])) {
     return;
   }
 

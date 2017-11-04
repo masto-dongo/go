@@ -171,13 +171,13 @@ class Card extends React.PureComponent {
     }();
 
     //  Rendering.
-    return (
+    return media || text || caption ? (
       <figure className={computedClass}>
         {media}
         {text}
         {caption}
       </figure>
-    );
+    ) : null;
   }
 
 }
@@ -194,7 +194,7 @@ Card.propTypes = {
     image: PropTypes.string,  //  The card's associated image
     provider: ImmutablePropTypes.map,  //  The provider of the card
     title: PropTypes.string,  //  The title of the card
-    type: PropTypes.number.isRequired,  //  A `CARD_TYPE`
+    type: PropTypes.number,  //  A `CARD_TYPE`
   }).isRequired,
   '💪': PropTypes.objectOf(PropTypes.func).isRequired,
 };

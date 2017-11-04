@@ -73,33 +73,48 @@ export default class ConnectedComposerInputAttach extends React.PureComponent {
         id='mastodon-go.connected.composer.input.attach'
         role='tabpanel'
       >
-        <label>
-          <CommonIcon icon='camera' />
-          {ℳ.uploadFile}
-          <input
-            accept={formats}
-            disabled={disabled || attachments && attachments.length >= 4}
-            onChange={handleChange}
-            type='file'
-          />
-        </label>
+        <span className='upload button'>
+          <label>
+            <CommonIcon icon='camera' />
+            {ℳ.uploadFile}
+            <input
+              accept={formats}
+              disabled={disabled || attachments && attachments.length >= 4}
+              onChange={handleChange}
+              type='file'
+            />
+          </label>
+        </span>
         {attachments && attachments.length ? (
-          <CommonButton
-            active={sensitive}
-            disabled={disabled}
-            icon='eye-slash'
-            onClick={onSensitive}
-            passive
-            showTitle
-            title={ℳ.markSensitive}
-          />
+          //  We don't use a `<CommonButton>` to give us greater
+          //  control over rendering.
+          <span className='button'>
+            <button
+              disabled={disabled}
+              onClick={onSensitive}
+              type='button'
+            >
+              <CommonIcon icon='eye-slash' />
+              {ℳ.markSensitive}
+            </button>
+          </span>
         ) : null}
         {attachments ? attachments.map(
           attachment => (
-            <ConnectedMedia
-              id={attachment}
-              key={attachment}
-            />
+            <span className='attachment'>
+              <ConnectedMedia
+                id={attachment}
+                key={attachment}
+                targetWidth={100}
+              />
+              <CommonButton
+                data={attachment}
+                disabled={disabled}
+                icon='times'
+                onClick={onRemove}
+                passive
+              />
+            </span>
           )
         ) : null}
       </div>

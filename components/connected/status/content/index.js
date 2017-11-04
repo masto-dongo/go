@@ -64,7 +64,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
   //  of a drag.
   handleMouseUp (e) {
     const { startXY } = this;
-    const { onClick } = this.props;
+    const { onDetail } = this.props;
     const { button, clientX, clientY, target } = e;
 
     //  This gets the change in mouse position. If `startXY` isn't set,
@@ -80,7 +80,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
     //  moved more than 5px, OR if the target of the mouse event is a
     //  button or a link, we do nothing.
     case button !== 0:
-    case !onClick:
+    case !onDetail:
     case Math.sqrt(deltaX ** 2 + deltaY ** 2) >= 5:
     case (
       target.matches || target.msMatchesSelector || target.webkitMatchesSelector || (() => false)
@@ -89,7 +89,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
 
     //  Otherwise, we parse the click.
     default:
-      onClick(e);
+      onDetail(e);
       break;
     }
 
@@ -113,7 +113,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
       id,
       media,
       mentions,
-      onClick,
+      onDetail,
       onExpansion,
       sensitive,
       small,
@@ -122,7 +122,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
       ℳ,
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--STATUS--CONTENT', {
-      actionable: !detailed && onClick,
+      actionable: !detailed && onDetail,
       small,
       spoilered: !contentVisible,
     }, className);
@@ -135,12 +135,12 @@ export default class ConnectedStatusContent extends React.PureComponent {
 
       //  If there aren't any media attachments and our status is
       //  detailed, we try showing a card.
-      case (!media || !media.size) && detailed:
-        return <ConnectedCard card={id} />;
+      case !(media && media.size) && detailed:
+        return <ConnectedCard id={id} />;
 
       //  Otherwise, if there are attachments, we render them in a
       //  gallery.
-      case !!media:
+      case !!(media && media.size):
         return (
           <ConnectedStatusContentGallery
             media={media}
@@ -175,7 +175,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
         <div className={computedClass}>
           <p
             className='spoiler'
-            {...(onClick ? {
+            {...(onDetail ? {
               onMouseDown: handleMouseDown,
               onMouseUp: handleMouseUp,
             } : {})}
@@ -200,7 +200,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
           <div className='contents' hidden={!contentVisible}>
             <div
               className='text'
-              {...(onClick ? {
+              {...(onDetail ? {
                 onMouseDown: handleMouseDown,
                 onMouseUp: handleMouseUp,
               } : {})}
@@ -227,7 +227,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
           <div className='contents'>
             <div
               className='text'
-              {...(onClick ? {
+              {...(onDetail ? {
                 onMouseDown: handleMouseDown,
                 onMouseUp: handleMouseUp,
               } : {})}
@@ -262,7 +262,7 @@ ConnectedStatusContent.propTypes = {
   media: ImmutablePropTypes.list,  //  A list of media attachments for the status
   mentions: ImmutablePropTypes.list,  //  A list of mentions for the status
   id: PropTypes.string,  //  The id of the status
-  onClick: PropTypes.func,  //  A function to call when clicking on the status content
+  onDetail: PropTypes.func,  //  A function to call when making the status content detailed
   onExpansion: PropTypes.func,  //  A function to call when expanding the spoiler
   sensitive: PropTypes.bool,  //  `true` if the status contains sensitive media
   small: PropTypes.bool,  //  `true` if the status is small
