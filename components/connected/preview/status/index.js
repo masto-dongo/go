@@ -71,11 +71,10 @@ export default class ConnectedPreviewStatus extends React.PureComponent {
 
       //  If there is an unknown attachment, we show an attachment
       //  list.
-      case (media && media.some(
-        item => item.get('type') === 'unknown'
-      )):
+      //case (media && media.some(
+      //  item => item.get('type') === 'unknown'
+      //)):
         //return <ConnectedStatusContentUnknown media={media} />;
-        return null;
 
       //  Otherwise, if there are attachments, we render them in a
       //  gallery.

@@ -3,7 +3,7 @@
 @import "themes/mastodon-go/variables";
 
 .MASTODON_GO--CONNECTED--MEDIA--IMAGE {
-  &.MASTODON_GO--COMMON--BUTTON {
+  &.MASTODON_GO--COMMON--BUTTON.with_text {
     display: block;
     position: relative;
     margin: 0;

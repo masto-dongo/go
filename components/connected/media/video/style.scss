@@ -11,7 +11,7 @@
   height: 8.1em;
   background-color: $mastodon_go_media_background;
 
-  & > *.box {
+  & > .MASTODON_GO--COMMON--BUTTON.with_text.box {
     display: block;
     position: relative;
     margin: 0;
@@ -35,7 +35,7 @@
     }
   }
 
-  & > *.play_pause, & > *.mute {
+  & > .MASTODON_GO--COMMON--BUTTON.play_pause, & > .MASTODON_GO--COMMON--BUTTON.mute {
     position: absolute;
     margin: .35em;
     border-radius: .35em;
@@ -48,12 +48,12 @@
     opacity: .7;
   }
 
-  & > *.play_pause {
+  & > .MASTODON_GO--COMMON--BUTTON.play_pause {
     bottom: 0;
     left: 0;
   }
 
-  & > *.mute {
+  & > .MASTODON_GO--COMMON--BUTTON.mute {
     bottom: 0;
     right: 0;
   }
