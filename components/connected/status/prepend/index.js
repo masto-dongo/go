@@ -13,13 +13,11 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import { FormattedMessage } from 'react-intl';
 
 //  Component imports.
 import {
   CommonIcon,
-  CommonLink,
+  ConnectedReference,
 } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
