@@ -78,7 +78,7 @@ const getInStatus = (state, id, key) => {
 };
 const getCard = (state, id) => {
   if (!id) {
-    return void 0;
+    return null;
   }
   id = state.getIn(['status', id, 'reblog']) || id;
   return state.getIn(['card', id]);

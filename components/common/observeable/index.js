@@ -223,5 +223,5 @@ CommonObserveäble.propTypes = {
   className: PropTypes.string,
   id: PropTypes.string,  //  The `id` of the observable, used for intersection tracking
   observer: PropTypes.object,  //  The observable's `observer`
-  searchText: PropTypes.string,  //  A plaintext rendition of the observable's contents
+  searchText: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]),  //  A plaintext rendition of the observable's contents
 };

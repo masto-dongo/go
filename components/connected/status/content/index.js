@@ -145,6 +145,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
           <ConnectedStatusContentGallery
             media={media}
             sensitive={sensitive}
+            ℳ={ℳ}
           />
         );
 
@@ -206,7 +207,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
             >
               <ConnectedParse
                 attachments={media}
-                card={(!media || !media.size) && detailed && card}
+                card={(!media || !media.size) && detailed && card || null}
                 emoji={emoji}
                 mentions={mentions}
                 tags={tags}
@@ -233,7 +234,7 @@ export default class ConnectedStatusContent extends React.PureComponent {
             >
               <ConnectedParse
                 attachments={media}
-                card={(!media || !media.size) && detailed && card}
+                card={(!media || !media.size) && detailed && card || null}
                 emoji={emoji}
                 mentions={mentions}
                 tags={tags}
