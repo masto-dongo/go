@@ -280,6 +280,7 @@ class UI extends React.Component {  //  Impure
       className,
       location,
       ℳ,
+      '💪': { upload },
     } = this.props;
     const {
       media,
@@ -307,6 +308,7 @@ class UI extends React.Component {  //  Impure
           onSpoiler={handleSpoiler}
           onSubmit={handleSubmit}
           onText={handleText}
+          onUpload={upload}
           onVisibility={handleVisibility}
           spoiler={spoiler}
           text={text}
@@ -385,6 +387,7 @@ var RoutedUI = connect(
   //  Handlers.
   go => ({
     fetch: () => go(loadMeta),
+    upload: file => go(submitAttachment, file),
     submit: (text, options) => go(submitStatus, text, options),
   })
 );

@@ -94,7 +94,7 @@ export default class CommonToggle extends React.PureComponent {
 
   //  Handles keyboard events.
   handleKeyPress (value, e) {
-    const { handleChange } = this;
+    const { handleChange } = Object.getPrototypeOf(this);  //  Unbound version
     const { disabled } = this.props;
 
     //  If our toggle is disabled, we do nothing.
@@ -105,19 +105,19 @@ export default class CommonToggle extends React.PureComponent {
     //  Otherwise, we handle our keypresses.
     switch (e.key) {
     case ' ':
-      handleChange(value);
+      handleChange.call(this, value);
       break;
     case 'Down':
     case 'Right':
     case 'ArrowDown':
     case 'ArrowRight':
-      handleChange(true);
+      handleChange.call(this, true);
       break;
     case 'Left':
     case 'Up':
     case 'ArrowLeft':
     case 'ArrowUp':
-      handleChange(false);
+      handleChange.call(this, false);
       break;
     default:
       return;
@@ -169,8 +169,8 @@ export default class CommonToggle extends React.PureComponent {
         aria-disabled={!!disabled}
         className={computedClass}
         onBlur={handleBlur}
-        onClick={!disabled ? handleClick : void 0}
-        onKeyDown={!disabled ? handleKeyPress : void 0}
+        onClick={!disabled ? handleClick : null}
+        onKeyDown={!disabled ? handleKeyPress : null}
         onFocus={handleFocus}
         role='radiogroup'
         title={title}
@@ -180,8 +180,8 @@ export default class CommonToggle extends React.PureComponent {
           <span
             aria-checked={!isActive}
             onBlur={handleBlur}
-            onClick={!disabled ? handleDeäctivate : void 0}
-            onKeyDown={!disabled ? handleInactiveKeyPress : void 0}
+            onClick={!disabled ? handleDeäctivate : null}
+            onKeyDown={!disabled ? handleInactiveKeyPress : null}
             onFocus={handleFocus}
             role='radio'
             tabIndex='0'
@@ -198,8 +198,8 @@ export default class CommonToggle extends React.PureComponent {
           <span
             aria-checked={!!isActive}
             onBlur={handleBlur}
-            onClick={!disabled ? handleActivate : void 0}
-            onKeyDown={!disabled ? handleActiveKeyPress : void 0}
+            onClick={!disabled ? handleActivate : null}
+            onKeyDown={!disabled ? handleActiveKeyPress : null}
             onFocus={handleFocus}
             role='radio'
             tabIndex='0'
@@ -216,8 +216,8 @@ export default class CommonToggle extends React.PureComponent {
         aria-disabled={!!disabled}
         className={computedClass}
         onBlur={handleBlur}
-        onClick={!disabled ? handleClick : void 0}
-        onKeyDown={!disabled ? handleKeyPress : void 0}
+        onClick={!disabled ? handleClick : null}
+        onKeyDown={!disabled ? handleKeyPress : null}
         onFocus={handleFocus}
         role='radiogroup'
         title={title}
@@ -226,8 +226,8 @@ export default class CommonToggle extends React.PureComponent {
         <span
           aria-checked={!isActive}
           onBlur={handleBlur}
-          onClick={!disabled ? handleDeäctivate : void 0}
-          onKeyDown={!disabled ? handleInactiveKeyPress : void 0}
+          onClick={!disabled ? handleDeäctivate : null}
+          onKeyDown={!disabled ? handleInactiveKeyPress : null}
           onFocus={handleFocus}
           role='radio'
           tabIndex='0'
@@ -243,8 +243,8 @@ export default class CommonToggle extends React.PureComponent {
         <span
           aria-checked={!!isActive}
           onBlur={handleBlur}
-          onClick={!disabled ? handleActivate : void 0}
-          onKeyDown={!disabled ? handleActiveKeyPress : void 0}
+          onClick={!disabled ? handleActivate : null}
+          onKeyDown={!disabled ? handleActiveKeyPress : null}
           onFocus={handleFocus}
           role='radio'
           tabIndex='0'

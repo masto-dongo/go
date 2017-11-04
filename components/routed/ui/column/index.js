@@ -50,6 +50,7 @@ export default function RoutedUIColumn ({
   onSpoiler,
   onSubmit,
   onText,
+  onUpload,
   onVisibility,
   spoiler,
   text,
@@ -114,6 +115,7 @@ export default function RoutedUIColumn ({
                   onSpoiler={onSpoiler}
                   onSubmit={onSubmit}
                   onText={onText}
+                  onUpload={onUpload}
                   onVisibility={onVisibility}
                   spoiler={spoiler}
                   text={text}
@@ -320,6 +322,7 @@ RoutedUIColumn.propTypes = {
   onSpoiler: PropTypes.func,  //  Composer function for changing the spoiler
   onSubmit: PropTypes.func,  //  Composer function for submitting the status
   onText: PropTypes.func,  //  Composer function for changing the status text
+  onUpload: PropTypes.func,  //  Composer function for uploading media
   onVisibility: PropTypes.func,  //  Composer function for changing the visibility
   spoiler: PropTypes.string,  //  Composer spoiler
   text: PropTypes.string,  //  Composer text

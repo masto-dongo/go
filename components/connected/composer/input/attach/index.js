@@ -44,7 +44,7 @@ export default class ConnectedComposerInputAttach extends React.PureComponent {
   //  This function handles selected files and uploads them.
   handleChange ({ target }) {
     const { onUpload } = this.props;
-    if (target.files.length) {
+    if (onUpload && target.files.length) {
       onUpload(target.files.item(0));
       target.value = '';
     }
@@ -105,7 +105,7 @@ export default class ConnectedComposerInputAttach extends React.PureComponent {
               <ConnectedMedia
                 id={attachment}
                 key={attachment}
-                targetWidth={100}
+                targetWidth={200}
               />
               <CommonButton
                 data={attachment}

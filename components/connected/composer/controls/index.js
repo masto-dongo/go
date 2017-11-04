@@ -132,21 +132,11 @@ export default class ConnectedComposerControls extends React.PureComponent {
       <div className={computedClass}>
         <CommonToggle
           active={pooptoot}
-          activeIcon={
-            <ConnectedParse
-              type='emoji'
-              text='🐇'
-            />
-          }
+          activeIcon='forward'
           activeLabel={ℳ.quickMode}
           compact
           disabled={disabled}
-          inactiveIcon={
-            <ConnectedParse
-              type='emoji'
-              text='🐢'
-            />
-          }
+          inactiveIcon='play'
           inactiveLabel={ℳ.slowMode}
           onChange={handlePooptoot}
           title={ℳ.postMode}
