@@ -65,7 +65,7 @@ import { Emoji } from 'themes/mastodon-go/util/emojify';
 //  Immutable map that we can store. We only keep track of the `id`
 //  of the status's related `account`, `reblog`, and `attachments`—not
 //  their contents.
-const normalize = ({
+function normalize ({
   account,
   application,
   content,
