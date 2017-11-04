@@ -9,6 +9,7 @@
   border: none;
   padding: 0 1.7em;
   line-height: 1.5625em;
+  cursor: pointer;
 
   & > *[role="radio"] {
     display: inline-block;
@@ -77,7 +78,7 @@
       opacity: 1;
       transition: opacity ($mastodon_go_animation_speed * .3s) ease;
     }
-    
+
     & > .MASTODON_GO--COMMON--ICON:last-child,
     & > *[role="radio"]:last-child > .MASTODON_GO--COMMON--ICON {
       left: .1875em;

@@ -173,6 +173,7 @@ export default class CommonToggle extends React.PureComponent {
         onKeyDown={!disabled ? handleKeyPress : null}
         onFocus={handleFocus}
         role='radiogroup'
+        tabIndex='0'
         title={title}
         {...rest}
       >
@@ -180,11 +181,11 @@ export default class CommonToggle extends React.PureComponent {
           <span
             aria-checked={!isActive}
             onBlur={handleBlur}
-            onClick={!disabled ? handleDeäctivate : null}
-            onKeyDown={!disabled ? handleInactiveKeyPress : null}
             onFocus={handleFocus}
+            onClick={!disabled ? handleActivate : null}
+            onKeyDown={!disabled ? handleActiveKeyPress : null}
             role='radio'
-            tabIndex='0'
+            tabIndex='-1'
           >
             <CommonIcon
               icon={inactiveIcon}
@@ -198,15 +199,15 @@ export default class CommonToggle extends React.PureComponent {
           <span
             aria-checked={!!isActive}
             onBlur={handleBlur}
-            onClick={!disabled ? handleActivate : null}
-            onKeyDown={!disabled ? handleActiveKeyPress : null}
+            onClick={!disabled ? handleDeäctivate : null}
+            onKeyDown={!disabled ? handleInactiveKeyPress : null}
             onFocus={handleFocus}
             role='radio'
-            tabIndex='0'
+            tabIndex='-1'
           >
             <CommonIcon
               icon={activeIcon}
-              label={activeLabel}
+              title={activeLabel}
             />
           </span>
         </span>
@@ -220,6 +221,7 @@ export default class CommonToggle extends React.PureComponent {
         onKeyDown={!disabled ? handleKeyPress : null}
         onFocus={handleFocus}
         role='radiogroup'
+        tabIndex='-1'
         title={title}
         {...rest}
       >

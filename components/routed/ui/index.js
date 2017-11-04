@@ -34,6 +34,7 @@ import RoutedUIModal from './modal';
 //  Request imports.
 import {
   loadMeta,
+  submitAttachment,
   submitStatus,
 } from 'themes/mastodon-go/redux';
 
