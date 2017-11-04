@@ -21,10 +21,14 @@
     left: 0;
     bottom: 0;
     right: 0;
+    margin: 0;
     border: 1px transparent solid;
+    padding: 0;
+    width: auto;
+    height: auto;
   }
 
-  & > *.button {
+  & > .MASTODON_GO--COMMON--BUTTON.button {
     position: absolute;
     top: 0;
     left: 0;
@@ -36,18 +40,28 @@
     font-size: 1em;
     line-height: 1;
     opacity: .7;
+    z-index: 1;
 
-    &:hover { opacity: 1 }
+    &:active,
+    &:focus,
+    &:hover {
+      color: $mastodon_go_media_color;
+      background: $mastodon_go_media_background;
+      opacity: 1;
+    }
   }
 
-  & > *.curtain {
+  & > .MASTODON_GO--COMMON--BUTTON.with_text.curtain {
     display: block;
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
+    width: 100%;
+    height: 100%;
     margin: 0;
+    border: none;
     padding: 0;
     color: $mastodon_go_media_color;
     background: $mastodon_go_media_background;
@@ -57,7 +71,7 @@
     white-space: nowrap;
     cursor: pointer;
 
-    span {
+    & > span {
       display: block;
       position: absolute;
       top: 0;
@@ -68,7 +82,7 @@
       margin: auto;
       opacity: .7;
 
-      strong {
+      & > strong {
         display: block;
         font-size: (1.35em / 1.25);
         line-height: 1.25;
@@ -83,7 +97,7 @@
   &:not(.size-1) {
     & > .MASTODON_GO--CONNECTED--MEDIA:nth-of-type(odd) { right: 50% }
     & > .MASTODON_GO--CONNECTED--MEDIA:nth-of-type(even) { left: 50% }
-    
+
     &:not(.size-2) {
       & > .MASTODON_GO--CONNECTED--MEDIA:nth-child(2),
       & > .MASTODON_GO--CONNECTED--MEDIA:nth-last-child(4) { bottom: 50% }
