@@ -16,7 +16,7 @@ export default function launch (getRootElement, Component, store, locale) {
   }
 
   //  Creates localization.
-  addLocaleData(locale.localeData);
+  addLocaleData(locale.data);
 
   //  Launches app when the brower is ready.
   launchOnReady(function () {

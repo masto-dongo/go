@@ -129,18 +129,19 @@ class Timeline extends React.Component {  //  Impure
             />
           );
           return items;
-        }, []).concat(!isLoading ? (
+        }, []).concat(
           <CommonObserveäble
             key='loadmore'
             searchText={ℳ.loadMore}
           >
             <CommonButton
+              disabled={isLoading}
               onClick={expand}
               showTitle
               title={ℳ.loadMore}
             />
           </CommonObserveäble>
-        ) : null) : null}
+        )}
       </CommonList>
     );
   }

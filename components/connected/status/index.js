@@ -292,7 +292,7 @@ class Status extends React.Component {  //  Impure
       >
         <ConnectedStatusPrepend
           comrade={comrade || inReplyTo && inReplyTo.get('account')}
-          type={POST_TYPE}
+          type={type}
           ℳ={ℳ}
         />
         <ConnectedAccount

@@ -23,4 +23,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 //  Launches the frontend.
-launch(DOMRoot, MastodonGO, redux, {});
+launch(DOMRoot, MastodonGO, redux, {
+  data: {},
+  messages: {},
+});
