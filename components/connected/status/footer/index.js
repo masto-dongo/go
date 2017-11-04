@@ -52,7 +52,7 @@ export default function ConnectedStatusFooter ({
   //  not.
   let visibilityIcon;
   let visibilityText;
-  switch (visibility.normalize(visibility | VISIBILITY.FEDERATED)) {
+  switch (VISIBILITY.normalize(visibility | VISIBILITY.FEDERATED)) {
   case VISIBILITY.PUBLIC:
     visibilityIcon = 'globe';
     visibilityText = ℳ.public;
