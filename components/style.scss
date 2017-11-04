@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  border: none;
+  padding: 1em;
+  color: $mastodon_go_root_color;
+  background-color: $mastodon_go_root_background;
+  font: 1rem/1.25 sans-serif;
+
+  &.konami {
+    animation: mastodon_go_konami 8.571428571s linear infinite;
+
+    @keyframes mastodon_go_konami {
+      from { background-color: $rainbow_cyan }
+      12.5% { background-color: $rainbow_blue }
+      25% { background-color: $rainbow_purple }
+      37.5% { background-color: $rainbow_magenta }
+      50% { background-color: $rainbow_red }
+      62.5% { background-color: $rainbow_yellow }
+      75% { background-color: $rainbow_green }
+      87.5% { background-color: $rainbow_teal }
+      to { background-color: $rainbow_cyan }
+    }
+  }
+
+  @media (max-width: 23rem) { padding: 0 }
+}

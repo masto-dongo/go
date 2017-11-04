@@ -1,0 +1,77 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--CONNECTED--COMPOSER--CONTROLS {
+  display: block;
+  margin: 0;
+  border: none;
+  padding: .625em 0;
+  text-align: right;
+
+  & > .MASTODON_GO--COMMON--TOGGLE.compact {
+    display: inline-block;
+    float: left;
+    margin: .625em 1em;
+    border: none;
+    padding: 0;
+  }
+
+  & > .MASTODON_GO--COMMON--BUTTON.with_text {
+    display: inline-block;
+    position: relative;
+    box-sizing: border-box;
+    margin: 0;
+    border: none;
+    padding: .625em 1em;
+    white-space: nowrap;
+    font: inherit;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    & > *.attached {
+      display: inline-block;
+      float: right;
+      //  `margin` is set by `<CommonButton>`
+      border: none;
+      border-radius: 1em;
+      padding: .5em;
+      min-width: 1em;
+      height: 1em;
+      color: $mastodon_go_attachment_count_color;
+      background-color: $mastodon_go_attachment_count_background;
+      font-size: .625em;  //  Affects the size of `em` above
+      line-height: 1;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    & > *.filler {
+      display: block;
+      position: absolute;
+      box-sizing: border-box;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      margin: 0;
+      border: none;
+      padding: 0;
+      background-color: $mastodon_go_content_active;
+      z-index: 0;
+    }
+
+    & > *:not(.filler) {
+      position: relative;
+      z-index: 1;
+    }
+
+    &.disabled {
+      & > *.filler {
+        background-color: transparent;
+        left: -1px;
+        border-right: 2px $mastodon_go_content_active solid;
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--CONNECTED--COMPOSER--INPUT {
+  display: block;
+  position: relative;
+  margin: 0;
+  border-style: none solid;
+  border-color: $mastodon_go_input_background;
+  border-width: none 3px;
+  padding: 0 0 2.5rem;
+  height: 9.25rem;
+  color: $mastodon_go_input_color;
+  background: $mastodon_go_input_background;
+  overflow: hidden;
+  transition: height (.3s * $mastodon_go_animation_speed) ease;
+
+  &.closed { height: 0; }
+}

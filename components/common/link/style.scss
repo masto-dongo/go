@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+/*
+Most link styling happens elsewhere but we disable text-decoration
+here.
+*/
+.MASTODON_GO--COMMON--LINK {
+  display: inline;
+  color: inherit;
+  text-decoration: none;
+}

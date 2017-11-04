@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--COMMON--ICON {
+  display: inline-block;
+  height: 1em;
+
+  & > *.for-screenreader {
+    position: absolute;
+    margin: -1px -1px;
+    width: 1px;
+    height: 1px;
+    clip: rect(0, 0, 0, 0);
+    overflow: hidden;
+  }
+}

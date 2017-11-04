@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--CONNECTED--PREVIEW--STATUS {
+  display: block;
+  margin: 0;
+  border: none;
+  padding: .625em 0;
+  word-wrap: break-word;
+
+  & > *.spoiler {
+    display: block;
+    margin: 0;
+    border: none;
+    padding: 0;
+    white-space: pre-wrap;
+  }
+}

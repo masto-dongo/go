@@ -1,0 +1,93 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--CONNECTED--ACCOUNT {
+  display: block;
+  position: relative;
+  margin: 0;
+  border: none;
+  padding: .625rem 6rem .625rem .75rem;
+  height: 3.15rem;
+
+  & > *.info {
+    display: block;
+    margin: 0;
+    border: none;
+    overflow: hidden;
+
+    & > .MASTODON_GO--CONNECTED--AVATAR {
+      float: left;
+      margin-right: .75rem;
+      width: 3.15rem;
+      height: 3.15rem;
+    }
+
+    & > b, & > code {
+      display: block;
+      border: none;
+      padding: 0;
+      height: 1.575rem;
+      overflow: hidden;
+      font-size: 1.05rem;
+      font-family: inherit;
+      font-weight: inherit;
+      line-height: 1.575rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  & > *.buttons {
+    display: block;
+    position: absolute;
+    margin: 0;
+    border: none;
+    padding: 0;
+    top: .625rem;
+    right: .75rem;
+    width: 4.5rem;
+    height: 3.15rem;
+    text-align: right;
+
+    & > .MASTODON_GO--COMMON--BUTTON {
+      display: inline-block;
+      margin: 0;
+      border: none;
+      padding: 0;
+      width: 2.25rem;
+      height: 3.15rem;
+      font-size: 2.1875rem;
+      line-height: 3.15rem;  //  ≅ 1.44
+      text-align: center;
+    }
+  }
+
+  &.small {
+    margin: 0;
+    border: none;
+    padding: .625em .75em;
+    height: 3em;
+
+    & > *.info {
+      & > .MASTODON_GO--CONNECTED--AVATAR {
+        margin-right: .6em;
+        height: 3em;
+        width: 3em;
+      }
+
+      & > b {
+        padding: .625em 0 0;
+        height: 1.25em;
+        font-size: 1em;
+        line-height: 1.25;
+      }
+
+      & > code {
+        height: 1.171875em;
+        font-size: .96em;  //  This changes the `em` value used for `height`
+        line-height: 1.171875;
+      }
+    }
+  }
+}

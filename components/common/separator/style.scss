@@ -1,0 +1,20 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+//  The default contents for a separator is an interpunct, surrounded
+//  by padding. However, this can be changed using CSS selectors.
+.MASTODON_GO--COMMON--SEPARATOR {
+  display: inline-block;
+  margin: 0;
+  border: none;
+  padding: 0;
+
+  &::after {
+    display: inline-block;
+    margin: 0;
+    border: none;
+    padding: 0 .3em;
+    content: "·";
+  }
+}

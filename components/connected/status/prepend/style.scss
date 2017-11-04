@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--CONNECTED--STATUS--PREPEND {
+  display: block;
+  position: relative;
+  margin: 0;
+  border-style: none none solid;
+  border-color: transparent transparent $mastodon_go_content_border;
+  border-width: 0 0 1px;
+  padding: .625em .75em;
+  color: $mastodon_go_content_alternate;
+  background-color: $mastodon_go_content_background;
+}

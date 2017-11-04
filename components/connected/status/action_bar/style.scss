@@ -1,0 +1,35 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--CONNECTED--STATUS--ACTION_BAR {
+  display: block;
+  margin: 0;
+  border: none;
+  padding: 0;
+  height: 1.25rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+
+  & > .MASTODON_GO--COMMON--BUTTON {
+    &.favourite.active { color: $mastodon_go_content_star }
+  }
+
+  &.detailed {
+    margin: .625em 0;
+    width: 100%;
+    height: auto;
+
+    & > .MASTODON_GO--COMMON--BUTTON {
+      display: inline-block;
+      margin: 0;
+      border: none;
+      padding: 0;
+
+      & + .MASTODON_GO--COMMON--BUTTON { margin-left: 1em }
+    }
+  }
+}

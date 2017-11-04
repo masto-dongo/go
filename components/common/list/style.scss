@@ -1,0 +1,63 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--COMMON--LIST {
+  display: block;
+  margin: 0;
+  border: none;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  & > .MASTODON_GO--COMMON--OBSERVABLE {
+    &:not(:first-child) { border-top: 1px $mastodon_go_content_border solid }
+
+    & > .MASTODON_GO--COMMON--BUTTON.with_text {
+      display: block;
+      box-sizing: border-box;
+      margin: 0;
+      border: none;
+      padding: 1.25em .75em;
+      width: 100%;
+      color: $mastodon_go_content_color;
+      background-color: $mastodon_go_content_background;
+      font: inherit;
+      text-align: center;
+
+      &:focus,
+      &:hover {
+        color: $mastodon_go_content_color;
+        background-color: $mastodon_go_content_highlight;
+      }
+    }
+  }
+
+  &.loading::after {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    border: none;
+    padding: 0;
+    height: 4px;
+    background-image: linear-gradient(to right, $rainbow_cyan, $rainbow_blue, $rainbow_purple, $rainbow_magenta, $rainbow_red, $rainbow_yellow, $rainbow_green, $rainbow_teal, $rainbow_cyan);
+    background-attachment: scroll;
+    background-size: 23rem auto;
+    background-repeat: repeat-x;
+    animation: mastodon_go_common_list_loading 2s linear infinite;
+    content: "";
+
+    @keyframes mastodon_go_common_list_loading {
+      from {
+        background-position: 0 0;
+      }
+      to {
+        background-position: 23rem 0;
+      }
+    }
+  }
+}

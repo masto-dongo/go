@@ -1,0 +1,70 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--CONNECTED--COMPOSER--INPUT--EMOJI--TABLE {
+  display: inline-table;
+  table-layout: fixed;
+  margin: .75rem .6rem;
+  border: none;
+  border-collapse: separate;
+  border-spacing: 0;
+  padding: 0;
+  height: 4.5rem;
+  font-size: 1rem;
+  line-height: 1;
+  vertical-align: top;
+
+  & > caption {
+    display: table-caption;
+    margin: 0;
+    border: none;
+    padding: 0;
+    height: 1rem;
+    font-size: .75rem;
+    line-height: 1rem;
+    text-align: left;
+    text-transform: uppercase;
+    text-decoration: underline;
+    white-space: nowrap;
+  }
+
+  & > tbody {
+    display: table-row-group;
+    margin: 0;
+    border: none;
+    padding: 0;
+
+    & > tr {
+      display: table-row;
+      margin: 0;
+      border: none;
+      padding: 0;
+
+      & > td {
+        display: table-cell;
+        margin: 0;
+        border: none;
+        padding: 0;
+        overflow: hidden;
+
+        & > .MASTODON_GO--COMMON--BUTTON {
+          display: block;
+          margin: 0;
+          border: none;
+          padding: .375rem 0;
+          width: 2.25rem;
+          height: 1.5rem;
+          font: inherit;
+          text-align: center;
+
+          & > .MASTODON_GO--COMMON--IMAGE {
+            display: inline-block;
+            width: auto;
+            height: 1.5rem;
+          }
+        }
+      }
+    }
+  }
+}

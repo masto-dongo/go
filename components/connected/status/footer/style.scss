@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--CONNECTED--STATUS--FOOTER {
+  display: block;
+  height: 1.25rem;
+  font-size: 1rem;
+  line-height: 1.25rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  & > .MASTODON_GO--COMMON--LINK {
+    &[href]:hover {
+      text-decoration: underline;
+    }
+  }
+
+  & > .MASTODON_GO--COMMMON--ICON {
+    color: $mastodon_go_content_alternate;
+  }
+
+  &:not(.detailed) {
+    float: right;
+    vertical-align: bottom;
+  }
+}
