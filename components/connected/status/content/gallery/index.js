@@ -18,7 +18,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 //  Component imports.
 import {
   CommonButton,
-  ConnectedAttachment,
+  ConnectedMedia,
 } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
@@ -88,7 +88,7 @@ export default class ConnectedStatusContentGallery extends React.PureComponent {
           </CommonButton>
         )}
         {this.state.visibile ? useableAttachments.map(
-          attachment => <ConnectedAttachment id={attachment.get('id')} />
+          attachment => <ConnectedMedia id={attachment.get('id')} />
         ) : null}
       </div>
     );
