@@ -39,77 +39,96 @@ export default function ConnectedStatusPrepend ({
   const computedClass = classNames('MASTODON_GO--CONNECTED--STATUS--PREPEND', className);
 
   //  Creates our message.
-  const message = function () {
+  const {
+    icon,
+    message,
+  } = function () {
     switch (true) {
     case (type & POST_TYPE.REBLOG) === POST_TYPE.REBLOG:
-      return (
-        <ℳ
-          name='reblogMessage'
-          values={{ comrade: (
-            <ConnectedReference
-              mention={comrade}
-              showAt
-            />
-          ) }}
-        />
-      );
+      return {
+        icon: 'retweet',
+        message: (
+          <ℳ
+            name='reblogMessage'
+            values={{ comrade: (
+              <ConnectedReference
+                mention={comrade}
+                showAt
+              />
+            ) }}
+          />
+        ),
+      };
     case (type & POST_TYPE.FAVOURITE) === POST_TYPE.FAVOURITE:
-      return (
-        <ℳ
-          name='favouriteMessage'
-          values={{ comrade: (
-            <ConnectedReference
-              mention={comrade}
-              showAt
-            />
-          ) }}
-        />
-      );
+      return {
+        icon: 'star',
+        message: (
+          <ℳ
+            name='favouriteMessage'
+            values={{ comrade: (
+              <ConnectedReference
+                mention={comrade}
+                showAt
+              />
+            ) }}
+          />
+        ),
+      };
     case (type & POST_TYPE.MENTION) === POST_TYPE.MENTION:
-      return (
-        <ℳ
-          name='mentionMessage'
-          values={{ comrade: (
-            <ConnectedReference
-              mention={comrade}
-              showAt
-            />
-          ) }}
-        />
-      );
+      return {
+        icon: 'reply',
+        message: (
+          <ℳ
+            name='mentionMessage'
+            values={{ comrade: (
+              <ConnectedReference
+                mention={comrade}
+                showAt
+              />
+            ) }}
+          />
+        ),
+      };
     case (type & POST_TYPE.REBLOGGED) === POST_TYPE.REBLOGGED:
-      return (
-        <ℳ
-          name='rebloggedMessage'
-          values={{ comrade: (
-            <ConnectedReference
-              mention={comrade}
-              showAt
-            />
-          ) }}
-        />
-      );
+      return {
+        icon: 'retweet',
+        message: (
+          <ℳ
+            name='rebloggedMessage'
+            values={{ comrade: (
+              <ConnectedReference
+                mention={comrade}
+                showAt
+              />
+            ) }}
+          />
+        ),
+      };
     case (type & POST_TYPE.REPLY) === POST_TYPE.REPLY:
-      return (
-        <ℳ
-          name='replyMessage'
-          values={{ comrade: (
-            <ConnectedReference
-              mention={comrade}
-              showAt
-            />
-          ) }}
-        />
-      );
+      return {
+        icon: 'reply-all',
+        message: (
+          <ℳ
+            name='replyMessage'
+            values={{ comrade: (
+              <ConnectedReference
+                mention={comrade}
+                showAt
+              />
+            ) }}
+          />
+        ),
+      };
     default:
-      return null;
+      return {};
     }
   }();
 
   //  Rendering.
   return message ? (
     <aside className={computedClass}>
-      <CommonIcon icon={type & POST_TYPE.IS_FAVOURITE ? 'star' : 'retweet'} />
+      <CommonIcon icon={icon} />
+      {' '}
       {message}
     </aside>
   ) : null;

@@ -52,15 +52,15 @@ export default function ConnectedParseStatusContentParagraph ({
 
           //  First, we need to parse our line for any links.
           let linkMatch;
-          while ((linkMatch = line.match(/([^]*?)\uFDD0([^]*)\uFDD1([^]*)\uFDD2([^]*)/))) {
+          while ((linkMatch = line.match(/\uFDD0([^\uFDD1]*)\uFDD1([^\uFDD2]*)\uFDD2([^]*)/))) {
 
             //  If there is text before the link, we push it.
-            if (linkMatch[1]) {
+            if (linkMatch.index) {
               pContents.push(
                 <ConnectedParse
                   emoji={emoji}
                   key={pContents.length}
-                  text={linkMatch[1]}
+                  text={line.substr(0, linkMatch.index)}
                   type='emoji'
                 />
               );
@@ -142,10 +142,10 @@ export default function ConnectedParseStatusContentParagraph ({
                   </CommonLink>
                 );
               }
-            }(linkMatch[2], linkMatch[3]));
+            }(linkMatch[1], linkMatch[2]));
 
             //  Finally, we reset our `line` to our remaining contents.
-            line = linkMatch[4];
+            line = linkMatch[3];
           }
 
           //  If any text remains in our line, we push it.

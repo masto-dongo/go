@@ -33,11 +33,31 @@ import { Emoji } from 'themes/mastodon-go/util/emojify';
 
 //  * * * * * * *  //
 
+//  Initial setup
+//  -------------
+
+//  This function produces a string from a node.
+function stringify (node) {
+  if (node.nodeType === Node.ELEMENT_NODE) {
+    switch (node.tagName.toUpperCase()) {
+    case 'BR':
+      return '\n';
+    case 'IMG':
+      return node.alt;
+    default:
+      return node.textContent;
+    }
+  }
+  return node.textContent;
+}
+
+//  * * * * * * *  //
+
 //  The component
 //  -------------
 
 //  Component definition.
-export default class ConnectedComposerTextArea extends React.PureComponent {
+export default class ConnectedComposerTextArea extends React.Component {
 
   //  Constructor.
   constructor (props) {
@@ -47,11 +67,11 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     this.caret = 0;
     this.cache = [];
     this.composing = false;
-    this.lastRenderedString = '';
     this.node = null;
 
     //  Function binding.
     const {
+      fillContents,
       getContents,
       handleEvent,
       handleInsert,
@@ -60,6 +80,7 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
       restoreCaretPos,
       storeCaretPos,
     } = Object.getPrototypeOf(this);
+    this.fillContents = fillContents.bind(this);
     this.getContents = getContents.bind(this);
     this.handleEvent = handleEvent.bind(this);
     this.handleInsert = handleInsert.bind(this);
@@ -69,25 +90,22 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     this.storeCaretPos = storeCaretPos.bind(this);
   }
 
-  //  On mounting we listen for an insert event and get the value of
-  //  the component.
+  //  On mounting we listen for an insert event fill the component.
   componentDidMount () {
     const {
-      getContents,
+      fillContents,
       handleInsert,
     } = this;
-    const { onChange } = this.props;
+    const { value } = this.props;
     DOMListen(DOMEventInsert, handleInsert);
-    if (onChange) onChange(getContents());
+    fillContents(value);
   }
 
-  //  We use `componentWillUpdate()` to grab the caret position before
-  //  updating.
-  componentWillUpdate (nextProps) {
+  //  If our component updates, then we need to restore its contents.
+  componentDidUpdate () {
+    const { fillContents } = this;
     const { value } = this.props;
-    if (nextProps.value !== value) {
-      this.storeCaretPos();
-    }
+    fillContents(value);
   }
 
   //  On unmounting, we stop listening for the insert event.
@@ -96,13 +114,283 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     DOMForget(DOMEventInsert, handleInsert);
   }
 
-  //  If our component updates, then we need to restore the caret
-  //  afterwards.
-  componentDidUpdate (prevProps) {
-    const { value } = this.props;
-    if (prevProps.value !== value) {
-      this.restoreCaretPos();
+  //  If our component is about to update, we need to store our caret
+  //  position first.
+  componentWillUpdate () {
+    const { storeCaretPos } = this;
+    storeCaretPos();
+  }
+
+  //  This function fills our `<div>` with our contents.
+  fillContents (value) {
+    const {
+      cache,
+      node,
+      restoreCaretPos,
+    } = this;
+    const {
+      autoplay,
+      emoji,
+    } = this.props;
+
+    //  We need a `node` in order to fill it.
+    if (!node) {
+      return;
     }
+
+    //  We clear our node's contents to prepare for insertion.
+    node.textContent = '';
+
+    //  This sets up our iteration variables.
+    let doc = document.createDocumentFragment();
+    let idx = 0;
+    let lmt = 0;
+    let lst = null;
+    let nde = null;
+    let pos = 0;
+    let res = [];
+    let sfe = null;
+    let txt = '';
+
+    //  We insert nodes from our cache so long as the strings match
+    //  up.
+    let ini = function () {
+      for (idx = 0; idx < cache.length; idx++) {
+        nde = cache[idx];
+        if (typeof nde === 'string') {
+          txt = nde;
+          nde = document.createTextNode(txt);
+        } else {
+          txt = stringify(nde);
+        }
+        if (txt !== value.substr(pos, txt.length)) {
+          return pos;
+        }
+        pos += txt.length;
+
+        //  This `switch` tests whether our node is safe for inclusion.
+        switch (true) {
+
+        //  If our node isn't a text node, it is safe.
+        case nde.nodeType !== Node.TEXT_NODE:
+          sfe = nde;
+          break;
+
+        //  Text nodes must have a non-word character after any colons.
+        //  If the previous node wasn't safe, there must be a non-word
+        //  character without any colons before.
+        case !/:\w*$/.test(txt) && (lst === sfe || /^[^:]*\W/.test(txt)):
+          sfe = nde;
+          break;
+        }
+
+        //  Regardless, we append the node (for now).
+        doc.appendChild(lst = nde);
+      }
+      return pos;
+    }();
+
+    //  The last-pushed item is inherently unsafe if there was a
+    //  character change on the boundary.
+    if (lst && lst === sfe && (idx >= cache.length || txt.charAt(0) !== value.charAt(ini))) {
+      sfe = lst.previousSibling;
+    }
+
+    //  We add the inserted items to our result.
+    if ((lmt = idx)) {
+      res = cache.slice(0, lmt);
+    }
+
+    //  However, we need to remove any unsafe nodes.
+    while (lst && lst !== sfe) {
+      lst = (nde = lst).previousSibling;
+      doc.removeChild(nde);
+      res.pop();
+      lmt--;
+      ini -= stringify(nde).length;
+    }
+
+    //  Now we move our iteration variables to the end of our cache.
+    lst = null;
+    pos = value.length;
+
+    //  We now do the same thing working from the end.
+    let fin = ini >= value.length ? ini : function () {
+      for (idx = cache.length - 1; idx > lmt; idx--) {  //  lmt will always be recalculated
+        nde = cache[idx];
+        if (typeof nde === 'string') {
+          txt = nde;
+          nde = document.createTextNode(txt);
+        } else {
+          txt = stringify(nde);
+        }
+        if (pos - txt.length <= ini || txt !== value.substr(pos - txt.length, txt.length)) {
+          return pos;
+        }
+        pos -= txt.length;
+
+        //  This `switch` tests whether our node is safe for inclusion.
+        switch (true) {
+
+        //  If our node isn't a text node, it is safe.
+        case nde.nodeType !== Node.TEXT_NODE:
+          sfe = nde;
+          break;
+
+        //  If our text node isn't full (8 characters), then it is NOT
+        //  safe (this is to prevent excessive multiplication of text
+        //  nodes).
+        case txt.length < 8:
+          break;
+
+        //  Similarly, if this text node is bordering our limit, it
+        //  isn't safe.
+        case idx <= lmt + 1:
+          break;
+
+        //  Text nodes must have a non-word character before any
+        //  colons.  If the previous node wasn't safe, there must be a
+        //  non-word character without any colons after.
+        case !/^\w*:/.test(txt) && (lst === sfe || /\W[^:]*$/.test(txt)):
+          sfe = nde;
+          break;
+        }
+
+        //  Regardless, we insert the node (for now).
+        doc.insertBefore(nde, lst);
+        lst = nde;
+      }
+      return pos;
+    }();
+
+    //  The last-pushed item is inherently unsafe if there was a
+    //  character change on the boundary.
+    if (lst && lst === sfe && (txt.charAt(txt.length) !== value.charAt(fin - 1))) {
+      sfe = lst.nextSibling;
+    }
+
+    //  Again, we need to remove any unsafe nodes.  We can't add our
+    //  cached items to our result just yet, though.
+    while (lst && lst !== sfe) {
+      lst = (nde = lst).nextSibling;
+      doc.removeChild(nde);
+      idx++;
+      fin += stringify(nde).length;
+    }
+
+    //  Next, we process the text in-between our two diffs.
+    pos = 0;
+    txt = value.substring(ini, fin);
+    sfe = true;
+
+    //  We loop over each character in the string and look for a
+    //  parseäble substring.
+    while (pos < txt.length) {
+
+      //  If our character is a line-break, we push a `<br>`.
+      if (txt.charAt(pos) === '\n') {
+        if (pos !== 0) {
+          res.push(nde = txt.substr(0, pos));
+          doc.insertBefore(document.createTextNode(nde), lst);
+        }
+        res.push(nde = document.createElement('BR'));
+        doc.insertBefore(nde, lst);
+        txt = txt.substr(pos + 1);
+        pos = 0;
+        sfe = true;
+        continue;
+      }
+
+      //  Otherwise, we look for matches with emoji.  There may
+      //  multiple.
+      const matches = emoji.filter(function (emojo) {
+        const emojiString = '' + emojo;
+        const shortcodeString = emojo.name ? ':' + emojo.name + ':' : null;
+        switch (true) {
+        case emojiString && txt.substr(pos, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || txt.charAt(pos + emojiString.length) !== '\ufe0e'):
+          return true;
+        case sfe && shortcodeString && txt.substr(pos, shortcodeString.length) === shortcodeString && (!txt.charAt(pos + shortcodeString.length) || !/[\w:]/.test(txt.charAt(pos + shortcodeString.length))):
+          return true;
+        default:
+          return false;
+        }
+      });
+
+      //  If we have a match, then we need to process it.
+      if (matches.length) {
+
+        //  From our list of matches, we select the longest one. This will
+        //  be unique unless there are multiple emoji with the same string
+        //  value, in which case we will select the first one.
+        const emojo = matches.reduce(
+          (longest, current) => longest && ('' + longest).length > ('' + current).length ? longest : current
+        );
+        const emojiString = '' + emojo;
+        let match = emojiString && txt.substr(pos, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || txt.charAt(pos + emojiString.length) !== '\ufe0e') ? emojiString : ':' + emojo.name + ':';
+
+        //  We gobble the following U+FE0F character if one exists and
+        //  our match doesn't end with one.
+        if (txt.charAt(pos + match.length) === '\ufe0f' && match.charAt(match.length - 1) !== '\ufe0f') {
+          match += '\ufe0f';
+        }
+
+        //  If there was text prior to this emoji, we push it to our
+        //  result.  Then we push the emoji image.
+        if (pos !== 0) {
+          res.push(nde = txt.substr(0, pos));
+          doc.insertBefore(document.createTextNode(nde), lst);
+        }
+        res.push(nde = emojo.toImage(!autoplay));
+        doc.insertBefore(nde, lst);
+
+        //  We now trim the processed text off of our `text` string and
+        //  reset the index to `0`.
+        txt = txt.substr(pos + match.length);
+        pos = 0;
+        sfe = true;
+        continue;
+      }
+
+      //  If we've processed 8 or more characters, we go ahead and push
+      //  them.  This helps to keep our diffs small.  Note that there
+      //  is no guarantee that these chunks will stay this size.
+      if (pos >= 7) {  //  Because our first character is 0
+        res.push(nde = txt.substr(0, pos + 1));
+        doc.insertBefore(document.createTextNode(nde), lst);
+        sfe = !/[\w:]/.test(txt.charAt(pos));
+        txt = txt.substr(pos + 1);
+        pos = 0;
+        continue;
+      }
+
+      //  Otherwise, we increment our index and move on.
+      sfe = !/[\w:]/.test(txt.charAt(pos));
+      pos++;
+    }
+
+    //  If our `txt` didn't end in a parseäble entity, there will still
+    //  be some leftover text to push.
+    if (txt) {
+      res.push(txt);
+      doc.insertBefore(document.createTextNode(txt), lst);
+    }
+
+    //  Now we can add the cached final entries to our result.
+    res = res.concat(cache.slice(idx + 1));
+
+    //  We store our result for next time and insert our contents.
+    this.cache = res;
+    node.appendChild(doc);
+
+    //  If our node is empty, we set the `empty` class.
+    if (value === '' || value === '\n') {
+      node.classList.add('empty');
+    } else {
+      node.classList.remove('empty');
+    }
+
+    //  Finally, we restore our caret position.
+    restoreCaretPos();
   }
 
   //  This gets the contents of the text area.  This is a little more
@@ -114,8 +402,13 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
   //  `<img>`-aware `Element.textContent`.
   getContents () {
     const { node } = this;
+    const { onChange } = this.props;
+    if (!onChange) {
+      return;
+    }
     if (!node) {
-      return '\n';
+      onChange('\n');
+      return;
     }
     let wkr = document.createTreeWalker(node, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT, {
       acceptNode (nde) {
@@ -130,61 +423,14 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         }
       },
     });
-    let nde = null;
     let out = '';
     while (wkr.nextNode()) {
-      nde = wkr.currentNode;
-      if (nde.nodeType === Node.TEXT_NODE) {
-        out += nde.textContent;
-      } else {
-        switch (nde.tagName.toUpperCase()) {
-        case 'BR':
-          out += '\n';
-          break;
-        case 'IMG':
-          out += nde.alt;
-          break;
-        default:
-          out += nde.textContent;
-        }
-      }
+      out += stringify(wkr.currentNode);
     }
     if (out.length && out.slice(-1) !== '\n') {
       out += '\n';
     }
-    return out;
-  }
-
-  //  When inserting content, we insert it directly into the DOM of our
-  //  text area, replacing any selection.  But then we call
-  //  `onChange()` to update our text area with properly formatted
-  //  contents.
-  insertContent (content) {
-    const {
-      getContents,
-      node,
-    } = this;
-    const { onChange } = this.props;
-    const nde = content instanceof Node ? content : document.createTextNode(content);
-    const sel = window.getSelection();
-    if (sel && sel.rangeCount) {
-      const rng = sel.getRangeAt(0);
-      if (node.contains(rng.commonAncestorContainer)) {
-        rng.deleteContents();
-        rng.insertNode(nde);
-        rng.setEndAfter(nde);
-        rng.collapse(false);
-        sel.removeAllRanges();
-        sel.addRange(rng);
-      } else {
-        node.insertBefore(nde, node.lastChild);
-      }
-    } else {
-      node.insertBefore(nde, node.lastChild);
-    }
-    if (onChange) {
-      onChange(getContents());
-    }
+    onChange(out);
   }
 
   //  For the most part, we just call `getContents()` to update our
@@ -201,7 +447,6 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
       insertContent,
       node,
     } = this;
-    const { onChange } = this.props;
     let img, nde, rng, sel;
     switch (e.type) {
     case 'compositionstart':
@@ -268,8 +513,8 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
         return;
       }
     }
-    if (!composing && onChange) {
-      onChange(getContents());
+    if (!composing) {
+      getContents();
     }
   }
 
@@ -282,6 +527,172 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
   //  Storing a reference to our node.
   handleRef (node) {
     this.node = node;
+  }
+
+  //  When inserting content, we insert it directly into the DOM of our
+  //  text area, replacing any selection.  But then we call
+  //  `onChange()` to update our text area with properly formatted
+  //  contents.
+  insertContent (content) {
+    const {
+      getContents,
+      node,
+    } = this;
+    const nde = content instanceof Node ? content : document.createTextNode(content);
+    const sel = window.getSelection();
+    if (sel && sel.rangeCount) {
+      const rng = sel.getRangeAt(0);
+      if (node.contains(rng.commonAncestorContainer)) {
+        rng.deleteContents();
+        rng.insertNode(nde);
+        rng.setEndAfter(nde);
+        rng.collapse(false);
+        sel.removeAllRanges();
+        sel.addRange(rng);
+      } else {
+        node.insertBefore(nde, node.lastChild);
+      }
+    } else {
+      node.insertBefore(nde, node.lastChild);
+    }
+    getContents();
+  }
+
+  //  Rendering.
+  render () {
+    const {
+      composing,
+      handleEvent,
+      handleRef,
+    } = this;
+    const {
+      className,
+      disabled,
+      value,
+      ℳ,
+    } = this.props;
+    const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER--TEXT_AREA', {
+      composing,
+      disabled,
+      empty: value === '\n' || value === '',
+    }, className);
+
+    //  `fillContents()` fills our element with contents.  We don't let
+    //  React manage this to recycle nodes.
+    return (
+      <div
+        aria-label={ℳ.label}
+        className={computedClass}
+        contentEditable={!disabled}
+        onCompositionStart={handleEvent}
+        onCompositionEnd={handleEvent}
+        onKeyDown={handleEvent}
+        onInput={handleEvent}
+        onBlur={handleEvent}
+        ref={handleRef}
+        tabIndex='0'
+      />
+    );
+  }
+
+  //  Restoring our caret position.  The `offset` argument can be used
+  //  to adjust where to place the caret.
+  restoreCaretPos () {
+    const {
+      caret,
+      node,
+    } = this;
+    const { value } = this.props;
+    if (!node) return;
+    const sel = window.getSelection();
+    const rng = document.createRange();
+    const wkr = document.createTreeWalker(node);
+    let idx = 0;
+    let nde = null;
+    let success = false;
+
+    //  If our `caret` is as long as our `value`, we already know it
+    //  goes at the end.
+    if (caret >= value.length - 1) success = true;
+
+    //  This loop breaks if we run out of nodes, or find the node that
+    //  our caret belongs in.  It properly handles the case where the
+    //  caret belongs between two `<br>`s.
+    while (!success && wkr.nextNode()) {
+      nde = wkr.currentNode;
+      if (nde.nodeType === Node.TEXT_NODE) {
+        if (idx <= caret && caret <= idx + nde.textContent.length) {
+          success = true;
+          break;
+        } else idx += nde.textContent.length;
+      } else if (nde.tagName.toUpperCase() === 'BR') {
+        if (++idx === caret) {
+          success = true;
+          break;
+        }
+      } else if (nde.tagName.toUpperCase() === 'IMG') {
+        if ((idx += nde.alt.length) >= caret) {
+          success = true;
+          break;
+        }
+      }
+    }
+
+    //  If we found the position of the caret, we set the end of our
+    //  range to that spot.  If not, we select the entire text area.
+    //  Then we `collapse()` the range to its endpoint and move the
+    //  caret there.
+    if (success && nde) {
+      if (nde.nodeType === Node.TEXT_NODE) rng.setEnd(nde, caret - idx);
+      else rng.selectNode(nde);
+    } else if (
+      node.lastChild &&
+      node.lastChild.nodeName.toUpperCase() === 'BR'
+    ) rng.setEnd(node, node.childNodes.length - 1);
+    else rng.selectNodeContents(node);
+    rng.collapse(false);
+    sel.removeAllRanges();
+    sel.addRange(rng);
+  }
+
+  //  Our composer contents are not managed by React.  We only update
+  //  the component if a prop related to some other aspect of the
+  //  composer changes.
+  shouldComponentUpdate (nextProps) {
+    const {
+      fillContents,
+      storeCaretPos,
+    } = this;
+    const {
+      autoplay,
+      className,
+      disabled,
+      emoji,
+      onChange,
+      value,
+      ℳ,
+    } = this.props;
+
+    //  This `switch` is just to improve readability.
+    switch (true) {
+    case autoplay !== nextProps.autoplay:
+      this.cache = [];
+      storeCaretPos();
+      fillContents(nextProps.value);
+      return false;
+    case className !== nextProps.className:
+    case disabled !== nextProps.disabled:
+    case emoji !== nextProps.emoji:
+    case onChange !== nextProps.onChange:
+    case ℳ !== nextProps.ℳ:
+      return true;
+    case value !== nextProps.value:
+      storeCaretPos();
+      fillContents(nextProps.value);
+      return false;
+    default:
+      return false;
+    }
   }
 
   //  Storing our caret position.
@@ -316,305 +727,6 @@ export default class ConnectedComposerTextArea extends React.PureComponent {
     //  We can now find the length of the selection by adding the
     //  length of the text content to the number of line breaks.
     this.caret = pre.toString().length + brs + alt;
-  }
-
-  //  Restoring our caret position.  The `offset` argument can be used
-  //  to adjust where to place the caret.
-  restoreCaretPos (offset = 0) {
-    const {
-      caret,
-      node,
-    } = this;
-    const { value } = this.props;
-    if (!node) return;
-    const sel = window.getSelection();
-    const rng = document.createRange();
-    const wkr = document.createTreeWalker(node);
-    const dst = caret + offset;
-    let idx = 0;
-    let nde = null;
-    let success = false;
-
-    //  If our `caret` is as long as our `value`, we already know it
-    //  goes at the end.
-    if (dst >= value.length - 1) success = true;
-
-    //  This loop breaks if we run out of nodes, or find the node that
-    //  our caret belongs in.  It properly handles the case where the
-    //  caret belongs between two `<br>`s.
-    while (!success && wkr.nextNode()) {
-      nde = wkr.currentNode;
-      if (nde.nodeType === Node.TEXT_NODE) {
-        if (idx <= caret && dst <= idx + nde.textContent.length) {
-          success = true;
-          break;
-        } else idx += nde.textContent.length;
-      } else if (nde.tagName.toUpperCase() === 'BR') {
-        if (idx++ === dst) {
-          success = true;
-          break;
-        }
-      } else if (nde.tagName.toUpperCase() === 'IMG') {
-        if ((idx += nde.alt.length) >= dst) {
-          success = true;
-          break;
-        }
-      }
-    }
-
-    //  If we found the position of the caret, we set the end of our
-    //  range to that spot.  If not, we select the entire text area.
-    //  Then we `collapse()` the range to its endpoint and move the
-    //  caret there.
-    if (success && nde) {
-      if (nde.nodeType === Node.TEXT_NODE) rng.setEnd(nde, dst - idx);
-      else rng.selectNode(nde);
-    } else if (
-      node.lastChild &&
-      node.lastChild.nodeName.toUpperCase() === 'BR'
-    ) rng.setEnd(node, node.childNodes.length - 1);
-    else rng.selectNodeContents(node);
-    rng.collapse(false);
-    sel.removeAllRanges();
-    sel.addRange(rng);
-  }
-
-  //  Rendering.
-  render () {
-    const {
-      cache,
-      composing,
-      handleEvent,
-      handleRef,
-      lastRenderedString,
-    } = this;
-    const {
-      autoplay,
-      className,
-      disabled,
-      emoji,
-      value,
-      ℳ,
-    } = this.props;
-
-    const computedClass = classNames('MASTODON_GO--CONNECTED--COMPOSER--TEXT_AREA', {
-      composing,
-      disabled,
-      empty: (
-        value === '\n' ||
-        value === ''
-      ),
-    }, className);
-
-    //  This gets our first and last points of difference from our
-    //  previous render.
-    const diffStart = function () {
-      let i;
-      for (i = 0; i < lastRenderedString.length; i++) {
-        if (lastRenderedString.charAt(i) !== value.charAt(i)) {
-          return i;
-        }
-      }
-      return i;
-    }();
-    let diffEnd = diffStart === lastRenderedString.length ? lastRenderedString.length : function () {
-      let i;
-      for (i = 0; i < lastRenderedString.length; i++) {
-        if (lastRenderedString.charAt(lastRenderedString.length - i - 1) !== value.charAt(value.length - i - 1)) {
-          return lastRenderedString.length - i;
-        }
-      }
-      return lastRenderedString.length - i;
-    }();
-
-    //  Our last point of difference may wind up before our first one
-    //  (this can happen when comparing eg "11" ➡️ "11a11" because our
-    //  diffs are relative to the `lastRenderedString`).  We can't
-    //  allow this because it will completely throw off our chunk
-    //  processing and boundary detection.  This unfortunately means
-    //  we can't reüse chunks—the duplicate string will have to be
-    //  reprocessed.
-    if (diffEnd < diffStart) {
-      diffEnd = diffStart;
-    }
-
-    //  We store our result in an array.
-    const result = [];
-    let index = 0;
-    let position = 0;
-    let endPosition = 0;
-
-    //  We use the cached result so long as our diff doesn't begin
-    //  until a later index.
-    while (cache[index + 1] && diffStart > cache[index + 1].position) {
-      result.push(cache[index]);
-      position += cache[index++].size;
-    }
-
-    //  We move our `index` to the first cached entry after `diffEnd`,
-    //  if applicable.
-    index = cache.length;
-    while (cache[index - 1] && diffEnd < cache[index - 1].position) {
-      endPosition += cache[--index].size;
-    }
-
-    //  Next, we process the text in-between our two diffs.
-    let i = 0;
-    let text = value.substring(position, value.length - endPosition);
-    let inWord = false;
-
-    //  We loop over each character in the string and look for a
-    //  parseäble substring.
-    while (i < text.length) {
-
-      //  If our character is a line-break, we push a `<br>`.
-      if (text.charAt(i) === '\n') {
-        if (i !== 0) {
-          result.push({
-            position,
-            size: i,
-            value: text.substr(0, i),
-          });
-        }
-        result.push({
-          position: position += i,
-          size: 1,
-          value: '<br>',
-        });
-        position++;
-        text = text.substr(i + 1);
-        i = 0;
-        inWord = false;
-        continue;
-      }
-
-      //  Otherwise, we look for matches with emoji.  There may
-      //  multiple.
-      const matches = emoji.filter(
-        emojo => {
-          const emojiString = '' + emojo;
-          const shortcodeString = emojo.name ? ':' + emojo.name + ':' : null;
-          switch (true) {
-          case emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(i + emojiString.length) !== '\ufe0e'):
-            return true;
-          case !inWord && shortcodeString && text.substr(i, shortcodeString.length) === shortcodeString && (!text.charAt(i + shortcodeString.length) || !/[\w:]/.test(text.charAt(i + shortcodeString.length))):
-            return true;
-          default:
-            return false;
-          }
-        }
-      );
-
-      //  If we have a match, then we need to process it.
-      if (matches.length) {
-
-        //  From our list of matches, we select the longest one. This will
-        //  be unique unless there are multiple emoji with the same string
-        //  value, iin which case we will select the first one.
-        const emojo = matches.reduce(
-          (longest, current) => longest && ('' + longest).length > ('' + current).length ? longest : current
-        );
-        const emojiString = '' + emojo;
-        let match = emojiString && text.substr(i, emojiString.length) === emojiString && (emojiString.charAt(emojiString.length - 1) === '\ufe0f' || text.charAt(i + emojiString.length) !== '\ufe0e') ? emojiString : ':' + emojo.name + ':';
-
-        //  We gobble the following U+FE0F character if one exists and
-        //  our match doesn't end with one.
-        if (text.charAt(i + match.length) === '\ufe0f' && match.charAt(match.length - 1) !== '\ufe0f') {
-          match += '\ufe0f';
-        }
-
-        //  If there was text prior to this emoji, we push it to our
-        //  result.  Then we push the emoji image.
-        if (i !== 0) {
-          result.push({
-            position,
-            size: i,
-            value: text.substr(0, i),
-          });
-        }
-        result.push({
-          position: position += i,
-          size: match.length,
-          value: emojo.toImage(!autoplay).outerHTML || match,
-        });
-        position += match.length;
-
-        //  We now trim the processed text off of our `text` string and
-        //  reset the index to `0`.
-        text = text.substr(i + match.length);
-        i = 0;
-        inWord = false;
-        continue;
-      }
-
-      //  If we've processed 0x16 or more characters, we go ahead and
-      //  push them.  This helps to keep our diffs small.  Note that
-      //  there is no guarantee that these chunks will stay this size.
-      //  (So long as no boundary point changes, they can shrink
-      //  without consequence.  If they try to grow, they will split in
-      //  two.)
-      if (i >= 0x15) {  //  Because our first character is 0
-        result.push({
-          position,
-          size: i + 1,
-          value: text.substr(0, i + 1),
-        });
-        position += i + 1;
-        inWord = /[\w:]/.test(text.charAt(i));
-        text = text.substr(i + 1);
-        i = 0;
-        continue;
-      }
-
-      //  Otherwise, we increment our index and move on.
-      inWord = /[\w:]/.test(text.charAt(i));
-      i++;
-    }
-
-    //  If our `text` didn't end in a parseäble entity, there will
-    //  still be some leftover text to push.
-    if (text) {
-      result.push({
-        position: position,
-        size: text.length,
-        value: text,
-      });
-      position += text.length;
-    }
-
-    //  Now we can use the cached result for any remaining entries.  We
-    //  do need to update the `position`s, though.
-    while (cache[index]) {
-      result.push({
-        position: position,
-        size: cache[index].size,
-        value: cache[index].value,
-      });
-      position += cache[index++].size;
-    }
-
-    //  We store our result and our current string for next time.
-    this.cache = result;
-    this.lastRenderedString = value;
-
-    //  Finally we can insert our result into our `<div>` and render.
-    return (
-      <div
-        aria-label={ℳ.label}
-        className={computedClass}
-        contentEditable={!disabled}
-        dangerouslySetInnerHTML={{ __html: result.map(
-          item => item.value
-        ).join('') }}
-        onCompositionStart={handleEvent}
-        onCompositionEnd={handleEvent}
-        onKeyDown={handleEvent}
-        onInput={handleEvent}
-        onBlur={handleEvent}
-        ref={handleRef}
-        tabIndex='0'
-      />
-    );
   }
 
 }

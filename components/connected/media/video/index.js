@@ -150,7 +150,7 @@ export default class ConnectedMediaVideo extends React.PureComponent {
       handleMute,
       handlePlayPause,
       handleRef,
-      video: { paused },
+      node: { paused },
     } = this;
     const {
       autoplay,

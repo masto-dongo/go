@@ -50,6 +50,14 @@ export default class Emoji {
       if (title || name) {
         image.title = title || ':' + name + ':';
       }
+      if (useStatic && href) {
+        image.addEventListener('mouseenter', function () {
+          image.src = href;
+        }, false);
+        image.addEventListener('mouseleave', function () {
+          image.src = staticHref;
+        }, false);
+      }
       return image;
     }
     return document.createTextNode(str);
