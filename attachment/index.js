@@ -102,13 +102,11 @@ const initialState = ImmutableMap();
 //  attachments are immutable, and only set them if they aren't already
 //  defined.
 const set = (state, attachments) => state.withMutations(
-  map => [].concat(attachments).forEach(
-    attachment => {
-      if (!map.get('' + attachment.id)) {
-        map.set('' + attachment.id, normalize(attachment));
-      }
+  map => [].concat(attachments).forEach(function (attachment) {
+    if (attachment && !map.get('' + attachment.id)) {
+      map.set('' + attachment.id, normalize(attachment));
     }
-  )
+  })
 );
 
 //  * * * * * * *  //
@@ -124,13 +122,20 @@ export default function attachment (state = initialState, action) {
   case COURIER_EXPAND_SUCCESS:
   case COURIER_FETCH_SUCCESS:
   case COURIER_REFRESH_SUCCESS:
-    return set(state, [].concat(...action.notifications.map(
-      notification => notification.status.media_attachments
-    )));
+    return set(state, Array.prototype.concat.apply([], action.notifications.map(function ({ status }) {
+      if (!status) {
+        return null;
+      }
+      return status.reblog ? status.reblog.media_attachments : status.media_attachments;
+    })));
   case COURIER_UPDATE_RECEIVE:
-    return set(state, action.notification.status.media_attachments);
   case NOTIFICATION_FETCH_SUCCESS:
-    return set(state, action.notification.status.media_attachments);
+    return set(state, function ({ status }) {
+      if (!status) {
+        return null;
+      }
+      return status.reblog ? status.reblog.media_attachments : status.media_attachments;
+    }(action.notification));
   case STATUS_FAVOURITE_SUCCESS:
   case STATUS_FETCH_SUCCESS:
   case STATUS_MUTE_SUCCESS:
@@ -140,15 +145,18 @@ export default function attachment (state = initialState, action) {
   case STATUS_UNMUTE_SUCCESS:
   case STATUS_UNPIN_SUCCESS:
   case STATUS_UNREBLOG_SUCCESS:
-    return set(state, action.status.media_attachments);
+    return set(state, action.status.reblog ? action.status.reblog.media_attachments : action.status.media_attachments);
   case TIMELINE_EXPAND_SUCCESS:
   case TIMELINE_FETCH_SUCCESS:
   case TIMELINE_REFRESH_SUCCESS:
-    return set(state, [].concat(...action.statuses.map(
-      status => status.media_attachments
-    )));
+    return set(state, Array.prototype.concat.apply([], action.statuses.map(function (status) {
+      if (!status) {
+        return null;
+      }
+      return status.reblog ? status.reblog.media_attachments : status.media_attachments;
+    })));
   case TIMELINE_UPDATE_RECEIVE:
-    return set(state, action.status.media_attachments);
+    return set(state, action.status.reblog ? action.status.reblog.media_attachments : action.status.media_attachments);
   default:
     return state;
   }
