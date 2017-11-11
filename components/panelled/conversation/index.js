@@ -10,7 +10,7 @@
 //  -------
 
 //  Package imports.
-import { List as ImmutableList } from 'immutable';
+import { Map as ImmutableMap } from 'immutable';
 import React from 'react';
 import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
@@ -43,6 +43,7 @@ moduleOnReady(function () {
 
     //  Store.
     createStructuredSelector({
+      account: (state, { id }) => state.getIn(['status', id, 'account']),
       ancestors: (state, { id }) => state.getIn(['conversation', id, 'ancestors']),
       descendants: (state, { id }) => state.getIn(['conversation', id, 'descendants']),
     }),
@@ -80,9 +81,9 @@ moduleOnReady(function () {
       className: 'MASTODON_GO--PANELLED--CONVERSATION',
       id: 'th-list',
       menu: function ({
-        id,
         ℳ,
         '🏪': {
+          account,
           ancestors,
           descendants,
         },
@@ -90,10 +91,8 @@ moduleOnReady(function () {
         if (!ancestors || !descendants) {
           return [];
         }
-        return ancestors.concat(ImmutableList([id]), descendants).map(
-          item => item ? item.get('account') : null
-        ).filter(
-          item => !!item
+        return ancestors.concat(account, descendants).map(
+          item => ImmutableMap.isMap(item) ? item.get('account') : account
         ).toOrderedSet().reduce(function (items, item) {
           items.push({
             destination: `/profile/${item}`,

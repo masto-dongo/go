@@ -52,12 +52,8 @@
     content: "";
 
     @keyframes mastodon_go_common_list_loading {
-      from {
-        background-position: 0 0;
-      }
-      to {
-        background-position: 23rem 0;
-      }
+      from { background-position: 0 0 }
+      to { background-position: 23rem 0 }
     }
   }
 }

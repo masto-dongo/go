@@ -98,6 +98,7 @@ Conversation.propTypes = {
   id: PropTypes.string.isRequired,  //  The `id` of the detailed status
   ℳ: PropTypes.func,
   '🏪': PropTypes.shape({
+    account: PropTypes.string,  //  Account of the detailed status
     ancestors: ImmutablePropTypes.list,  //  Ancestors of the detailed status
     descendants: ImmutablePropTypes.list,  //  Descendants of the detailed status
   }).isRequired,
