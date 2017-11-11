@@ -95,12 +95,12 @@ class Courier extends React.Component {  //  Impure
         isLoading={isLoading}
         onScrollToBottom={handleLoadMore}
       >
-        {notifications ? notifications.reduce(function (items, id) {
+        {notifications ? notifications.reduce(function (items, item) {
           items.push(
             <ConnectedNotification
-              hideIf={(settings.getIn(['shows', 'favourite']) && POST_TYPE.IS_FAVOURITE) | (settings.getIn(['shows', 'reblog']) && POST_TYPE.IS_REBLOG) | (settings.getIn(['shows', 'mention']) && POST_TYPE.IS_MENTION) | (settings.getIn(['shows', 'follow']) && POST_TYPE.IS_FOLLOW)}
-              id={id}
-              key={id}
+              hideIf={settings ? (settings.getIn(['shows', 'favourite']) && POST_TYPE.IS_FAVOURITE) | (settings.getIn(['shows', 'reblog']) && POST_TYPE.IS_REBLOG) | (settings.getIn(['shows', 'mention']) && POST_TYPE.IS_MENTION) | (settings.getIn(['shows', 'follow']) && POST_TYPE.IS_FOLLOW) : null}
+              id={item.get('id')}
+              key={item.get('id')}
             />
           );
           return items;
