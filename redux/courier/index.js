@@ -84,8 +84,8 @@ const set = (state, notifications, prev, next) => state.withMutations(
   map => {
     map.set('isLoading', false);
     map.set('notifications', normalize(notifications));
-    map.setIn('prev', '' + prev);
-    map.setIn('next', '' + next);
+    map.set('prev', '' + prev);
+    map.set('next', '' + next);
   }
 );
 
@@ -97,8 +97,8 @@ const prepend = (state, notifications, prev, next) => state.withMutations(
       'notifications',
       list => normalize(notifications).concat(list)
     );
-    map.setIn('prev', '' + prev);
-    map.setIn('next', '' + next);
+    map.set('prev', '' + prev);
+    map.set('next', '' + next);
   }
 );
 
@@ -110,8 +110,8 @@ const append = (state, notifications, prev, next) => state.withMutations(
       'notifications',
       list => list.concat(normalize(notifications))
     );
-    map.setIn('prev', '' + prev);
-    map.setIn('next', '' + next);
+    map.set('prev', '' + prev);
+    map.set('next', '' + next);
   }
 );
 
