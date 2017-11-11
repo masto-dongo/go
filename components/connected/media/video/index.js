@@ -69,6 +69,9 @@ export default class ConnectedMediaVideo extends React.PureComponent {
   }
   handlePlayPause () {
     const { node } = this;
+    if (!node) {
+      return;
+    }
     if (node.paused) {
       node.play();
     } else {
@@ -150,7 +153,7 @@ export default class ConnectedMediaVideo extends React.PureComponent {
       handleMute,
       handlePlayPause,
       handleRef,
-      node: { paused },
+      node,
     } = this;
     const {
       autoplay,
@@ -168,6 +171,7 @@ export default class ConnectedMediaVideo extends React.PureComponent {
       videoError,
     } = this.state;
     const computedClass = classNames('MASTODON_GO--CONNECTED--MEDIA--VIDEO', className);
+    const paused = node ? node.paused : true;
 
     //  This gets our content: either a preview image, an error
     //  message, or the video.
