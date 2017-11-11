@@ -27,10 +27,10 @@ import {
 
 //  Request imports.
 import {
-  connectTimeline,
   expandTimeline,
   fetchTimeline,
   refreshTimeline,
+  streamTimeline,
 } from 'themes/mastodon-go/redux';
 
 //  Stylesheet imports.
@@ -68,14 +68,31 @@ class Timeline extends React.Component {  //  Impure
     fetch();
   }
 
-  //  If our path is about to change, we need to fetch the new path.
+  //  On mounting and unmounting, we open and close our stream.
+  componentWillMount () {
+    const { '💪': { beginStream } } = this.props;
+    beginStream();
+  }
+  componentWillUnmount () {
+    const { '💪': { endStream } } = this.props;
+    endStream();
+  }
+
+  //  If our path is about to change, we need to fetch the new path and
+  //  open a new stream.
   componentWillReceiveProps (nextProps) {
     const {
       path,
-      '💪': { fetch },
+      '💪': {
+        beginStream,
+        endStream,
+        fetch,
+      },
     } = this.props;
     if (path !== nextProps.path) {
       fetch(nextProps.path);
+      endStream();
+      beginStream(nextProps.path);
     }
   }
 
@@ -198,7 +215,16 @@ var ConnectedTimeline = connect(
 
   //  Handlers.
   (go, store, { path }) => ({
-    connect: (newPath = path) => go(connectTimeline, newPath),
+    beginStream: function (newPath = path) {
+      if (newPath !== '/api/v1/timelines/home') {
+        go(streamTimeline, newPath, true);
+      }
+    },
+    endStream: function (newPath = path) {
+      if (newPath !== '/api/v1/timelines/home') {
+        go(streamTimeline, newPath, false);
+      }
+    },
     expand: () => go(expandTimeline, path),
     fetch: (newPath = path) => go(fetchTimeline, newPath),
     refresh: () => go(refreshTimeline, path),

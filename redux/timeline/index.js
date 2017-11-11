@@ -13,20 +13,16 @@ import {
 } from 'immutable';
 
 //  Request imports.
-import connectTimeline from './connect';
 import expandTimeline from './expand';
 import fetchTimeline from './fetch';
 import refreshTimeline from './refresh';
+import streamTimeline from './stream';
 import updateTimeline from './update';
 
 //  Action types.
 import { RELATIONSHIP_BLOCK_SUCCESS } from 'themes/mastodon-go/redux/relationship/block';
 import { RELATIONSHIP_MUTE_SUCCESS } from 'themes/mastodon-go/redux/relationship/mute';
 import { STATUS_REMOVE_COMPLETE } from 'themes/mastodon-go/redux/status/remove';
-import {
-  TIMELINE_CONNECT_OPEN,
-  TIMELINE_CONNECT_HALT,
-} from 'themes/mastodon-go/redux/timeline/connect';
 import {
   TIMELINE_EXPAND_FAILURE,
   TIMELINE_EXPAND_REQUEST,
@@ -42,6 +38,12 @@ import {
   TIMELINE_REFRESH_REQUEST,
   TIMELINE_REFRESH_SUCCESS,
 } from 'themes/mastodon-go/redux/timeline/refresh';
+import {
+  TIMELINE_STREAM_HALT,
+  TIMELINE_STREAM_JOIN,
+  TIMELINE_STREAM_LOSE,
+  TIMELINE_STREAM_OPEN,
+} from 'themes/mastodon-go/redux/timeline/stream';
 import { TIMELINE_UPDATE_RECEIVE } from 'themes/mastodon-go/redux/timeline/update';
 
 //  * * * * * * *  //
@@ -195,6 +197,12 @@ const setConnected = (state, path, value) => state.update(
   (map = makeTimeline(path)) => map.set('connected', !!value)
 );
 
+//  `setDisconnect()` sets the disconnect function for our timeline.
+const setDisconnect = (state, path, disconnect) => state.update(
+  '' + path,
+  (map = makeTimeline(path)) => map.set('disconnect', disconnect)
+);
+
 //  `setLoading()` sets the loading state for our timeline.
 const setLoading = (state, path, value) => state.update(
   '' + path,
@@ -209,10 +217,6 @@ export default function timeline (state = initialState, action) {
       return filterByAccount(state, action.relationship.id);
     }
     return state;
-  case TIMELINE_CONNECT_OPEN:
-    return setConnected(state, action.path, true);
-  case TIMELINE_CONNECT_HALT:
-    return setConnected(state, action.path, false);
   case TIMELINE_EXPAND_FAILURE:
     return setLoading(state, action.path, false);
   case TIMELINE_EXPAND_REQUEST:
@@ -231,6 +235,14 @@ export default function timeline (state = initialState, action) {
     return setLoading(state, action.path, true);
   case TIMELINE_REFRESH_SUCCESS:
     return prepend(state, action.path, action.statuses, action.prev, action.next);
+  case TIMELINE_STREAM_HALT:
+    return setDisconnect(state, action.path, null);
+  case TIMELINE_STREAM_JOIN:
+    return setConnected(state, action.path, true);
+  case TIMELINE_STREAM_LOSE:
+    return setConnected(state, action.path, false);
+  case TIMELINE_STREAM_OPEN:
+    return setDisconnect(state, action.path, action.disconnect);
   case TIMELINE_UPDATE_RECEIVE:
     return prepend(state, action.path, action.status);
   case STATUS_REMOVE_COMPLETE:
@@ -247,9 +259,9 @@ export default function timeline (state = initialState, action) {
 
 //  Our requests.
 export {
-  connectTimeline,
   expandTimeline,
   fetchTimeline,
   refreshTimeline,
+  streamTimeline,
   updateTimeline,
 };

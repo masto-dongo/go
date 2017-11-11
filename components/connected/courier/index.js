@@ -29,7 +29,6 @@ import {
 
 //  Request imports.
 import {
-  connectCourier,
   expandCourier,
   fetchCourier,
   refreshCourier,
@@ -167,7 +166,6 @@ var ConnectedCourier = connect(
   //  Handler.
   go => ({
     clear: () => go(clearNotification),
-    connect: () => go(connectCourier),
     delete: ids => go(deleteNotification, ids),
     expand: () => go(expandCourier),
     fetch: () => go(fetchCourier),

@@ -34,6 +34,7 @@ import RoutedUIModal from './modal';
 //  Request imports.
 import {
   loadMeta,
+  streamTimeline,
   submitAttachment,
   submitStatus,
 } from 'themes/mastodon-go/redux';
@@ -125,6 +126,8 @@ class UI extends React.Component {  //  Impure
       handleNavigate,
       handleUpload,
     } = this;
+    const { '💪': { stream } } = this.props;
+    stream();
     DOMListen(DOMEventAttach, handleAttach);
     DOMListen(DOMEventCompose, handleCompose);
     DOMListen(DOMEventNavigate, handleNavigate);
@@ -137,6 +140,8 @@ class UI extends React.Component {  //  Impure
       handleNavigate,
       handleUpload,
     } = this;
+    const { '💪': { stream } } = this.props;
+    stream(false);
     DOMForget(DOMEventAttach, handleAttach);
     DOMForget(DOMEventCompose, handleCompose);
     DOMForget(DOMEventNavigate, handleNavigate);
@@ -391,6 +396,7 @@ var RoutedUI = connect(
   go => ({
     fetch: () => go(loadMeta),
     upload: file => go(submitAttachment, file),
+    stream: (makeOpen = true) => go(streamTimeline, '/api/v1/timelines/home', makeOpen),
     submit: (text, options) => go(submitStatus, text, options),
   })
 );

@@ -16,17 +16,12 @@ import {
   Map as ImmutableMap,
 } from 'immutable';
 
-import connectCourier from './connect';
 import expandCourier from './expand';
 import fetchCourier from './fetch';
 import refreshCourier from './refresh';
 import updateCourier from './update';
 
 //  Action types.
-import {
-  COURIER_CONNECT_OPEN,
-  COURIER_CONNECT_HALT,
-} from 'themes/mastodon-go/redux/courier/connect';
 import {
   COURIER_EXPAND_FAILURE,
   COURIER_EXPAND_REQUEST,
@@ -47,6 +42,10 @@ import { NOTIFICATION_REMOVE_COMPLETE } from 'themes/mastodon-go/redux/notificat
 import { RELATIONSHIP_BLOCK_SUCCESS } from 'themes/mastodon-go/redux/relationship/block';
 import { RELATIONSHIP_MUTE_SUCCESS } from 'themes/mastodon-go/redux/relationship/mute';
 import { STATUS_REMOVE_COMPLETE } from 'themes/mastodon-go/redux/status/remove';
+import {
+  TIMELINE_STREAM_JOIN,
+  TIMELINE_STREAM_LOSE,
+} from 'themes/mastodon-go/redux/timeline/stream';
 
 //  * * * * * * *  //
 
@@ -160,10 +159,6 @@ const filterByStatus = (state, statuses) => {
 //  Action reducing.
 export default function courier (state = initialState, action) {
   switch (action.type) {
-  case COURIER_CONNECT_OPEN:
-    return state.set('connected', true);
-  case COURIER_CONNECT_HALT:
-    return state.set('connected', false);
   case COURIER_EXPAND_FAILURE:
     return state.set('isLoading', false);
   case COURIER_EXPAND_REQUEST:
@@ -194,6 +189,16 @@ export default function courier (state = initialState, action) {
     return state;
   case STATUS_REMOVE_COMPLETE:
     return filterByStatus(state, action.ids);
+  case TIMELINE_STREAM_JOIN:
+    if (action.name === 'user') {
+      return state.set('connected', true);
+    }
+    return state;
+  case TIMELINE_STREAM_LOSE:
+    if (action.name === 'user') {
+      return state.set('connected', false);
+    }
+    return state;
   default:
     return state;
   }
@@ -206,7 +211,6 @@ export default function courier (state = initialState, action) {
 
 //  Our requests.
 export {
-  connectCourier,
   expandCourier,
   fetchCourier,
   refreshCourier,

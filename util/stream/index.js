@@ -1,26 +1,55 @@
 //  STREAM
 //  ======
 
-import WebSocketClient from 'websocket.js';
-
-export default function stream (location, accessToken, stream, {
-  connected,
-  disconnected,
-  received,
-  reconnected,
+export default function stream (location, accessToken, name, {
+  connect,
+  disconnect,
+  receive,
+  reconnect,
+  refresh,
 }) {
-  const client = new WebSocketClient(`${location}/api/v1/streaming/?access_token=${accessToken}&stream=${stream}`);
-  client.onopen = connected;
-  client.onmessage = e => {
-    let data;
-    try {
-      data = JSON.parse(e.data);
-    } catch (error) {
-      data = e.data;
+  const client = location && accessToken && name ? new WebSocket(`${location}/api/v1/streaming/?access_token=${accessToken}&stream=${name}`) : null;
+  let polling = null;
+
+  function beginPolling () {
+    polling = window.setInterval(refresh, 20000);
+  }
+
+  function endPolling () {
+    window.clearInterval(polling);
+    polling = null;
+  }
+
+  if (client) {
+    client.onclose = function () {
+      beginPolling();
+      disconnect();
+    };
+    client.onmessage = function (e) {
+      let data;
+      try {
+        data = JSON.parse(e.data);
+      } catch (error) {
+        data = e.data;
+      }
+      receive(data);
+    };
+    client.onopen = function () {
+      endPolling();
+      connect();
+    };
+    client.onreconnect = function () {
+      endPolling();
+      refresh();
+      reconnect();
+    };
+  } else {
+    beginPolling();
+  }
+  return function () {
+    if (client) {
+      client.close();
     }
-    received(data);
+    endPolling();
   };
-  client.onclose = disconnected;
-  client.onreconnect = reconnected;
-  return client;
 }
