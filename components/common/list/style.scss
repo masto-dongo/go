@@ -14,7 +14,7 @@
   & > .MASTODON_GO--COMMON--OBSERVABLE {
     &:not(:first-child) { border-top: 1px $mastodon_go_content_border solid }
 
-    & > .MASTODON_GO--COMMON--BUTTON.with_text {
+    & > .MASTODON_GO--COMMON--TEXT_BUTTON {
       display: block;
       box-sizing: border-box;
       margin: 0;

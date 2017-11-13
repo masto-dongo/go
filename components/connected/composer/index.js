@@ -290,6 +290,11 @@ var ConnectedComposer = connect(
       description: 'Used to label the quick posting mode',
       id: 'composer.quick_mode',
     },
+    removeMedia: {
+      defaultMessage: 'Remove media',
+      description: 'Label used for the remove media button',
+      id: 'composer.remove_media',
+    },
     slowMode: {
       defaultMessage: 'Preview mode',
       description: 'Used to label the slow posting mode',

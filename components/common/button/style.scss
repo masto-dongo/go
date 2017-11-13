@@ -5,6 +5,7 @@
 .MASTODON_GO--COMMON--BUTTON {
   display: inline-block;
   box-sizing: content-box;
+  margin: 0;
   border: none;
   padding: 0;
   color: $mastodon_go_content_button_color;
@@ -15,118 +16,18 @@
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  transition: color ($mastodon_go_animation_speed * .15s) ease-in, outline-color ($mastodon_go_animation_speed * .3s) ease-in-out;
 
-  &.animated > *.icon {
-    animation-name: mastodon_go--common--button--deactivate;
-    animation-duration: .9s;
-    animation-timing-function: ease-in-out;
+  &:hover { color: $mastodon_go_content_button_hover }
 
-    @keyframes mastodon_go--common--button--deactivate {
-      from {
-        transform: rotate(360deg);
-      }
-      57% {
-        transform: rotate(-60deg);
-      }
-      86% {
-        transform: rotate(30deg);
-      }
-      to {
-        transform: rotate(0deg);
-      }
-    }
-  }
+  &:focus { outline-color: currentColor }
 
-  //  This is confusing becuase of the names, but the `color .3 ease-out`
-  //  transition is actually used when easing *in* to a hovering/active/
-  //  focusing state, and the default transition is used when leaving. Our
-  //  buttons are a little slower to glow than they are to fade.
-  &:focus,
-  &:hover {
-    color: $mastodon_go_content_button_hover;
-    transition: color ($mastodon_go_animation_speed * .3s) ease-out, outline-color ($mastodon_go_animation_speed * .15s) ease-in-out;
-  }
-
-  &:focus {
-    outline-color: currentColor;
-  }
-
-  &.active {
-    color: $mastodon_go_content_button_active;
-    transition: color ($mastodon_go_animation_speed * .3s) ease-out, outline-color ($mastodon_go_animation_speed * .15s) ease-in-out;
-
-    &.animated > *.icon {
-      animation-name: mastodon_go--common--button--activate;
-
-      @keyframes mastodon_go--common--button--activate {
-        from {
-          transform: rotate(0deg);
-        }
-        57% {
-          transform: rotate(420deg);  //  Blazin' 😎
-        }
-        86% {
-          transform: rotate(330deg);
-        }
-        to {
-          transform: rotate(360deg);
-        }
-      }
-    }
-  }
+  &:active,
+  &.active { color: $mastodon_go_content_button_active }
 
   //  For links, we consider them disabled if they don't have an `href`
   //  attribute (see JS).
   &.disabled {
     color: $mastodon_go_content_disabled;
     cursor: default;
-  }
-
-  //  Buttons with text have a number of different styling rules and an
-  //  overall different appearance.
-  &.with_text {
-    display: inline-block;
-    border: none;
-    padding: 0 .5em;
-    color: $mastodon_go_content_button_text;
-    background-color: $mastodon_go_content_button_color;
-    font-size: .75em;
-    font-weight: inherit;
-    line-height: 1.6;
-    cursor: pointer;
-    vertical-align: baseline;
-    transition: background-color ($mastodon_go_animation_speed * .15s) ease-in;
-
-    & > *.icon {
-      display: inline-block;
-      font-size: 1.25em;
-      line-height: 1;
-      vertical-align: -.1em;
-    }
-
-    & > *:not(:first-child) {
-      margin: 0 0 0 1ex;
-    }
-
-    &:focus,
-    &:hover {
-      color: $mastodon_go_content_button_text;
-      background-color: $mastodon_go_content_button_hover;
-      transition: background-color ($mastodon_go_animation_speed * .15s) ease-out;
-    }
-
-    &.active {
-      color: $mastodon_go_content_button_text;
-      background-color: $mastodon_go_content_button_active;
-    }
-
-    //  For links, we consider them disabled if they don't have an `href`
-    //  attribute (see JS).
-    &.disabled {
-      color: $mastodon_go_content_button_text;
-      background-color: $mastodon_go_content_disabled;
-      cursor: default;
-    }
   }
 }

@@ -18,7 +18,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 
 //  Component imports.
 import {
-  CommonButton,
+  CommonTextButton,
   ConnectedCard,
   ConnectedParse,
   ConnectedReference,
@@ -186,15 +186,15 @@ export default class ConnectedStatusContent extends React.PureComponent {
               type='emoji'
             />
             {' '}
-            <CommonButton
+            <CommonTextButton
               active={!!contentVisible}
               className='showmore'
               onClick={onExpansion}
               showTitle={!contentVisible}
               title={ℳ.showMore}
             >
-              {contentVisible ? ℳ.showLess : null}
-            </CommonButton>
+              {contentVisible ? ℳ.showLess : ℳ.showMore}
+            </CommonTextButton>
           </p>
           {!contentVisible ? mentionLinks : null}
           <div className='contents' hidden={!contentVisible}>

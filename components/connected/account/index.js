@@ -5,7 +5,7 @@
 //  `<ConnectedAccount>` provides accounts in a format suitable for
 //  inclusion in a `<CommonList>`, ie for use in `<ConnectedCourier>`s
 //  or `<ConnectedCatalogue>`s.  It is also used inside
-//   `<ConnectedStatus>`es to render the status author.
+//  `<ConnectedStatus>`es to render the status author.
 
 //  * * * * * * *  //
 
@@ -24,7 +24,7 @@ import { DOMEventNavigate } from 'themes/mastodon-go/DOM';
 
 //  Component imports.
 import {
-  CommonButton,
+  CommonIconButton,
   CommonLink,
   CommonObserveäble,
   ConnectedAvatar,
@@ -180,13 +180,15 @@ class Account extends React.Component {  //  Impure
               switch (type) {
               case POST_TYPE.REQUEST:
                 return [
-                  <CommonButton
+                  <CommonIconButton
+                    className='button'
                     icon='check'
                     key='authorize'
                     onClick={authorize}
                     title={ℳ.authorize}
                   />,
-                  <CommonButton
+                  <CommonIconButton
+                    className='button'
                     icon='times'
                     key='reject'
                     onClick={reject}
@@ -195,13 +197,15 @@ class Account extends React.Component {  //  Impure
                 ];
               case POST_TYPE.BLOCK:
                 return relationship & RELATIONSHIP.BLOCKED ? (
-                  <CommonButton
+                  <CommonIconButton
+                    className='button'
                     icon='circle-o'
                     onClick={unblock}
                     title={ℳ.unblock}
                   />
                 ) : (
-                  <CommonButton
+                  <CommonIconButton
+                    className='button'
                     icon='ban'
                     onClick={block}
                     title={ℳ.block}
@@ -209,13 +213,15 @@ class Account extends React.Component {  //  Impure
                 );
               case POST_TYPE.MUTE:
                 return relationship & RELATIONSHIP.MUTED ? (
-                  <CommonButton
+                  <CommonIconButton
+                    className='button'
                     icon='volume-up'
                     onClick={unmute}
                     title={ℳ.unmute}
                   />
                 ) : (
-                  <CommonButton
+                  <CommonIconButton
+                    className='button'
                     icon='volume-off'
                     onClick={mute}
                     title={ℳ.mute}
@@ -224,7 +230,8 @@ class Account extends React.Component {  //  Impure
               default:
                 if (relationship & RELATIONSHIP.REQUESTED) {
                   return (
-                    <CommonButton
+                    <CommonIconButton
+                    className='button'
                       icon='hourglass'
                       onClick={unfollow}
                       title={ℳ.requested}
@@ -232,13 +239,15 @@ class Account extends React.Component {  //  Impure
                   );
                 }
                 return relationship & RELATIONSHIP.FOLLOWED ? (
-                  <CommonButton
+                  <CommonIconButton
+                    className='button'
                     icon='user-times'
                     onClick={unfollow}
                     title={ℳ.unfollow}
                   />
                 ) : (
-                  <CommonButton
+                  <CommonIconButton
+                    className='button'
                     icon='user-plus'
                     onClick={follow}
                     title={ℳ.follow}

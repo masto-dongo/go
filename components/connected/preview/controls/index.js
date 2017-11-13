@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 //  Component imports.
-import { CommonButton } from 'themes/mastodon-go/components';
+import { CommonTextButton } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style.scss';
@@ -41,13 +41,11 @@ export default function ConnectedPreviewControls ({
   //  Rendering the button.
   return (
     <div className={computedClass}>
-      <CommonButton
+      <CommonTextButton
         disabled={disabled || !(text.trim() && size <= 500)}
         icon={'paper-plane'}
         onClick={onSubmit}
-        title={ℳ.publish}
-        showTitle
-      />
+      >{ℳ.publish}</CommonTextButton>
     </div>
   );
 }

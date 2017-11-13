@@ -17,7 +17,10 @@ import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 //  Component imports.
-import { CommonButton } from 'themes/mastodon-go/components';
+import {
+  CommonButton,
+  CommonIconButton,
+} from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style.scss';
@@ -214,7 +217,7 @@ export default class ConnectedMediaVideo extends React.PureComponent {
           title={previewVisible ? ℳ.videoOpen : ℳ.videoExpand}
         >{content}</CommonButton>
         {!previewVisible ? (
-          <CommonButton
+          <CommonIconButton
             active={!paused}
             className='play_pause'
             icon={paused ? 'play' : 'pause'}
@@ -224,7 +227,7 @@ export default class ConnectedMediaVideo extends React.PureComponent {
           />
         ) : null}
         {!previewVisible && hasAudio ? (
-          <CommonButton
+          <CommonIconButton
             active={!muted}
             className='mute'
             icon={muted ? 'volume-off' : 'volume-up'}

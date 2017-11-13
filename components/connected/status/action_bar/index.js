@@ -13,16 +13,18 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 
 //  DOM imports.
 import { DOMEventCompose } from 'themes/mastodon-go/DOM';
 
 //  Component imports.
-import { CommonButton } from 'themes/mastodon-go/components';
+import { CommonIconButton } from 'themes/mastodon-go/components';
 
 //  Other imports.
-import { VISIBILITY } from 'themes/mastodon-go/util/constants';
+import {
+  POST_TYPE,
+  VISIBILITY,
+} from 'themes/mastodon-go/util/constants';
 
 //  Stylesheet imports.
 import './style.scss';
@@ -60,56 +62,45 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
     const {
       className,
       detailed,
-      is,
       onDetail,
       onFavourite,
       onReblog,
       onUnfavourite,
       onUnreblog,
+      pending,
+      type,
       visibility,
       ℳ,
     } = this.props;
     const computedClass = classNames('MASTODON_GO--CONNECTED--STATUS--ACTION_BAR', { detailed }, className);
-    const rebloggable = visibility & VISIBILITY.REBLOGGABLE;
-    const reblogTitle = rebloggable ? ℳ.reblog : ℳ.noReblog;
-    let replyIcon;
-    let replyTitle;
-
-    //  This selects our reply icon.
-    if (is.get('reply')) {
-      replyIcon = 'reply-all';
-      replyTitle = ℳ.replyAll;
-    } else {
-      replyIcon = 'reply';
-      replyTitle = ℳ.reply;
-    }
 
     //  Now we can render the component.
     return (
       <div className={computedClass}>
-        <CommonButton
+        <CommonIconButton
           className='reply'
-          icon={replyIcon}
+          icon={type & POST_TYPE.IS_MENTION ? 'reply-all' : 'reply'}
           onClick={handleReply}
-          title={replyTitle}
+          title={type & POST_TYPE.IS_MENTION ? ℳ.replyAll : ℳ.reply}
         />
-        <CommonButton
-          active={is.get('reblogged')}
+        <CommonIconButton
+          active={!!(type & POST_TYPE.HAS_REBLOG)}
           className='reblog'
-          disabled={!rebloggable}
+          disabled={!(visibility & VISIBILITY.REBLOGGABLE)}
           icon='retweet'
-          onClick={!is.get('reblogged') ? onReblog : onUnreblog}
-          title={reblogTitle}
+          onClick={type & POST_TYPE.HAS_REBLOG ? onReblog : onUnreblog}
+          pending={!!(pending & POST_TYPE.HAS_REBLOG)}
+          title={visibility & VISIBILITY.REBLOGGABLE ? ℳ.reblog : ℳ.noReblog}
         />
-        <CommonButton
-          active={is.get('favourited')}
-          animate
+        <CommonIconButton
+          active={!!(type & POST_TYPE.HAS_FAVOURITE)}
           className='favourite'
           icon='star'
-          onClick={!is.get('favourited') ? onFavourite : onUnfavourite}
+          onClick={type & POST_TYPE.HAS_FAVOURITE ? onFavourite : onUnfavourite}
+          pending={!!(pending & POST_TYPE.HAS_FAVOURITE)}
           title={ℳ.favourite}
         />
-        <CommonButton
+        <CommonIconButton
           active={detailed}
           className='detail'
           icon={detailed ? 'minus' : 'plus'}
@@ -128,12 +119,13 @@ ConnectedStatusActionBar.propTypes = {
   className: PropTypes.string,
   detailed: PropTypes.bool,  //  `true` if the status is detailed
   id: PropTypes.string,  //  The id of the status
-  is: ImmutablePropTypes.map.isRequired,  //  What the status is
   onDetail: PropTypes.func,  //  A function to set the detail of the status
   onFavourite: PropTypes.func,  //  A function to favourite the status
   onReblog: PropTypes.func,  //  A function to reblog the status
   onUnfavourite: PropTypes.func,  //  A function to unfavourite the status
   onUnreblog: PropTypes.func,  //  A function to unreblog the status
+  pending: PropTypes.number,  //  Pending status actions
+  type: PropTypes.number,  //  The statuses type
   spoiler: PropTypes.string,  //  The status spoiler
   visibility: PropTypes.number,  //  The status `VISIBILITY`
   ℳ: PropTypes.func.isRequired,

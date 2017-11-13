@@ -14,8 +14,13 @@
   overflow-y: hidden;
   white-space: nowrap;
 
-  & > .MASTODON_GO--COMMON--BUTTON {
-    &.favourite.active { color: $mastodon_go_content_star }
+  & > .MASTODON_GO--COMMON--ICON_BUTTON {
+    vertical-align: bottom;
+
+    &.favourite {
+      &:active,
+      &.active { color: $mastodon_go_content_star }
+    }
   }
 
   &.detailed {
@@ -23,13 +28,13 @@
     width: 100%;
     height: auto;
 
-    & > .MASTODON_GO--COMMON--BUTTON {
+    & > .MASTODON_GO--COMMON--ICON_BUTTON {
       display: inline-block;
       margin: 0;
       border: none;
       padding: 0;
 
-      & + .MASTODON_GO--COMMON--BUTTON { margin-left: 1em }
+      & + .MASTODON_GO--COMMON--ICON_BUTTON { margin-left: 1em }
     }
   }
 }

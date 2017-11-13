@@ -18,6 +18,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 //  Component imports.
 import {
   CommonButton,
+  CommonIconButton,
   ConnectedMedia,
 } from 'themes/mastodon-go/components';
 
@@ -68,7 +69,7 @@ export default class ConnectedStatusContentGallery extends React.PureComponent {
     return (
       <div className={computedClass}>
         {visible ? (
-          <CommonButton
+          <CommonIconButton
             className='button'
             icon={visible ? 'eye' : 'eye-slash'}
             title={ℳ.hideMedia}

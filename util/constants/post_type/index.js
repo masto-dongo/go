@@ -1,32 +1,42 @@
 //  CONSTANTS:POST_TYPE
 //  ===================
 
-//  `PLAIN` notifications do not contain a status, whereas `REACTION`
-//  notifications do.
+//  No post.
+export const EMPTY         = 0;
 
-export const UNKNOWN      = 0b0000000000;
-export const IS_FAVOURITE = 0b0000000001;  //  Used with comparisons
-export const IS_REBLOG    = 0b0000000010;  //  Used with comparisons
-export const IS_MENTION   = 0b0000000100;  //  Used with comparisons
-export const HAS_MEDIA    = 0b0000001000;  //  Used with comparisons
-export const IS_FOLLOW    = 0b0000010000;  //  Used with comparisons
-export const IS_REQUEST   = 0b0000100000;  //  Speculative; used with comparisons
-export const IS_BLOCK     = 0b0001000000;  //  Used with comparisons
-export const IS_MUTE      = 0b0010000000;  //  Used with comparisons
+//  Static properties.
+export const IS_FAVOURITE  = 0b0000000000000001;  //  Used with comparisons
+export const IS_REBLOG     = 0b0000000000000010;  //  Used with comparisons
+export const IS_MENTION    = 0b0000000000000100;  //  Used with comparisons
+export const IS_FOLLOW     = 0b0000000000001000;  //  Used with comparisons
+export const IS_REQUEST    = 0b0000000000010000;  //  Speculative; used with comparisons
+export const IS_BLOCK      = 0b0000000000100000;  //  Used with comparisons
+export const IS_MUTE       = 0b0000000001000000;  //  Used with comparisons
+export const IS_MINE       = 0b0000000010000000;  //  Used with comparisons
+export const IS_RICH       = 0b0000000100000000;  //  Used with comparisons
 
-export const STATUS       = 0b0100000000;  //  Used with comparisons
-export const FAVOURITED   = 0b0100000001;
-export const REBLOGGED    = 0b0100000010;
-export const REPLY        = 0b0100000100;
-export const MEDIA        = 0b0100001000;
+//  Dynamic properties.
+export const HAS_PIN       = 0b0001000000000000;  //  Used with comparisons
+export const HAS_SILENCE   = 0b0010000000000000;  //  Used with comparisons
+export const HAS_REBLOG    = 0b0100000000000000;  //  Used with comparisons
+export const HAS_FAVOURITE = 0b1000000000000000;  //  Used with comparisons
 
-export const PLAIN        = 0b1000000000;  //  Used with comparisons
-export const FOLLOW       = 0b1000010000;
-export const REQUEST      = 0b1000100000;
-export const BLOCK        = 0b1001000000;
-export const MUTE         = 0b1010000000;
+//  Statuses.
+export const STATUS        = 0x10000;  //  Used with comparisons
+export const REBLOGGED     = STATUS | IS_REBLOG;
+export const REPLY         = STATUS | IS_MENTION;
+export const MINE          = STATUS | IS_MINE;
+export const MULTIMEDIA    = STATUS | IS_RICH;
 
-export const REACTION     = 0b1100000000;  //  Used with comparisons
-export const FAVOURITE    = 0b1100000001;
-export const REBLOG       = 0b1100000010;
-export const MENTION      = 0b1100000100;
+//  Plain notifications (without status).
+export const PLAIN         = 0x20000;  //  Used with comparisons
+export const FOLLOW        = PLAIN | IS_FOLLOW;
+export const REQUEST       = PLAIN | IS_REQUEST;
+export const BLOCK         = PLAIN | IS_BLOCK;
+export const MUTE          = PLAIN | IS_MUTE;
+
+//  Reaction notifications (with status).
+export const REACTION      = STATUS | PLAIN;  //  Used with comparisons
+export const FAVOURITE     = REACTION | IS_FAVOURITE;
+export const REBLOG        = REACTION | IS_REBLOG;
+export const MENTION       = REACTION | IS_MENTION;

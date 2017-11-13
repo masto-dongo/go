@@ -18,7 +18,7 @@ import React from 'react';
 import { DOMEventNavigate } from 'themes/mastodon-go/DOM';
 
 //  Component imports.
-import { CommonButton } from 'themes/mastodon-go/components';
+import { CommonTextButton } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style.scss';
@@ -60,27 +60,27 @@ export default class ConnectedStatusNav extends React.PureComponent {
     //  We just render our buttons in a row.
     return (
       <nav className={computedClass}>
-        <CommonButton
+        <CommonTextButton
           icon='comments-o'
           onClick={handleConversation}
           proportional
           role='link'
           title={ℳ.viewConversation}
         />
-        <CommonButton
+        <CommonTextButton
           icon='retweet'
           onClick={handleReblogs}
           proportional
           role='link'
           title={ℳ.numReblogs.withValues({ n: reblogsCount === +reblogsCount ? reblogsCount : '??' })}
-        >{reblogsCount === +reblogsCount ? ' ' + reblogsCount : ' ??'}</CommonButton>
-        <CommonButton
+        >{reblogsCount === +reblogsCount ? ' ' + reblogsCount : ' ??'}</CommonTextButton>
+        <CommonTextButton
           icon='star'
           onClick={handleFavourites}
           proportional
           role='link'
           title={ℳ.numFavourites.withValues({ n: favouritesCount === +favouritesCount ? favouritesCount : '??' })}
-        >{favouritesCount === +favouritesCount ? ' ' + favouritesCount : ' ??'}</CommonButton>
+        >{favouritesCount === +favouritesCount ? ' ' + favouritesCount : ' ??'}</CommonTextButton>
       </nav>
     );
   }

@@ -18,7 +18,7 @@ import { DOMEventNavigate } from 'themes/mastodon-go/DOM';
 
 //  Component imports.
 import {
-  CommonButton,
+  CommonTextButton,
   ConnectedAccount,
 } from 'themes/mastodon-go/components';
 
@@ -70,65 +70,49 @@ export default class PanelledStartContents extends React.Component {  //  Impure
         />
         <nav>
           <h2>{ℳ.personal}</h2>
-          <CommonButton
+          <CommonTextButton
             icon='pencil-square'
             onClick={handleCompose}
             role='link'
-            showTitle
-            title={ℳ.compose}
-          />
-          <CommonButton
+          >{ℳ.compose}</CommonTextButton>
+          <CommonTextButton
             icon='star-half-o'
             onClick={handleCourier}
             role='link'
-            showTitle
-            title={ℳ.courier}
-          />
-          <CommonButton
+          >{ℳ.courier}</CommonTextButton>
+          <CommonTextButton
             href='/settings/preferences'
             icon='cog'
-            showTitle
-            title={ℳ.preferences}
-          />
+          >{ℳ.preferences}</CommonTextButton>
         </nav>
         <nav>
           <h2>{ℳ.timelines}</h2>
-          <CommonButton
+          <CommonTextButton
             icon='home'
             onClick={handleHome}
             role='link'
-            showTitle
-            title={ℳ.home}
-          />
-          <CommonButton
+          >{ℳ.home}</CommonTextButton>
+          <CommonTextButton
             icon='globe'
             onClick={handleGlobal}
             role='link'
-            showTitle
-            title={ℳ.global}
-          />
-          <CommonButton
+          >{ℳ.global}</CommonTextButton>
+          <CommonTextButton
             icon='users'
             onClick={handleLocal}
             role='link'
-            showTitle
-            title={ℳ.local}
-          />
+          >{ℳ.local}</CommonTextButton>
         </nav>
         <nav>
           <h2>{ℳ.meta}</h2>
-          <CommonButton
+          <CommonTextButton
             href='/about/more'
             icon='book'
-            showTitle
-            title={ℳ.about}
-          />
-          <CommonButton
+          >{ℳ.about}</CommonTextButton>
+          <CommonTextButton
             href='/auth/sign_out'
             icon='sign-out'
-            showTitle
-            title={ℳ.logout}
-          />
+          >{ℳ.logout}</CommonTextButton>
         </nav>
       </div>
     );

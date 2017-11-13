@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 //  Common imports.
-import { CommonButton } from 'themes/mastodon-go/components';
+import { CommonIconButton } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style.scss';
@@ -59,13 +59,13 @@ export default class ConnectedComposerInputMenu extends React.PureComponent {
         className={computedClass}
         role='tablist'
       >
-        <CommonButton
+        <CommonIconButton
           active={value === 0}
           icon='caret-square-o-up'
           onClick={handleCloseClick}
           title={ℳ.close}
         />
-        <CommonButton
+        <CommonIconButton
           active={value === 1}
           aria-controls='mastodon-go.connected.composer.input.attach'
           icon='paperclip'
@@ -73,7 +73,7 @@ export default class ConnectedComposerInputMenu extends React.PureComponent {
           role='tab'
           title={ℳ.attach}
         />
-        <CommonButton
+        <CommonIconButton
           active={value === 2}
           aria-controls='mastodon-go.connected.composer.input.emoji'
           icon='meh-o'

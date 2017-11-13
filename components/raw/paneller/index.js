@@ -18,7 +18,7 @@ import React from 'react';
 import { DOMEventNavigate } from 'themes/mastodon-go/DOM';
 
 //  Component imports.
-import { CommonButton } from 'themes/mastodon-go/components';
+import { CommonIconButton } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style.scss';
@@ -147,7 +147,7 @@ export default class RawPaneller extends React.Component {  //  Impure
             //  If we are given an `icon`, we use it for a `#` link.
             if (icon) {
               return (
-                <CommonButton
+                <CommonIconButton
                   active={!computedHash || computedHash === '#'}
                   icon={typeof icon === 'function' ? icon(getPassableProps()) : icon}
                   onClick={clicks[0]}
@@ -162,7 +162,7 @@ export default class RawPaneller extends React.Component {  //  Impure
             //  We map each menu item to a button.
             (typeof menu === 'function' ? menu(getPassableProps()) : menu || []).map(
               (item, index) => (
-                <CommonButton
+                <CommonIconButton
                   active={item.active !== void 0 ? item.active : item.hash && computedHash === item.hash}
                   icon={item.icon}
                   key={index}
@@ -182,7 +182,7 @@ export default class RawPaneller extends React.Component {  //  Impure
               return null;
             case computedHash && computedHash !== '#' && !!ℳ['⬅']:
               return (
-                <CommonButton
+                <CommonIconButton
                   className='close'
                   icon='arrow-left'
                   onClick={clicks[0]}
@@ -192,7 +192,7 @@ export default class RawPaneller extends React.Component {  //  Impure
               );
             case !!ℳ['❌']:
               return (
-                <CommonButton
+                <CommonIconButton
                   className='close'
                   icon='times'
                   onClick={clicks[clicks.length - 1]}

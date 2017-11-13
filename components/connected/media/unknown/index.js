@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 //  Component imports.
-import { CommonButton } from 'themes/mastodon-go/components';
+import { CommonTextButton } from 'themes/mastodon-go/components';
 
 //  Stylesheet imports.
 import './style.scss';
@@ -35,11 +35,11 @@ export default function ConnectedAttachmentUnknown ({
 
   //  Rendering.
   return (
-    <CommonButton
+    <CommonTextButton
       className={computedClass}
       href={href}
       icon='link'
-    >{description}</CommonButton>
+    >{description}</CommonTextButton>
   );
 }
 

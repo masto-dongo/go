@@ -50,7 +50,7 @@
     height: 3.15rem;
     text-align: right;
 
-    & > .MASTODON_GO--COMMON--BUTTON {
+    & > *.button {
       display: inline-block;
       margin: 0;
       border: none;

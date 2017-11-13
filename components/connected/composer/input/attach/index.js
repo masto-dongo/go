@@ -17,8 +17,8 @@ import React from 'react';
 
 //  Component imports.
 import {
-  CommonButton,
   CommonIcon,
+  CommonIconButton,
   ConnectedMedia,
 } from 'themes/mastodon-go/components';
 
@@ -127,13 +127,14 @@ export default class ConnectedComposerInputAttach extends React.PureComponent {
                 id={attachment}
                 targetWidth={200}
               />
-              <CommonButton
+              <CommonIconButton
                 className='close'
                 data={attachment}
                 disabled={disabled}
                 icon='times'
                 onClick={onRemove}
                 passive
+                title={ℳ.removeMedia}
               />
             </span>
           )

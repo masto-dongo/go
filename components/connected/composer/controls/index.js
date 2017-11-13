@@ -22,7 +22,7 @@ import {
 
 //  Component imports.
 import {
-  CommonButton,
+  CommonTextButton,
   CommonToggle,
 } from 'themes/mastodon-go/components';
 
@@ -140,21 +140,21 @@ export default class ConnectedComposerControls extends React.PureComponent {
           onChange={handlePooptoot}
           title={ℳ.postMode}
         />
-        <CommonButton
+        <CommonTextButton
+          className='button'
           disabled={disabled || !(text.trim() && size <= 500)}
           icon={pooptoot || quickMode ? 'paper-plane' : 'paper-plane-o'}
           onClick={handleClick}
           role={pooptoot || quickMode ? 'button' : 'link'}
-          title={pooptoot || quickMode ? ℳ.quick : ℳ.preview}
-          showTitle
         >
+          {pooptoot || quickMode ? ℳ.quick : ℳ.preview}
           {attached ? <span className='attached'>{attached}</span> : null}
           <span
             aria-hidden='true'
             className='filler'
             style={{ width: size > 500 ? '100%' : '' + (100 * size / 500) + '%' }}
           />
-        </CommonButton>
+        </CommonTextButton>
       </div>
     );
   }

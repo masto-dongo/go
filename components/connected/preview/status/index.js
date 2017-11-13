@@ -18,7 +18,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 
 //  Component imports.
 import {
-  CommonButton,
+  CommonTextButton,
   ConnectedParse,
 } from 'themes/mastodon-go/components';
 
@@ -105,15 +105,14 @@ export default class ConnectedPreviewStatus extends React.PureComponent {
               type='emoji'
             />
             {' '}
-            <CommonButton
+            <CommonTextButton
               active={!!contentVisible}
               className='showmore'
               onClick={handleSpoilerClick}
-              showTitle={!contentVisible}
               title={ℳ.showMore}
             >
-              {contentVisible ? ℳ.showLess : null}
-            </CommonButton>
+              {contentVisible ? ℳ.showLess : ℳ.showMore}
+            </CommonTextButton>
           </p>
           <div className='contents' hidden={!contentVisible}>
             <div className='text'>

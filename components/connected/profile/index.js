@@ -18,9 +18,9 @@ import { createStructuredSelector } from 'reselect';
 
 //  Component imports.
 import {
-  CommonButton,
   CommonLink,
   CommonImage,
+  CommonTextButton,
   ConnectedAccount,
   ConnectedParse,
 } from 'themes/mastodon-go/components';
@@ -122,27 +122,27 @@ class Profile extends React.Component {  //  Impure
           type='account'
         />
         <footer>
-          <CommonButton
+          <CommonTextButton
             onClick={handlePostsClick}
             role='link'
           >
             {ℳ.posts}
             <strong>{counts.get('statuses')}</strong>
-          </CommonButton>
-          <CommonButton
+          </CommonTextButton>
+          <CommonTextButton
             onClick={handleFollowsClick}
             role='link'
           >
             {ℳ.follows}
             <strong>{counts.get('following')}</strong>
-          </CommonButton>
-          <CommonButton
+          </CommonTextButton>
+          <CommonTextButton
             onClick={handleFollowersClick}
             role='link'
           >
             {ℳ.followers}
             <strong>{counts.get('followers')}</strong>
-          </CommonButton>
+          </CommonTextButton>
         </footer>
       </article>
     );

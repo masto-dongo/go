@@ -22,9 +22,9 @@ import { createStructuredSelector } from 'reselect';
 
 //  Component imports.
 import {
-  CommonButton,
   CommonList,
   CommonObserveäble,
+  CommonTextButton,
   ConnectedAccount,
 } from 'themes/mastodon-go/components';
 
@@ -121,12 +121,10 @@ class Catalogue extends React.Component {  //  Impure
             key='loadmore'
             searchText={ℳ.loadMore}
           >
-            <CommonButton
+            <CommonTextButton
               disabled={isLoading}
               onClick={expand}
-              showTitle
-              title={ℳ.loadMore}
-            />
+            >{ℳ.loadMore}</CommonTextButton>
           </CommonObserveäble>
         ) : null}
       </CommonList>

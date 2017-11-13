@@ -36,23 +36,58 @@ import { COURIER_UPDATE_RECEIVE } from 'themes/mastodon-go/redux/courier/update'
 import { NOTIFICATION_FETCH_SUCCESS } from 'themes/mastodon-go/redux/notification/fetch';
 import { RELATIONSHIP_BLOCK_SUCCESS } from 'themes/mastodon-go/redux/relationship/block';
 import { RELATIONSHIP_MUTE_SUCCESS } from 'themes/mastodon-go/redux/relationship/mute';
-import { STATUS_FAVOURITE_SUCCESS } from 'themes/mastodon-go/redux/status/favourite';
+import {
+  STATUS_FAVOURITE_REQUEST,
+  STATUS_FAVOURITE_SUCCESS,
+  STATUS_FAVOURITE_FAILURE,
+} from 'themes/mastodon-go/redux/status/favourite';
 import { STATUS_FETCH_SUCCESS } from 'themes/mastodon-go/redux/status/fetch';
-import { STATUS_MUTE_SUCCESS } from 'themes/mastodon-go/redux/status/mute';
-import { STATUS_PIN_SUCCESS } from 'themes/mastodon-go/redux/status/pin';
-import { STATUS_REBLOG_SUCCESS } from 'themes/mastodon-go/redux/status/reblog';
+import {
+  STATUS_MUTE_REQUEST,
+  STATUS_MUTE_SUCCESS,
+  STATUS_MUTE_FAILURE,
+} from 'themes/mastodon-go/redux/status/mute';
+import {
+  STATUS_PIN_REQUEST,
+  STATUS_PIN_SUCCESS,
+  STATUS_PIN_FAILURE,
+} from 'themes/mastodon-go/redux/status/pin';
+import {
+  STATUS_REBLOG_REQUEST,
+  STATUS_REBLOG_SUCCESS,
+  STATUS_REBLOG_FAILURE,
+} from 'themes/mastodon-go/redux/status/reblog';
 import { STATUS_REMOVE_COMPLETE } from 'themes/mastodon-go/redux/status/remove';
-import { STATUS_UNFAVOURITE_SUCCESS } from 'themes/mastodon-go/redux/status/unfavourite';
-import { STATUS_UNMUTE_SUCCESS } from 'themes/mastodon-go/redux/status/unmute';
-import { STATUS_UNPIN_SUCCESS } from 'themes/mastodon-go/redux/status/unpin';
-import { STATUS_UNREBLOG_SUCCESS } from 'themes/mastodon-go/redux/status/unreblog';
+import {
+  STATUS_UNFAVOURITE_REQUEST,
+  STATUS_UNFAVOURITE_SUCCESS,
+  STATUS_UNFAVOURITE_FAILURE,
+} from 'themes/mastodon-go/redux/status/unfavourite';
+import {
+  STATUS_UNMUTE_REQUEST,
+  STATUS_UNMUTE_SUCCESS,
+  STATUS_UNMUTE_FAILURE,
+} from 'themes/mastodon-go/redux/status/unmute';
+import {
+  STATUS_UNPIN_REQUEST,
+  STATUS_UNPIN_SUCCESS,
+  STATUS_UNPIN_FAILURE,
+} from 'themes/mastodon-go/redux/status/unpin';
+import {
+  STATUS_UNREBLOG_REQUEST,
+  STATUS_UNREBLOG_SUCCESS,
+  STATUS_UNREBLOG_FAILURE,
+} from 'themes/mastodon-go/redux/status/unreblog';
 import { TIMELINE_EXPAND_SUCCESS } from 'themes/mastodon-go/redux/timeline/expand';
 import { TIMELINE_FETCH_SUCCESS } from 'themes/mastodon-go/redux/timeline/fetch';
 import { TIMELINE_REFRESH_SUCCESS } from 'themes/mastodon-go/redux/timeline/refresh';
 import { TIMELINE_UPDATE_RECEIVE } from 'themes/mastodon-go/redux/timeline/update';
 
 //  Other imports.
-import { VISIBILITY } from 'themes/mastodon-go/util/constants';
+import {
+  POST_TYPE,
+  VISIBILITY,
+} from 'themes/mastodon-go/util/constants';
 import deHTMLify from 'themes/mastodon-go/util/deHTMLify';
 import { Emoji } from 'themes/mastodon-go/util/emojify';
 
@@ -87,8 +122,9 @@ function normalize ({
   tags,
   url,
   visibility,
-}, oldContent) {
+}, oldContent, resolvePending) {
   const plainContent = oldContent && oldContent.get('html') === '' + content ? oldContent.get('plain') : deHTMLify(content);
+  const pending = oldContent && oldContent.get('pending');
   return ImmutableMap({
     account: account ? '' + account.id : null,
     application: application ? ImmutableMap({
@@ -118,12 +154,6 @@ function normalize ({
       account: '' + in_reply_to_account_id,
       id: '' + in_reply_to_id,
     }) : null,
-    is: ImmutableMap({
-      favourited: !!favourited,
-      muted: !!muted,
-      reblogged: !!reblogged,
-      reply: !!in_reply_to_id,
-    }),
     media: ImmutableList((media_attachments || []).map(
       attachment => ImmutableMap({
         id: '' + attachment.id,
@@ -142,6 +172,7 @@ function normalize ({
         username: '' + mention.username,
       })
     )),
+    pending: pending & ~resolvePending,
     reblog: reblog ? '' + reblog.id : null,
     sensitive: !!sensitive,
     spoiler: spoiler_text ? '' + spoiler_text : '',
@@ -151,6 +182,16 @@ function normalize ({
         name: '' + tag.name,
       })
     )),
+    type: function () {
+      let value = POST_TYPE.STATUS;
+      value |= reblog && POST_TYPE.IS_REBLOG;
+      value |= in_reply_to_id && POST_TYPE.IS_MENTION;
+      value |= media_attachments && media_attachments.length && POST_TYPE.IS_RICH;
+      value |= muted && POST_TYPE.HAS_SILENCE;
+      value |= reblogged && POST_TYPE.HAS_REBLOG;
+      value |= favourited && POST_TYPE.HAS_FAVOURITE;
+      return value;
+    }(),
     visibility: function () {
       let value = VISIBILITY.DIRECT;
       switch (visibility) {
@@ -195,6 +236,15 @@ const set = (state, statuses) => state.withMutations(
     }
   )
 );
+
+//  `makePending()` sets the pending state of an action.
+const makePending = (state, id, action, pending) => {
+  status = state.get('' + id);
+  if (!status) {
+    return state;
+  }
+  return state.setIn(['' + id, 'pending'], pending ? state.get('pending') | action : state.get('pending') & ~action);
+};
 
 //  `filterByAccount()` deletes those statuses whose associated
 //  `account` matches one of the ones provided.
@@ -250,19 +300,58 @@ export default function status (state = initialState, action) {
       return filterByAccount(state, action.relationship.id);
     }
     return state;
+  case STATUS_FAVOURITE_REQUEST:
+    return makePending(state, action.id, POST_TYPE.HAS_FAVOURITE, true);
   case STATUS_FAVOURITE_SUCCESS:
+    return set(state, action.status, POST_TYPE.HAS_FAVOURITE);
+  case STATUS_FAVOURITE_FAILURE:
+    return makePending(state, action.id, POST_TYPE.HAS_FAVOURITE, false);
   case STATUS_FETCH_SUCCESS:
-  case STATUS_MUTE_SUCCESS:
-  case STATUS_PIN_SUCCESS:
-  case STATUS_REBLOG_SUCCESS:
     return set(state, action.status);
+  case STATUS_MUTE_REQUEST:
+    return makePending(state, action.id, POST_TYPE.HAS_SILENCE, true);
+  case STATUS_MUTE_SUCCESS:
+    return set(state, action.status, POST_TYPE.HAS_SILENCE);
+  case STATUS_MUTE_FAILURE:
+    return makePending(state, action.id, POST_TYPE.HAS_SILENCE, false);
+  case STATUS_PIN_REQUEST:
+    return makePending(state, action.id, POST_TYPE.HAS_PIN, true);
+  case STATUS_PIN_SUCCESS:
+    return set(state, action.status, POST_TYPE.HAS_PIN);
+  case STATUS_PIN_FAILURE:
+    return makePending(state, action.id, POST_TYPE.HAS_PIN, false);
+  case STATUS_REBLOG_REQUEST:
+    return makePending(state, action.id, POST_TYPE.HAS_REBLOG, true);
+  case STATUS_REBLOG_SUCCESS:
+    return set(state, action.status, POST_TYPE.HAS_REBLOG);
+  case STATUS_REBLOG_FAILURE:
+    return makePending(state, action.id, POST_TYPE.HAS_REBLOG, false);
   case STATUS_REMOVE_COMPLETE:
     return filterByStatus(state, action.ids);
+  case STATUS_UNFAVOURITE_REQUEST:
+    return makePending(state, action.id, POST_TYPE.HAS_FAVOURITE, true);
   case STATUS_UNFAVOURITE_SUCCESS:
+    return set(state, action.status, POST_TYPE.HAS_FAVOURITE);
+  case STATUS_UNFAVOURITE_FAILURE:
+    return makePending(state, action.id, POST_TYPE.HAS_FAVOURITE, false);
+  case STATUS_UNMUTE_REQUEST:
+    return makePending(state, action.id, POST_TYPE.HAS_SILENCE, true);
   case STATUS_UNMUTE_SUCCESS:
+    return set(state, action.status, POST_TYPE.HAS_SILENCE);
+  case STATUS_UNMUTE_FAILURE:
+    return makePending(state, action.id, POST_TYPE.HAS_SILENCE, false);
+  case STATUS_UNPIN_REQUEST:
+    return makePending(state, action.id, POST_TYPE.HAS_PIN, true);
   case STATUS_UNPIN_SUCCESS:
+    return set(state, action.status, POST_TYPE.HAS_PIN);
+  case STATUS_UNPIN_FAILURE:
+    return makePending(state, action.id, POST_TYPE.HAS_PIN, false);
+  case STATUS_UNREBLOG_REQUEST:
+    return makePending(state, action.id, POST_TYPE.HAS_REBLOG, true);
   case STATUS_UNREBLOG_SUCCESS:
-    return set(state, action.status);
+    return set(state, action.status, POST_TYPE.HAS_REBLOG);
+  case STATUS_UNREBLOG_FAILURE:
+    return makePending(state, action.id, POST_TYPE.HAS_REBLOG, false);
   case TIMELINE_EXPAND_SUCCESS:
   case TIMELINE_FETCH_SUCCESS:
   case TIMELINE_REFRESH_SUCCESS:

@@ -55,6 +55,7 @@ export default class CommonLink extends React.PureComponent {
       href,
       onClick,
       role,
+      title,
       ...rest
     } = this.props;
     const computedClass = classNames('MASTODON_GO--COMMON--LINK', className, role);
@@ -89,6 +90,7 @@ export default class CommonLink extends React.PureComponent {
         {...conditionalProps}
         rel='noopener'
         target='_blank'
+        title={title}
         {...rest}
       >{children}</a>
     );
@@ -103,4 +105,5 @@ CommonLink.propTypes = {
   href: PropTypes.string,  //  The link destination
   onClick: PropTypes.func,  //  A function to call instead of opening the link
   role: PropTypes.string,  //  An ARIA role for the link
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]),  //  A title for the link
 };

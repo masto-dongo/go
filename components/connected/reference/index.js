@@ -22,7 +22,7 @@ import { DOMEventNavigate } from 'themes/mastodon-go/DOM';
 
 //  Component imports.
 import {
-  CommonButton,
+  CommonIconButton,
   CommonLink,
 } from 'themes/mastodon-go/components';
 
@@ -121,7 +121,7 @@ class Reference extends React.PureComponent {
         break;
       }
       return (
-        <CommonButton
+        <CommonIconButton
           className={computedClass}
           href={href}
           icon={icon}
@@ -132,7 +132,7 @@ class Reference extends React.PureComponent {
     //  If we are given a `card`, we render a card button.
     case !!card:
       return (
-        <CommonButton
+        <CommonIconButton
           className={computedClass}
           href={href}
           icon={'id-card-o'}

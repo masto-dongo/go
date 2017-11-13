@@ -28,7 +28,7 @@
     height: auto;
   }
 
-  & > .MASTODON_GO--COMMON--BUTTON.button {
+  & > *.button {
     position: absolute;
     top: 0;
     left: 0;
@@ -51,7 +51,7 @@
     }
   }
 
-  & > .MASTODON_GO--COMMON--BUTTON.with_text.curtain {
+  & > *.curtain {
     display: block;
     position: absolute;
     top: 0;

@@ -198,10 +198,10 @@ class Status extends React.Component {  //  Impure
         emoji,
         href,
         inReplyTo,
-        is,
         me,
         media,
         mentions,
+        pending,
         sensitive,
         spoiler,
         tags,
@@ -244,7 +244,7 @@ class Status extends React.Component {  //  Impure
 
     //  If our `type` matches our `hideIf` or our `regex` matches our
     //  `searchText`, we don't show the status.
-    if (hideIf & type || regex && account !== me && regex.test(searchText)) {
+    if (!type || hideIf & type || regex && account !== me && regex.test(searchText)) {
       return null;
     }
 
@@ -329,13 +329,14 @@ class Status extends React.Component {  //  Impure
           at={at}
           detailed={detailed}
           id={id}
-          is={is}
           onDetail={handleDetail}
           onFavourite={favourite}
           onReblog={reblog}
           onUnfavourite={unfavourite}
           onUnreblog={unreblog}
+          pending={pending}
           spoiler={spoiler}
+          type={type}
           visibility={visibility}
           ℳ={ℳ}
         />
@@ -378,10 +379,10 @@ Status.propTypes = {
     emoji: ImmutablePropTypes.list,  //  The custom emoji for the status
     href: PropTypes.string,  //  A link to the static page for the status
     inReplyTo: PropTypes.map,  //  The id of the status that this status is in reply to
-    is: ImmutablePropTypes.map,  //  What the status is (and isn't)
     me: PropTypes.string,  //  The current user's id
     media: ImmutablePropTypes.list,  //  The media attached to the status
     mentions: ImmutablePropTypes.list,  //  A list of mentions contained in the status
+    pending: PropTypes.number,  //  The `POST_TYPE` of pending requests
     sensitive: PropTypes.bool,  //  `true` if the status media is sensitive
     spoiler: PropTypes.string,  //  The content of the status spoiler
     tags: ImmutablePropTypes.list,  //  A list of tags contained in the status
@@ -422,16 +423,16 @@ var ConnectedStatus = connect(
     emoji: (state, { id }) => getInStatus(state, id, 'emoji'),
     href: (state, { id }) => getInStatus(state, id, 'href'),
     inReplyTo: (state, { id }) => getInStatus(state, id, 'inReplyTo'),
-    is: (state, { id }) => getInStatus(state, id, 'is'),
     media: (state, { id }) => getInStatus(state, id, 'media'),
     mentions: (state, { id }) => getInStatus(state, id, 'mentions'),
+    pending: (state, { id }) => getInStatus(state, id, 'pending'),
     sensitive: (state, { id }) => getInStatus(state, id, 'sensitive'),
     spoiler: (state, { id }) => getInStatus(state, id, 'spoiler'),
     tags: (state, { id }) => getInStatus(state, id, 'tags'),
     type: (state, {
       id,
       type,
-    }) => type | POST_TYPE.STATUS | (id && state.getIn(['status', id, 'reblog']) && POST_TYPE.IS_REBLOG) | (getInStatus(state, id, 'inReplyTo') && POST_TYPE.IS_MENTION),
+    }) => type | getInStatus(state, id, 'type') | (getInStatus(state, id, 'account') === state.getIn(['meta', 'me']) && POST_TYPE.IS_MINE),
     visibility: (state, { id }) => getInStatus(state, id, 'visibility'),
   }),
 
