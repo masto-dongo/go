@@ -1,0 +1,42 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--COMMON--TEXT_BUTTON {
+  padding: 0 .5em;
+  color: $mastodon_go_content_button_text;
+  background-color: $mastodon_go_content_button_color;
+  font-size: .75em;
+  font-weight: inherit;
+  line-height: 1.6;
+  cursor: pointer;
+  vertical-align: baseline;
+
+  & > .MASTODON_GO--COMMON--ICON {
+    display: inline-block;
+    font-size: 1.25em;
+    line-height: 1;
+    vertical-align: -.1em;
+  }
+
+  & > *:not(:first-child) {
+    margin: 0 0 0 1ex;
+  }
+
+  &:hover {
+    color: $mastodon_go_content_button_text;
+    background-color: $mastodon_go_content_button_hover;
+  }
+
+  &:active,
+  &.active {
+    color: $mastodon_go_content_button_text;
+    background-color: $mastodon_go_content_button_active;
+  }
+
+  &.disabled {
+    color: $mastodon_go_content_button_text;
+    background-color: $mastodon_go_content_disabled;
+    cursor: default;
+  }
+}

@@ -238,7 +238,7 @@ RawPaneller.propTypes = {
       destination: PropTypes.string,  //  The destination for the button, used in place of a hash
       hash: PropTypes.string,  //  The hash for the button
       icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,  //  The button icon
-      title: PropTypes.PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]),  //  The button title
+      title: PropTypes.PropTypes.string,  //  The button title
     })), PropTypes.func]),
     panels: PropTypes.objectOf(PropTypes.func),  //  The (non-backdrop) panels, by hash
     suppressTitle: PropTypes.bool,  //  `true` if a title for the column should not be visually rendered

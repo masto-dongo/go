@@ -105,5 +105,5 @@ CommonLink.propTypes = {
   href: PropTypes.string,  //  The link destination
   onClick: PropTypes.func,  //  A function to call instead of opening the link
   role: PropTypes.string,  //  An ARIA role for the link
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]),  //  A title for the link
+  title: PropTypes.string,  //  A title for the link
 };

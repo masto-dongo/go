@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+@import "themes/mastodon-go/variables";
+
+.MASTODON_GO--COMMON--ICON_BUTTON {
+  position: relative;
+  line-height: 1;
+  width: 1.35em;
+  height: 1em;
+  text-align: center;
+
+  &.disabled {
+    &.pending {
+      color: $mastodon_go_content_button_active;
+
+      &:active,
+      &.active {
+        color: $mastodon_go_content_button_color;
+      }
+    }
+  }
+}

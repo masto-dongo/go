@@ -212,7 +212,7 @@ export default function RoutedUIColumn ({
                   hash={activeRoute ? hash : null}
                   icon='hashtag'
                   path={`/api/v1/tag/${query}?local=true`}
-                  title={ℳ.localTag.withValues({ query })}
+                  title={ℳ('localTag', { query })}
                 />
               );
             }}

@@ -140,15 +140,15 @@ class Setting extends React.PureComponent {
 //  Props.
 Setting.propTypes = {
   activeIcon: PropTypes.node,  //  The active icon for a toggle setting
-  activeLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]),  //  The active label for a toggle setting
+  activeLabel: PropTypes.string,  //  The active label for a toggle setting
   children: PropTypes.node,
   className: PropTypes.string,
   disabled: PropTypes.bool,  //  `true` if the setting is disabled
   global: PropTypes.bool,  //  `true` if the setting is a global (stored server-side) setting
   inactiveIcon: PropTypes.node,  //  The inactive icon for a toggle setting
-  inactiveLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]), //  The inactive label for a toggle setting
+  inactiveLabel: PropTypes.string, //  The inactive label for a toggle setting
   settingKey: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,  //  The key for the setting
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]),  //  The label for the setting
+  title: PropTypes.string,  //  The label for the setting
   type: PropTypes.oneOf(['input', 'toggle']),  //  The setting type
   ℳ: PropTypes.func,
   '🏪': PropTypes.shape({ value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]) }).isRequired,  //  The value of the setting

@@ -180,5 +180,5 @@ CommonButton.propTypes = {
   onClick: PropTypes.func,  //  The function to call when clicking the button
   passive: PropTypes.bool,  //  `true` if clicking the button shouldn't affect focus
   role: PropTypes.string,  //  The ARIA role of the button, if not `'button'`
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]),  //  The button's label
+  title: PropTypes.string,  //  The button's label
 };

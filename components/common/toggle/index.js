@@ -261,14 +261,14 @@ export default class CommonToggle extends React.PureComponent {
 CommonToggle.propTypes = {
   active: PropTypes.bool,  //  `true` if the active option is selected
   activeIcon: PropTypes.node,  //  The icon for the active option
-  activeLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]).isRequired,  //  The label for the active option
+  activeLabel: PropTypes.string.isRequired,  //  The label for the active option
   className: PropTypes.string,
   compact: PropTypes.bool,  //  Whether or not to show the labels
   disabled: PropTypes.bool,  //  Whether the toggle is disabled
   inactiveIcon: PropTypes.node,  //  The icon for the inactive option
-  inactiveLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]).isRequired,  //  The label for the inactive option
+  inactiveLabel: PropTypes.string.isRequired,  //  The label for the inactive option
   onChange: PropTypes.func,  //  A function to call on toggle change, with the current value
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]),  //  A label for the toggle
+  title: PropTypes.string,  //  A label for the toggle
 };
 
 //  Default props.  These give our default active/inactive icons.

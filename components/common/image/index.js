@@ -102,7 +102,7 @@ CommonImage.propTypes = {
   animatedSrc: PropTypes.string,  //  The animated image source, if one exists
   autoplay: PropTypes.bool,  //  Whether to autoplay the image, if animated
   className: PropTypes.string,
-  description: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]),  //  Image alt-text
+  description: PropTypes.string,  //  Image alt-text
   staticSrc: PropTypes.string,  //  The static image source.
   title: PropTypes.string,  //  A title/label for the image, if different from its `description`
 };

@@ -72,14 +72,14 @@ export default class ConnectedStatusNav extends React.PureComponent {
           onClick={handleReblogs}
           proportional
           role='link'
-          title={ℳ.numReblogs.withValues({ n: reblogsCount === +reblogsCount ? reblogsCount : '??' })}
+          title={ℳ('numReblogs', { n: reblogsCount === +reblogsCount ? reblogsCount : '??' })}
         >{reblogsCount === +reblogsCount ? ' ' + reblogsCount : ' ??'}</CommonTextButton>
         <CommonTextButton
           icon='star'
           onClick={handleFavourites}
           proportional
           role='link'
-          title={ℳ.numFavourites.withValues({ n: favouritesCount === +favouritesCount ? favouritesCount : '??' })}
+          title={ℳ('numFavourites', { n: favouritesCount === +favouritesCount ? favouritesCount : '??' })}
         >{favouritesCount === +favouritesCount ? ' ' + favouritesCount : ' ??'}</CommonTextButton>
       </nav>
     );

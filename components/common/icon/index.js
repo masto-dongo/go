@@ -67,5 +67,5 @@ CommonIcon.propTypes = {
   className: PropTypes.string,
   icon: PropTypes.node,  //  The name of the icon or a node to use instead
   proportional: PropTypes.bool,  //  `true` if the icon should be proportional rather than fullwidth
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]),  //  A screenreader-friendly title for the icon
+  title: PropTypes.string,  //  A screenreader-friendly title for the icon
 };

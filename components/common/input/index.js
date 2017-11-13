@@ -90,6 +90,6 @@ CommonInput.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,  //  Whether the input is disabled
   onChange: PropTypes.func,  //  A function for receiving the input's value on change
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(String)]),  //  The title and placeholder text for the input
+  title: PropTypes.string,  //  The title and placeholder text for the input
   value: PropTypes.string,  //  The input's value
 };
