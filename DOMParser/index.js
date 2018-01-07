@@ -1,3 +1,6 @@
+//  deHTMLify:DOMParser
+//  ===================
+
 //  Polyfills HTML DOM Parsing for older browsers which only support
 //  XML.
 export default class DOMParser {

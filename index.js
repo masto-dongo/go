@@ -1,5 +1,8 @@
+//  deHTMLify
+//  =========
+
 //  Other imports.
-import DOMParser from './polyfills/DOMParser';
+import DOMParser from './DOMParser';
 
 //  The function.
 export default function deHTMLify (text) {
