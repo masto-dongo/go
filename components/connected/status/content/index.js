@@ -22,7 +22,7 @@ import {
   ConnectedCard,
   ConnectedParse,
   ConnectedReference,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
 import ConnectedStatusContentGallery from './gallery';
 
 //  Stylesheet imports.

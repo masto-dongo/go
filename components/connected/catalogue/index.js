@@ -26,20 +26,18 @@ import {
   CommonObserveäble,
   CommonTextButton,
   ConnectedAccount,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
 
-//  Stylesheet imports.
-import './style.scss';
-
-//  Request imports.
+//  Lib imports.
+import connect from 'flavours/go/lib/connect';
 import {
   expandCatalogue,
   fetchCatalogue,
   refreshCatalogue,
-} from 'themes/mastodon-go/redux';
+} from 'flavours/go/lib/tootledge';
 
-//  Other imports
-import connect from 'themes/mastodon-go/util/connect';
+//  Stylesheet imports.
+import './style.scss';
 
 //  * * * * * * *  //
 

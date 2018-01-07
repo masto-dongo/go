@@ -19,7 +19,7 @@ import React from 'react';
 import './style.scss';
 
 //  Other imports.
-import Observer from 'themes/mastodon-go/util/observer';
+import Observer from 'flavours/go/lib/observer';
 
 //  * * * * * * *  //
 
@@ -226,6 +226,7 @@ export default class CommonList extends React.PureComponent {
     } = this.props;
     const computedClass = classNames('MASTODON_GO--COMMON--LIST', { loading: isLoading }, className);
 
+    //  The result.
     return (
       <div
         className={computedClass}

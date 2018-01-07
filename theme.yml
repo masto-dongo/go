@@ -1,2 +1,6 @@
-name: mastodon-go
-pack: index.js
+pack:
+  home:
+    filename: index.js
+    use_common: false
+
+locales: locales

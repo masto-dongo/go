@@ -19,16 +19,15 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { createStructuredSelector } from 'reselect';
 
 //  Component imports.
-import { CommonImage } from 'themes/mastodon-go/components';
+import { CommonImage } from 'flavours/go/components';
 
-//  Request imports.
-import { fetchAccount } from 'themes/mastodon-go/redux';
+//  Lib imports.
+import connect from 'flavours/go/lib/connect';
+import { fetchAccount } from 'flavours/go/lib/tootledge';
 
 //  Stylesheet imports.
 import './style.scss';
 
-//  Other imports.
-import connect from 'themes/mastodon-go/util/connect';
 
 //  * * * * * * *  //
 

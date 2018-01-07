@@ -36,14 +36,14 @@ import { createStructuredSelector } from 'reselect';
 import {
   ConnectedAccount,
   ConnectedStatus,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
+
+//  Lib imports.
+import connect from 'flavours/go/lib/connect';
+import { POST_TYPE } from 'flavours/go/lib/tootledge';
 
 //  Stylesheet imports.
 import './style.scss';
-
-//  Other imports.
-import connect from 'themes/mastodon-go/util/connect';
-import { POST_TYPE } from 'themes/mastodon-go/util/constants';
 
 //  * * * * * * *  //
 

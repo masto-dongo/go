@@ -17,24 +17,24 @@ import React from 'react';
 import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
-//  DOM imports.
-import { DOMEventNavigate } from 'themes/mastodon-go/DOM';
+//  Event imports.
+import { GONavigate } from 'flavours/go/events';
 
 //  Component imports.
 import {
   CommonIconButton,
   CommonLink,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
 
-//  Request imports.
-import { fetchAccount } from 'themes/mastodon-go/redux';
+//  Lib imports.
+import connect from 'flavours/go/lib/connect';
+import {
+  MEDIA_TYPE,
+  fetchAccount,
+} from 'flavours/go/lib/tootledge';
 
 //  Stylesheet imports.
 import './style.scss';
-
-//  Other imports.
-import connect from 'themes/mastodon-go/util/connect';
-import { MEDIA_TYPE } from 'themes/mastodon-go/util/constants';
 
 //  * * * * * * *  //
 
@@ -65,9 +65,9 @@ class Reference extends React.PureComponent {
       tagName,
     } = this.props;
     if (mention) {
-      DOMEventNavigate(`/profile/${mention}`);
+      GONavigate(`/profile/${mention}`);
     } else if (tagName) {
-      DOMEventNavigate(`/tagged/${tagName}`);
+      GONavigate(`/tagged/${tagName}`);
     }
   }
 

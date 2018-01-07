@@ -1,29 +1,57 @@
+//  GO
+//  ==
+
+//  * * * * * * *  //
+
+//  Imports
+//  -------
+
 //  Package imports.
 import 'intl';
 import 'intl/locale-data/jsonp/en';
+import { addLocaleData } from 'react-intl';
 import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 
-//  Our imports.
-import MastodonGO from './components';
-import { DOMRoot } from './DOM';
-import redux from './redux';
-import launch from './util/launch';
-import { moduleReady } from './util/module';
+//  Component imports.
+import GOǃǃǃ from './components';
+
+//  Lib imports.
+import { DOMRoot } from './lib/DOM';
+import launch from './lib/launch';
+import { moduleReady } from './lib/module';
+import Tootledge from './lib/tootledge';
+
+//  Locale imports.
+import { getLocale } from 'locales';
 
 //  Stylesheet imports.
-import 'font-awesome/css/font-awesome.css';
-import './custom.scss';
+import './styles/index.scss';
 
-//  Creates async components.
-moduleReady();
+//  * * * * * * *  //
 
-//  Avoids offline in dev mode because apparently it's harder to debug.
-if (process.env.NODE_ENV === 'production') {
-  OfflinePluginRuntime.install();
-}
+//  Launching
+//  ---------
 
-//  Launches the frontend.
-launch(DOMRoot, MastodonGO, redux, {
-  data: {},
-  messages: {},
-});
+//  The main function
+void function main () {
+
+  //  Gets our locale data.
+  const {
+    data,
+    messages,
+  } = getLocale();
+
+  //  Creates async components.
+  moduleReady();
+
+  //  Avoids offline in dev mode because apparently it's harder to debug.
+  if (process.env.NODE_ENV === 'production') {
+    OfflinePluginRuntime.install();
+  }
+
+  //  Adds locale data
+  addLocaleData(data);
+
+  //  Launches the frontend.
+  launch('mastodon', GOǃǃǃ, Tootledge, { messages }, DOMRoot.bind(null, 'mastodon'));
+}();

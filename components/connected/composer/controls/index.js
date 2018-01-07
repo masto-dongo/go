@@ -14,17 +14,17 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-//  DOM imports.
-import {
-  DOMListen,
-  DOMForget,
-} from 'themes/mastodon-go/DOM';
-
 //  Component imports.
 import {
   CommonTextButton,
   CommonToggle,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
+
+//  Lib imports.
+import {
+  DOMListen,
+  DOMForget,
+} from 'flavours/go/lib/DOM';
 
 //  Stylesheet imports.
 import './style.scss';

@@ -22,13 +22,13 @@ import {
   CommonIcon,
   CommonLink,
   CommonSeparator,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
+
+//  Lib imports.
+import { VISIBILITY } from 'flavours/go/lib/tootledge';
 
 //  Stylesheet imports.
 import './style.scss';
-
-//  Other imports.
-import { VISIBILITY } from 'themes/mastodon-go/util/constants';
 
 //  * * * * * * *  //
 

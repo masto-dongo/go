@@ -14,11 +14,11 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-//  DOM imports.
-import { DOMEventNavigate } from 'themes/mastodon-go/DOM';
+//  Event imports.
+import { GONavigate } from 'flavours/go/events';
 
 //  Component imports.
-import { CommonIconButton } from 'themes/mastodon-go/components';
+import { CommonIconButton } from 'flavours/go/components';
 
 //  Stylesheet imports.
 import './style.scss';
@@ -47,8 +47,8 @@ export default class RawPaneller extends React.Component {  //  Impure
     this.getPassableProps = getPassableProps.bind(this);
     this.handleHash = handleHash.bind(this);
     this.clicks = [handleHash.bind(this, '#')].concat((typeof menu === 'function' ? menu(getPassableProps.call(this)) : menu || []).map(
-      item => item.destination ? DOMEventNavigate.bind(this, item.destination) : handleHash.bind(this, item.hash)
-    ), DOMEventNavigate.bind(this, '/start'));
+      item => item.destination ? GONavigate.bind(this, item.destination) : handleHash.bind(this, item.hash)
+    ), GONavigate.bind(this, '/start'));
   }
 
   //  If our component is suddenly no longer the active route, we need
@@ -89,7 +89,7 @@ export default class RawPaneller extends React.Component {  //  Impure
   handleHash (hash) {
     const { activeRoute } = this.props;
     if (activeRoute) {
-      DOMEventNavigate(hash);
+      GONavigate(hash);
     } else {
       this.setState({ storedHash: hash });
     }

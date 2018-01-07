@@ -18,11 +18,11 @@ import React from 'react';
 //  Component imports.
 import ConnectedComposerInputEmojiTable from './table';
 
+//  Lib imports.
+import { Emojifier } from 'flavours/go/lib/tootledge';
+
 //  Stylesheet imports.
 import './style.scss';
-
-//  Other imports.
-import { Emojifier } from 'themes/mastodon-go/util/emojify';
 
 //  * * * * * * *  //
 

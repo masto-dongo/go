@@ -26,6 +26,7 @@ import './style.scss';
 //  Component definition.
 export default class CommonInput extends React.PureComponent {
 
+  //  The constructor.
   constructor (props) {
     super(props);
 
@@ -42,6 +43,7 @@ export default class CommonInput extends React.PureComponent {
 
   }
 
+  //  Handles changes to the input.
   handleChange () {
     const { node } = this;
     const { onChange } = this.props;
@@ -50,10 +52,12 @@ export default class CommonInput extends React.PureComponent {
     }
   }
 
+  //  Handles our input ref.
   handleRef (node) {
     this.node = node;
   }
 
+  //  Rendering.
   render () {
     const {
       handleChange,
@@ -69,6 +73,7 @@ export default class CommonInput extends React.PureComponent {
     } = this.props;
     const computedClass = classNames('MASTODON_GO--COMMON--INPUT');
 
+    //  The result.
     return (
       <input
         className={computedClass}
@@ -86,6 +91,7 @@ export default class CommonInput extends React.PureComponent {
 
 }
 
+//  Props.
 CommonInput.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,  //  Whether the input is disabled

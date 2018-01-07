@@ -15,13 +15,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 //  Component imports.
-import { CommonToggle } from 'themes/mastodon-go/components';
+import { CommonToggle } from 'flavours/go/components';
+
+//  Lib imports.
+import { VISIBILITY } from 'flavours/go/lib/tootledge';
 
 //  Stylesheet imports.
 import './style.scss';
-
-//  Other imports.
-import { VISIBILITY } from 'themes/mastodon-go/util/constants';
 
 //  * * * * * * *  //
 

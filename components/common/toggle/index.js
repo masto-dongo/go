@@ -16,7 +16,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 //  Component imports.
-import { CommonIcon } from 'themes/mastodon-go/components';
+import { CommonIcon } from 'flavours/go/components';
 
 //  Stylesheet imports.
 import './style.scss';
@@ -164,6 +164,7 @@ export default class CommonToggle extends React.PureComponent {
       focused: isFocused,
     }, className);
 
+    //  The result.
     return !activeLabel || !inactiveLabel || compact ? (
       <span
         aria-disabled={!!disabled}

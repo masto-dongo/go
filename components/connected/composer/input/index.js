@@ -19,11 +19,11 @@ import ConnectedComposerInputMenu from './menu';
 import ConnectedComposerInputAttach from './attach';
 import ConnectedComposerInputEmoji from './emoji';
 
+//  Lib imports.
+import { Emojifier } from 'flavours/go/lib/tootledge';
+
 //  Stylesheet imports.
 import './style.scss';
-
-//  Other imports.
-import { Emojifier } from 'themes/mastodon-go/util/emojify';
 
 //  * * * * * * *  //
 

@@ -22,18 +22,20 @@ import {
   CommonInput,
   ConnectedAccount,
   ConnectedStatus,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
 import ConnectedComposerControls from './controls';
 import ConnectedComposerInput from './input';
 import ConnectedComposerTextArea from './text_area';
 
+//  Lib imports.
+import connect from 'flavours/go/lib/connect';
+import {
+  Emojifier,
+  VISIBILITY,
+} from 'flavours/go/lib/tootledge';
+
 //  Stylesheet imports.
 import './style.scss';
-
-//  Other imports.
-import connect from 'themes/mastodon-go/util/connect';
-import { VISIBILITY } from 'themes/mastodon-go/util/constants';
-import { Emojifier } from 'themes/mastodon-go/util/emojify';
 
 //  * * * * * * *  //
 

@@ -17,7 +17,7 @@ import PropTypes from 'prop-types';
 import {
   CommonButton,
   CommonIcon,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
 
 //  Stylesheet imports.
 import './style.scss';
@@ -45,6 +45,7 @@ export default function CommonTextButton ({
 }) {
   const computedClass = classNames('MASTODON_GO--COMMON--TEXT_BUTTON', className);
 
+  //  The result.
   return (
     <CommonButton
       active={active}

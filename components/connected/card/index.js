@@ -23,18 +23,18 @@ import {
   CommonLink,
   CommonSeparator,
   ConnectedParse,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
 import ConnectedCardReference from './reference';
 
-//  Request imports.
-import { fetchCard } from 'themes/mastodon-go/redux';
+//  Lib imports.
+import connect from 'flavours/go/lib/connect';
+import {
+  CARD_TYPE,
+  fetchCard,
+} from 'flavours/go/lib/tootledge';
 
 //  Stylesheet imports.
 import './style.scss';
-
-//  Other imports.
-import connect from 'themes/mastodon-go/util/connect';
-import { CARD_TYPE } from 'themes/mastodon-go/util/constants';
 
 //  * * * * * * *  //
 

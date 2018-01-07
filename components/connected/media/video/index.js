@@ -20,7 +20,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import {
   CommonButton,
   CommonIconButton,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
 
 //  Stylesheet imports.
 import './style.scss';

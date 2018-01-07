@@ -79,7 +79,7 @@ The `components` folder is broken up into five subfolders, each of which contain
     They may import any other component type.
     Right now the only component which fits this description is `<RoutedUI>`.
 
-Conforming to this structure allows us to import all of our components directly from `themes/mastodon-go/components` without having to worry about circular dependencies breaking our code.
+Conforming to this structure allows us to import all of our components directly from `flavours/go/components` without having to worry about circular dependencies breaking our code.
 Only components whose parent folder rests directly in one of these folders are allowed to be imported from elsewhere in the frontend.
 Subsubfolders, etc. define further components which are required by _Mastodon GO!_'s various features, but which are not `common`.
 These components must be “simple,” which means that they do not have direct access to the store and must be passed information from their parents.
@@ -111,7 +111,7 @@ If passed components cannot reliably be placed in this fashion, they should be p
 
 For _Mastodon GO!_ imports, relative paths should only be used for files which are contained by the current directory (ie, paths which start with `./` not `../`).
 The exception to this is within `util` folders, where all paths should be relative.
-Other paths should be absolute, of the form `themes/mastodon-go/[parent-folder]`.
+Other paths should be absolute, of the form `flavours/go/[parent-folder]`.
 
 ###  `classNames`:
 

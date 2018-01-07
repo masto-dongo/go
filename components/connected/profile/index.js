@@ -23,16 +23,14 @@ import {
   CommonTextButton,
   ConnectedAccount,
   ConnectedParse,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
 
-//  Request imports.
-import { fetchAccount } from 'themes/mastodon-go/redux';
+//  Lib imports.
+import connect from 'flavours/go/lib/connect';
+import { fetchAccount } from 'flavours/go/lib/tootledge';
 
 //  Stylesheet imports.
 import './style.scss';
-
-//  Other imports.
-import connect from 'themes/mastodon-go/util/connect';
 
 //  * * * * * * *  //
 

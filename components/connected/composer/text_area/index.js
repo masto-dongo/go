@@ -19,17 +19,17 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 //  DOM imports.
+import { GOInsert } from 'flavours/go/events'
+
+//  Lib imports.
 import {
   DOMListen,
   DOMForget,
-  DOMEventInsert,
-} from 'themes/mastodon-go/DOM';
+} from 'flavours/go/lib/DOM';
+import { Emoji } from 'flavours/go/lib/tootledge';
 
 //  Stylesheet imports.
 import './style.scss';
-
-//  Other imports.
-import { Emoji } from 'themes/mastodon-go/util/emojify';
 
 //  * * * * * * *  //
 
@@ -97,7 +97,7 @@ export default class ConnectedComposerTextArea extends React.Component {
       handleInsert,
     } = this;
     const { value } = this.props;
-    DOMListen(DOMEventInsert, handleInsert);
+    DOMListen(GOInsert, handleInsert);
     fillContents(value);
   }
 
@@ -111,7 +111,7 @@ export default class ConnectedComposerTextArea extends React.Component {
   //  On unmounting, we stop listening for the insert event.
   componentWillUnmount () {
     const { handleInsert } = this;
-    DOMForget(DOMEventInsert, handleInsert);
+    DOMForget(GOInsert, handleInsert);
   }
 
   //  If our component is about to update, we need to store our caret

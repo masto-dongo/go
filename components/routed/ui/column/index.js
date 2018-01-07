@@ -26,7 +26,7 @@ import {
   PanelledProfile,
   PanelledStart,
   PanelledTimeline,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
 
 const RoutedUIColumnUnknown = () => null;  //  TK
 

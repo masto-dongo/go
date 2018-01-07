@@ -18,22 +18,25 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
-//  DOM imports.
-import { DOMEventNavigate } from 'themes/mastodon-go/DOM';
+//  Event imports.
+import { GONavigate } from 'flavours/go/events';
 
 //  Component imports.
 import {
   CommonObserveäble,
   ConnectedAccount,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
 import ConnectedStatusActionBar from './action_bar';
 import ConnectedStatusContent from './content';
 import ConnectedStatusFooter from './footer';
 import ConnectedStatusNav from './nav';
 import ConnectedStatusPrepend from './prepend';
 
-//  Request imports.
+//  Lib imports.
+import connect from 'flavours/go/lib/connect';
 import {
+  POST_TYPE,
+  VISIBILITY,
   deleteStatus,
   favouriteStatus,
   fetchStatus,
@@ -44,17 +47,10 @@ import {
   unmuteStatus,
   unpinStatus,
   unreblogStatus,
-} from 'themes/mastodon-go/redux';
+} from 'flavours/go/lib/tootledge';
 
 //  Stylesheet imports.
 import './style.scss';
-
-//  Other imports.
-import connect from 'themes/mastodon-go/util/connect';
-import {
-  POST_TYPE,
-  VISIBILITY,
-} from 'themes/mastodon-go/util/constants';
 
 //  * * * * * * *  //
 
@@ -144,7 +140,7 @@ class Status extends React.Component {  //  Impure
         e.preventDefault();
       }
     } else if (!detailed) {
-      DOMEventNavigate(`/status/${id}`);
+      GONavigate(`/status/${id}`);
     }
   }
 

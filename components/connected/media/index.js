@@ -23,12 +23,12 @@ import ConnectedMediaImage from './image';
 import ConnectedMediaUnknown from './unknown';
 import ConnectedMediaVideo from './video';
 
+//  Lib imports.
+import connect from 'flavours/go/lib/connect';
+import { MEDIA_TYPE } from 'flavours/go/lib/tootledge';
+
 //  Stylesheet imports.
 import './style.scss';
-
-//  Other imports.
-import connect from 'themes/mastodon-go/util/connect';
-import { MEDIA_TYPE } from 'themes/mastodon-go/util/constants';
 
 //  * * * * * * *  //
 

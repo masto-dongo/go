@@ -23,22 +23,20 @@ import {
   CommonObserveäble,
   CommonTextButton,
   ConnectedStatus,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
 
-//  Request imports.
+//  Lib imports.
+import connect from 'flavours/go/lib/connect';
 import {
+  POST_TYPE,
   expandTimeline,
   fetchTimeline,
   refreshTimeline,
   streamTimeline,
-} from 'themes/mastodon-go/redux';
+} from 'flavours/go/lib/tootledge';
 
 //  Stylesheet imports.
 import './style.scss';
-
-//  Other imports.
-import connect from 'themes/mastodon-go/util/connect';
-import { POST_TYPE } from 'themes/mastodon-go/util/constants';
 
 //  * * * * * * * //
 

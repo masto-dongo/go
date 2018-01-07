@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 //  Component imports.
-import { CommonTextButton } from 'themes/mastodon-go/components';
+import { CommonTextButton } from 'flavours/go/components';
 
 //  Stylesheet imports.
 import './style.scss';

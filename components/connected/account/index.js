@@ -19,8 +19,8 @@ import React from 'react';
 import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
-//  DOM imports.
-import { DOMEventNavigate } from 'themes/mastodon-go/DOM';
+//  Event imports.
+import { GONavigate } from 'flavours/go/events';
 
 //  Component imports.
 import {
@@ -29,10 +29,13 @@ import {
   CommonObserveäble,
   ConnectedAvatar,
   ConnectedParse,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
 
-//  Request imports.
+//  Lib imports.
+import connect from 'flavours/go/lib/connect';
 import {
+  POST_TYPE,
+  RELATIONSHIP,
   authorizeRelationship,
   blockRelationship,
   fetchAccount,
@@ -43,17 +46,10 @@ import {
   unblockRelationship,
   unfollowRelationship,
   unmuteRelationship,
-} from 'themes/mastodon-go/redux';
+} from 'flavours/go/lib/tootledge';
 
 //  Stylesheet imports.
 import './style.scss';
-
-//  Other imports.
-import connect from 'themes/mastodon-go/util/connect';
-import {
-  POST_TYPE,
-  RELATIONSHIP,
-} from 'themes/mastodon-go/util/constants';
 
 //  * * * * * * *  //
 
@@ -98,7 +94,7 @@ class Account extends React.Component {  //  Impure
     if (!navigable) {
       return;
     }
-    DOMEventNavigate(`/profile/${id}`);
+    GONavigate(`/profile/${id}`);
   }
 
   //  Rendering.

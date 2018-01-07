@@ -13,20 +13,20 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-//  DOM imports.
-import { DOMEventInsert } from 'themes/mastodon-go/DOM';
+//  Event imports.
+import { GOInsert } from 'flavours/go/events';
 
 //  Component imports.
 import {
   CommonButton,
   CommonImage,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
+
+//  Lib imports.
+import { Emoji } from 'flavours/go/lib/tootledge';
 
 //  Stylesheet imports.
 import './style.scss';
-
-//  Other imports.
-import { Emoji } from 'themes/mastodon-go/util/emojify';
 
 //  * * * * * * *  //
 
@@ -63,7 +63,7 @@ export default function ConnectedComposerInputEmojiTable ({
         <CommonButton
           data={str || (name ? ':' + name + ':' : '')}
           disabled={disabled}
-          onClick={DOMEventInsert}
+          onClick={GOInsert}
           passive
         >
           <CommonImage

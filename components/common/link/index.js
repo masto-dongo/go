@@ -82,7 +82,7 @@ export default class CommonLink extends React.PureComponent {
       conditionalProps.role = role;
     }
 
-    //  Rendering.  We set `rel='noopener'` for user privacy, and our
+    //  The result.  We set `rel='noopener'` for user privacy, and our
     //  `target` as `'_blank'`.
     return (
       <a

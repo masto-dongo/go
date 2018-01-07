@@ -10,7 +10,7 @@
 //  Imports
 //  -------
 
-//  Package imports
+//  Package imports.
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -18,18 +18,18 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
-//  Component imports
-import { ConnectedAccount } from 'themes/mastodon-go/components';
+//  Component imports.
+import { ConnectedAccount } from 'flavours/go/components';
 import ConnectedPreviewControls from './controls';
 import ConnectedPreviewStatus from './status';
 import ConnectedPreviewToggles from './toggles';
 
-//  Stylesheet imports
-import './style.scss';
+//  Lib imports.
+import connect from 'flavours/go/lib/connect';
+import { VISIBILITY } from 'flavours/go/lib/tootledge';
 
-//  Other imports
-import connect from 'themes/mastodon-go/util/connect';
-import { VISIBILITY } from 'themes/mastodon-go/util/constants';
+//  Stylesheet imports.
+import './style.scss';
 
 //  * * * * * * *  //
 

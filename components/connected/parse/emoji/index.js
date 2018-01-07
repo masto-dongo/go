@@ -16,13 +16,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 //  Component imports.
-import { CommonImage } from 'themes/mastodon-go/components';
+import { CommonImage } from 'flavours/go/components';
+
+//  Lib imports.
+import { Emoji } from 'flavours/go/lib/tootledge';
 
 //  Stylesheet imports.
 import './style.scss';
-
-//  Other imports.
-import { Emoji } from 'themes/mastodon-go/util/emojify';
 
 //  * * * * * * *  //
 

@@ -14,11 +14,11 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-//  DOM imports.
-import { DOMEventNavigate } from 'themes/mastodon-go/DOM';
+//  Event imports.
+import { GONavigate } from 'flavours/go/events';
 
 //  Component imports.
-import { CommonTextButton } from 'themes/mastodon-go/components';
+import { CommonTextButton } from 'flavours/go/components';
 
 //  Stylesheet imports.
 import './style.scss';
@@ -37,9 +37,9 @@ export default class ConnectedStatusNav extends React.PureComponent {
     const { id } = this.props;
 
     //  Function binding.
-    this.handleConversation = DOMEventNavigate.bind(this, `/status/${id}`);
-    this.handleReblogs = DOMEventNavigate.bind(this, `/status/${id}/reblogs`);
-    this.handleFavourites = DOMEventNavigate.bind(this, `/status/${id}/favourites`);
+    this.handleConversation = GONavigate.bind(this, `/status/${id}`);
+    this.handleReblogs = GONavigate.bind(this, `/status/${id}/reblogs`);
+    this.handleFavourites = GONavigate.bind(this, `/status/${id}/favourites`);
   }
 
   //  Rendering.

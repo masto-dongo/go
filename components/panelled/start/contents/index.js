@@ -13,14 +13,14 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-//  DOM imports.
-import { DOMEventNavigate } from 'themes/mastodon-go/DOM';
+//  Event imports.
+import { GONavigate } from 'flavours/go/events';
 
 //  Component imports.
 import {
   CommonTextButton,
   ConnectedAccount,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
 
 //  Stylesheet imports.
 import './style.scss';
@@ -38,11 +38,11 @@ export default class PanelledStartContents extends React.Component {  //  Impure
     super(props);
 
     //  Function binding.
-    this.handleCompose = DOMEventNavigate.bind(this, '/compose');
-    this.handleCourier = DOMEventNavigate.bind(this, '/courier');
-    this.handleGlobal = DOMEventNavigate.bind(this, '/global');
-    this.handleHome = DOMEventNavigate.bind(this, '/home');
-    this.handleLocal = DOMEventNavigate.bind(this, '/local');
+    this.handleCompose = GONavigate.bind(this, '/compose');
+    this.handleCourier = GONavigate.bind(this, '/courier');
+    this.handleGlobal = GONavigate.bind(this, '/global');
+    this.handleHome = GONavigate.bind(this, '/home');
+    this.handleLocal = GONavigate.bind(this, '/local');
   }
 
   //  Rendering.

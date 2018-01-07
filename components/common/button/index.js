@@ -17,7 +17,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 //  Component imports.
-import { CommonLink } from 'themes/mastodon-go/components';
+import { CommonLink } from 'flavours/go/components';
 
 //  Stylesheet imports.
 import './style.scss';

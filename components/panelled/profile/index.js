@@ -21,11 +21,14 @@ import {
   ConnectedProfile,
   ConnectedTimeline,
   RawPaneller,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
 
-//  Other imports
-import connect from 'themes/mastodon-go/util/connect';
-import { moduleOnReady } from 'themes/mastodon-go/util/module';
+//  Lib imports.
+import connect from 'flavours/go/lib/connect';
+import { moduleOnReady } from 'flavours/go/lib/module';
+
+//  Stylesheet imports.
+import './style.scss';
 
 //  * * * * * * *  //
 

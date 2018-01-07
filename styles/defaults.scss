@@ -1,0 +1,69 @@
+@charset "UTF-8";
+
+@import './palettes';
+
+$mastodon_go_animation_speed: 1 !default;
+$mastodon_go_avatar_border_radius: 0 !default;
+
+$mastodon_go_root_color: $go_white !default;
+$mastodon_go_root_background: $go_navy_01 !default;
+
+$mastodon_go_column_color: $go_red_00 !default;
+$mastodon_go_column_background: $go_red_06 !default;
+
+$mastodon_go_header_color: $go_white !default;
+$mastodon_go_header_background: $go_red_03 !default;
+
+$mastodon_go_content_color: $go_black !default;
+$mastodon_go_content_background: $go_white !default;
+$mastodon_go_content_alternate: $go_navy_01 !default;
+$mastodon_go_content_highlight: $go_brite !default;
+$mastodon_go_content_active: $go_red_03 !default;
+$mastodon_go_content_disabled: $go_red_01 !default;
+$mastodon_go_content_star: $go_gold_03 !default;
+$mastodon_go_content_button_color: $go_navy_00 !default;
+$mastodon_go_content_button_hover: $go_red_02 !default;
+$mastodon_go_content_button_active: $go_navy_02 !default;
+$mastodon_go_content_button_text: $go_white !default;
+$mastodon_go_content_border: $go_red_02 !default;
+
+$mastodon_go_menu_color: $go_white !default;
+$mastodon_go_menu_background: $go_navy_00 !default;
+$mastodon_go_menu_hover_color: $go_white !default;
+$mastodon_go_menu_hover_background: $go_navy_02 !default;
+$mastodon_go_menu_active_color: $go_red_05 !default;
+$mastodon_go_menu_active_background: $go_red_02 !default;
+
+$mastodon_go_table_color: $go_navy_01 !default;
+$mastodon_go_table_background: $go_white !default;
+$mastodon_go_table_border: $go_red_02 !default;
+$mastodon_go_table_heading_color: $go_white !default;
+$mastodon_go_table_heading_background: $go_red_02 !default;
+$mastodon_go_table_heading_border: $go_white !default;
+
+$mastodon_go_media_color: $go_white !default;
+$mastodon_go_media_background: $go_black !default;
+$mastodon_go_media_hover_color: $go_brite !default;
+$mastodon_go_media_hover_background: $go_black !default;
+$mastodon_go_media_active_color: $go_black !default;
+$mastodon_go_media_active_background: $go_white !default;
+
+$mastodon_go_toggle_border: $go_navy_00 !default;
+$mastodon_go_toggle_active_color: $go_white !default;
+$mastodon_go_toggle_active_background: $go_red_03 !default;
+$mastodon_go_toggle_active_hover: $go_red_06 !default;
+$mastodon_go_toggle_inactive_color: $go_red_01 !default;
+$mastodon_go_toggle_inactive_background: $go_white !default;
+$mastodon_go_toggle_inactive_hover: $go_red_02 !default;
+
+$mastodon_go_text_area_color: $go_black !default;
+$mastodon_go_text_area_background: $go_white !default;
+$mastodon_go_text_area_placeholder: rgba($go_navy_00, .6) !default;
+$mastodon_go_text_area_border: $go_red_02 !default;
+$mastodon_go_text_area_active_border: $go_red_03 !default;
+
+$mastodon_go_input_color: $go_white !default;
+$mastodon_go_input_background: $go_navy_00 !default;
+
+$mastodon_go_attachment_count_color: $go_white !default;
+$mastodon_go_attachment_count_background: $go_red_03 !default;

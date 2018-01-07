@@ -1,5 +1,5 @@
-//  <MastodonGO>
-//  ============
+//  <GOǃǃǃ>
+//  =======
 
 //  See the subfolders for various components.  Here we just provide
 //  the necessary provider components for routing our `<RoutedUI>`.
@@ -32,7 +32,7 @@ import './style.scss';
 //  -------------
 
 //  Component definition.
-export default class MastodonGO extends React.Component {
+export default class GOǃǃǃ extends React.Component {
 
   //  Constructor.
   constructor (props) {
@@ -99,7 +99,7 @@ export default class MastodonGO extends React.Component {
   render () {
     const {
       className,
-      locale,
+      data,
       messages,
       store,
       ...rest
@@ -107,15 +107,15 @@ export default class MastodonGO extends React.Component {
     const { konamiActive } = this.state;
     const computedClass = classNames('MASTODON_GO', { konami: konamiActive }, className);
 
-    //  We just render a bunch of providers and our `<RoutedUI>` inside
-    //  a `<div>`.
+    //  The result.  We just render a bunch of providers and our
+    //  `<RoutedUI>` inside a `<div>`.
     return (
       <div
         className={computedClass}
         {...rest}
       >
         <IntlProvider
-          locale={locale}
+          locale={data && data.locale || 'en'}
           messages={messages}
         >
           <Provider store={store}>

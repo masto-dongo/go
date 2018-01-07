@@ -30,7 +30,7 @@ export default function CommonSeparator ({
 }) {
   const computedClass = classNames('MASTODON_GO--COMMON--SEPARATOR', className);
 
-  //  We only render the separator if it is `visible`.
+  //  The result.  We only render the separator if it is `visible`.
   return visible ? (
     <span
       className={computedClass}

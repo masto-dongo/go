@@ -1,9 +1,5 @@
 @charset "UTF-8";
 
-@import "themes/mastodon-go/variables";
+@import "flavours/go/styles/variables";
 
-.MASTODON_GO--CATALOGUE {
-  & > .MASTODON_GO--COMMON--LIST {
-    height: 100%;
-  }
-}
+.MASTODON_GO--PANELLED--CATALOGUE {}

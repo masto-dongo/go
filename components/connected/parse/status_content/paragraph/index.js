@@ -22,7 +22,7 @@ import {
   CommonLink,
   ConnectedParse,
   ConnectedReference,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
 
 //  Stylesheet imports.
 import './style.scss';

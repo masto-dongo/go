@@ -14,12 +14,15 @@ import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
 //  Component imports.
-import { RawPaneller } from 'themes/mastodon-go/components';
+import { RawPaneller } from 'flavours/go/components';
 import PanelledStartContents from './contents';
 
-//  Other imports
-import connect from 'themes/mastodon-go/util/connect';
-import { moduleOnReady } from 'themes/mastodon-go/util/module';
+//  Lib imports.
+import connect from 'flavours/go/lib/connect';
+import { moduleOnReady } from 'flavours/go/lib/module';
+
+//  Stylesheet imports.
+import './style.scss';
 
 //  * * * * * * *  //
 

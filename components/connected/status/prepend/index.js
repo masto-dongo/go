@@ -18,13 +18,13 @@ import React from 'react';
 import {
   CommonIcon,
   ConnectedReference,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
+
+//  Lib imports.
+import { POST_TYPE } from 'flavours/go/lib/tootledge';
 
 //  Stylesheet imports.
 import './style.scss';
-
-//  Other imports.
-import { POST_TYPE } from 'themes/mastodon-go/util/constants';
 
 //  * * * * * * *  //
 

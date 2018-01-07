@@ -22,16 +22,14 @@ import { createStructuredSelector } from 'reselect';
 import {
   CommonList,
   ConnectedStatus,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
 
-//  Request imports.
-import { fetchConversation } from 'themes/mastodon-go/redux';
+//  Lib imports.
+import connect from 'flavours/go/lib/connect';
+import { fetchConversation } from 'flavours/go/lib/tootledge';
 
 //  Stylesheet imports.
 import './style.scss';
-
-//  Other imports
-import connect from 'themes/mastodon-go/util/connect';
 
 //  * * * * * * * //
 

@@ -25,23 +25,21 @@ import {
   CommonObserveäble,
   CommonTextButton,
   ConnectedNotification,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
 
-//  Request imports.
+//  Lib imports.
+import connect from 'flavours/go/lib/connect';
 import {
+  POST_TYPE,
   expandCourier,
   fetchCourier,
   refreshCourier,
   clearNotification,
   deleteNotification,
-} from 'themes/mastodon-go/redux';
+} from 'flavours/go/lib/tootledge';
 
 //  Stylesheet imports.
 import './style.scss';
-
-//  Other imports
-import connect from 'themes/mastodon-go/util/connect';
-import { POST_TYPE } from 'themes/mastodon-go/util/constants';
 
 //  * * * * * * * //
 

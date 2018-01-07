@@ -1,0 +1,8 @@
+en:
+  flavours:
+    go:
+      description: HIGHLY EXPERIMENTAL!! A lowkey flavour by @kibi@glitch.social.
+      name: Mastodon GO!
+  skins:
+    go:
+      default: Default skin

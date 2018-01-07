@@ -15,9 +15,11 @@ import classNames from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-//  Other imports.
-import measure from 'themes/mastodon-go/util/measure';
-import schedule from 'themes/mastodon-go/util/schedule';
+//  Lib imports.
+import {
+  DOMMeasure,
+  DOMSchedule,
+} from 'flavours/go/lib/DOM';
 
 //  * * * * * * *  //
 
@@ -128,7 +130,7 @@ export default class CommonObserveäble extends React.PureComponent {
     const { entry } = this;
     const { isHidden } = this.state;
     if (!isHidden) {
-      this.setState({ height: measure(entry).height });
+      this.setState({ height: DOMMeasure(entry).height });
     }
   }
 
@@ -155,7 +157,7 @@ export default class CommonObserveäble extends React.PureComponent {
 
     //  If we are no longer intersecting, we schedule a hiding.
     if (isIntersecting && !entry.isIntersecting) {
-      schedule(handleHide);
+      DOMSchedule(handleHide);
     }
 
     //  In the meantime, we unhide our component until we are able to
@@ -167,7 +169,7 @@ export default class CommonObserveäble extends React.PureComponent {
 
     //  We also schedule height calculation for the component. This
     //  is expensive on Chrome, so we can't just do it right away.
-    schedule(handleHeight);
+    DOMSchedule(handleHeight);
   }
 
   //  This stores a reference to our node.

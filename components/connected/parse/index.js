@@ -29,11 +29,11 @@ import ConnectedParseAccountBio from './account_bio';
 import ConnectedParseEmoji from './emoji';
 import ConnectedParseStatusContent from './status_content';
 
+//  Lib imports.
+import connect from 'flavours/go/lib/connect';
+
 //  Stylesheet imports.
 import './style.scss';
-
-//  Other imports.
-import connect from 'themes/mastodon-go/util/connect';
 
 //  * * * * * * *  //
 

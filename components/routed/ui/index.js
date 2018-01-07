@@ -17,35 +17,44 @@ import React from 'react';
 import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
-//  DOM imports.
+//  Event imports.
 import {
-  DOMEventAttach,
-  DOMEventCompose,
-  DOMEventNavigate,
-  DOMEventUpload,
-  DOMForget,
-  DOMListen,
-} from 'themes/mastodon-go/DOM';
+  GOAttach,
+  GOCompose,
+  GONavigate,
+  GOUpload,
+} from 'flavours/go/events';
 
 //  Component imports.
 import RoutedUIColumn from './column';
 import RoutedUIModal from './modal';
 
-//  Request imports.
+//  Lib imports.
 import {
+  DOMForget,
+  DOMListen,
+} from 'flavours/go/lib/DOM';
+import connect from 'flavours/go/lib/connect';
+import {
+  VISIBILITY,
   loadMeta,
   streamTimeline,
   submitAttachment,
   submitStatus,
-} from 'themes/mastodon-go/redux';
+} from 'flavours/go/lib/tootledge';
 
 //  Stylesheet imports.
 import './style.scss';
 
-//  Other imports.
-import connect from 'themes/mastodon-go/util/connect';
-import { VISIBILITY } from 'themes/mastodon-go/util/constants';
-import uuid from 'themes/mastodon-go/util/uuid';
+//  * * * * * * *  //
+
+//  Initial setup
+//  −−−−−−−−−−−−−
+
+//  Generates a random UUID. Dwbi tbh.
+export default function uuid () {
+  return function(a,b){for(b=a='';a++<36;b+=a*51&52?(a^15?8^Math.random()*(a^20?16:4):4).toString(16):'-');return b}(); // eslint-disable-line
+};
 
 //  * * * * * * *  //
 
@@ -128,10 +137,10 @@ class UI extends React.Component {  //  Impure
     } = this;
     const { '💪': { stream } } = this.props;
     stream();
-    DOMListen(DOMEventAttach, handleAttach);
-    DOMListen(DOMEventCompose, handleCompose);
-    DOMListen(DOMEventNavigate, handleNavigate);
-    DOMListen(DOMEventUpload, handleUpload);
+    DOMListen(GOAttach, handleAttach);
+    DOMListen(GOCompose, handleCompose);
+    DOMListen(GONavigate, handleNavigate);
+    DOMListen(GOUpload, handleUpload);
   }
   componentWillUnmount () {
     const {
@@ -142,10 +151,10 @@ class UI extends React.Component {  //  Impure
     } = this;
     const { '💪': { stream } } = this.props;
     stream(false);
-    DOMForget(DOMEventAttach, handleAttach);
-    DOMForget(DOMEventCompose, handleCompose);
-    DOMForget(DOMEventNavigate, handleNavigate);
-    DOMForget(DOMEventUpload, handleUpload);
+    DOMForget(GOAttach, handleAttach);
+    DOMForget(GOCompose, handleCompose);
+    DOMForget(GONavigate, handleNavigate);
+    DOMForget(GOUpload, handleUpload);
   }
 
   //  On attach we simply add the attachment to our `media` array.
@@ -157,7 +166,7 @@ class UI extends React.Component {  //  Impure
         media: media.concat('' + id),
       });
     }
-    DOMEventNavigate('/compose');
+    GONavigate('/compose');
   }
 
   //  This function clears the composer and replaces it with the given
@@ -178,7 +187,7 @@ class UI extends React.Component {  //  Impure
       text: text ? '' + text + '\n' : '\n',
       visibility: visibility === +visibility ? VISIBILITY.normalize(visibility & defaultVisibility) : defaultVisibility,
     });
-    DOMEventNavigate('/compose');
+    GONavigate('/compose');
   }
 
   //  This simple function just filters our `media` to remove an `id`.

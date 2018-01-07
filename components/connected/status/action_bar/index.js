@@ -14,17 +14,17 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-//  DOM imports.
-import { DOMEventCompose } from 'themes/mastodon-go/DOM';
+//  Event imports.
+import { GOCompose } from 'flavours/go/events';
 
 //  Component imports.
-import { CommonIconButton } from 'themes/mastodon-go/components';
+import { CommonIconButton } from 'flavours/go/components';
 
-//  Other imports.
+//  Lib imports.
 import {
   POST_TYPE,
   VISIBILITY,
-} from 'themes/mastodon-go/util/constants';
+} from 'flavours/go/lib/tootledge';
 
 //  Stylesheet imports.
 import './style.scss';
@@ -48,7 +48,7 @@ export default class ConnectedStatusActionBar extends React.PureComponent {
     } = this.props;
 
     //  Function binding.
-    this.handleReply = DOMEventCompose.bind(this, {
+    this.handleReply = GOCompose.bind(this, {
       inReplyTo: id,
       spoiler,
       text: '@' + at + ' ',

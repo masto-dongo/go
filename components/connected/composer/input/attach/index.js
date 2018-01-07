@@ -20,7 +20,7 @@ import {
   CommonIcon,
   CommonIconButton,
   ConnectedMedia,
-} from 'themes/mastodon-go/components';
+} from 'flavours/go/components';
 
 //  Stylesheet imports.
 import './style.scss';

@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 //  Component imports.
-import { ConnectedSetting } from 'themes/mastodon-go/components';
+import { ConnectedSetting } from 'flavours/go/components';
 
 //  Stylesheet imports.
 import './style.scss';
