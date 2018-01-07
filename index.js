@@ -1,5 +1,5 @@
-//  REDUX
-//  =====
+//  TOOTLEDGE
+//  =========
 
 //  Package imports.
 import { applyMiddleware, createStore } from 'redux';
@@ -7,68 +7,25 @@ import { combineReducers } from 'redux-immutable';
 import thunk from 'redux-thunk';
 
 //  Reducer imports.
-import account from './account';
-import attachment from './attachment';
-import card from './card';
-import catalogue from './catalogue';
-import conversation from './conversation';
-import courier from './courier';
-import domain from './domain';
-import emoji from './emoji';
-import meta from './meta';
-import notification from './notification';
-import relationship from './relationship';
-import report from './report';
-import search from './search';
-import setting from './setting';
-import status from './status';
-import timeline from './timeline';
-
-//  Other imports.
-import { moduleOnReady } from 'themes/mastodon-go/util/module';
+import * as redux from './redux';
 
 //  Variable declaration.
-var redux;
-
-//  Our store creator.
-moduleOnReady(function () {
-  redux = createStore(combineReducers({
-    account,
-    attachment,
-    card,
-    catalogue,
-    conversation,
-    courier,
-    domain,
-    emoji,
-    meta,
-    notification,
-    relationship,
-    report,
-    search,
-    setting,
-    status,
-    timeline,
-  }), applyMiddleware(thunk));
-});
-
-//  Exporting.
-export { redux as default };
+export default createStore(combineReducers(redux), applyMiddleware(thunk));
 
 //  Request exports.
-export * from './account';
-export * from './attachment';
-export * from './card';
-export * from './catalogue';
-export * from './conversation';
-export * from './courier';
-export * from './domain';
-export * from './emoji';
-export * from './meta';
-export * from './notification';
-export * from './relationship';
-export * from './report';
-export * from './search';
-export * from './setting';
-export * from './status';
-export * from './timeline';
+export * from './redux/account';
+export * from './redux/attachment';
+export * from './redux/card';
+export * from './redux/catalogue';
+export * from './redux/conversation';
+export * from './redux/courier';
+export * from './redux/domain';
+export * from './redux/emoji';
+export * from './redux/meta';
+export * from './redux/notification';
+export * from './redux/relationship';
+export * from './redux/report';
+export * from './redux/search';
+export * from './redux/setting';
+export * from './redux/status';
+export * from './redux/timeline';
