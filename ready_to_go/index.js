@@ -1,8 +1,11 @@
+//  CONNECT:READY_TO_GO
+//  ===================
+
 //  Package imports.
 import axios from 'axios';
 
 //  Utils.
-import { token } from './token';
+import { token } from '../token';
 
 //  `readyToGo()` transforms the `fn` and `args` it is provided with
 //  into a new function which is able to be dispatched.

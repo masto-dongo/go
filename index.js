@@ -1,3 +1,6 @@
+//  CONNECT
+//  =======
+
 //  Package imports.
 import { injectIntl } from 'react-intl';
 import { connectAdvanced } from 'react-redux';
@@ -5,9 +8,9 @@ import shallowEqual from 'react-redux/lib/utils/shallowEqual';
 import { createSelector } from 'reselect';
 
 //  Utils.
-import makeMessages from 'util/makeMessages';
-import readyToGo from 'util/readyToGo';
-import token from 'util/token';
+import makeMessages from './make_messages';
+import readyToGo from './ready_to_go';
+import token from './token';
 
 //  `connect()` creates a selector factory with access to our `go()`
 //  function—which is just `dispatch()` composed with `readyToGo()`.

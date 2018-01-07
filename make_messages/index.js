@@ -1,3 +1,6 @@
+//  CONNECT:MAKE_MESSAGES
+//  =====================
+
 //  Package imports.
 import PropTypes from 'prop-types';
 import React from 'react';
