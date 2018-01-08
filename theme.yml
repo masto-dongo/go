@@ -1,6 +1,7 @@
 pack:
   home:
-    filename: index.js
+    filename: packs/home.js
+    stylesheet: true
     use_common: false
 
 locales: locales

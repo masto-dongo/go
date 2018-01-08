@@ -29,20 +29,26 @@ import './styles/index.scss';
 
 //  * * * * * * *  //
 
+//  Initial setup
+//  -------------
+
+//  Creates async components.
+moduleReady();
+
+//  * * * * * * *  //
+
 //  Launching
 //  ---------
 
-//  The main function
-void function main () {
+//  We run everything inside of a function to allow other files to be
+//  loaded first.
+export default function main () {
 
   //  Gets our locale data.
   const {
     data,
     messages,
   } = getLocale();
-
-  //  Creates async components.
-  moduleReady();
 
   //  Avoids offline in dev mode because apparently it's harder to debug.
   if (process.env.NODE_ENV === 'production') {
