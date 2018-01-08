@@ -18,15 +18,15 @@ import {
 import deleteStatus from './delete';
 import favouriteStatus from './favourite';
 import fetchStatus from './fetch';
-import muteStatus from './mute';
 import pinStatus from './pin';
 import reblogStatus from './reblog';
 import removeStatus from './remove';
+import silenceStatus from './silence';
 import submitStatus from './submit';
 import unfavouriteStatus from './unfavourite';
-import unmuteStatus from './unmute';
 import unpinStatus from './unpin';
 import unreblogStatus from './unreblog';
+import unsilenceStatus from './unsilence';
 import updateStatus from './update';
 
 //  Action types.
@@ -37,16 +37,48 @@ import { COURIER_UPDATE_RECEIVE } from '../courier/update';
 import { NOTIFICATION_FETCH_SUCCESS } from '../notification/fetch';
 import { RELATIONSHIP_BLOCK_SUCCESS } from '../relationship/block';
 import { RELATIONSHIP_MUTE_SUCCESS } from '../relationship/mute';
-import { STATUS_FAVOURITE_SUCCESS } from '../status/favourite';
+import {
+  STATUS_FAVOURITE_FAILURE,
+  STATUS_FAVOURITE_REQUEST,
+  STATUS_FAVOURITE_SUCCESS,
+} from '../status/favourite';
 import { STATUS_FETCH_SUCCESS } from '../status/fetch';
-import { STATUS_MUTE_SUCCESS } from '../status/mute';
-import { STATUS_PIN_SUCCESS } from '../status/pin';
-import { STATUS_REBLOG_SUCCESS } from '../status/reblog';
+import {
+  STATUS_PIN_FAILURE,
+  STATUS_PIN_REQUEST,
+  STATUS_PIN_SUCCESS,
+} from '../status/pin';
+import {
+  STATUS_REBLOG_FAILURE,
+  STATUS_REBLOG_REQUEST,
+  STATUS_REBLOG_SUCCESS,
+} from '../status/reblog';
 import { STATUS_REMOVE_COMPLETE } from '../status/remove';
-import { STATUS_UNFAVOURITE_SUCCESS } from '../status/unfavourite';
-import { STATUS_UNMUTE_SUCCESS } from '../status/unmute';
-import { STATUS_UNPIN_SUCCESS } from '../status/unpin';
-import { STATUS_UNREBLOG_SUCCESS } from '../status/unreblog';
+import {
+  STATUS_SILENCE_FAILURE,
+  STATUS_SILENCE_REQUEST,
+  STATUS_SILENCE_SUCCESS,
+} from '../status/silence';
+import {
+  STATUS_UNFAVOURITE_FAILURE,
+  STATUS_UNFAVOURITE_REQUEST,
+  STATUS_UNFAVOURITE_SUCCESS,
+} from '../status/unfavourite';
+import {
+  STATUS_UNPIN_FAILURE,
+  STATUS_UNPIN_REQUEST,
+  STATUS_UNPIN_SUCCESS,
+} from '../status/unpin';
+import {
+  STATUS_UNREBLOG_FAILURE,
+  STATUS_UNREBLOG_REQUEST,
+  STATUS_UNREBLOG_SUCCESS,
+} from '../status/unreblog';
+import {
+  STATUS_UNSILENCE_FAILURE,
+  STATUS_UNSILENCE_REQUEST,
+  STATUS_UNSILENCE_SUCCESS,
+} from '../status/unsilence';
 import { STATUS_UPDATE_RECEIVE } from '../status/update';
 import { TIMELINE_EXPAND_SUCCESS } from '../timeline/expand';
 import { TIMELINE_FETCH_SUCCESS } from '../timeline/fetch';
@@ -58,7 +90,10 @@ import deHTMLify from '../../lib/deHTMLify';
 import { Emoji } from '../../lib/emojify';
 
 //  Constants.
-import { VISIBILITY } from '../../constants';
+import {
+  POST_TYPE,
+  VISIBILITY,
+} from '../../constants';
 
 //  * * * * * * *  //
 
@@ -91,8 +126,9 @@ function normalize ({
   tags,
   url,
   visibility,
-}, oldContent) {
+}, oldContent, resolvePending) {
   const plainContent = oldContent && oldContent.get('html') === '' + content ? oldContent.get('plain') : deHTMLify(content);
+  const pending = oldContent && oldContent.get('pending');
   return ImmutableMap({
     account: account && account.id ? '' + account.id : null,
     application: application ? ImmutableMap({
@@ -122,12 +158,6 @@ function normalize ({
       account: in_reply_to_account_id ? '' + in_reply_to_account_id : null,
       id: '' + in_reply_to_id,
     }) : null,
-    is: ImmutableMap({
-      favourited: !!favourited,
-      muted: !!muted,
-      reblogged: !!reblogged,
-      reply: !!in_reply_to_id,
-    }),
     media: ImmutableList((media_attachments || []).map(
       attachment => ImmutableMap({
         id: attachment.id ? '' + attachment.id : null,
@@ -138,6 +168,7 @@ function normalize ({
         }),
       })
     )),
+    pending: pending & ~resolvePending,
     mentions: ImmutableList((mentions || []).map(
       mention => ImmutableMap({
         at: mention.account ? '' + mention.account : null,
@@ -155,6 +186,16 @@ function normalize ({
         name: tag.name ? '' + tag.name : null,
       })
     )),
+    type: function () {
+      let value = POST_TYPE.STATUS;
+      value |= reblog && POST_TYPE.IS_REBLOG;
+      value |= in_reply_to_id && POST_TYPE.IS_MENTION;
+      value |= media_attachments && media_attachments.length && POST_TYPE.IS_RICH;
+      value |= muted && POST_TYPE.HAS_SILENCE;
+      value |= reblogged && POST_TYPE.HAS_REBLOG;
+      value |= favourited && POST_TYPE.HAS_FAVOURITE;
+      return value;
+    }(),
     visibility: function () {
       let value = VISIBILITY.DIRECT;
       switch (visibility) {
@@ -199,6 +240,16 @@ const set = (state, statuses) => state.withMutations(
     }
   )
 );
+
+//  `makePending()` sets the pending state of an action.
+const makePending = (state, id, action, pending) => {
+  status = state.get('' + id);
+  if (!status) {
+    return state;
+  }
+  return state.setIn(['' + id, 'pending'], pending ? state.get('pending') | action : state.get('pending') & ~action);
+};
+
 
 //  `filterByAccount()` deletes those statuses whose associated
 //  `account` matches one of the ones provided.
@@ -254,18 +305,58 @@ export default function status (state = initialState, action) {
       return filterByAccount(state, action.relationship.id);
     }
     return state;
+  case STATUS_FAVOURITE_FAILURE:
+    return makePending(state, action.id, POST_TYPE.HAS_FAVOURITE, false);
+  case STATUS_FAVOURITE_REQUEST:
+    return makePending(state, action.id, POST_TYPE.HAS_FAVOURITE, true);
   case STATUS_FAVOURITE_SUCCESS:
+    return set(state, action.status, POST_TYPE.HAS_FAVOURITE);
   case STATUS_FETCH_SUCCESS:
-  case STATUS_MUTE_SUCCESS:
-  case STATUS_PIN_SUCCESS:
-  case STATUS_REBLOG_SUCCESS:
     return set(state, action.status);
+  case STATUS_PIN_FAILURE:
+    return makePending(state, action.id, POST_TYPE.HAS_PIN, false);
+  case STATUS_PIN_REQUEST:
+    return makePending(state, action.id, POST_TYPE.HAS_PIN, true);
+  case STATUS_PIN_SUCCESS:
+    return set(state, action.status, POST_TYPE.HAS_PIN);
+  case STATUS_REBLOG_FAILURE:
+    return makePending(state, action.id, POST_TYPE.HAS_REBLOG, false);
+  case STATUS_REBLOG_REQUEST:
+    return makePending(state, action.id, POST_TYPE.HAS_REBLOG, true);
+  case STATUS_REBLOG_SUCCESS:
+    return set(state, action.status, POST_TYPE.HAS_REBLOG);
   case STATUS_REMOVE_COMPLETE:
     return filterByStatus(state, action.ids);
+  case STATUS_SILENCE_FAILURE:
+    return makePending(state, action.id, POST_TYPE.HAS_SILENCE, false);
+  case STATUS_SILENCE_REQUEST:
+    return makePending(state, action.id, POST_TYPE.HAS_SILENCE, true);
+  case STATUS_SILENCE_SUCCESS:
+    return set(state, action.status, POST_TYPE.HAS_SILENCE);
+  case STATUS_UNFAVOURITE_FAILURE:
+    return makePending(state, action.id, POST_TYPE.HAS_FAVOURITE, true);
+  case STATUS_UNFAVOURITE_REQUEST:
+    return makePending(state, action.id, POST_TYPE.HAS_FAVOURITE, false);
   case STATUS_UNFAVOURITE_SUCCESS:
-  case STATUS_UNMUTE_SUCCESS:
+    return set(state, action.status, POST_TYPE.HAS_FAVOURITE);
+  case STATUS_UNPIN_FAILURE:
+    return makePending(state, action.id, POST_TYPE.HAS_PIN, true);
+  case STATUS_UNPIN_REQUEST:
+    return makePending(state, action.id, POST_TYPE.HAS_PIN, false);
   case STATUS_UNPIN_SUCCESS:
+    return set(state, action.status, POST_TYPE.HAS_PIN);
+  case STATUS_UNREBLOG_FAILURE:
+    return makePending(state, action.id, POST_TYPE.HAS_REBLOG, true);
+  case STATUS_UNREBLOG_REQUEST:
+    return makePending(state, action.id, POST_TYPE.HAS_REBLOG, false);
   case STATUS_UNREBLOG_SUCCESS:
+    return set(state, action.status, POST_TYPE.HAS_REBLOG);
+  case STATUS_UNSILENCE_FAILURE:
+    return makePending(state, action.id, POST_TYPE.HAS_SILENCE, true);
+  case STATUS_UNSILENCE_REQUEST:
+    return makePending(state, action.id, POST_TYPE.HAS_SILENCE, false);
+  case STATUS_UNSILENCE_SUCCESS:
+    return set(state, action.status, POST_TYPE.HAS_SILENCE);
   case STATUS_UPDATE_RECEIVE:
     return set(state, action.status);
   case TIMELINE_EXPAND_SUCCESS:
@@ -289,14 +380,14 @@ export {
   deleteStatus,
   favouriteStatus,
   fetchStatus,
-  muteStatus,
   pinStatus,
   reblogStatus,
   removeStatus,
+  silenceStatus,
   submitStatus,
   unfavouriteStatus,
-  unmuteStatus,
   unpinStatus,
   unreblogStatus,
+  unsilenceStatus,
   updateStatus,
 };
