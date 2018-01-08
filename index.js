@@ -44,6 +44,7 @@ export default function connect (component, stater, messager, dispatcher, config
 
     //  Generates our `go()` function.
     const go = (fn, ...args) => dispatch(readyToGo(fn, ...args));
+    go.use = (fn, ...args) => go.bind(null, fn, ...args);
 
     //  This will hold our messages function.  We need `intl` to
     //  define it, so it starts out `null`.

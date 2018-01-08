@@ -14,12 +14,14 @@ export default function readyToGo (fn, ...withArgs) {
   //  If an object is provided instead of a function, we just clone
   //  the object.  Otherwise, we create a new function for dispatching.
   return typeof fn !== 'function' ? { ...fn } : function (dispatch, getState) {
-    const go = fn.length > withArgs.length ?
-      (fn, ...args) => dispatch(readyToGo(fn, ...args))
-    : void 0;
-    const current = fn.length > withArgs.length + 1 ? getState : void 0;
-    const api = fn.length > withArgs.length + 2 ? axios.create({ headers: { Authorization: `Bearer ${token() || ''}` } }) : void 0;
-    const result = fn.call(void 0, ...withArgs, go, current, api);
+    const go = fn.length > withArgs.length ? function () {
+      const go = (fn, ...args) => dispatch(readyToGo(fn, ...args));
+      go.use = (fn, ...args) => go.bind(null, fn, ...args);
+      return go;
+    }() : void{};
+    const current = fn.length > withArgs.length + 1 ? getState : void{};
+    const api = fn.length > withArgs.length + 2 ? axios.create({ headers: { Authorization: `Bearer ${token() || ''}` } }) : void{};
+    const result = fn.call(null, ...withArgs, go, current, api);
     if (result) {
       dispatch(result);
     }

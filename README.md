@@ -95,3 +95,6 @@ to a function must be specified explicitly.  If a function were
 to be specified with too few arguments, then `go` etc. would be
 provided to the wrong argument slot, and if too many, then they
 may not be provided at all.
+
+The function `go.use(fn, ...args)` is provided as a simpler way
+of writing `go.bind(null, fn, ...args)`.
