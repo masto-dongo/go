@@ -33,7 +33,7 @@ export default function refreshCourier (go, current, api) {
 
   //  If we were provided a link header in our last request, we can
   //  use it.
-  const linkPath = courier && courier.get('next');
+  const linkPath = courier && courier.get('prev');
 
   //  The request.
   go(request);

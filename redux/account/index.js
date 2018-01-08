@@ -150,17 +150,17 @@ export default function account (state = initialState, action) {
   case COURIER_EXPAND_SUCCESS:
   case COURIER_FETCH_SUCCESS:
   case COURIER_REFRESH_SUCCESS:
-    return set(state, [].concat(...action.notifications.map(
-      notification => [
+    return set(state, Array.prototype.concat.apply([], action.notifications.map(
+      notification => notification.status ? [
         notification.account,
         notification.status.account,
-      ]
+      ] : notification.account
     )));
   case COURIER_UPDATE_RECEIVE:
-    return set(state, [
+    return set(state, notification.status ? [
       action.notification.account,
       action.notification.status.account,
-    ]);
+    ] : notification.account);
   case META_LOAD_COMPLETE:
     if (action.meta.hasOwnProperty('accounts')) {
       return set(state, function (accounts) {
@@ -173,10 +173,10 @@ export default function account (state = initialState, action) {
     }
     return state;
   case NOTIFICATION_FETCH_SUCCESS:
-    return set(state, [
+    return set(state, notification.status ? [
       action.notification.account,
       action.notification.status.account,
-    ]);
+    ] : notification.account);
   case STATUS_FAVOURITE_SUCCESS:
   case STATUS_FETCH_SUCCESS:
   case STATUS_MUTE_SUCCESS:
