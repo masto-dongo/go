@@ -29,14 +29,39 @@ import {
 import connect from 'flavours/go/lib/connect';
 import {
   POST_TYPE,
+  connectStream,
+  disconnectStream,
   expandTimeline,
   fetchTimeline,
   refreshTimeline,
-  streamTimeline,
+  removeStatus,
 } from 'flavours/go/lib/tootledge';
 
 //  Stylesheet imports.
 import './style.scss';
+
+//  * * * * * * *  //
+
+//  Initial setup
+//  -------------
+
+//  This function gets our stream name from its path, and whether
+//  WebSockets is supported.
+function websockify (path) {
+  switch (path) {
+  case '/ap1/v1/timelines/home':
+    return ['user', true];
+  case '/api/v1/timelines/public':
+    return ['public', true];
+  case '/api/v1/timelines/public?local=true':
+    return ['public:local', true];
+  default:
+    if ((tag = (path.match(/\/api\/v1\/timelines\/tag\/([^]*)/) || [])[1])) {
+      return [`hashtag&tag=${tag}`, true];
+    }
+    return [`polling:${path}`, false];
+  }
+}
 
 //  * * * * * * * //
 
@@ -68,12 +93,12 @@ class Timeline extends React.Component {  //  Impure
 
   //  On mounting and unmounting, we open and close our stream.
   componentWillMount () {
-    const { '💪': { beginStream } } = this.props;
-    beginStream();
+    const { '💪': { connect } } = this.props;
+    connect();
   }
   componentWillUnmount () {
-    const { '💪': { endStream } } = this.props;
-    endStream();
+    const { '💪': { disconnect } } = this.props;
+    disconnect();
   }
 
   //  If our path is about to change, we need to fetch the new path and
@@ -82,15 +107,15 @@ class Timeline extends React.Component {  //  Impure
     const {
       path,
       '💪': {
-        beginStream,
-        endStream,
+        connect,
+        disconnect,
         fetch,
       },
     } = this.props;
     if (path !== nextProps.path) {
       fetch(nextProps.path);
-      endStream();
-      beginStream(nextProps.path);
+      disconnect();
+      connect(nextProps.path);
     }
   }
 
@@ -211,19 +236,34 @@ var ConnectedTimeline = connect(
 
   //  Handlers.
   (go, store, { path }) => ({
-    beginStream: function (newPath = path) {
-      if (newPath !== '/api/v1/timelines/home') {
-        go(streamTimeline, newPath, true);
+    connect: function (newPath = path) {
+      const [name, withWebSockets] = websockify(newPath);
+      if (name === 'user') {
+        return;  //  Always connected
       }
+      go(connectStream, name, function (data) {
+        try {
+          switch (data.event) {
+          case 'update':
+            go(updateTimeline, path, JSON.parse(data.payload));
+            break;
+          case 'delete':
+            go(removeStatus, data.payload);
+            break;
+          }
+        } catch (e) {}
+      }, go.use(refreshTimeline, newPath), withWebSockets);
     },
-    endStream: function (newPath = path) {
-      if (newPath !== '/api/v1/timelines/home') {
-        go(streamTimeline, newPath, false);
+    disconnect: function (newPath = path) {
+      const [name] = websockify(newPath);
+      if (name === 'user') {
+        return;  //  Always connected
       }
+      go(disconnectStream, name);
     },
-    expand: () => go(expandTimeline, path),
+    expand: go.use(expandTimeline, path),
     fetch: (newPath = path) => go(fetchTimeline, newPath),
-    refresh: () => go(refreshTimeline, path),
+    refresh: go.use(refreshTimeline, path),
   })
 );
 
