@@ -28,7 +28,7 @@ export default function launch (id, Component, store, props, callback) {
     const data = root.hasAttribute('data-props') ? function () {
       try {
         return JSON.parse(root.getAttribute('data-props'));
-      } catch () {}
+      } catch (e) {}
       return null;
     }() : null;
 
