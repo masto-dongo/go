@@ -13,20 +13,16 @@ import {
 } from 'immutable';
 
 //  Request imports.
-import connectTimeline from './connect';
 import expandTimeline from './expand';
 import fetchTimeline from './fetch';
 import refreshTimeline from './refresh';
+import streamTimeline from './stream';
 import updateTimeline from './update';
 
 //  Action types.
 import { RELATIONSHIP_BLOCK_SUCCESS } from '../relationship/block';
 import { RELATIONSHIP_MUTE_SUCCESS } from '../relationship/mute';
 import { STATUS_REMOVE_COMPLETE } from '../status/remove';
-import {
-  TIMELINE_CONNECT_OPEN,
-  TIMELINE_CONNECT_HALT,
-} from '../timeline/connect';
 import {
   TIMELINE_EXPAND_FAILURE,
   TIMELINE_EXPAND_REQUEST,
@@ -42,6 +38,12 @@ import {
   TIMELINE_REFRESH_REQUEST,
   TIMELINE_REFRESH_SUCCESS,
 } from '../timeline/refresh';
+import {
+  TIMELINE_STREAM_HALT,
+  TIMELINE_STREAM_JOIN,
+  TIMELINE_STREAM_LOSE,
+  TIMELINE_STREAM_OPEN,
+} from '../timeline/stream';
 import { TIMELINE_UPDATE_RECEIVE } from '../timeline/update';
 
 //  * * * * * * *  //
@@ -66,7 +68,6 @@ const normalize = statuses => ImmutableList(statuses ? [].concat(statuses).map(
 //  `makeTimeline()` creates a normalized timeline from a list of
 //  statuses.
 const makeTimeline = (path, statuses, prev, next) => ImmutableMap({
-  connected: false,
   isLoading: false,
   next: next ? '' + next : null,
   path: '' + path,
@@ -189,18 +190,18 @@ const filterByStatus = (state, statuses) => {
   );
 };
 
-//  `setConnected()` sets the connected state for our timeline.
-const setConnected = (state, path, value) => state.update(
-  '' + path,
-  (map = makeTimeline(path)) => map.set('connected', !!value)
-);
-
 //  `setLoading()` sets the loading state for our timeline.
 const setLoading = (state, path, value) => state.update(
   '' + path,
   (map = makeTimeline(path)) => map.set('isLoading', !!value)
 );
 
+//  * * * * * * *  //
+
+//  Reducer
+//  -------
+
+//  Action reducing.
 export default function timeline (state = initialState, action) {
   switch(action.type) {
   case RELATIONSHIP_BLOCK_SUCCESS:
@@ -209,10 +210,6 @@ export default function timeline (state = initialState, action) {
       return filterByAccount(state, action.relationship.id);
     }
     return state;
-  case TIMELINE_CONNECT_OPEN:
-    return setConnected(state, action.path, true);
-  case TIMELINE_CONNECT_HALT:
-    return setConnected(state, action.path, false);
   case TIMELINE_EXPAND_FAILURE:
     return setLoading(state, action.path, false);
   case TIMELINE_EXPAND_REQUEST:
@@ -247,9 +244,9 @@ export default function timeline (state = initialState, action) {
 
 //  Our requests.
 export {
-  connectTimeline,
   expandTimeline,
   fetchTimeline,
   refreshTimeline,
+  streamTimeline,
   updateTimeline,
 };

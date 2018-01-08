@@ -24,10 +24,6 @@ import updateCourier from './update';
 
 //  Action types.
 import {
-  COURIER_CONNECT_OPEN,
-  COURIER_CONNECT_HALT,
-} from '../courier/connect';
-import {
   COURIER_EXPAND_FAILURE,
   COURIER_EXPAND_REQUEST,
   COURIER_EXPAND_SUCCESS,
@@ -72,7 +68,6 @@ const normalize = notifications => ImmutableList(notifications ? [].concat(notif
 //  We keep track of whether the courier is `connected`, whether it
 //  `isLoading`, and, of course, its `notifications`.
 const initialState = ImmutableMap({
-  connected: false,
   isLoading: false,
   notifications: ImmutableList(),
   next: null,
@@ -160,10 +155,6 @@ const filterByStatus = (state, statuses) => {
 //  Action reducing.
 export default function courier (state = initialState, action) {
   switch (action.type) {
-  case COURIER_CONNECT_OPEN:
-    return state.set('connected', true);
-  case COURIER_CONNECT_HALT:
-    return state.set('connected', false);
   case COURIER_EXPAND_FAILURE:
     return state.set('isLoading', false);
   case COURIER_EXPAND_REQUEST:
@@ -206,7 +197,6 @@ export default function courier (state = initialState, action) {
 
 //  Our requests.
 export {
-  connectCourier,
   expandCourier,
   fetchCourier,
   refreshCourier,
