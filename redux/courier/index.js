@@ -16,7 +16,6 @@ import {
   Map as ImmutableMap,
 } from 'immutable';
 
-import connectCourier from './connect';
 import expandCourier from './expand';
 import fetchCourier from './fetch';
 import refreshCourier from './refresh';

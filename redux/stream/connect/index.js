@@ -29,11 +29,11 @@ export default function connectStream (name, onReceive, onRefresh, withWebSocket
   const store = current();
   const accessToken = store.getIn(['meta', 'accessToken']);
   const streamingUrl = store.getIn(['meta', 'streamingUrl']);
-  const close = store.getIn(['stream', name, 'close']);
+  const stream = store.getIn(['stream', name]);
 
   //  We only open a new stream if one doesn't already exist and we
   //  have the requisite parts.
-  if (name && !close && streamingUrl && accessToken) {
+  if (name && !stream && streamingUrl && accessToken) {
 
     //  We use websocket.js to create our client if `withWebSockets` is
     //  `true`.  `polling` will be used for polling if a websockets
@@ -46,9 +46,9 @@ export default function connectStream (name, onReceive, onRefresh, withWebSocket
 
       //  When the connection is lost, we begin polling.
       client.onclose = function onclose () {
-        polling = window.setInterval(refresh, 20000);
+        polling = window.setInterval(onRefresh, 20000);
         go(lose, name);
-      }
+      };
 
       //  Handles messages.
       client.onmessage = function onmessage (e) {
@@ -59,14 +59,14 @@ export default function connectStream (name, onReceive, onRefresh, withWebSocket
           data = e ? e.data : null;
         }
         onReceive(data);
-      }
+      };
 
       //  When the connection is established, we end polling.
       client.onopen = function onopen () {
         window.clearInterval(polling);
         polling = null;
         go(join, name);
-      }
+      };
 
       //  When the connection is reëstablished, we also need to do a
       //  refresh.
@@ -75,11 +75,11 @@ export default function connectStream (name, onReceive, onRefresh, withWebSocket
         polling = null;
         onRefresh();
         go(join, name);
-      }
+      };
 
     //  If we don't have a client, then we just use polling.
     } else {
-      polling = window.setInterval(refresh, 20000);
+      polling = window.setInterval(onRefresh, 20000);
     }
 
     //  We send a `close` function through to our store so that we can

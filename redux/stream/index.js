@@ -48,10 +48,10 @@ const set = (state, name, connected, close) => state.withMutations(function (map
 
   //  Otherwise, we update its properties.
   if (connected !== null || typeof connected !== 'undefined') {
-    map.setIn([path, 'connected'], !!connected);
+    map.setIn([name, 'connected'], !!connected);
   }
   if (typeof close === 'function') {
-    map.setIn([path, 'close'], close);
+    map.setIn([name, 'close'], close);
   }
 });
 

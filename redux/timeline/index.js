@@ -16,7 +16,6 @@ import {
 import expandTimeline from './expand';
 import fetchTimeline from './fetch';
 import refreshTimeline from './refresh';
-import streamTimeline from './stream';
 import updateTimeline from './update';
 
 //  Action types.
@@ -38,12 +37,6 @@ import {
   TIMELINE_REFRESH_REQUEST,
   TIMELINE_REFRESH_SUCCESS,
 } from '../timeline/refresh';
-import {
-  TIMELINE_STREAM_HALT,
-  TIMELINE_STREAM_JOIN,
-  TIMELINE_STREAM_LOSE,
-  TIMELINE_STREAM_OPEN,
-} from '../timeline/stream';
 import { TIMELINE_UPDATE_RECEIVE } from '../timeline/update';
 
 //  * * * * * * *  //

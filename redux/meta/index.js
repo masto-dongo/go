@@ -16,7 +16,7 @@ import {
 import loadMeta from './load';
 
 //  Action types.
-import { ACCOUNT_UPDATE_SUCCESS } from '../account/update';
+import { ACCOUNT_SUBMIT_SUCCESS } from '../account/submit';
 import { ACCOUNT_VERIFY_SUCCESS } from '../account/verify';
 import { META_LOAD_COMPLETE } from '../meta/load';
 
@@ -146,7 +146,7 @@ const update = (state, source) => state.withMutations(
 //  Action reducing.
 export default function meta (state = initialState, action) {
   switch(action.type) {
-  case ACCOUNT_UPDATE_SUCCESS:
+  case ACCOUNT_SUBMIT_SUCCESS:
   case ACCOUNT_VERIFY_SUCCESS:
     return action.account.source ? update(state, action.account.source) : state;
   case META_LOAD_COMPLETE:
