@@ -62,7 +62,7 @@ import './style.scss';
 //  −−−−−−−−−−−−−
 
 //  Generates a random UUID. Dwbi tbh.
-export default function uuid () {
+function uuid () {
   return function(a,b){for(b=a='';a++<36;b+=a*51&52?(a^15?8^Math.random()*(a^20?16:4):4).toString(16):'-');return b}(); // eslint-disable-line
 };
 
@@ -122,15 +122,18 @@ class UI extends React.Component {  //  Impure
     this.handleUpload = handleUpload.bind(this);
     this.handleVisibility = handleVisibility.bind(this);
 
-    //  Fetching.
-    fetch();
+    //  Initializing meta information.
+    init();
   }
 
   //  If our default visibility changes and our composer is empty, we
   //  need to reset its visibility to the default.
   componentWillReceiveProps (nextProps) {
     const {
-      '🏪': { defaultVisibility },
+      '🏪': {
+        accessToken,
+        defaultVisibility,
+      },
     } = this.props;
     const {
       media,
@@ -139,6 +142,9 @@ class UI extends React.Component {  //  Impure
     } = this.state;
     if (defaultVisibility !== nextProps['🏪'].defaultVisibility && !media.length && !spoiler && (!text || text === '\n')) {
       this.setState({ visibility: nextProps['🏪'].defaultVisibility });
+    }
+    if (accessToken !== nextProps['🏪'].accessToken) {
+      connect.setAccessToken(accessToken);
     }
   }
 
@@ -447,6 +453,7 @@ UI.propTypes = {
   staticContext: PropTypes.object,  //  Unused
   ℳ: PropTypes.func.isRequired,
   '🏪': PropTypes.shape({
+    accessToken: PropTypes.string,  //  The access token for use with API requests
     customEmoji: ImmutablePropTypes.list,  //  Custom emoji
     defaultVisibility: PropTypes.number,  //  The default visibility for statuses
     me: PropTypes.string,  //  The current account
@@ -467,7 +474,10 @@ var RoutedUI = connect(
 
   //  Store.
   createStructuredSelector({
+    accessToken: state => state.getIn(['meta', 'accessToken']),
+    customEmoji: state => state.getIn(['emoji', 'custom']),
     defaultVisibility: state => state.getIn(['meta', 'visibility']),
+    me: state => state.getIn(['meta', 'me']),
   }),
 
   //  Messages.
@@ -526,7 +536,7 @@ var RoutedUI = connect(
       go(refreshCourier);
     }, true),
     disconnect: go.use(disconnectStream, 'user'),
-    fetch: go.use(loadMeta),
+    init: go.use(loadMeta),
     save: status => go(updateStatus, status),
     submit: (text, options) => go(submitStatus, text, options),
     upload: file => go(submitAttachment, file),

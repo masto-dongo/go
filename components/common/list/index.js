@@ -19,7 +19,7 @@ import React from 'react';
 import './style.scss';
 
 //  Other imports.
-import Observer from 'flavours/go/lib/observer';
+import { DOMObserver } from 'flavours/go/lib/DOM';
 
 //  * * * * * * *  //
 
@@ -34,7 +34,7 @@ export default class CommonList extends React.PureComponent {
     super(props);
 
     //  Variables.  We create a new observer for tracking list items.
-    this.observer = new Observer;
+    this.observer = new DOMObserver;
     this.node = null;
     this.oldScrollPosition = 0;
 

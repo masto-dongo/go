@@ -35,6 +35,7 @@ import {
   fetchTimeline,
   refreshTimeline,
   removeStatus,
+  updateTimeline,
 } from 'flavours/go/lib/tootledge';
 
 //  Stylesheet imports.
@@ -48,6 +49,7 @@ import './style.scss';
 //  This function gets our stream name from its path, and whether
 //  WebSockets is supported.
 function websockify (path) {
+  let tag;
   switch (path) {
   case '/ap1/v1/timelines/home':
     return ['user', true];

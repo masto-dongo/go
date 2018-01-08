@@ -60,4 +60,4 @@ export default function main () {
 
   //  Launches the frontend.
   launch('mastodon', GOǃǃǃ, Tootledge, { messages }, DOMRoot.bind(null, 'mastodon'));
-}();
+};

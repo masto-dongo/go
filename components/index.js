@@ -133,7 +133,7 @@ export default class GOǃǃǃ extends React.Component {
 
 }
 
-MastodonGO.propTypes = {
+GOǃǃǃ.propTypes = {
   className: PropTypes.string,
   locale: PropTypes.string.isRequired,  //  The locale to use with our frontend
   messages: PropTypes.object.isRequired,  //  Locale messages for our frontend

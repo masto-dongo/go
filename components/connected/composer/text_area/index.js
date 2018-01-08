@@ -18,8 +18,8 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-//  DOM imports.
-import { GOInsert } from 'flavours/go/events'
+//  Event imports.
+import { GOInsert } from 'flavours/go/events';
 
 //  Lib imports.
 import {
