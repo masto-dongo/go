@@ -27,6 +27,7 @@ import unfavouriteStatus from './unfavourite';
 import unmuteStatus from './unmute';
 import unpinStatus from './unpin';
 import unreblogStatus from './unreblog';
+import updateStatus from './update';
 
 //  Action types.
 import { COURIER_EXPAND_SUCCESS } from '../courier/expand';
@@ -46,6 +47,7 @@ import { STATUS_UNFAVOURITE_SUCCESS } from '../status/unfavourite';
 import { STATUS_UNMUTE_SUCCESS } from '../status/unmute';
 import { STATUS_UNPIN_SUCCESS } from '../status/unpin';
 import { STATUS_UNREBLOG_SUCCESS } from '../status/unreblog';
+import { STATUS_UPDATE_RECEIVE } from '../status/update';
 import { TIMELINE_EXPAND_SUCCESS } from '../timeline/expand';
 import { TIMELINE_FETCH_SUCCESS } from '../timeline/fetch';
 import { TIMELINE_REFRESH_SUCCESS } from '../timeline/refresh';
@@ -92,7 +94,7 @@ function normalize ({
 }, oldContent) {
   const plainContent = oldContent && oldContent.get('html') === '' + content ? oldContent.get('plain') : deHTMLify(content);
   return ImmutableMap({
-    account: account ? '' + account.id : null,
+    account: account && account.id ? '' + account.id : null,
     application: application ? ImmutableMap({
       name: application.name,
       website: application.website,
@@ -102,22 +104,22 @@ function normalize ({
       plain: '' + plainContent,
     }),
     counts: ImmutableMap({
-      favourites: +favourites_count,
-      reblogs: +reblogs_count,
+      favourites: favourites_count >>> 0,
+      reblogs: reblogs_count >>> 0,
     }),
     datetime: new Date(created_at),
     emoji: ImmutableList((emojis || []).map(
-      emoji => new Emoji({
-        name: '' + emoji.shortcode,
-        href: '' + emoji.url,
-        staticHref: '' + emoji.static_url,
-        title: ':' + emoji.shortcode + ':',
+      emoji => emoji instanceof Emoji ? emoji : new Emoji({
+        name: emoji.shortcode ? '' + emoji.shortcode : null,
+        href: emoji.url ? '' + emoji.url : null,
+        staticHref: emoji.static_url ? '' + emoji.static_url : null,
+        title: emoji.shortcode ? ':' + emoji.shortcode + ':' : null,
       })
     )),
-    href: '' + url,
-    id: '' + id,
+    href: url ? '' + url : '#',
+    id: id ? '' + id : '0',
     inReplyTo: in_reply_to_id ? ImmutableMap({
-      account: '' + in_reply_to_account_id,
+      account: in_reply_to_account_id ? '' + in_reply_to_account_id : null,
       id: '' + in_reply_to_id,
     }) : null,
     is: ImmutableMap({
@@ -128,29 +130,29 @@ function normalize ({
     }),
     media: ImmutableList((media_attachments || []).map(
       attachment => ImmutableMap({
-        id: '' + attachment.id,
+        id: attachment.id ? '' + attachment.id : null,
         src: ImmutableMap({
-          local: '' + attachment.url,
-          remote: '' + attachment.remote_url,
-          shortlink: '' + attachment.text_url,
+          local: attachment.url ? '' + attachment.url : null,
+          remote: attachment.remote_url ? '' + attachment.remote_url : null,
+          shortlink: attachment.text_url ? '' + attachment.text_url : null,
         }),
       })
     )),
     mentions: ImmutableList((mentions || []).map(
       mention => ImmutableMap({
-        at: '' + mention.account,
-        href: '' + mention.url,
-        id: '' + mention.id,
-        username: '' + mention.username,
+        at: mention.account ? '' + mention.account : null,
+        href: mention.url ? '' + mention.url : null,
+        id: mention.id ? '' + mention.id : null,
+        username: mention.username ? '' + mention.username : null,
       })
     )),
-    reblog: reblog ? '' + reblog.id : null,
+    reblog: reblog && reblog.id ? '' + reblog.id : null,
     sensitive: !!sensitive,
     spoiler: spoiler_text ? '' + spoiler_text : '',
     tags: ImmutableList((tags || []).map(
       tag => ImmutableMap({
-        href: '' + tag.url,
-        name: '' + tag.name,
+        href: tag.url ? '' + tag.url : null,
+        name: tag.name ? '' + tag.name : null,
       })
     )),
     visibility: function () {
@@ -166,7 +168,7 @@ function normalize ({
         value = VISIBILITY.UNLISTED;
         break;
       }
-      if (/👁\ufe0f?$/.test(status.content)) {
+      if (/👁\ufe0f?\u200b?$/.test(plainContent)) {
         value &= ~VISIBILITY.FEDERATED;
       }
       return value;
@@ -264,6 +266,7 @@ export default function status (state = initialState, action) {
   case STATUS_UNMUTE_SUCCESS:
   case STATUS_UNPIN_SUCCESS:
   case STATUS_UNREBLOG_SUCCESS:
+  case STATUS_UPDATE_RECEIVE:
     return set(state, action.status);
   case TIMELINE_EXPAND_SUCCESS:
   case TIMELINE_FETCH_SUCCESS:
@@ -295,4 +298,5 @@ export {
   unmuteStatus,
   unpinStatus,
   unreblogStatus,
+  updateStatus,
 };

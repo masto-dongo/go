@@ -52,3 +52,18 @@ export function normalize (visibility) {
     return LOCAL_DIRECT;
   }
 }
+
+//  A convenience function for turning a `VISIBILITY` into an
+//  API-recognized value.  Note that this ignores local-only status.
+export function stringify (visibility) {
+  switch (normalize(visibility | FEDERATED)) {
+  case VISIBILITY.PUBLIC:
+    return 'public';
+  case VISIBILITY.UNLISTED:
+    return 'unlisted';
+  case VISIBILITY.PRIVATE:
+    return 'private';
+  default:
+    return 'direct';
+  }
+}

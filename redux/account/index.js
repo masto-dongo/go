@@ -19,12 +19,12 @@ import {
 
 //  Request imports.
 import fetchAccount from './fetch';
-import updateAccount from './update';
+import submitAccount from './submit';
 import verifyAccount from './verify';
 
 //  Action types.
 import { ACCOUNT_FETCH_SUCCESS } from '../account/fetch';
-import { ACCOUNT_UPDATE_SUCCESS } from '../account/update';
+import { ACCOUNT_SUBMIT_SUCCESS } from '../account/submit';
 import { ACCOUNT_VERIFY_SUCCESS } from '../account/verify';
 import { CATALOGUE_EXPAND_SUCCESS } from '../catalogue/expand';
 import { CATALOGUE_FETCH_SUCCESS } from '../catalogue/fetch';
@@ -49,6 +49,7 @@ import { STATUS_UNFAVOURITE_SUCCESS } from '../status/unfavourite';
 import { STATUS_UNMUTE_SUCCESS } from '../status/unmute';
 import { STATUS_UNPIN_SUCCESS } from '../status/unpin';
 import { STATUS_UNREBLOG_SUCCESS } from '../status/unreblog';
+import { STATUS_UPDATE_RECEIVE } from '../status/update';
 
 //  Lib imports.
 import deHTMLify from '../../lib/deHTMLify';
@@ -133,7 +134,7 @@ const set = (state, accounts) => state.withMutations(
 export default function account (state = initialState, action) {
   switch (action.type) {
   case ACCOUNT_FETCH_SUCCESS:
-  case ACCOUNT_UPDATE_SUCCESS:
+  case ACCOUNT_SUBMIT_SUCCESS:
   case ACCOUNT_VERIFY_SUCCESS:
     return set(state, action.account);
   case CATALOGUE_EXPAND_SUCCESS:
@@ -185,6 +186,7 @@ export default function account (state = initialState, action) {
   case STATUS_UNMUTE_SUCCESS:
   case STATUS_UNPIN_SUCCESS:
   case STATUS_UNREBLOG_SUCCESS:
+  case STATUS_UPDATE_RECEIVE:
     return set(state, action.status.account);
   case TIMELINE_EXPAND_SUCCESS:
   case TIMELINE_FETCH_SUCCESS:
@@ -207,6 +209,6 @@ export default function account (state = initialState, action) {
 //  Our requests.
 export {
   fetchAccount,
-  updateAccount,
+  submitAccount,
   verifyAccount,
 };
