@@ -20,7 +20,7 @@ function makeMessages (intl, messager) {
 
       //  If we are given a string, we return a string.
       if (obj instanceof String || typeof obj === 'string') {
-        return !values ? ℳ[obj] : ℳ[obj].withValues(withValues);
+        return !values ? ℳ[obj] : intl.formatMessage(messager[name].id, withValues);
       }
 
       //  Otherwise, we assume that we're being called via JSX and
@@ -42,8 +42,7 @@ function makeMessages (intl, messager) {
     //  access to them later as well.
     let name;
     for (name in messager) {
-      Object.defineProperty(ℳ, name, { value: new String(/(?:\\\\|[^\\]|^){[^]*?(?:\\\\|[^\\])}/.test(messager[name].defaultMessage) ? messager[name].id : intl.formatMessage(messager[name], messager[name].defaultValues)) });
-      ℳ[name].withValues = intl.formatMessage.bind(intl, messager[name]);
+      Object.defineProperty(ℳ, name, { value: /(?:\\\\|[^\\]|^){[^]*?(?:\\\\|[^\\])}/.test(messager[name].defaultMessage) ? messager[name].id : intl.formatMessage(messager[name]) });
     }
   }
 
