@@ -14,6 +14,7 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import { defineMessages } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
@@ -45,7 +46,6 @@ import {
   refreshTimeline,
   refreshCourier,
   removeStatus,
-  streamTimeline,
   submitAttachment,
   submitStatus,
   updateCourier,
@@ -79,7 +79,7 @@ class UI extends React.Component {  //  Impure
     super(props);
     const {
       '🏪': { defaultVisibility },
-      '💪': { fetch },
+      '💪': { init },
     } = props;
 
     //  State.
@@ -521,13 +521,13 @@ var RoutedUI = connect(
       try {
         switch (data.event) {
         case 'update':
-          go(updateTimeline, path, JSON.parse(data.payload));
+          go(updateTimeline, '/ap1/v1/timelines/home', JSON.parse(data.payload));
           break;
         case 'delete':
           go(removeStatus, data.payload);
           break;
         case 'notification':
-          go(updateCourier, path, JSON.parse(data.payload));
+          go(updateCourier, '/ap1/v1/timelines/home', JSON.parse(data.payload));
           break;
         }
       } catch (e) {}

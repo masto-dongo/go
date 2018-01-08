@@ -116,7 +116,7 @@ export default class GOǃǃǃ extends React.Component {
       >
         <IntlProvider
           locale={data && data.locale || 'en'}
-          messages={messages}
+          messages={messages || {}}
         >
           <Provider store={store}>
             <BrowserRouter basename='/web'>
@@ -135,9 +135,9 @@ export default class GOǃǃǃ extends React.Component {
 
 GOǃǃǃ.propTypes = {
   className: PropTypes.string,
-  locale: PropTypes.string.isRequired,  //  The locale to use with our frontend
-  messages: PropTypes.object.isRequired,  //  Locale messages for our frontend
-  store: PropTypes.object.isRequired,  //  Our redux store
+  data: PropTypes.object,  //  The data from `data-props`; holds our locale
+  messages: PropTypes.object,  //  Locale messages for our frontend
+  store: PropTypes.object,  //  Our redux store
 };
 
 //  * * * * * * *  //
