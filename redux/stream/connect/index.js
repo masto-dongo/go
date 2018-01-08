@@ -25,7 +25,7 @@ const open = (name, close) => ({
 });
 
 //  Request.
-export default function connectStream (name, onReceive, onRefresh, go, current) {
+export default function connectStream (name, onReceive, onRefresh, withWebSockets, go, current) {
   const store = current();
   const accessToken = store.getIn(['meta', 'accessToken']);
   const streamingUrl = store.getIn(['meta', 'streamingUrl']);
@@ -35,9 +35,10 @@ export default function connectStream (name, onReceive, onRefresh, go, current) 
   //  have the requisite parts.
   if (name && !close && streamingUrl && accessToken) {
 
-    //  We use websocket.js to create our client. `polling` will be
-    //  used for polling if websockets is unavailable.
-    const client = new WebSocketClient(`${streamingUrl}/api/v1/streaming/?access_token=${accessToken}&stream=${streamName}`);
+    //  We use websocket.js to create our client if `withWebSockets` is
+    //  `true`.  `polling` will be used for polling if a websockets
+    //  connection is unavailable.
+    const client = withWebSockets ? new WebSocketClient(`${streamingUrl}/api/v1/streaming/?access_token=${accessToken}&stream=${name}`) : null;
     let polling = null;
 
     //  If we have a client, then we can set it up.
