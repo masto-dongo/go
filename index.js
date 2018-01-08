@@ -2,6 +2,7 @@
 //  =======
 
 //  Package imports.
+import React from 'react';
 import { injectIntl } from 'react-intl';
 import { connectAdvanced } from 'react-redux';
 import shallowEqual from 'react-redux/lib/utils/shallowEqual';
@@ -109,4 +110,4 @@ export default function connect (component, stater, messager, dispatcher, config
 //  access token for use with API requests.
 connect.setAccessToken = function setAccessToken (value) {
   return token(value, true);
-}
+};

@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl';
 
 //  `makeMessages()` creates our `ℳ()` function from `intl` and a
 //  `messager` object.
-function makeMessages (intl, messager) {
+export default function makeMessages (intl, messager) {
   let ℳ;
 
   //  Assuming we have `intl`, we can define our `messages`
