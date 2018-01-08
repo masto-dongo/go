@@ -20,12 +20,14 @@ import { createStructuredSelector } from 'reselect';
 //  Event imports.
 import {
   GOAttach,
+  GOClose,
   GOCompose,
   GONavigate,
   GOUpload,
 } from 'flavours/go/events';
 
 //  Component imports.
+import { ConnectedComposer } from 'flavours/go/components';
 import RoutedUIColumn from './column';
 import RoutedUIModal from './modal';
 
@@ -37,10 +39,18 @@ import {
 import connect from 'flavours/go/lib/connect';
 import {
   VISIBILITY,
+  connectStream,
+  disconnectStream,
   loadMeta,
+  refreshTimeline,
+  refreshCourier,
+  removeStatus,
   streamTimeline,
   submitAttachment,
   submitStatus,
+  updateCourier,
+  updateStatus,
+  updateTimeline,
 } from 'flavours/go/lib/tootledge';
 
 //  Stylesheet imports.
@@ -75,7 +85,9 @@ class UI extends React.Component {  //  Impure
     //  State.
     this.state = {
       idempotency: uuid(),
+      inReplyTo: null,
       media: [],
+      modal: 'none',
       spoiler: '',
       text: '\n',
       uploading: false,
@@ -85,23 +97,27 @@ class UI extends React.Component {  //  Impure
     //  Function binding.
     const {
       handleAttach,
+      handleClose,
       handleCompose,
       handleMediaRemove,
       handleNavigate,
       handleSensitive,
       handleSpoiler,
+      handleStatusRender,
       handleSubmit,
       handleText,
       handleUpload,
       handleVisibility,
     } = Object.getPrototypeOf(this);
     this.handleAttach = handleAttach.bind(this);
+    this.handleClose = handleClose.bind(this);
     this.handleCompose = handleCompose.bind(this);
     this.handleMediaRemove = handleMediaRemove.bind(this);
     this.handleNavigate = handleNavigate.bind(this);
     this.handleSensitive = handleSensitive.bind(this);
     this.handleSpoiler = handleSpoiler.bind(this);
     this.handleSubmit = handleSubmit.bind(this);
+    this.handleStatusRender = handleStatusRender.bind(this);
     this.handleText = handleText.bind(this);
     this.handleUpload = handleUpload.bind(this);
     this.handleVisibility = handleVisibility.bind(this);
@@ -131,13 +147,15 @@ class UI extends React.Component {  //  Impure
   componentWillMount () {
     const {
       handleAttach,
+      handleClose,
       handleCompose,
       handleNavigate,
       handleUpload,
     } = this;
-    const { '💪': { stream } } = this.props;
-    stream();
+    const { '💪': { connect } } = this.props;
+    connect();
     DOMListen(GOAttach, handleAttach);
+    DOMListen(GOClose, handleClose);
     DOMListen(GOCompose, handleCompose);
     DOMListen(GONavigate, handleNavigate);
     DOMListen(GOUpload, handleUpload);
@@ -145,28 +163,35 @@ class UI extends React.Component {  //  Impure
   componentWillUnmount () {
     const {
       handleAttach,
+      handleClose,
       handleCompose,
       handleNavigate,
       handleUpload,
     } = this;
-    const { '💪': { stream } } = this.props;
-    stream(false);
+    const { '💪': { disconnect } } = this.props;
+    disconnect();
     DOMForget(GOAttach, handleAttach);
+    DOMForget(GOCompose, handleClose);
     DOMForget(GOCompose, handleCompose);
     DOMForget(GONavigate, handleNavigate);
     DOMForget(GOUpload, handleUpload);
   }
 
   //  On attach we simply add the attachment to our `media` array.
-  handleAttach ({ detail: { id } }) {
+  handleAttach ({ detail: attachment }) {
     const { media } = this.state;
-    if (media.length < 4) {
+    if (attachment.id && media.length < 4) {
       this.setState({
         idempotency: uuid(),
-        media: media.concat('' + id),
+        media: media.concat(attachment),
+        modal: 'composer',
       });
     }
-    GONavigate('/compose');
+  }
+
+  //  We close are modal by just setting its name to `'none'`.
+  handleClose () {
+    this.setState({ modal: 'none' });
   }
 
   //  This function clears the composer and replaces it with the given
@@ -182,12 +207,12 @@ class UI extends React.Component {  //  Impure
       idempotency: uuid(),
       inReplyTo: inReplyTo ? '' + inReplyTo : null,
       media: [],
+      modal: 'composer',
       sensitive: false,
       spoiler: spoiler ? '' + spoiler : '',
       text: text ? '' + text + '\n' : '\n',
       visibility: visibility === +visibility ? VISIBILITY.normalize(visibility & defaultVisibility) : defaultVisibility,
     });
-    GONavigate('/compose');
   }
 
   //  This simple function just filters our `media` to remove an `id`.
@@ -196,7 +221,7 @@ class UI extends React.Component {  //  Impure
     this.setState({
       idempotency: uuid(),
       media: media.filter(
-        mediaId => mediaId !== id
+        attachment => attachment && attachment.id !== id
       ),
     });
   }
@@ -225,6 +250,55 @@ class UI extends React.Component {  //  Impure
     this.setState({
       idempotency: uuid(),
       spoiler: '' + spoiler,
+    });
+  }
+
+  //  This function stores the status being composed in redux.
+  handleStatusRender () {
+    const {
+      '🏪': {
+        customEmoji,
+        me,
+      },
+      '💪': { save },
+    } = this.props;
+    const {
+      inReplyTo,
+      media,
+      sensitive,
+      spoiler,
+      text,
+      visibility,
+    } = this.state;
+
+    //  TK: Extract the shit
+    let string = text;
+    let content = '';
+    let i = 0;
+    while (string && i < string.length) {
+      i++;
+    }
+
+    const mentions = [];
+    const tags = [];
+    save({
+      account: { id: me },
+      application: { name: 'Web' },
+      content,
+      created_at: Date.now(),
+      emojis: customEmoji,
+      favourited: false,
+      id: 'mastodon_go.preview',
+      in_reply_to_id: inReplyTo,
+      media_attachments: media,
+      mentions,
+      muted: false,
+      reblogged: false,
+      sensitive,
+      spoiler_text: spoiler,
+      tags,
+      visibility: VISIBILITY.stringify(visibility),
+      url: '#',
     });
   }
 
@@ -287,6 +361,7 @@ class UI extends React.Component {  //  Impure
       handleMediaRemove,
       handleSensitive,
       handleSpoiler,
+      handleStatusRender,
       handleSubmit,
       handleText,
       handleVisibility,
@@ -295,10 +370,15 @@ class UI extends React.Component {  //  Impure
       className,
       location,
       ℳ,
-      '💪': { upload },
+      '💪': {
+        clear,
+        upload,
+      },
     } = this.props;
     const {
+      inReplyTo,
       media,
+      modal,
       sensitive,
       spoiler,
       text,
@@ -313,24 +393,43 @@ class UI extends React.Component {  //  Impure
     //  We just pass everything to the `<RoutedUIColumn>` for now.
     return (
       <div className={computedClass}>
-        <RoutedUIModal />
+        <RoutedUIModal>
+          {function () {
+            switch (modal) {
+
+            //  Opens our composer.
+            case 'composer':
+              return (
+                <ConnectedComposer
+                  disabled={uploading}
+                  inReplyTo={inReplyTo}
+                  media={media}
+                  onMediaRemove={handleMediaRemove}
+                  onSensitive={handleSensitive}
+                  onSpoiler={handleSpoiler}
+                  onStatusRender={handleStatusRender}
+                  onStatusUnrender={clear}
+                  onSubmit={handleSubmit}
+                  onText={handleText}
+                  onUpload={upload}
+                  onVisibility={handleVisibility}
+                  sensitive={sensitive}
+                  spoiler={spoiler}
+                  text={text}
+                  visibility={visibility}
+                />
+              );
+
+            //  If no matches are made, our modal is empty.
+            default:
+              return null;
+            }
+          }()}
+        </RoutedUIModal>
         <RoutedUIColumn
           activeRoute
           index={columns.size}
           location={location}
-          media={media}
-          onMediaRemove={handleMediaRemove}
-          onSensitive={handleSensitive}
-          onSpoiler={handleSpoiler}
-          onSubmit={handleSubmit}
-          onText={handleText}
-          onUpload={upload}
-          onVisibility={handleVisibility}
-          sensitive={sensitive}
-          spoiler={spoiler}
-          text={text}
-          uploading={uploading}
-          visibility={visibility}
           ℳ={ℳ}
         />
       </div>
@@ -347,7 +446,11 @@ UI.propTypes = {
   match: PropTypes.object,
   staticContext: PropTypes.object,  //  Unused
   ℳ: PropTypes.func.isRequired,
-  '🏪': PropTypes.shape({ defaultVisibility: PropTypes.number }).isRequired,  //  The default visibility for statuses
+  '🏪': PropTypes.shape({
+    customEmoji: ImmutablePropTypes.list,  //  Custom emoji
+    defaultVisibility: PropTypes.number,  //  The default visibility for statuses
+    me: PropTypes.string,  //  The current account
+  }).isRequired,
   '💪': PropTypes.objectOf(PropTypes.func).isRequired,
 };
 
@@ -403,10 +506,30 @@ var RoutedUI = connect(
 
   //  Handlers.
   go => ({
-    fetch: () => go(loadMeta),
-    upload: file => go(submitAttachment, file),
-    stream: (makeOpen = true) => go(streamTimeline, '/api/v1/timelines/home', makeOpen),
+    clear: go.use(removeStatus, 'mastodon_go.preview'),
+    connect: go.use(connectStream, 'user', function (data) {
+      try {
+        switch (data.event) {
+        case 'update':
+          go(updateTimeline, path, JSON.parse(data.payload));
+          break;
+        case 'delete':
+          go(removeStatus, data.payload);
+          break;
+        case 'notification':
+          go(updateCourier, path, JSON.parse(data.payload));
+          break;
+        }
+      } catch (e) {}
+    }, function () {
+      go(refreshTimeline, '/ap1/v1/timelines/home');
+      go(refreshCourier);
+    }, true),
+    disconnect: go.use(disconnectStream, 'user'),
+    fetch: go.use(loadMeta),
+    save: status => go(updateStatus, status),
     submit: (text, options) => go(submitStatus, text, options),
+    upload: file => go(submitAttachment, file),
   })
 );
 

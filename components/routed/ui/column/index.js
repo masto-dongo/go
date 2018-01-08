@@ -20,7 +20,6 @@ import Switch from 'react-router-dom/Switch';
 import Route from 'react-router-dom/Route';
 import {
   PanelledCatalogue,
-  PanelledComposer,
   PanelledConversation,
   PanelledCourier,
   PanelledProfile,
@@ -44,19 +43,6 @@ export default function RoutedUIColumn ({
   className,
   index,
   location,
-  media,
-  onMediaRemove,
-  onSensitive,
-  onSpoiler,
-  onSubmit,
-  onText,
-  onUpload,
-  onVisibility,
-  sensitive,
-  spoiler,
-  text,
-  uploading,
-  visibility,
   ℳ,
 }) {
   const computedClass = classNames('MASTODON_GO--ROUTED--UI--COLUMN', 'column-' + index, className);
@@ -95,33 +81,6 @@ export default function RoutedUIColumn ({
                 <PanelledCourier
                   activeRoute={activeRoute}
                   hash={activeRoute ? hash : null}
-                />
-              );
-            }}
-          />
-        }{
-          //  The composer.
-          <Route
-            exact
-            path='/compose'
-            render={function ({ location: { hash } }) {
-              return (
-                <PanelledComposer
-                  activeRoute={activeRoute}
-                  disabled={uploading}
-                  hash={activeRoute ? hash : null}
-                  media={media}
-                  onMediaRemove={onMediaRemove}
-                  onSensitive={onSensitive}
-                  onSpoiler={onSpoiler}
-                  onSubmit={onSubmit}
-                  onText={onText}
-                  onUpload={onUpload}
-                  onVisibility={onVisibility}
-                  sensitive={sensitive}
-                  spoiler={spoiler}
-                  text={text}
-                  visibility={visibility}
                 />
               );
             }}
@@ -318,18 +277,5 @@ RoutedUIColumn.propTypes = {
   className: PropTypes.string,
   index: PropTypes.number.isRequired,  //  The index of the column
   location: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),  //  The location of the column
-  media: PropTypes.array,  //  Composer media attachments
-  onMediaRemove: PropTypes.func,  //  Composer function for removing media
-  onSensitive: PropTypes.func,  //  Composer function for changing sensitivity
-  onSpoiler: PropTypes.func,  //  Composer function for changing the spoiler
-  onSubmit: PropTypes.func,  //  Composer function for submitting the status
-  onText: PropTypes.func,  //  Composer function for changing the status text
-  onUpload: PropTypes.func,  //  Composer function for uploading media
-  onVisibility: PropTypes.func,  //  Composer function for changing the visibility
-  sensitive: PropTypes.bool,  //  `true` if the composer contains sensitive media
-  spoiler: PropTypes.string,  //  Composer spoiler
-  text: PropTypes.string,  //  Composer text
-  uploading: PropTypes.bool,  //  `true` if the composer is uploading
-  visibility: PropTypes.number,  //  Composer `VISIBILITY`
   ℳ: PropTypes.func.isRequired,
 };

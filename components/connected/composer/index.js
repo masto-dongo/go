@@ -84,7 +84,7 @@ class Composer extends React.PureComponent {
       onSubmit,
       onText,
       onUpload,
-      rehash,
+      onVisibility,
       sensitive,
       spoiler,
       text,
@@ -165,7 +165,7 @@ Composer.propTypes = {
   onSubmit: PropTypes.func,  //  A function to call to submit the status
   onText: PropTypes.func,  //  A function to call when changing the composer contents
   onUpload: PropTypes.func,  //  A function to call when uploading media
-  rehash: PropTypes.func,
+  onVisibility: PropTypes.func,  //  A function to call changing status visibility
   sensitive: PropTypes.bool,  //  `true` if the status contains sensitive media
   spoiler: PropTypes.string,  //  The spoiler's value
   text: PropTypes.string.isRequired,  //  The value of the composer contents
